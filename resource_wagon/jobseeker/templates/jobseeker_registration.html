@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+{% block title %}Job Seeker Registration
+{% endblock title %}
+{% block body_id %}job_seeker_registration{% endblock body_id %}
+
+{% block controller %}ng-controller="JobSeekerController" ng-init="init('{{csrf_token}}', '{{user_id}}', '{{is_profile_edit}}')"{% endblock controller %}
+
+{% block content %}
+
+	<form name="registration" method="post" action="">
+		{% csrf_token %}
+
+			<p class="mandatory">* Mandatory Fields</p>
+				<label>Email Id<span class="red">*</span></label>
+				<input type="text" name="email" ng-model="seeker.email">
+			{% if not is_profile_edit %}
+					<label>Choose Password<span class="red">*</span></label> 
+					<input type="password" name="password" ng-model="seeker.password">
+					<label>Re-enter Password<span class="red">*</span></label> 
+					<input type="password" name="password1" ng-model="seeker.password1">
+			{% endif %}
+
+		<div class="separation">
+			<h3>Personal Details</h3>
+			<label>Full Name<span class="red">*</span></label>
+			<input type="text" name="first_name" ng-model="seeker.first_name">
+			<label>Gender<span class="red">*</span></label> 
+			<input type="radio" name="gender" ng-model="seeker.gender" value="male">
+			<span class="span_label">Male</span>
+			<input type="radio" name="gender" ng-model="seeker.gender" value="female">
+			<span class="span_label">Female</span>
+			<div class="clear"></div>
+			<label>DOB<span class="red">*</span></label>
+
+			<input type="text" name="dob" id="dob" placeholder="DD-MM-YYY">
+
+			<label>Marital Status<span class="red">*</span></label>
+			<select name="marital_status" ng-model="seeker.marital_status">
+				<option value="">------------------Select------------------</option>
+				<option value="Single">Single</option>
+				<option value="Married">Married</option>
+				<option value="Divorced">Divorced</option>
+				<option value="Widowed">Widowed</option>
+			</select>
+
+			<label>Nationality<span class="red">*</span></label>
+			<select name="nationality" ng-model="seeker.nationality"> 
+				<option value="">------------------Select------------------</option>
+				<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality== seeker.nationality">[[nationality]]</option>
+			</select>
+		
+			<label>Current Location<span class="red">*</span></label> 
+			<select name="country" ng-model="seeker.country">
+				<option value="">------------------Select------------------</option>
+				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== seeker.country">[[country]]</option>
+				<option>Other</option>
+			</select>
+
+			<label>City<span class="red">*</span></label>
+			<input type="text" name="city" ng-model="seeker.city">
+			<label>Mobile Number<span class="red">*</span></label>
+			<input type="text" name="mobile" ng-model="seeker.mobile">
+
+			<label>Alternate E-mail Id</label>
+			<input type="text" name="alt_email" ng-model="seeker.alt_email">
+		</div>
+
+		<div class="separation">
+			<h3>Current Employment Details</h3>
+			<label>Total Experience</label>
+			<select name="years" ng-model="seeker.years" class="years_select">
+				<option value="">Years</option>
+				<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == seeker.years">[[expr]]</option>
+			</select>
+			<select name="months" ng-model="seeker.months" class="month_select">
+				<!-- <option value="">Months</option> -->
+				<option value="0">0</option>
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+				<option value="10">10</option>
+				<option value="11">11</option>
+			</select> 
+			<label>Monthly Salary</label>
+			<input type="text" name="salary" ng-model="seeker.salary">
+			<label> Currency </label>
+			<select name="currency" ng-model="seeker.currency">
+				<option value="">Select Currency</option>
+				<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == seeker.currency">[[currency]]</option>
+			</select>
+
+			<label>Current Designation</label>
+			<input type="text" name="designation" ng-model="seeker.designation">
+			<label>Current Industry</label>
+			<select name="industry" ng-model="seeker.industry"> 
+				<option value="">--------------Select------------</option>
+				<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == seeker.industry">[[industry]]</option>				
+			</select>
+			<label>Functional Area</label>
+			<select name ="functions" ng-model="seeker.functions">
+				<option value="">---------------Select-------------</option>
+				<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == seeker.functions">[[function]]</option>
+			</select>
+			<label>Previous Employer</label>
+			<div class="add_employers">
+				<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
+				<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
+			</div>
+			<label>Key Skills<span class="red">*</span></label>
+			<textarea rows="4" cols="20" name="skills" ng-model="seeker.skills"></textarea>
+		</div>
+
+		<div class="separation">
+			<h3>Education Details</h3>
+			<label>Basic Education<span class="red">*</span></label>
+			<select name="basic_edu" ng-model="seeker.basic_edu" ng-change="get_stream()">
+				<option value="">-----------Select---------</option>
+				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == seeker.basic_edu">[[education]]</option>
+			</select>
+			<label>Specialization<span class="red">*</span></label>
+			<select name="basic_specialization" ng-model="seeker.basic_specialization">
+				<option value="">-----------Select---------</option>
+				<option ng-repeat="specialization in basic_specializations" value="[[specialization]]" ng-selected="specialization == seeker.basic_specialization">[[specialization]]</option>
+			</select>
+
+			<label>Year of Passing<span class="red">*</span></label>
+			<select name="pass_year_basic" ng-model="seeker.pass_year_basic">
+				<option value="">--------Select-------</option>
+				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == seeker.pass_year_basic ">[[yr]]</option>
+			</select>
+			<label>Masters Education</label>
+			<select name="masters_edu" ng-model="seeker.masters_edu" ng-change="get_master_stream()">
+				<option value="">---------Select---------</option>
+				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == seeker.masters_edu">[[edu]]</option>
+			</select>
+			<label>Specialization</label>
+			<select name="master_specialization" ng-model="seeker.master_specialization">
+				<option value="">-----------Select---------</option>
+				<option ng-repeat="specialization in specializations" value="[[specialization]]" ng-selected="specialization == seeker.master_specialization">[[specialization]]</option>
+			</select>
+			<label>Year of Passing</label>
+			<select name="pass_year_masters" ng-model="seeker.pass_year_masters" >
+				<option value="">--------Select-------</option>
+				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == seeker.pass_year_masters">[[yr]]</option>
+			</select>
+			<label>Doctrate</label>
+			<div class="add_employers">
+				<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
+				<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
+			</div>		
+		</div>
+		
+		<div class="separation" id="add_top_margin">
+			<div class="btn">
+				<label></label>
+				<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
+				<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
+			</div>
+			<div class="message">
+				<p ng-show="error_flag">[[error_message]]</p>
+			</div>
+		</div>
+		<div class="separation">
+			<div class="separation">
+				<h3>Attach Your Resume</h3>
+				<label>Resume Title<span class="red">*</span></label>
+				<input type="text" name="resume_title" ng-model="seeker1.resume_title">
+				<label>Attach CV<span class="red">*</span></label>
+				<input type="file" fileread="resume_doc.src"/>
+				<input type="hidden" ng-model="resume_doc.src">
+				<a href="/site_media/[[seeker1.resume]]" ng-show="seeker1.resume" target="_blank">Resume</a>
+				<label>Copy and Paste Resume Here</label>
+				<textarea rows="4" cols="20" name="resume_text" ng-model="seeker1.resume_text" ></textarea>
+			</div>
+		</div>
+
+		<div class="separation">
+			<h3>Attach Your Photo and Certificates</h3>
+			<div class="rounded_photo" ng-show="seeker1.profile_photo" id="profile_image">
+	            <img src="/site_media/[[seeker1.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
+	        </div>
+			<label>Attach Photo</label>
+			<input type="file" fileread="photo_img.src"/>
+			<input type="hidden" ng-model="photo_img.src">
+
+			<label>Attach Computer Education Certificates</label>	
+	        <input class="file_picker" id="certificate_file_[[$index]]" type="file" name="certificate_name" fileread="file_name.certificate_attachment.src"/>
+	        <input type="hidden" ng-model="file_name.certificate_attachment.src" >
+
+	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="file_name.certificate_attachment.src" href="" ng-click="remove_certificate_files(file_name)" >Remove </a>
+	        <a id="remove_file_link_[[$index]]" ng-show="file_name.certificate" target="_blank" href="/site_media/[[file_name.certificate]]" >View </a> 
+	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="file_name.certificate" href="" ng-click="delete_certificate_file(file_name)">Remove </a>            
+	        <label> </label>
+	        <input type="button" value="Add Certificate Files"  ng-click="add_new_certificate_file()"/>   
+	        
+		</div>
+			
+		<div class="separation">
+			{% if not user.is_authenticated %}
+				<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
+			{% endif %}
+
+			<div class="btn">
+				<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_reg_more()">
+				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
+				
+			</div>
+			<div class="message">
+				<p ng-show="error_flag">[[error_message]]</p>
+			</div>
+		</div>
+	</form>
+
+
+{% endblock content %}
+
+	

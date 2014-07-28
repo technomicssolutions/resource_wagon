@@ -46,6 +46,19 @@ class Education(models.Model):
         verbose_name = 'Education'
         verbose_name_plural = 'Education'
 
+class Doctorate(models.Model):
+    doctorate_name = models.CharField('Doctorate name', null=True, blank=True, max_length=100)
+
+    def __unicode__(self):
+        return self.doctorate_name
+
+class Certificates(models.Model):
+    certificate_name = models.FileField(upload_to = "uploads/certificates/", null=True, blank=True)
+
+    # def __unicode__(self):
+    #     return self.certificate_name
+
+
 class Jobseeker(models.Model):
     
     user = models.ForeignKey(User)

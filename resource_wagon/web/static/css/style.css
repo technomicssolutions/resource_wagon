@@ -1,0 +1,39 @@
+
+form {
+	width: 50%;
+	margin: auto;
+}
+form label {
+	width: 30%;
+	float: left;
+	height: 40px;
+}
+
+form .span_label {
+	width: 30%;
+	float: left;
+}
+form input[type="text"], input[type="password"], textarea, select {
+	width: 65%;
+	float: left;
+	height: 40px;
+}
+
+form input[type="checkbox"], input[type="radio"] {
+	float: left;
+}
+
+form .years_select, .month_select {
+	width: 33%;
+	height: 40px;
+}
+
+h3 {
+	display: block;
+	float: left;
+	width: 100%;
+}
+
+.clear {
+	clear: both;
+}

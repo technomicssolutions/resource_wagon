@@ -1,0 +1,1069 @@
+/************** Base styles *********************/
+body {
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.container{
+    width:80%;
+    margin: auto;
+}
+
+.content {
+    width: 100%;
+    margin: 30px 0 10px 0; 
+    min-height: 300px;
+    background: none repeat scroll 0 0 #FAF9F9;
+    border-color: #EBEBEB;
+    border-style: solid;
+    border-width: 2px 1px 1px;
+    display: inline-block;
+}
+
+.left_content {
+    float: left;
+    width: 39%;
+    margin-right: 1%;
+}
+.middle_content {
+    float: left;
+    width: 26%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+.right_content {
+    float: left;
+    width: 30%;
+}
+
+.header {
+    min-height: 180px;
+    width: 100%;
+}
+
+.footer {
+    width: 100%;
+    min-height: 200px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+
+.search_button {
+    border: medium none;
+    font-size: 14px;
+    line-height: 22px;
+    padding-bottom: 5px;
+    width: 70px;
+    background-color: #FEC41F;
+    display: block;
+    color: #4F663B;
+    font-weight: bold;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 2px;
+    text-decoration: none;
+    height: 20px;
+    margin-top: 10px;
+}
+
+
+/************* end base styles *****************/
+
+/********** Footer Styles ***********/
+
+.footer_top {
+    width: 100%;
+    background: none repeat scroll 0 0 #FAF9F9;
+    border-color: #EBEBEB;
+    border-style: solid;
+    border-width: 2px 1px 1px;
+    min-height: 200px;
+}
+.footer_bottom {
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.footer_block {
+    float: left;
+    min-height: 100px;
+    padding: 5px;
+    width: 21%;
+}
+
+.footer_block_function {
+    float: left;
+    min-height: 100px;
+    padding: 5px;
+    width: 32%;
+}
+
+.footer_block_in {
+    float: left;
+    min-height: 100px;
+    padding: 5px;
+    width: 30%;
+}
+
+.footer_block_func_in {
+    float: left;
+    min-height: 100px;
+    padding: 5px;
+    width: 45%;
+}
+
+.footer_bottom p {
+    margin: auto;
+    text-align: center;
+    width: 25%;
+}
+
+.footer a , .middle_content a{
+    
+    color: #7D7D7D;
+    line-height: 20px;
+}
+
+/********** End Footer Styles ***********/
+
+/********** Home Page ***********/
+
+.content_top {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.search_box {
+    width: 99%; 
+    float: left;   
+    height: auto;
+    border-radius: 5px;
+    padding: 5px 5px 18px;
+    margin-right: 7px;    
+    font-size: 12px;
+    margin: auto;
+}
+
+.find_jobs {
+    float: left; 
+    height: auto;
+    background: none repeat scroll 0 0 #F6F6F6;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: justify;
+    margin-bottom: 10px;
+}
+
+.find_jobs h3{
+    text-align: center;
+    margin-top: 2px;
+}
+
+.search_box_content {
+    float: left;
+    width: 19%;
+    margin-right: 5px;
+}
+.search_box_content input[type='text']{
+    width: 93%;
+    margin-top: 5px;
+}
+
+.search_box_content select {
+    width: 65%;
+    margin-top: 5px;
+}
+
+.find_jobs ul li {
+    color: #7D7D7D;
+}
+
+.success_story p {
+    color: #7D7D7D;
+    font-size: 11px;
+    line-height: 17px;
+    padding: 5px;
+    text-align: justify;
+}
+
+.recommendations {
+    color: #7D7D7D;
+    font-size: 11px;
+    text-align: justify;
+    width: 92%;
+}
+#read_more {
+    float: right;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #0079D0;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px; 
+    margin-bottom: 15px;
+}
+
+.middle_content a {
+     font-size: 11px;
+}
+
+/********** End Home Styles ***********/
+
+
+/****************Start Job Seeker Styles**************/
+.year {
+  width: 115px;
+}
+
+.btn {
+    text-align: center;
+    width: auto;
+}
+
+.button {
+  width: 100px;
+}
+
+.div3 {
+  margin: auto;
+  width: 90%;
+  height: auto;
+}
+
+.formrow {
+    min-height: 40px;
+    width: 100%;
+    padding: 3px;
+}
+
+.formrow select {
+  width: 35%;
+}
+
+.formrow label {
+  float: left;
+  padding: 15px;
+  width: 35%;
+}
+
+.formrow input {
+  width: 35%;
+}
+
+.formrow textarea {
+    width: 35%;
+}
+
+.form {
+    display: inline;
+}
+
+.hd1 {
+    color: black; 
+    text-decoration: underline;
+    text-align: center;
+}
+
+.mandatory {
+  float: right;
+  color: red;
+}
+
+.red{
+    color: red;
+}
+
+.separation {
+  padding-left: 6%;
+}
+
+.message p {
+    color: #FF0000;
+    text-align: center;
+    font-size: 14px;
+}
+
+.remove_attachment {
+    padding-left: 35px;
+}
+
+/*******************End Job SeekerStyles*************/
+
+.job span {
+    padding-top: 2px;
+    margin-left: 11%;
+}
+
+.main-header {
+  background-color:#663399;
+  color:white;
+  width:100%;
+  height:54px;
+  border-bottom:1px solid #ffffff;
+}
+
+.logo {
+    float: left;
+}
+
+#job_submit {
+    margin-bottom: 15px;
+}
+
+/*HEADER STYLE START*/
+
+#bms {
+    margin-left: 300px;
+    max-width: 670px;
+    overflow: hidden;
+}
+.navi {
+    background-color: #4D9CD5;
+    background: linear-gradient(to bottom, #89BBE5 0px, #67AADD 47%, #4D9CD5 66%, #2E8BCB 100%) repeat scroll 0 0 rgba(0, 0, 0, 0) !important;
+    border-radius: 0.417em;
+    font: 400 12px/1 Arial,Helvetica,sans-serif;
+    margin-top: 60px;
+}
+.middle {
+    height: 35px;
+    padding: 2px 0 0 0.583em;
+}
+.middle li {
+    display: inline;
+    float: left;
+    height: 100%;
+}
+.middle a {
+    color: #FFFFFF;
+    display: inline-block;
+    font-weight: 700;
+    height: 35px;
+    line-height: 35px;
+    margin-right: 5px;
+    padding: 0 10px;
+}
+.middle a:hover{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+.middle em.home {
+    background-position: right 0;
+    display: inline-block;
+    height: 26px;
+    margin-top: 3px;
+    overflow: hidden;
+    width: 25px;
+}
+.middle li.ddn {
+    position: relative;
+}
+.ddn:hover a {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: #3D79B8 #3D79B8 -moz-use-text-color;
+    border-image: none;
+    border-radius: 0.417em 0.417em 0 0;
+    border-style: solid solid none;
+    border-width: 1px 1px 0;
+    color: #000000;
+    padding: 0 9px;
+}
+.ddn em.downArr {
+    border-color: #FFFFFF rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+    border-style: solid;
+    border-width: 4px 4px 0;
+    display: inline-block;
+    height: 0;
+    margin-left: 5px;
+    margin-top: 5px;
+    vertical-align: text-top;
+    width: 0;
+}
+.ddn:hover em.downArr, .ddn a.active em.downArr {
+    border-color: #000000 rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
+}
+.ddn .ddNC {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-color: -moz-use-text-color #3D79B8 #3D79B8;
+    border-image: none;
+    border-right: 1px solid #3D79B8;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    box-shadow: 5px 6px 5px #BFBFBF;
+    display: none;
+    left: 0;
+    padding-bottom: 5px;
+    position: absolute;
+    top: 35px;
+    width: 148px;
+}
+.ddn:hover .ddNC a, .ddNC a, .ddNC a:hover {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 center rgba(0, 0, 0, 0);
+    border-color: -moz-use-text-color -moz-use-text-color #D6D6D6;
+    border-image: none;
+    border-style: none none dotted;
+    border-width: 0 0 1px;
+    color: #0100FE;
+    display: block;
+    font-weight: 400;
+    height: auto;
+    line-height: 1.5;
+    margin: 3px 0 0;
+    padding: 0 0 3px 14px;
+}
+.ddNC a.nbdr {
+    border-bottom: medium none !important;
+}
+.ddn:hover .ddNC {
+    display: block;
+}
+.ddn a:focus {
+    outline: 0 none;
+}
+
+/*HEADER STYLE END*/
+
+/* Home Page */
+
+.sub-container{
+    width:100%;
+    border:1px solid #cccccc;
+    height: auto;
+    text-align: top;
+}
+
+.box{
+    width:45%;
+    padding:0.75em;
+}
+.box1{
+    float: left;
+    width:50%;
+}
+.sub-box1{
+    margin-left:1%;
+    line-height: 1.5;
+    width:54%;
+    display: -moz-stack;
+}
+.sub-box2{
+    margin-left:4%;
+    line-height: 1.5;
+    width:40%;
+    display: inline-block;
+    display: -moz-stack;
+}
+.sub-box3{
+    margin-left:1%;
+    width:30.3%;
+    height: auto;
+    display: -moz-stack;
+    display: inline-block;
+}
+
+
+.company{
+    text-align: center;
+    padding: 0.1em;
+    width:45%;
+    float:left;
+    height: auto;
+}
+.job{
+    text-align: center;
+    width:54%;
+    float:left;
+    height:20em;
+}
+.full-box {
+    font-size: 12px;
+    height: auto;
+    line-height: 20px;
+    text-align: justify;
+    width: 97%;
+}
+.left{
+    text-align: left;
+}
+.large-box {
+    width: 55%;
+    float: left;
+    background-color: #F3FAFF;
+    padding-top: 0px;
+    margin-right: 5%;
+    border: 1px solid #BFDEF2;
+
+}
+.large-box p {
+    float: left;
+    font-size: 12px;
+    line-height: 1.5;
+    width: 42%;
+    margin-left: 30px;
+}
+.large-box h4 {
+    background-color: #BFDEF2;
+    margin-top: 0px;
+    padding: 10px 0 10px 10px;
+}
+.small-box h4 {
+    background-color: #BFDEF2;
+    margin-top: 0px;
+    padding: 10px 0 10px 10px;
+    margin-bottom: 13px;
+}
+.blue-button {
+    background-color: #0E5BA8;
+    border: 1px solid #000000;
+    color: #FFFFFF;
+    display: block;
+    float: left;
+    font-weight: bold;
+    line-height: 23px;
+    margin-bottom: 2%;
+    margin-left: 12%;
+    margin-top: 4%;
+    padding-left: 3%;
+    text-decoration: none;
+    width: 25%;
+}
+.small-box {
+    border: 1px solid #D6EBF9;
+    float: left;
+    width: 35%;
+    margin-bottom: 4%;
+}
+.small-box input{
+   width: 50%;
+}
+.buttons {
+    width: 50%;
+}
+.select1 {
+    margin-left: 16%;
+}
+#email {
+    margin-left: 8%;
+}
+
+.small-box form {
+    width: 90%;
+    margin: auto auto 13px;
+}
+.control {
+    width: 90%;
+}
+.control label {
+    font-size: 12px;
+    width: 40%;
+}
+#login_button {
+    width: 28%;
+}
+
+#job_seeker_login .content, #recruiter .content {
+    padding: 20px;
+    width: 96%;
+}
+#login_error {
+    font-size: 12px;
+}
+
+/* End of Home page */
+
+
+/*PROFILE PAGE*/
+.welcome-box{
+    width: 100%;
+    float: left;
+    display: inline;
+}
+
+.welcome-box label{
+    font-size: 11px;
+    line-height: 20px;  
+}
+
+.profile-left-box{
+    width: 50%;
+    display: inline;
+    
+}
+
+.content-box{
+    width: 100%;
+    margin-top: 3%;
+    font-size: 12px;
+    font-family: Arial;
+    display: inline-block;
+}
+
+.content-box label{
+   width: 100%;
+}
+
+.label-box-left{
+    float: left;
+    width: 25%;
+    line-height: 20px;  
+}
+
+.label-box-left label{
+    font-weight: bold;
+}
+
+.label-box-right{
+    float: left;
+    width: 75%;
+    line-height: 20px;
+}
+
+.edit-button {
+    padding-top: 13%;
+    margin-top: 5%;
+   
+}
+.profile_container {
+    margin: auto;
+    width: 90%;
+}
+
+.profile-box {
+    width: 100%;
+    height: 100%;
+}
+#content_box {
+    margin-bottom: 2%;
+}
+
+
+
+/************* RECRUITER STYLE *****************/
+.form_container{
+    width:60%;
+    margin-left: 20%;
+    padding: 2%;
+}
+.form_container1{
+    display: block;
+}
+.left-box{
+
+    background-color: #ECE7F8;
+    border-top:1px solid #663399;
+    margin: auto;
+    width:85%;
+    height:auto;
+    border:1px solid blue;
+}
+
+.white{
+    color:white;
+}
+
+
+
+.right{
+    float: right;
+}
+.inner{
+    width:100%;
+    padding-left: 2%;
+}
+.inner input{
+    margin-left: 13%;
+    width:56%;
+}
+.inner textarea{
+    margin-left: 2%;
+    width:56%;
+    height: 110px;
+}
+.inner select{
+    margin-left: 2%;
+    width: 50%;
+}
+.inner1{
+    margin-left: 18% !important;
+}
+.inner2{
+    width:100%;
+    display: inline;
+    margin-left: 2%;
+}
+.inner3{
+    display: inline;
+}
+label textarea{
+    vertical-align: middle;
+}
+
+/**************************   Search module ******************************/
+.error_message {
+    color: #FF0000;
+    margin: 0px;
+    text-align: center;
+    font-size: 14px;
+    padding-top: 55px
+}
+.alert {
+    border: 1px solid #FF0000;
+}
+
+.search_result_warning {
+    width: 90%;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+}
+.search_result_warning p {
+    font-size: 15px;
+}
+.search_block {
+    width: 100%;
+    padding: 20px;
+}
+.search_block h2 {
+    margin: auto;
+    width: 30%;
+}
+.search_container {
+    width:80%;
+    margin: auto;
+    margin-top: 20px;
+}
+#search_by {
+    width: 100%;
+}
+#search_text {
+    color: #006600;
+}
+
+/**************************   Search module end ******************************/
+
+/**************************   Profile module ********************************/
+.rounded_photo img {
+    /*height :50px;
+    width :50px;*/
+    height: 75px;
+    width: 75px;
+    border-radius: 500px 500px 500px 500px;
+}
+#profile_image {
+    float: right;
+}
+
+#photos {
+    min-height: 55px;
+}
+
+.formrow input[type="radio"] {
+    width: 2%;
+}
+
+/**************************   Profile module end ******************************/
+
+/**************************   Forgot Password module ******************************/
+
+.content_div {
+    margin: auto;
+    width: 30%;
+    line-height: 25px;
+}
+
+.content_div input[type='text']{
+    margin-bottom: 7px;
+}
+
+.content_div input[type='submit']{
+    margin-bottom: 7px;
+}
+.btn_align_center {
+    margin: auto;
+    width: 35%;
+}
+#error_msg {
+    text-align: center;
+}
+
+/**************************   Forgot Password module end******************************/
+
+/**************************  Success Stories Details page******************************/
+
+.contents {
+    margin: auto;
+    width: 95%;
+    margin-bottom: 7%;
+}
+.pagination {
+    float: right;
+    color: #7D7D7D;
+}
+.pagination a {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #0079D0;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px; 
+}
+.stories {
+    line-height: 19px;
+    color: #7D7D7D;
+    text-align: justify;
+}
+
+/**************************  Success Stories Details page end ******************************/
+
+#info_message {
+    color: #FF0000;
+    font-size: 15px;
+    text-align: center;
+}
+/**************************** Header Drop Down ***********************************/
+.menu_div {
+    float: right;
+    height: 50%;
+
+}
+
+.menu_div ul li {
+    float: left;
+    display: block;
+    /*padding: 2px 10px 2px 5px; changed for new style*/
+    padding: 5px 10px 5px 10px;
+    position: relative;
+    width: 100%;
+
+}
+
+.menu_div ul li ul li {
+    float: none;
+    display: block;
+    /*padding: 3px 5px 0px 5px;*/
+    border: none;   
+    height: 30px;
+    
+}
+.menu_div ul li ul {
+    position: absolute;
+    z-index: 1;
+    margin: 0px;
+    /*padding: 5px;*/
+    background-color: #FFFFFF;
+     min-width: 123px;
+    display: none;
+    font-size: 11px;
+    border-radius: 3px;
+    /* added new style*/
+    margin-left: -11px;
+    padding-left: 0;
+    width: 100%;
+    margin-top: 1px;
+    padding-top: 5px;
+    border-top:0 none !important
+}
+
+.menu_header {
+    width: 100%;
+    min-height: 20px !important;
+    margin: 0px !important;
+    color: #000000;
+    font-size: 12px;
+    font-weight: 100;
+    display: block;
+    padding: 1px 0px 1px 0px;
+    float: left;
+}
+.menu_div ul li a{
+    color: #000000;
+    text-align: center;
+}
+.menu_div ul li:hover {
+    color: #000000;
+    text-decoration: none;
+    border: 1px solid blue;
+    border-radius: 3px;
+}
+.menu_div ul li ul li a{
+    color: #000000;
+    font-weight: normal;
+}
+.menu_div ul li ul li:hover {
+    color: #2E8BCB;
+    text-decoration: none;
+    border: none;
+}
+.menu_div ul li ul li a:hover {
+    color: #2E8BCB;
+    text-decoration: none;
+    border: none;
+}
+
+
+.menu_div ul li:hover ul {
+    display: block;
+    border:1px solid blue;
+}
+
+/**************************** Header Drop Down End***********************************/
+
+.posted_jobs_container{
+    width: 80%;
+    font-size: 17px;
+}
+
+.job_description {
+    line-height: 18px;
+}
+#job_description_text {
+    /*border-bottom: 2px solid #FFB812;*/
+    border-bottom: 2px solid #89BBE5;
+}
+
+#job_title {
+    font-size: 20px;
+    line-height: 35px;
+}
+.job_details {
+    height: 25px;
+    min-width: 55%;
+}
+
+.job_details span {
+    float: left;
+}
+.job_details #details {
+    float: left;
+    width: 15%;
+}
+.sub_container {
+    margin-top: 16px;
+}
+#cv_details #active-profile {
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#applied-jobs #active-applied {
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#job_seeker_registration #active-post-cv{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#recruiter #active-recruiter{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#job_seeker_login #active-jobseeker{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#search #active-search{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#home #active-home{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#jobpost #active-postjobs{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#search_cvs #active-searchcv{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#recreg #active-edit-profile{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#posted_jobs #active-posted-jobs{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+#search #active-searchcv{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}
+/*#profile #active-view-profile{
+    background: none repeat scroll 0 0 #2466AF;
+    border-radius: 0.417em;
+    text-decoration: none;
+}*/
+
+#recruiter form {
+    height: 87px;
+}
+
+.login_details .control {
+    height: 35px;
+}
+
+.clear {
+    clear: both;
+}
+
+#personal_details {
+    line-height: 25px !important;
+}
+
+#personal_details textarea {
+    height: 110px;
+    width: 75%;
+}
+
+#user-image {
+    height: 80px;
+    margin-top: 15px;
+    float: right;
+}
+
+.add_employers {
+    display: block;
+    float: left;
+    width: 55%;
+}
+.add_employers input {
+    width: 64% !important;
+}
+
+#add_top_margin {
+    margin-top: 20px;
+}

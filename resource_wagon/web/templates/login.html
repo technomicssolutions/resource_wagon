@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+	<div class="login">
+		<h3 class="sub_heading"> Login </h3>
+		<form action="{%url 'login' %}" method="POST" >
+			{% csrf_token %}
+			<label> Username: </label>
+			<input type="text" name="username" />
+			<label> Password: </label>
+			<input type="password" name="password" />
+			<input type="submit" name="submit" value="Login" />
+		</form>
+	</div>
+	<a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
+	<a href="{% url 'employer_registration' %}"> Employer Registration </a>
+{% endblock body %}
