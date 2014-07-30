@@ -4,7 +4,8 @@ form {
 	margin: auto;
 }
 form label {
-	width: 30%;
+	/*width: 30%;*/
+	width: 36%;
 	float: left;
 	height: 40px;
 }
@@ -36,4 +37,20 @@ h3 {
 
 .clear {
 	clear: both;
+}
+
+
+/*Styles to remove*/
+
+.separation {
+	width: 100%;
+	min-height: 200px;
+	margin-bottom: 25px;
+}
+.separation input, label {
+	float: left !important;
+}
+.add_employers {
+	float: left;
+    width: 100%;
 }

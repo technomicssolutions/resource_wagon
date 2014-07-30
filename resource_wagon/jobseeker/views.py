@@ -12,7 +12,7 @@ class JobseekerRegistration(View):
 
     def get(self, request, *args, **kwargs):
     	if request.user.is_authenticated():
-            logout(request, request.user)
+            logout(request)
         return render(request, 'jobseeker_registration.html', {})
 
     def post(self, request, *args, **kwargs):

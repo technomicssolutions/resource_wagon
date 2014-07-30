@@ -11,16 +11,18 @@
 		{% csrf_token %}
 
 			<p class="mandatory">* Mandatory Fields</p>
-				<label>Email Id<span class="red">*</span></label>
-				<input type="text" name="email" ng-model="seeker.email">
+		<div class="separation" ng-show="personal_details">
+			<label>Email Id<span class="red">*</span></label>
+			<input type="text" name="email" ng-model="seeker.email">
 			{% if not is_profile_edit %}
 					<label>Choose Password<span class="red">*</span></label> 
 					<input type="password" name="password" ng-model="seeker.password">
 					<label>Re-enter Password<span class="red">*</span></label> 
 					<input type="password" name="password1" ng-model="seeker.password1">
 			{% endif %}
+		</div>
 
-		<div class="separation">
+		<div class="separation" ng-show="personal_details">
 			<h3>Personal Details</h3>
 			<label>Full Name<span class="red">*</span></label>
 			<input type="text" name="first_name" ng-model="seeker.first_name">
@@ -65,7 +67,7 @@
 			<input type="text" name="alt_email" ng-model="seeker.alt_email">
 		</div>
 
-		<div class="separation">
+		<div class="separation" ng-show="current_employment_details">
 			<h3>Current Employment Details</h3>
 			<label>Total Experience</label>
 			<select name="years" ng-model="seeker.years" class="years_select">
@@ -94,7 +96,6 @@
 				<option value="">Select Currency</option>
 				<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == seeker.currency">[[currency]]</option>
 			</select>
-
 			<label>Current Designation</label>
 			<input type="text" name="designation" ng-model="seeker.designation">
 			<label>Current Industry</label>
@@ -114,9 +115,13 @@
 			</div>
 			<label>Key Skills<span class="red">*</span></label>
 			<textarea rows="4" cols="20" name="skills" ng-model="seeker.skills"></textarea>
+
+			<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
+			<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
+			<p>[[error_message]]</p>
 		</div>
 
-		<div class="separation">
+		<div class="separation" ng-show="educational_details">
 			<h3>Education Details</h3>
 			<label>Basic Education<span class="red">*</span></label>
 			<select name="basic_edu" ng-model="seeker.basic_edu" ng-change="get_stream()">
@@ -154,33 +159,26 @@
 				<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
 				<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
 			</div>		
+			<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
+			<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
+			<p>[[error_message]]</p>
 		</div>
-		
-		<div class="separation" id="add_top_margin">
-			<div class="btn">
-				<label></label>
-				<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
-				<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
-			</div>
-			<div class="message">
-				<p ng-show="error_flag">[[error_message]]</p>
-			</div>
-		</div>
-		<div class="separation">
-			<div class="separation">
-				<h3>Attach Your Resume</h3>
-				<label>Resume Title<span class="red">*</span></label>
-				<input type="text" name="resume_title" ng-model="seeker1.resume_title">
-				<label>Attach CV<span class="red">*</span></label>
-				<input type="file" fileread="resume_doc.src"/>
-				<input type="hidden" ng-model="resume_doc.src">
-				<a href="/site_media/[[seeker1.resume]]" ng-show="seeker1.resume" target="_blank">Resume</a>
-				<label>Copy and Paste Resume Here</label>
-				<textarea rows="4" cols="20" name="resume_text" ng-model="seeker1.resume_text" ></textarea>
-			</div>
+		<div class="separation" ng-show="resume_details">
+			<h3>Attach Your Resume</h3>
+			<label>Resume Title<span class="red">*</span></label>
+			<input type="text" name="resume_title" ng-model="seeker1.resume_title">
+			<label>Attach CV<span class="red">*</span></label>
+			<input type="file" fileread="resume_doc.src"/>
+			<input type="hidden" ng-model="resume_doc.src">
+			<a href="/site_media/[[seeker1.resume]]" ng-show="seeker1.resume" target="_blank">Resume</a>
+			<label>Copy and Paste Resume Here</label>
+			<textarea rows="4" cols="20" name="resume_text" ng-model="seeker1.resume_text" ></textarea>
+			<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
+			<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
+			<p>[[error_message]]</p>
 		</div>
 
-		<div class="separation">
+		<div class="separation" ng-show="photo_details">
 			<h3>Attach Your Photo and Certificates</h3>
 			<div class="rounded_photo" ng-show="seeker1.profile_photo" id="profile_image">
 	            <img src="/site_media/[[seeker1.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
@@ -188,7 +186,9 @@
 			<label>Attach Photo</label>
 			<input type="file" fileread="photo_img.src"/>
 			<input type="hidden" ng-model="photo_img.src">
-
+			<br>
+			<br>
+			<br>
 			<label>Attach Computer Education Certificates</label>	
 	        <input class="file_picker" id="certificate_file_[[$index]]" type="file" name="certificate_name" fileread="file_name.certificate_attachment.src"/>
 	        <input type="hidden" ng-model="file_name.certificate_attachment.src" >
@@ -202,11 +202,10 @@
 		</div>
 			
 		<div class="separation">
-			{% if not user.is_authenticated %}
-				<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
-			{% endif %}
-
 			<div class="btn">
+				{% if not user.is_authenticated %}
+					<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
+				{% endif %}
 				<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_reg_more()">
 				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
 				
