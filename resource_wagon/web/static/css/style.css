@@ -54,3 +54,18 @@ h3 {
 	float: left;
     width: 100%;
 }
+.error_message {
+	color: #ff0000;
+}
+.error_p {
+	float: left;
+    margin-top: 25px;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.btn {
+	float: left;
+    margin-top: 10px;
+    width: 100%;
+    margin-top: 10px;
+}
