@@ -6,6 +6,14 @@ from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
 	MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
 	FUNCTIONS, Job)
 
+class PreviousEmployer(models.Model):
+    previous_employer_name = models.CharField('Employer name', max_length=100, null=True, blank=True)
+
+    def __unicode__(self):
+
+        return self.previous_employer_name
+
+
 class Employment(models.Model):
 
     exp_yrs = models.IntegerField('Experience in Years',null=True, blank=True, choices=YEARS)
@@ -15,7 +23,7 @@ class Employment(models.Model):
     skills = models.TextField('Key Skills', null=True, blank=True)
     curr_industry = models.CharField('Current Industry', null=True, blank=True, max_length=200, choices=INDUSTRY)
     function = models.CharField('Function', null=True, blank=True, max_length=200, choices=FUNCTIONS)
-
+    previous_employer = models.ManyToManyField(PreviousEmployer, null=True, blank=True)
 
     def __unicode__(self):
         return str(self.exp_yrs)
@@ -46,11 +54,6 @@ class Education(models.Model):
         verbose_name = 'Education'
         verbose_name_plural = 'Education'
 
-class Doctorate(models.Model):
-    doctorate_name = models.CharField('Doctorate name', null=True, blank=True, max_length=100)
-
-    def __unicode__(self):
-        return self.doctorate_name
 
 class Certificates(models.Model):
     certificate_name = models.FileField(upload_to = "uploads/certificates/", null=True, blank=True)

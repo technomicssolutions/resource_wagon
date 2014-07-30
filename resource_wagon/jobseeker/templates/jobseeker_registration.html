@@ -117,7 +117,7 @@
 			</select>
 			<label>Previous Employer</label>
 			<div class="add_employers">
-				<input type="text" name="previous_employer" ng-repeat="employer in current_employer.employers" ng-model="employer.employer">
+				<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
 				<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
 			</div>
 			<label>Key Skills<span class="red">*</span></label>
@@ -125,7 +125,7 @@
 
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_current_employer_details()"></p>
 			
-			<p class="error_message error_p">[[personal_validation]]</p>
+			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
 		</div>
 
 		<div class="separation" ng-show="educational_details">

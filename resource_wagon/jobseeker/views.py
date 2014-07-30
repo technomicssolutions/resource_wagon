@@ -68,3 +68,42 @@ class SavePersonalDetails(View):
         response = simplejson.dumps(res)
 
         return HttpResponse(response, status=status, mimetype='application/json')
+
+class SaveCurrentEmployerDetails(View):
+
+    def post(self, request, *args, **kwargs):
+
+        current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
+        status = 200
+        if current_employer_details['id']:
+
+            job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
+            if job_seeker.employment:
+                employment = job_seeker.employment
+            else:
+                employment = Employment()
+            employment.exp_yrs = current_employer_details['years']
+            employment.exp_mnths = current_employer_details['months']
+            employment.salary = current_employer_details['salary']
+            employment.designation = current_employer_details['designation']
+            employment.skills = current_employer_details['skills']
+            employment.curr_industry = current_employer_details['currency']
+            employment.function = current_employer_details['functions']
+            employers = ast.literal_eval(current_employer_details['employers'])
+            for employer in employers:
+                if len(employer['employer']) > 0 and not employer['employer'].isspace():
+                    employer_obj, created = PreviousEmployer.objects.get_or_create(previous_employer_name = employer['employer'])
+                    employment.previous_employer.add(employer_obj)
+            employment.save()
+            job_seeker.employment = employment
+            job_seeker.save()
+
+            res = {
+                'result': 'ok',
+                'job_seeker_id': job_seeker.id,
+            }
+            response = simplejson.dumps(res)
+
+            return HttpResponse(response, status=status, mimetype='application/json')
+
+

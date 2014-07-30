@@ -1723,6 +1723,18 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'mobile': '',
         'alt_email': '',
     }
+    $scope.current_employer = {
+        'id': $scope.job_seeker_id,
+        'years': '0',
+        'months': '0',
+        'salary': '',
+        'currency': '',
+        'designation': '',
+        'industry': '',
+        'functions': '',
+        'employers': [],
+        'skills': '',
+    }
     $scope.seeker = {
         'id': 0,
         'email': '',
@@ -2292,6 +2304,46 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                     $scope.current_employment_details = true;
                 } else {
                     $scope.personal_validation = data.message;
+                }
+            });
+        }
+    }
+    $scope.current_employer_validation = function() {
+        if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
+            $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
+            return false;
+        } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
+            $scope.current_employer_validation_msg = 'Please provide the Currency';
+            return false;
+        }   
+        if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
+            $scope.current_employer_validation_msg = 'Please enter Key Skills';
+            return false;
+        } 
+    }
+    $scope.save_current_employer_details = function() {
+        if ($scope.current_employer_validation()){
+            $scope.current_employer.employers = JSON.stringify($scope.employers);
+            params = {
+                'current_employer_details': angular.toJson($scope.current_employer),
+                'csrfmiddlewaretoken': $scope.csrf_token,
+            }
+            $http({
+                method : 'post',
+                url : "/jobseeker/save_current_employer_details/",
+                data : $.param(params),
+                headers : {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                }
+            }).success(function(data, status) {
+                // $scope.check_flag = false;
+                if (data.result == 'ok') {
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    $scope.personal_details = false;
+                    $scope.current_employment_details = false;
+                    $scope.educational_details = true;
+                } else {
+                    $scope.current_employer_validation_msg = data.message;
                 }
             });
         }
