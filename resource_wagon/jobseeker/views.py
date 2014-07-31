@@ -10,7 +10,7 @@ import ast
 import simplejson
 from datetime import datetime
 
-from models import (Employment, Education, Doctorate, Jobseeker)
+from models import (Employment, Education, Jobseeker)
 
 class JobseekerRegistration(View):
 
