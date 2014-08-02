@@ -1727,7 +1727,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'id': $scope.job_seeker_id,
         'years': '0',
         'months': '0',
-        'salary': '',
+        'salary': 0,
         'currency': '',
         'designation': '',
         'industry': '',
@@ -1735,29 +1735,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'employers': [],
         'skills': '',
     }
-    $scope.seeker = {
-        'id': 0,
-        'email': '',
-        'password': '', 
-        'password1': '',
-        'first_name': '',
-        'gender': '',
-        'dob':'',
-        'marital_status': '',
-        'nationality': '',
-        'country': '',
-        'city': '',
-        'mobile': '',
-        'alt_email': '',
-        'years': '0',
-        'months': '0',
-        'salary': '',
-        'currency': '',
-        'designation': '',
-        'industry': '',
-        'functions': '',
-        'previous_company': [],
-        'skills': '',
+    $scope.educational_details = {
+        'id': $scope.job_seeker_id,
         'basic_edu': '',
         'basic_specialization': '',
         'pass_year_basic': '',
@@ -1765,6 +1744,37 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'master_specialization': '',
         'pass_year_masters': '',
         'doctrate': [],
+    }
+    $scope.seeker = {
+        // 'id': 0,
+        // 'email': '',
+        // 'password': '', 
+        // 'password1': '',
+        // 'first_name': '',
+        // 'gender': '',
+        // 'dob':'',
+        // 'marital_status': '',
+        // 'nationality': '',
+        // 'country': '',
+        // 'city': '',
+        // 'mobile': '',
+        // 'alt_email': '',
+        // 'years': '0',
+        // 'months': '0',
+        // 'salary': '',
+        // 'currency': '',
+        // 'designation': '',
+        // 'industry': '',
+        // 'functions': '',
+        // 'previous_company': [],
+        // 'skills': '',
+        // 'basic_edu': '',
+        // 'basic_specialization': '',
+        // 'pass_year_basic': '',
+        // 'masters_edu': '',
+        // 'master_specialization': '',
+        // 'pass_year_masters': '',
+        // 'doctrate': [],
         
     }
 
@@ -1920,12 +1930,14 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
 
     $scope.get_stream = function() {
-        var basic_edu = $scope.seeker.basic_edu;
+        console.log('get_stream')
+        var basic_edu = $scope.educational_details.basic_edu;
+        console.log(basic_edu)
         $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
     }
 
     $scope.get_master_stream = function() {
-        var masters_edu = $scope.seeker.masters_edu;
+        var masters_edu = $scope.educational_details.masters_edu;
         $scope.specializations = $scope.masters_education_specialization[masters_edu];
     }    
 
@@ -2297,9 +2309,11 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                     'Content-Type' : 'application/x-www-form-urlencoded'
                 }
             }).success(function(data, status) {
-                // $scope.check_flag = false;
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
+                    console.log($scope.job_seeker_id);
+                    $scope.current_employer.id = $scope.job_seeker_id;
+                    $scope.educational_details.id = $scope.job_seeker_id;
                     $scope.personal_details = false;
                     $scope.current_employment_details = true;
                 } else {
@@ -2315,11 +2329,10 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
             $scope.current_employer_validation_msg = 'Please provide the Currency';
             return false;
-        }   
-        if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
+        } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
             $scope.current_employer_validation_msg = 'Please enter Key Skills';
             return false;
-        } 
+        } return true;
     }
     $scope.save_current_employer_details = function() {
         if ($scope.current_employer_validation()){
@@ -2336,7 +2349,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                     'Content-Type' : 'application/x-www-form-urlencoded'
                 }
             }).success(function(data, status) {
-                // $scope.check_flag = false;
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
                     $scope.personal_details = false;
@@ -2348,6 +2360,48 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             });
         }
     }
+    $scope.educational_details_validation = function() {
+        if ($scope.educational_details.basic_edu == '' || $scope.educational_details.basic_edu == undefined){
+            $scope.educational_validation_msg = 'Please select Basic Education';
+            return false;
+        } else if ($scope.educational_details.basic_specialization == '' || $scope.educational_details.basic_specialization == undefined || $scope.educational_details.basic_specialization == 'select'){
+            $scope.educational_validation_msg = 'Please select Specialisation for Basic Education';
+            return false;
+        } else if ($scope.educational_details.pass_year_basic == '' || $scope.educational_details.pass_year_basic == undefined || $scope.educational_details.pass_year_basic == 'select'){
+            $scope.educational_validation_msg = 'Please select the Year of Passing';
+            return false;
+        } else if ($scope.educational_details.masters_edu != '' && ($scope.educational_details.master_specialization == '' || $scope.educational_details.master_specialization == undefined || $scope.educational_details.master_specialization == 'select')){
+            $scope.educational_validation_msg = 'Please select Specialization for Masters Education ';
+            return false;
+        } return true;
+    }
+    $scope.save_educational_details = function() {
+        if ($scope.educational_details_validation()){
+            $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
+            params = {
+                'educational_details': angular.toJson($scope.educational_details),
+                'csrfmiddlewaretoken': $scope.csrf_token,
+            }
+            $http({
+                method : 'post',
+                url : "/jobseeker/save_educational_details/",
+                data : $.param(params),
+                headers : {
+                    'Content-Type' : 'application/x-www-form-urlencoded'
+                }
+            }).success(function(data, status) {
+                if (data.result == 'ok') {
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    $scope.personal_details = false;
+                    $scope.educational_details = false;
+                    $scope.resume_details = true;
+                } else {
+                    $scope.educational_validation_msg = data.message;
+                }
+            });
+        }
+    }
+
 }
 
 function RecruiterController($scope, $element, $http, $timeout) {

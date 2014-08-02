@@ -10,7 +10,7 @@ import ast
 import simplejson
 from datetime import datetime
 
-from models import (Employment, Education, Jobseeker)
+from models import (Employment, Education, Jobseeker, PreviousEmployer)
 
 class JobseekerRegistration(View):
 
@@ -74,6 +74,7 @@ class SaveCurrentEmployerDetails(View):
     def post(self, request, *args, **kwargs):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
+        print current_employer_details
         status = 200
         if current_employer_details['id']:
 
@@ -89,6 +90,8 @@ class SaveCurrentEmployerDetails(View):
             employment.skills = current_employer_details['skills']
             employment.curr_industry = current_employer_details['currency']
             employment.function = current_employer_details['functions']
+            employment.save()
+            employment.previous_employer.clear()
             employers = ast.literal_eval(current_employer_details['employers'])
             for employer in employers:
                 if len(employer['employer']) > 0 and not employer['employer'].isspace():
@@ -98,6 +101,46 @@ class SaveCurrentEmployerDetails(View):
             job_seeker.employment = employment
             job_seeker.save()
 
+            res = {
+                'result': 'ok',
+                'job_seeker_id': job_seeker.id,
+            }
+            response = simplejson.dumps(res)
+
+            return HttpResponse(response, status=status, mimetype='application/json')
+
+class SaveEducationalDetails(View):
+
+    def post(self, request, *args, **kwargs):
+
+        educational_details = ast.literal_eval(request.POST['educational_details'])
+        print educational_details
+        status = 200
+        if educational_details['id']:
+            job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
+            if job_seeker.education:
+                education = job_seeker.education
+            else:
+                education = Education()
+            education.basic_edu = educational_details['basic_edu']
+            education.basic_edu_specialization = educational_details['basic_specialization']
+            education.pass_year_basic = int(educational_details['pass_year_basic'])
+            # if seeker['masters_edu'] != "":
+            education.masters = educational_details['masters_edu']
+            # if seeker['master_specialization'] != "":
+            education.masters_specialization = educational_details['master_specialization']
+            # if seeker['pass_year_masters'] != "":
+            education.pass_year_masters = int(educational_details['pass_year_masters'])
+            doctrate = ast.literal_eval(educational_details['doctrate'])
+            education.save()
+            education.doctrate.clear()
+            for doctrate_name in doctrate:
+                if len(doctrate_name['name']) > 0 and not doctrate_name['name'].isspace():
+                    doctorate, created = Doctorate.objects.get_or_create(doctorate_name = doctrate_name['name'])
+                    education.doctrate.add(doctorate)
+            education.save()
+            job_seeker.education = education
+            job_seeker.save()
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
