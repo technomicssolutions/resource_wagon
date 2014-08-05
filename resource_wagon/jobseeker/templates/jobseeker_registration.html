@@ -74,7 +74,7 @@
 		</div>
 		<div class="clear"></div>
 
-		<div class="separation" ng-show="current_employment_details">
+		<div class="separation" ng-show="current_employment_details ">
 			<h3>Current Employment Details</h3>
 			<label>Total Experience</label>
 			<select name="years" ng-model="current_employer.years" class="years_select">
@@ -128,12 +128,12 @@
 			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
 		</div>
 
-		<div class="separation" ng-show="educational_details">
+		<div class="separation" ng-show="educational_detail">
 			<h3>Education Details</h3>
 			<label>Basic Education<span class="red">*</span></label>
 			<select name="basic_edu" ng-model="educational_details.basic_edu" >
 				<option value="">-----------Select---------</option>
-				<option ng-repeat="education in basic_education" value="[[education]]" ng-click="get_stream()">[[education]]</option>
+				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
 			</select>
 			<label>Specialization<span class="red">*</span></label>
 			<select name="basic_specialization" ng-model="educational_details.basic_specialization">
@@ -149,7 +149,7 @@
 			<label>Masters Education</label>
 			<select name="masters_edu" ng-model="educational_details.masters_edu" ng-change="get_master_stream()">
 				<option value="">---------Select---------</option>
-				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu">[[edu]]</option>
+				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-click="get_master_stream()">[[edu]]</option>
 			</select>
 			<label>Specialization</label>
 			<select name="master_specialization" ng-model="educational_details.master_specialization">
@@ -173,25 +173,24 @@
 			
 			<p class="error_message error_p">[[educational_validation_msg]]</p>
 		</div>
-		<div class="separation" ng-show="resume_details">
+		<div class="separation" ng-show="resume_detail">
 			<h3>Attach Your Resume</h3>
 			<label>Resume Title<span class="red">*</span></label>
-			<input type="text" name="resume_title" ng-model="seeker1.resume_title">
+			<input type="text" name="resume_title" ng-model="resume_details.resume_title">
 			<label>Attach CV<span class="red">*</span></label>
 			<input type="file" fileread="resume_doc.src"/>
 			<input type="hidden" ng-model="resume_doc.src">
-			<a href="/site_media/[[seeker1.resume]]" ng-show="seeker1.resume" target="_blank">Resume</a>
+			<a href="/media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 			<label>Copy and Paste Resume Here</label>
-			<textarea rows="4" cols="20" name="resume_text" ng-model="seeker1.resume_text" ></textarea>
-			<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
-			<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
-			<p>[[error_message]]</p>
+			<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_resume_details()"></p>
+			<p class="error_message error_p">[[resume_validation_message]]</p>
 		</div>
 
-		<div class="separation" ng-show="photo_details">
+		<div class="separation" ng-show="photo_detail">
 			<h3>Attach Your Photo and Certificates</h3>
-			<div class="rounded_photo" ng-show="seeker1.profile_photo" id="profile_image">
-	            <img src="/site_media/[[seeker1.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
+			<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
+	            <img src="/media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
 	        </div>
 			<label>Attach Photo</label>
 			<input type="file" fileread="photo_img.src"/>
@@ -199,26 +198,26 @@
 			<br>
 			<br>
 			<br>
-			<label>Attach Computer Education Certificates</label>	
-	        <input class="file_picker" id="certificate_file_[[$index]]" type="file" name="certificate_name" fileread="file_name.certificate_attachment.src"/>
-	        <input type="hidden" ng-model="file_name.certificate_attachment.src" >
+			<!-- <label>Attach Computer Education Certificates</label>	
+	        <input class="file_picker" id="certificate_file_[[$index]]" type="file" name="certificate_name" fileread="photo_details.certificate_file.src"/>
+	        <input type="hidden" ng-model="photo_details.certificate_file.src" >
 
-	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="file_name.certificate_attachment.src" href="" ng-click="remove_certificate_files(file_name)" >Remove </a>
-	        <a id="remove_file_link_[[$index]]" ng-show="file_name.certificate" target="_blank" href="/site_media/[[file_name.certificate]]" >View </a> 
-	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="file_name.certificate" href="" ng-click="delete_certificate_file(file_name)">Remove </a>            
+	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="photo_details.certificate_file.src" href="" ng-click="remove_certificate_files(photo_details)" >Remove </a>
+	        <a id="remove_file_link_[[$index]]" ng-show="photo_details.certificate" target="_blank" href="/media/[[photo_details.certificate_file]]" >View </a> 
+	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="photo_details.certificate" href="" ng-click="delete_certificate_file(photo_details)">Remove </a>            
 	        <label> </label>
-	        <input type="button" value="Add Certificate Files"  ng-click="add_new_certificate_file()"/>   
+	        <input type="button" value="Add Certificate Files"  ng-click="add_new_certificate_file()"/>    -->
 	        <div class="btn">
 				{% if not user.is_authenticated %}
 					<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
 				{% endif %}
-				<input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_reg_more()">
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_photo_details()"></p>
 				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
 				
 			</div>
-			<div class="message">
-				<p ng-show="error_flag">[[error_message]]</p>
-			</div>
+			<p class="error_message error_p">[[photo_validation_message]]</p>
+		</div>
+
 		</div>
 	</form>
 

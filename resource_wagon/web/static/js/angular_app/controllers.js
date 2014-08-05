@@ -1704,9 +1704,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
 
     $scope.show_certificate_attachment = false;
 
-    $scope.certificate_file = [
-        {'certificate_attachment.src': ''},
-    ]
+    // $scope.certificate_file = [
+    //     {'certificate_attachment.src': ''},
+    // ]
     $scope.job_seeker_id = 0;
     $scope.personal = {
         'id': $scope.job_seeker_id,
@@ -1778,14 +1778,19 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         
     }
 
-    $scope.seeker1 = {
+    $scope.resume_details = {
+        'id': $scope.job_seeker_id,
         'resume_title': '',
         'resume_text': '',
         'resume': '',
-        'certificate_file': '',
+        // 'certificate_file': '',
+        // 'profile_photo': '',
+    }
+    $scope.photo_details = {
+        'id': $scope.job_seeker_id,
+        // 'certificate_file': '',
         'profile_photo': '',
     }
-
     $scope.employers = [
         {'employer': ''},
     ]
@@ -1794,9 +1799,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         {'name': ''},
     ]
 
-    $scope.certificate_file = [
-        {'certificate': '', 'id': ''},
-    ]
+    // $scope.certificate_file = [
+    //     {'certificate': '', 'id': ''},
+    // ]
 
     $scope.init = function(csrf_token, user_id, profile_edit) {
         $scope.csrf_token = csrf_token;
@@ -1804,9 +1809,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         $scope.profile_edit = profile_edit;
         $scope.personal_details = true;
         $scope.current_employment_details = false;
-        $scope.educational_details = false;
-        $scope.resume_details = false;
-        $scope.photo_details = false;      
+        $scope.educational_detail = false;
+        $scope.resume_detail = false;
+        $scope.photo_detail = false;      
         get_currencies($scope);
         get_countries($scope);
         get_nationalities($scope);
@@ -1930,9 +1935,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
 
     $scope.get_stream = function() {
-        console.log('get_stream')
+        
         var basic_edu = $scope.educational_details.basic_edu;
-        console.log(basic_edu)
+       
         $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
     }
 
@@ -1960,41 +1965,41 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         }
     }
 
-    $scope.add_new_certificate_file = function(){
+    // $scope.add_new_certificate_file = function(){
         
-        $scope.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
-    }
+    //     $scope.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
+    // }
 
-    $scope.remove_certificate_files = function(file_name){
-        var index = $scope.certificate_file.indexOf(file_name)
-        $scope.certificate_file.splice(index, 1);
-        console.log($scope.certificate_file);
-        if ($scope.certificate_file.length == 0){
-            $scope.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
-        }
-    }
+    // $scope.remove_certificate_files = function(photo_details){
+    //     var index = $scope.photo_details.certificate_file.indexOf(photo_details)
+    //     $scope.photo_details.certificate_file.splice(index, 1);
+    //     console.log($scope.photo_details.certificate_file);
+    //     if ($scope.photo_details.certificate_file.length == 0){
+    //         $scope.photo_details.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
+    //     }
+    // }
 
-    $scope.delete_certificate_file = function(file_name) {
-        var index = $scope.certificate_file.indexOf(file_name)
-        $scope.certificate_file.splice(index, 1);
-        if ($scope.certificate_file.length == 0){
-            $scope.certificate_file.push({'certificate_attachment.src': '', 'id':''});
-        }
-        params = {
-          'id': file_name.id, 
-          'csrfmiddlewaretoken': $scope.csrf_token,
-        }
-        $http({
-            method : 'post',
-            url : "/delete_certificate/",
-            data : $.param(params),
-            headers : {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            }
-        }).success(function(data, status) {
-            $scope.check_flag = false;
-        });
-    }
+    // $scope.delete_certificate_file = function(photo_details) {
+    //     var index = $scope.photo_details.certificate_file.indexOf(photo_details)
+    //     $scope.photo_details.certificate_file.splice(index, 1);
+    //     if ($scope.photo_details.certificate_file.length == 0){
+    //         $scope.photo_details.ertificate_file.push({'certificate_attachment.src': '', 'id':''});
+    //     }
+    //     params = {
+    //       'id': photo_details.id, 
+    //       'csrfmiddlewaretoken': $scope.csrf_token,
+    //     }
+    //     $http({
+    //         method : 'post',
+    //         url : "/delete_certificate/",
+    //         data : $.param(params),
+    //         headers : {
+    //             'Content-Type' : 'application/x-www-form-urlencoded'
+    //         }
+    //     }).success(function(data, status) {
+    //         $scope.check_flag = false;
+    //     });
+    // }
     
     // $scope.form_validation = function(){
     //     var letters = /^[A-Za-z]+$/;  
@@ -2311,9 +2316,10 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
-                    console.log($scope.job_seeker_id);
                     $scope.current_employer.id = $scope.job_seeker_id;
                     $scope.educational_details.id = $scope.job_seeker_id;
+                    $scope.resume_details.id = $scope.job_seeker_id;
+                    $scope.photo_details.id = $scope.job_seeker_id;
                     $scope.personal_details = false;
                     $scope.current_employment_details = true;
                 } else {
@@ -2351,14 +2357,16 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
+                    console.log($scope.job_seeker_id)
                     $scope.personal_details = false;
                     $scope.current_employment_details = false;
-                    $scope.educational_details = true;
+                    $scope.educational_detail = true;
                 } else {
                     $scope.current_employer_validation_msg = data.message;
                 }
             });
         }
+
     }
     $scope.educational_details_validation = function() {
         if ($scope.educational_details.basic_edu == '' || $scope.educational_details.basic_edu == undefined){
@@ -2392,22 +2400,107 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
+                    console.log($scope.job_seeker_id)
                     $scope.personal_details = false;
-                    $scope.educational_details = false;
-                    $scope.resume_details = true;
+                    $scope.educational_detail = false;
+                    $scope.resume_detail = true;
                 } else {
                     $scope.educational_validation_msg = data.message;
                 }
             });
         }
     }
+    $scope.resume_validation = function() {
+        if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
+            $scope.resume_validation_message = 'Please enter a Resume title';
+            return false;
+        } else if (($scope.resume_doc.src == '' || $scope.resume_doc.src == undefined) && ($scope.resume_details.resume_text == '' || $scope.resume_details.resume_text == undefined)) {
+            $scope.resume_validation_message = 'Please upload the C V or copy paste your resume  ';
+            return false;
+        } return true;
+    }
+    $scope.save_resume_details = function() {
+        if ($scope.resume_validation()){
+            params = {
+                'resume_details': angular.toJson($scope.resume_details),
+                'csrfmiddlewaretoken': $scope.csrf_token,
+            }
+            var fd = new FormData();
+            console.log(params)
+            fd.append('resume_doc', $scope.resume_doc.src);
+            for(var key in params){
+                fd.append(key, params[key]);          
+            }
+            var url = "/jobseeker/save_resume_details/";
+            console.log(fd);
+            $http.post(url, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined
+                }
+            }).success(function(data, status) {
+                if (data.result == 'ok') {
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    
+                    $scope.personal_details = false;
+                    $scope.educational_detail = false;
+                    $scope.resume_detail = false;
+                    $scope.photo_detail = true;
 
+                } else {
+                    $scope.resume_validation_message = data.message;
+                }
+            });
+        }
+    }
+    $scope.photo_validation = function() {
+        if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
+            $scope.resume_validation_message = 'Please upload  your photo  ';
+            return false;
+        } return true;
+    }
+    $scope.save_photo_details = function() {
+        if ($scope.photo_validation()){
+            
+            params = {
+                'photo_details': angular.toJson($scope.photo_details),
+                'csrfmiddlewaretoken': $scope.csrf_token,
+            }
+            var fd = new FormData();
+            // console.log(params)
+            fd.append('photo_img', $scope.photo_img.src);
+            for(var key in params){
+                fd.append(key, params[key]);          
+            }
+            var url = "/jobseeker/save_photo_details/";
+            console.log(fd);
+            $http.post(url, fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined
+                }
+            }).success(function(data, status) {
+                if (data.result == 'ok') {
+                  $scope.job_seeker_id = data.job_seeker_id;
+                    
+                //     $scope.personal_details = false;
+                //     $scope.educational_detail = false;
+                //     $scope.resume_detail = false;
+                //     $scope.photo_detail = true;
+
+                } else {
+                    $scope.photo_validation_message = data.message;
+                }
+            });
+        }
+    }
 }
 
 function RecruiterController($scope, $element, $http, $timeout) {
     $scope.error_flag = false;
     $scope.error_message = '';
     $scope.user_already_exists = false;
+    $scope.employer_id = 0;
+    $scope.profile_doc = {};
+    $scope.profile_doc.src = "";
 	$scope.init = function(csrf_token, user_id) {
 		$scope.csrf_token = csrf_token;
         $scope.user_id = user_id;
@@ -2415,6 +2508,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
     	   get_countries($scope);
 
         $scope.recruiter = {
+            'id' : $scope.employer_id,
             'name' : '',
             'industry' : '',
             'email' : '',
@@ -2467,8 +2561,11 @@ function RecruiterController($scope, $element, $http, $timeout) {
               $scope.error_flag = true;
               $scope.error_message = 'Please enter a Valid Land no.';
               return false;
-            }
-        } 
+        }
+        }else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
+            $scope.employer_validation_message = 'Please upload  your profile  ';
+            return false;
+        }
         return true;
     }
 
@@ -2477,21 +2574,23 @@ function RecruiterController($scope, $element, $http, $timeout) {
         if ($scope.is_valid) {
             $scope.error_flag = false;
             $scope.error_message = '';
+            console.log($scope.employer_id)
             
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
-            if ($scope.user_id) {
-                var url = '/edit_profile/recruiter/'+$scope.user_id+'/';
+            if ($scope.employer_id) {
+                var url = '/employer/edit_profile/'+$scope.employer_id+'/';
             } else {
-                var url = '/recruiter-registration/';
+                var url = '/employer/save_recruiter_details/';
             }
                 
             params = {
-                'recruiter':angular.toJson($scope.recruiter),
+                'recruiter_details':angular.toJson($scope.recruiter),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
             }
             var fd = new FormData();
+            fd.append('profile_doc', $scope.profile_doc.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -2500,11 +2599,11 @@ function RecruiterController($scope, $element, $http, $timeout) {
                 headers: {'Content-Type': undefined
                 }
             }).success(function(data, status){
-                if ($scope.user_id) {
-                  document.location.href = '/profile/'+$scope.user_id+'/';
-                } else {
-                  document.location.href = '/';
-                } 
+
+                $scope.employer_id = data.employer_id;
+                
+                document.location.href = 'employer/employer_profile/'+$scope.employer_id+'/';
+                
             }).error(function(data, status){
                 $scope.error_flag = true;
                 $scope.error_message = data.message;

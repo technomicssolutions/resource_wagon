@@ -31,7 +31,15 @@ class Login(View):
                 'message' : 'Username or password is incorrect'
             }
             return render(request, 'login.html', context)
-        return HttpResponseRedirect(reverse('home'))
+        try:
+            if user.recruiter_set.all():
+                
+                return HttpResponseRedirect(reverse('employer_profile'))
+            elif user.jobseeker_set.all():
+                
+                return HttpResponseRedirect(reverse('jobseeker_details'))
+        except :
+            return HttpResponseRedirect(reverse('home'))
 
 class Logout(View):
 

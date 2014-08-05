@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
 	MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
-	FUNCTIONS, Job)
+	FUNCTIONS, Job, MASTERS_SPEC, BASIC_SPEC)
 
 class PreviousEmployer(models.Model):
     previous_employer_name = models.CharField('Employer name', max_length=100, null=True, blank=True)
@@ -13,6 +13,11 @@ class PreviousEmployer(models.Model):
 
         return self.previous_employer_name
 
+class Doctorate(models.Model):
+    doctorate_name = models.CharField('Doctorate', null=True, blank=True, max_length=100)
+
+    def __unicode__(self):
+        return self.doctorate_name
 
 class Employment(models.Model):
 
@@ -37,14 +42,16 @@ class Employment(models.Model):
 class Education(models.Model):
     
     basic_edu = models.CharField('Basic Education', max_length=200, choices=BASIC_EDU)
+    basic_edu_specialization = models.CharField('Basic Education Specialization', max_length=200, choices=BASIC_SPEC,null=True, blank=True) 
     pass_year_basic = models.IntegerField('Basic Pass Year', null=True, blank=True)
     masters = models.CharField('Masters', null=True, blank=True, max_length=200, choices=MASTERS_EDU)
+    masters_specialization = models.CharField('Masters Specialization', null=True, blank=True, max_length=200, choices=MASTERS_SPEC)
     pass_year_masters = models.IntegerField('Masters pass Year', null=True, blank=True)
-    doctrate = models.CharField('Doctrate', null=True, blank=True, max_length=200)
+    doctrate = models.ManyToManyField(Doctorate, null=True, blank=True)
     resume_title = models.CharField('Resume Title', max_length=200)
     resume = models.FileField(upload_to = "uploads/resumes/", null=True, blank=True)
     resume_text = models.TextField('Resume Text', null=True, blank=True)
-    certificate = models.FileField(upload_to = "uploads/certificates/", null=True, blank=True)
+    
 
     def __unicode__(self):
         return str(self.basic_edu)
@@ -55,11 +62,7 @@ class Education(models.Model):
         verbose_name_plural = 'Education'
 
 
-class Certificates(models.Model):
-    certificate_name = models.FileField(upload_to = "uploads/certificates/", null=True, blank=True)
 
-    # def __unicode__(self):
-    #     return self.certificate_name
 
 
 class Jobseeker(models.Model):
@@ -87,3 +90,4 @@ class Jobseeker(models.Model):
     class Meta:
         verbose_name = 'JobSeekerProfile'
         verbose_name_plural = 'JobSeekerProfile'
+
