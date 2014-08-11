@@ -29,10 +29,9 @@
 
 	<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
 
-	<p>Marital Status :</p>{{user.jobseeker_set.all.0.marital_status}}
 	<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
 	
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
 </div>
 
 <div class="separation" ng-show="view_educational_details">
@@ -100,10 +99,7 @@
 		<h3>Personal Details</h3>
 		<label>Email Id<span class="red">*</span></label>
 		<input type="text" name="email" ng-model="personal.email" value="{{personal.email}}">
-		
-
 	
-		
 		<label>First Name<span class="red">*</span></label>
 		<input type="text" name="first_name" ng-model="personal.first_name" value="{{personal.first_name}}">
 		<label>Last Name<span class="red">*</span></label>
@@ -149,7 +145,6 @@
 		<input type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
 
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
-		<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
 		<p class="error_message error_p">[[personal_validation]]</p>
 	</div>
 	<div class="clear"></div>
@@ -247,10 +242,7 @@
 		<div class="add_employers">
 			<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
 			<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
-		</div>		
-		<!-- <input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
-		<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
-		<p>[[error_message]]</p> -->
+		</div>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
 		
 		<p class="error_message error_p">[[educational_validation_msg]]</p>

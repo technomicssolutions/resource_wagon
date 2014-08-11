@@ -1630,6 +1630,17 @@ function get_currencies($scope){
     ]
 }
 
+function get_stream($scope) { 
+    var basic_edu = $scope.educational_details.basic_edu; 
+    $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
+}
+function get_master_stream($scope) {
+    var masters_edu = $scope.educational_details.masters_edu;
+    console.log(masters_edu);
+    $scope.specializations = $scope.masters_education_specialization[masters_edu];
+    console.log($scope.specializations);
+} 
+
 function HomeController($scope, $element, $http, $timeout, share, $location)
 {
     $scope.is_keyword = false;
@@ -1691,9 +1702,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.error_flag = false;
     $scope.error_message = '';
 
-    // $scope.certificate_img = {};
-    // $scope.certificate_img.src = "";
-
     $scope.photo_img = {};
     $scope.photo_img.src = "";
 
@@ -1704,9 +1712,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
 
     $scope.show_certificate_attachment = false;
 
-    // $scope.certificate_file = [
-    //     {'certificate_attachment.src': ''},
-    // ]
     $scope.job_seeker_id = 0;
     $scope.personal = {
         'id': $scope.job_seeker_id,
@@ -1745,50 +1750,14 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'pass_year_masters': '',
         'doctrate': [],
     }
-    $scope.seeker = {
-        // 'id': 0,
-        // 'email': '',
-        // 'password': '', 
-        // 'password1': '',
-        // 'first_name': '',
-        // 'gender': '',
-        // 'dob':'',
-        // 'marital_status': '',
-        // 'nationality': '',
-        // 'country': '',
-        // 'city': '',
-        // 'mobile': '',
-        // 'alt_email': '',
-        // 'years': '0',
-        // 'months': '0',
-        // 'salary': '',
-        // 'currency': '',
-        // 'designation': '',
-        // 'industry': '',
-        // 'functions': '',
-        // 'previous_company': [],
-        // 'skills': '',
-        // 'basic_edu': '',
-        // 'basic_specialization': '',
-        // 'pass_year_basic': '',
-        // 'masters_edu': '',
-        // 'master_specialization': '',
-        // 'pass_year_masters': '',
-        // 'doctrate': [],
-        
-    }
-
     $scope.resume_details = {
         'id': $scope.job_seeker_id,
         'resume_title': '',
         'resume_text': '',
         'resume': '',
-        // 'certificate_file': '',
-        // 'profile_photo': '',
     }
     $scope.photo_details = {
         'id': $scope.job_seeker_id,
-        // 'certificate_file': '',
         'profile_photo': '',
     }
     $scope.employers = [
@@ -1798,11 +1767,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.doctorate = [
         {'name': ''},
     ]
-
-    // $scope.certificate_file = [
-    //     {'certificate': '', 'id': ''},
-    // ]
-
     $scope.init = function(csrf_token, user_id, profile_edit) {
         $scope.csrf_token = csrf_token;
         $scope.user_id = user_id;
@@ -1834,118 +1798,13 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         for(var i=0; i<=50; i++){
             $scope.experience.push(i);
         }
-        if(profile_edit){
-            $http.get('/profile/details/'+$scope.user_id+'/').success(function(data)
-            {
-                $scope.seeker = data.seeker[0]; 
-                $scope.seeker1 = data.seeker1[0];
-                $('#dob').val($scope.seeker.dob);
-
-
-                var basic_edu = $scope.seeker.basic_edu;
-                $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
-                
-                var masters_edu = $scope.seeker.masters_edu;
-                $scope.specializations = $scope.masters_education_specialization[masters_edu];
-                
-                if ($scope.seeker.pass_year_masters == null) {
-                  $scope.seeker.pass_year_masters = '';
-                }
-                if ($scope.seeker.years == null || $scope.seeker.years == 0) {
-                    $scope.seeker.years = '0';
-                }
-                if ($scope.seeker.months == null) {
-                    $scope.seeker.months = '0';
-                }
-                if ($scope.seeker.doctrate == null) {
-                    $scope.seeker.doctrate = '';
-                }
-                if ($scope.seeker1.resume_text == null) {
-                    $scope.seeker1.resume_text = '';
-                }
-                if ($scope.seeker.alt_email == null) {
-                    $scope.seeker.alt_email = '';
-                }
-                if ($scope.seeker.master_specialization == null) {
-                    $scope.seeker.master_specialization = '';
-                } 
-                if ($scope.seeker.masters_edu == null) {
-                    $scope.seeker.masters_edu = '';
-                }                  
-                if($scope.seeker.designation == null){
-                    $scope.seeker.designation = '';
-                }
-                if($scope.seeker.salary == null){
-                    $scope.seeker.salary = '';
-                }
-                if($scope.seeker.currency == null){
-                    $scope.seeker.currency = '';
-                }
-                if($scope.seeker.functions == null){
-                    $scope.seeker.functions = '';
-                }
-                if($scope.seeker.industry == null){
-                    $scope.seeker.industry = '';
-                }  
-                if ($scope.seeker.previous_company) {
-                    if($scope.seeker.previous_company.length > 1){
-                        for(var i=1; i < $scope.seeker.previous_company.length; i++){
-                            $scope.employers.push({'employer': ''});
-                        }
-                    }  
-                    for(var i=0; i< $scope.seeker.previous_company.length; i++) {
-                        $scope.employers[i].employer = $scope.seeker.previous_company[i].employer;
-                    }
-                } 
-                if ($scope.seeker.doctrate) {
-                    if($scope.seeker.doctrate.length > 1){
-                        for(var i=1; i < $scope.seeker.doctrate.length; i++){
-                            $scope.doctorate.push({'name': ''});
-                        }
-                    }  
-                    for(var i=0; i< $scope.seeker.doctrate.length; i++) {
-                        $scope.doctorate[i].name = $scope.seeker.doctrate[i].doctorate;
-                    }
-                }
-
-                if ($scope.seeker1.certificate_file) {
-                  console.log($scope.seeker1.certificate_file.length);
-                    if($scope.seeker1.certificate_file.length > 1){
-                        for(var i=1; i < $scope.seeker1.certificate_file.length; i++){
-                            $scope.certificate_file.push({'certificate': '', 'id': ''});
-                        }
-                    }
-                    console.log($scope.seeker1.certificate_file); 
-                    for(var i=0; i< $scope.seeker1.certificate_file.length; i++) {
-                        $scope.certificate_file[i].certificate = $scope.seeker1.certificate_file[i].certificate;
-                        $scope.certificate_file[i].id = $scope.seeker1.certificate_file[i].id;
-                    }
-                } 
-                if($scope.seeker.salary == null) {
-                  $scope.seeker.salary = '';
-                }
-                
-                $scope.seeker.id = $scope.user_id;
-
-            }).error(function(data, status)
-            {
-                console.log(data || "Request failed");
-            });
-        }
     }
-
     $scope.get_stream = function() {
-        
-        var basic_edu = $scope.educational_details.basic_edu;
-       
-        $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
+        get_stream($scope);
     }
-
     $scope.get_master_stream = function() {
-        var masters_edu = $scope.educational_details.masters_edu;
-        $scope.specializations = $scope.masters_education_specialization[masters_edu];
+        get_master_stream($scope);
     }    
-
     $scope.add_employer = function() {
         if($scope.employers.length <3) {
             $scope.employers.push({'employer':''});
@@ -1954,7 +1813,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
           $scope.hide_emp = false;
         }
     }
-
     $scope.add_doctorate = function() {
         if($scope.doctorate.length <3) {
             $scope.doctorate.push({'name':''});
@@ -1964,293 +1822,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
           $scope.hide_doc = false;
         }
     }
-
-    // $scope.add_new_certificate_file = function(){
-        
-    //     $scope.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
-    // }
-
-    // $scope.remove_certificate_files = function(photo_details){
-    //     var index = $scope.photo_details.certificate_file.indexOf(photo_details)
-    //     $scope.photo_details.certificate_file.splice(index, 1);
-    //     console.log($scope.photo_details.certificate_file);
-    //     if ($scope.photo_details.certificate_file.length == 0){
-    //         $scope.photo_details.certificate_file.push({'certificate_attachment.src': '', 'id': ''});
-    //     }
-    // }
-
-    // $scope.delete_certificate_file = function(photo_details) {
-    //     var index = $scope.photo_details.certificate_file.indexOf(photo_details)
-    //     $scope.photo_details.certificate_file.splice(index, 1);
-    //     if ($scope.photo_details.certificate_file.length == 0){
-    //         $scope.photo_details.ertificate_file.push({'certificate_attachment.src': '', 'id':''});
-    //     }
-    //     params = {
-    //       'id': photo_details.id, 
-    //       'csrfmiddlewaretoken': $scope.csrf_token,
-    //     }
-    //     $http({
-    //         method : 'post',
-    //         url : "/delete_certificate/",
-    //         data : $.param(params),
-    //         headers : {
-    //             'Content-Type' : 'application/x-www-form-urlencoded'
-    //         }
-    //     }).success(function(data, status) {
-    //         $scope.check_flag = false;
-    //     });
-    // }
-    
-    // $scope.form_validation = function(){
-    //     var letters = /^[A-Za-z]+$/;  
-    //     $scope.seeker.dob = $('#dob').val();
-
-        
-    //     var arr = $scope.seeker.dob.split("-");
-    //     var current_year = new Date().getFullYear();
-    //     var age = parseInt(current_year) - parseInt(arr[2]);
-    //     if (!(validateEmail($scope.seeker.email))){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please provide a Valid Email Id';
-    //         return false;
-    //     } else if (($scope.user_id == '' || $scope.user_id == undefined) && ($scope.seeker.password == '' || $scope.seeker.password == undefined)) {
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please provide a Password';
-    //         return false;
-    //     } else if (($scope.user_id == '' || $scope.user_id == undefined) && ($scope.seeker.password1 == '' || $scope.seeker.password1 == undefined)) {
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please Re-enter the Password';
-    //         return false;
-    //     } else if (($scope.user_id == '' || $scope.user_id == undefined) && ($scope.seeker.password != $scope.seeker.password1)) {
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter the Password Correctly';
-    //         return false;
-    //     } else if ($scope.seeker.first_name == '' || $scope.seeker.first_name == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter your Name';
-    //         return false;
-    //     } else if ($scope.seeker.gender == '' || $scope.seeker.gender == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please provide your Gender';
-    //         return false;
-    //     } else if ($scope.seeker.dob == '' || $scope.seeker.dob == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please provide your Date of Birth';
-    //         return false;
-    //     } else if (age < 15){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'You are too Young to Register';
-    //         return false;
-    //     } else if ($scope.seeker.marital_status == '' || $scope.seeker.marital_status == undefined || $scope.seeker.marital_status == 'select'){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select your Marital Status';
-    //         return false;
-    //     } else if ($scope.seeker.nationality == '' || $scope.seeker.nationality == undefined || $scope.seeker.nationality == 'select'){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select your Nationality';
-    //         return false;
-    //     } else if ($scope.seeker.country == '' || $scope.seeker.country == undefined || $scope.seeker.country == 'select'){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select Current Location';
-    //         return false;
-    //     } else if ($scope.seeker.city == '' || $scope.seeker.city == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter your City';
-    //         return false;
-    //     } else if ($scope.seeker.mobile == '' || $scope.seeker.mobile == undefined || $scope.seeker.mobile.match(letters)) {
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter a Valid Mobile Number';
-    //         return false;
-    //     } if ($scope.seeker.years != 0 ) {
-    //         if($scope.seeker.years == '' || $scope.seeker.years == undefined || $scope.seeker.years == '-min-'){
-    //             $scope.error_flag = true;
-    //             $scope.error_message = 'Please provide the your Work Experience';
-    //             return false;
-    //         }
-    //     } else if (($scope.seeker.salary != null || $scope.seeker.salary != '' || $scope.seeker.salary != undefined) && $scope.seeker.salary != Number($scope.seeker.salary)){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter a Valid Amount for Salary';
-    //         return false;
-    //     } else if ($scope.seeker.salary != '' && ($scope.seeker.currency == '' || $scope.seeker.currency == undefined)) {
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please provide the Currency';
-    //         return false;
-    //     }   
-    //     if ($scope.seeker.skills == '' || $scope.seeker.skills == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please enter Skills';
-    //         return false;
-    //     } 
-    //     if ($scope.seeker.basic_edu == '' || $scope.seeker.basic_edu == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select Basic Education';
-    //         return false;
-    //     } 
-    //     if ($scope.seeker.basic_specialization == '' || $scope.seeker.basic_specialization == undefined || $scope.seeker.basic_specialization == 'select'){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select Specialisation for Basic Education';
-    //         return false;
-    //     } else if ($scope.seeker.pass_year_basic == '' || $scope.seeker.pass_year_basic == undefined || $scope.seeker.pass_year_basic == 'select'){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select the Year of Passing';
-    //         return false;
-    //     } if ($scope.seeker.masters_edu != '' && ($scope.seeker.master_specialization == '' || $scope.seeker.master_specialization == undefined || $scope.seeker.master_specialization == 'select')){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please select Specialization for Masters Education ';
-    //         return false;
-    //     }
-    //     return true;
-    // }
-  
-    // $scope.form_validation_more_info = function(){    
-    //     if ($scope.resume_doc.src){
-    //         $scope.seeker1.resume = $scope.resume_doc.src; 
-    //     }         
-    //     if ($scope.seeker1.resume_title == '' || $scope.seeker1.resume_title == undefined){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please give a Title for your Resume';
-    //         return false;
-    //     }         
-    //     else if (($scope.seeker1.resume == undefined || $scope.seeker1.resume == '') && ($scope.seeker1.resume_text == undefined || $scope.seeker1.resume_text == '')){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please Attach or Copy Paste your Resume';
-    //         return false;
-    //     }
-    //     else if(!($scope.profile_edit)){
-    //       if ($scope.checkbox == false){
-    //         $scope.error_flag = true;
-    //         $scope.error_message = 'Please Agree with our Privacy Policy and Terms & Conditions';
-    //         return false;
-    //       }
-    //     } 
-    //     return true; 
-    // }
-
-    // $scope.save_jobseeker = function(){
-        
-    //     $scope.is_valid = $scope.form_validation();
-    //     if ($scope.is_valid) {
-    //         if ($scope.seeker.alt_email == null) {
-    //             $scope.seeker.alt_email = '';
-    //         }
-    //         $scope.error_flag = false;
-    //         $scope.error_message = '';
-    //         $scope.seeker.previous_company = JSON.stringify($scope.employers);
-    //         $scope.seeker.doctrate = JSON.stringify($scope.doctorate);
-    //         $scope.seeker1.certificate_name = JSON.stringify($scope.certificate_name);
-    //         params = {
-    //             'seeker':angular.toJson($scope.seeker),
-    //             'seeker1':angular.toJson($scope.seeker1),
-    //             "csrfmiddlewaretoken" : $scope.csrf_token,              
-    //         }
-    //         var fd = new FormData();
-            
-    //         for(var key in params){
-    //             fd.append(key, params[key]);            
-    //         }
-    //         var url = "/job_seeker_registration/";
-    //         $http.post(url, fd, {
-    //             transformRequest: angular.identity,
-    //             headers: {'Content-Type': undefined
-    //             }
-    //         }).success(function(data, status){
-    //             $scope.user_id = data.user_id;
-               
-    //             if(data.result == 'error') {
-    //                 $scope.error_flag = true;
-    //                 $scope.error_message = data.message;
-    //             } else {
-    //                 if($scope.profile_edit){
-    //                   $scope.error_flag = true;
-    //                   $scope.error_message = 'Successfully Updated your Profile.';
-    //                 } else {
-    //                   $scope.error_flag = true;
-    //                   $scope.error_message = 'Successfully Completed the First Step of Registration. Proceed to the Next Step';
-                      
-    //                 }
-    //                 $http.get('/profile/details/'+$scope.user_id+'/').success(function(data)
-    //                 {
-    //                     $scope.seeker = data.seeker[0]; 
-    //                     $scope.seeker1 = data.seeker1[0];
-    //                     $scope.seeker.id = $scope.user_id;
-    //                 }).error(function(data, status)
-    //                 {
-    //                     console.log(data || "Request failed");
-    //                 });
-    //             }
-                
-    //         }).error(function(data, status){
-    //             $scope.error_flag = true;
-    //             $scope.error_message = data.message;
-                
-    //         });
-    //     }     
-    // }    
-
-    // $scope.save_reg_more = function(){
-
-    // $scope.is_valid = $scope.form_validation_more_info();
-    //     if ($scope.is_valid) {
-            
-    //         $scope.error_flag = false;
-    //         $scope.error_message = '';
-
-
-    //         var file = $scope.photo_img.src;
-    //         // var file = $scope.certificate_img.src;
-    //         params = {
-    //             'seeker1':angular.toJson($scope.seeker1),
-    //             'user_id': $scope.user_id,
-    //             "csrfmiddlewaretoken" : $scope.csrf_token,
-    //             'certificate_attachment_length': $scope.certificate_file.length,              
-    //         }
-    //         console.log($scope.certificate_file.length);
-    //         var fd = new FormData();
-    //         fd.append('photo_img', $scope.photo_img.src)
-
-    //         if($scope.certificate_file.length > 0) {
-    //             for(var i=0;i<$scope.certificate_file.length; i++){
-    //                 if ($scope.certificate_file[i]['certificate_attachment']) {
-    //                     file_name = 'certificate_attachment' + i.toString();
-    //                     fd.append(file_name, $scope.certificate_file[i]['certificate_attachment'].src);
-    //                 } 
-    //             }
-    //         }
-    //         fd.append('resume_doc', $scope.resume_doc.src);
-    //         for(var key in params){
-    //             fd.append(key, params[key]);          
-    //         }
-    //         var url = "/job_seeker_registration_more_info/"+$scope.user_id+'/';
-    //         console.log(fd);
-    //         $http.post(url, fd, {
-    //             transformRequest: angular.identity,
-    //             headers: {'Content-Type': undefined
-    //             }
-    //         }).success(function(data, status){ 
-    //           if($scope.profile_edit){
-    //             $scope.error_flag = true;
-    //             $scope.error_message = 'Successfully Updated';
-    //           }
-    //           else {
-    //             $scope.error_flag = true;
-    //             $scope.error_message = 'Successfully Completed Registration';
-    //           }            
-    //             console.log("Successfully Saved");
-              
-    //         }).error(function(data, status){           
-
-    //         });
-    //     }    
-    // }
-
-    // $scope.reg_next =function(){
-    //     document.location.href = '/job_seeker_registration_more_info/'+$scope.user_id+'/';
-    // }
-
-    // $scope.view_profile = function() {
-    //     var url = '/view_cv/'+$scope.user_id+'/';
-    //     document.location.href = url;
-    // }
     $scope.personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
         if ($scope.personal.email == '' || $scope.personal.email == undefined || !(validateEmail($scope.personal.email))) {
@@ -2466,7 +2037,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                 'csrfmiddlewaretoken': $scope.csrf_token,
             }
             var fd = new FormData();
-            // console.log(params)
             fd.append('photo_img', $scope.photo_img.src);
             for(var key in params){
                 fd.append(key, params[key]);          
@@ -2481,10 +2051,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
                     document.location.href = '/jobseeker/jobseeker_details/';
-                //     $scope.personal_details = false;
-                //     $scope.educational_detail = false;
-                //     $scope.resume_detail = false;
-                //     $scope.photo_detail = true;
 
                 } else {
                     $scope.photo_validation_message = data.message;
@@ -2527,7 +2093,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.job_seeker_id = 0;
     $scope.personal = {
         'id': $scope.job_seeker_id,
-        
         'first_name': '',
         'last_name': '',
         'gender': '',
@@ -2571,19 +2136,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.photo_details = {
         'id': $scope.job_seeker_id,
-        
         'profile_photo': '',
     }
     $scope.employers = [
         {'employer': ''},
     ]
-
     $scope.doctorate = [
         {'name': ''},
     ]
-
-  
-
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
         $scope.jobseeker_id = jobseeker_id;
@@ -2615,35 +2175,23 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         for(var i=0; i<=50; i++){
             $scope.experience.push(i);
         }
-        
-          $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
-          {
-              console.log(data.personal[0])
-              $scope.personal = data.personal[0]; 
-              
-              $scope.current_employer = data.current_employer[0]; 
-              $scope.educational_details = data.educational_details[0];
-              $scope.resume_details = data.resume_details[0];
-
-          }).error(function(data, status)
-          {
-              console.log(data || "Request failed");
-          });
-      
-    }
-
+        $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
+        {
+            $scope.personal = data.personal[0]; 
+            $scope.current_employer = data.current_employer[0]; 
+            $scope.educational_details = data.educational_details[0];
+            $scope.resume_details = data.resume_details[0];
+        }).error(function(data, status)
+        {
+            console.log(data || "Request failed");
+        });
+    }   
     $scope.get_stream = function() {
-        
-        var basic_edu = $scope.educational_details.basic_edu;
-       
-        $scope.basic_specializations = $scope.basic_education_specialization[basic_edu];
+        get_stream($scope);
     }
-
     $scope.get_master_stream = function() {
-        var masters_edu = $scope.educational_details.masters_edu;
-        $scope.specializations = $scope.masters_education_specialization[masters_edu];
-    }    
-
+        get_master_stream($scope);
+    } 
     $scope.add_employer = function() {
         if($scope.employers.length <3) {
             $scope.employers.push({'employer':''});
@@ -2652,18 +2200,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
           $scope.hide_emp = false;
         }
     }
-
     $scope.add_doctorate = function() {
         if($scope.doctorate.length <3) {
             $scope.doctorate.push({'name':''});
         }
         if($scope.doctorate.length == 3){
-          console.log($scope.doctorate.length);
           $scope.hide_doc = false;
         }
     }
-
-    
     $scope.edit_personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
         if ($scope.personal.email == '' || $scope.personal.email == undefined || !(validateEmail($scope.personal.email))) {
@@ -2707,21 +2251,16 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_personal_details = function(jobseeker_id){
       $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
         {
-              $scope.view_personal_details = false;
-              $scope.view_educational_details = false;
-              $scope.view_employment_details = false;
-              $scope.view_resume_details = false;
-              $scope.personal_details = true;
-              // $scope.photo_detail = true
-              
+            $scope.view_personal_details = false;
+            $scope.view_educational_details = false;
+            $scope.view_employment_details = false;
+            $scope.view_resume_details = false;
+            $scope.personal_details = true;
         });
     }
-    
-    
-    
-    
-    $scope.edit_personal_details = function(jobseeker_id) {
+    $scope.edit_personal_details = function() {
         if ($scope.edit_personal_details_validation()){
+            $scope.personal.id = $scope.jobseeker_id;
             params = {
                 'personal_details' :angular.toJson($scope.personal),
                 'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2735,16 +2274,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
                 }
             }).success(function(data, status) {
                 if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    $scope.current_employer.id = $scope.job_seeker_id;
-                    $scope.educational_details.id = $scope.job_seeker_id;
-                    $scope.resume_details.id = $scope.job_seeker_id;
-                    $scope.photo_details.id = $scope.job_seeker_id;
-                    $scope.personal_details = false;
-                    $scope.view_personal_details = true;
-                    $scope.view_educational_details = true;
-                    $scope.view_employment_details = true;
-                    $scope.view_resume_details = true;
+                    document.location.href = '/jobseeker/jobseeker_details/';
                 } else {
                     $scope.personal_validation = data.message;
                 }
@@ -2803,7 +2333,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
                 }
             });
         }
-
     }
     $scope.edit_educational_details_validation = function() {
         if ($scope.educational_details.basic_edu == '' || $scope.educational_details.basic_edu == undefined){
@@ -2823,11 +2352,23 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_educational_details = function(jobseeker_id){
       $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
         {
-              $scope.view_personal_details = false;
-              $scope.view_educational_details = false;
-              $scope.view_employment_details = false;
-              $scope.view_resume_details = false;
-              $scope.educational_detail = true;
+            $scope.view_personal_details = false;
+            $scope.view_educational_details = false;
+            $scope.view_employment_details = false;
+            $scope.view_resume_details = false;
+            $scope.educational_detail = true;
+            get_stream($scope);
+            get_master_stream($scope);
+            if ($scope.educational_details.doctorate) {
+                if($scope.educational_details.doctorate.length > 1){
+                    for(var i=1; i < $scope.educational_details.doctorate.length; i++){
+                        $scope.doctorate.push({'name': ''});
+                    }
+                }
+                for(var i=0; i< $scope.educational_details.doctorate.length; i++) {
+                    $scope.doctorate[i].name = $scope.educational_details.doctorate[i].doctorate;
+                }
+            }
         });
     }
     $scope.edit_educational_details = function(jobseeker_id) {
@@ -2836,7 +2377,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             params = {
                 
                 'educational_details':angular.toJson($scope.educational_details),
-               
                 'csrfmiddlewaretoken': $scope.csrf_token,
             }
             $http({
@@ -2849,13 +2389,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
-                    console.log($scope.job_seeker_id)
-                    $scope.personal_details = false;
-                    $scope.educational_detail = false;
-                    $scope.view_personal_details = true;
-                    $scope.view_educational_details = true;
-                    $scope.view_employment_details = true;
-                    $scope.view_resume_details = true;
+                    document.location.href = '/jobseeker/jobseeker_details/';
                 } else {
                     $scope.educational_validation_msg = data.message;
                 }

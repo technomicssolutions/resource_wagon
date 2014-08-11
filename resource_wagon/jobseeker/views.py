@@ -31,6 +31,7 @@ class SavePersonalDetails(View):
 
         personal_details = ast.literal_eval(request.POST['personal_details'])
         status = 200
+        print personal_details
         if personal_details['id'] != 0:
             job_seeker = Jobseeker.objects.get(id=personal_details['id'])
             user = job_seeker.user
@@ -48,6 +49,12 @@ class SavePersonalDetails(View):
                 user.set_password(personal_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
+                user = authenticate(username=personal_details['email'], password=personal_details['password'])
+                if user and user.is_active:
+                    login(request, user)
+                    message = 'Logged in'
+                else:
+                    message = 'Not logged in' 
         user.first_name = personal_details['first_name']
         user.last_name = personal_details['last_name']
         user.email = personal_details['email']
@@ -65,14 +72,7 @@ class SavePersonalDetails(View):
         job_seeker.city = personal_details['city']
         job_seeker.mobile = personal_details['mobile']
         job_seeker.save()
-        user = authenticate(username=personal_details['email'], password=personal_details['password'])
-    
-        if user and user.is_active:
-            login(request, user)
-            message = 'Logged in'
-            is_logged_in = True
-        else:
-            message = 'Not logged in'        
+               
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
@@ -87,10 +87,8 @@ class SaveCurrentEmployerDetails(View):
     def post(self, request, *args, **kwargs):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
-        print current_employer_details
         status = 200
         if current_employer_details['id']:
-
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
             if job_seeker.employment:
                 employment = job_seeker.employment
@@ -114,7 +112,6 @@ class SaveCurrentEmployerDetails(View):
             employment.save()
             job_seeker.employment = employment
             job_seeker.save()
-
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
