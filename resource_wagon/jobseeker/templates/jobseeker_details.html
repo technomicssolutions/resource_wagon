@@ -53,7 +53,7 @@
 	{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
 		{{doctrate}}</br>
 	{% endfor %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
 </div>
 <div class="separation" ng-show="view_employment_details">
 	<h3>Current Employment Details</h3>
@@ -75,15 +75,22 @@
 	<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
 
 
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
 </div>
 <div class="separation" ng-show="view_resume_details">
-	<h3>Attachments</h3>
+	<h3>Resume Details</h3>
 	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
 	
 	<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
 
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
+</div>
+<div class="separation" ng-show="view_resume_details">
+	<h3>Photo</h3>
+	{% if user.jobseeker_set.all.0.photo %}
+		<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
+	{% endif %}
+	<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 
 </div>
 					
@@ -261,11 +268,21 @@
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
 		<p class="error_message error_p">[[resume_validation_message]]</p>
 	</div>
+	<div class="separation" ng-show="photo_detail">
+		<h3>Update Photo </h3>
+		<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
+            <img src="/site_media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
+        </div>
+		<label>Attach Photo</label>
+		<input type="file" fileread="photo_img.src"/>
+		<input type="hidden" ng-model="photo_img.src">
+		<br>
+		<br>
+		<br>
+        
+		<p class="error_message error_p">[[photo_validation_message]]</p>
+	</div>
 
-	
-	<div class="rounded_photo" ng-show="resume_details.profile_photo" id="profile_image">
-        <img src="/media/[[resume_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
-    </div>
 		
 </form>
 {% endblock content %}

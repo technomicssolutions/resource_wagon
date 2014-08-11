@@ -128,12 +128,16 @@ class SaveEducationalDetails(View):
             education.basic_edu = educational_details['basic_edu']
             education.basic_edu_specialization = educational_details['basic_specialization']
             education.pass_year_basic = int(educational_details['pass_year_basic'])
-            # if seeker['masters_edu'] != "":
-            education.masters = educational_details['masters_edu']
-            # if seeker['master_specialization'] != "":
-            education.masters_specialization = educational_details['master_specialization']
-            if educational_details['pass_year_masters'] != "":
-                education.pass_year_masters = int(educational_details['pass_year_masters'])
+            if educational_details['masters_edu'] != "":
+                education.masters = educational_details['masters_edu']
+                if educational_details['master_specialization'] != "":
+                    education.masters_specialization = educational_details['master_specialization']
+                if educational_details['pass_year_masters'] != "":
+                    education.pass_year_masters = int(educational_details['pass_year_masters'])
+            else:
+                education.masters = ''
+                education.masters_specialization = ''
+                education.pass_year_masters = None
             doctrate = ast.literal_eval(educational_details['doctrate'])
             education.save()
             if education.doctrate:
@@ -223,12 +227,12 @@ class EditDetails(View):
         ctx_education_data = []
         ctx_doctorate = []
         ctx_resume = []
+        ctx_photo = []
         if jobseeker.employment.previous_employer.all().count() > 0:
             for employer in jobseeker.employment.previous_employer.all():
                 ctx_previous_company.append({
                     'employer': employer.previous_employer_name,
                 })
-
         if jobseeker.education.doctrate.all().count() > 0: 
             for doctrate in jobseeker.education.doctrate.all():
                 ctx_doctorate.append({
@@ -272,12 +276,14 @@ class EditDetails(View):
                 'pass_year_masters':education.pass_year_masters if education else '',
                 'doctorate': ctx_doctorate,
             })
-
             ctx_resume.append({
                 'id': jobseeker_id if jobseeker else '',
                 'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+            })
+            ctx_photo.append({
+                'id': jobseeker_id if jobseeker else '',
                 'profile_photo': jobseeker.photo.name if jobseeker else '',
             })
             res ={
@@ -285,6 +291,7 @@ class EditDetails(View):
                 'educational_details': ctx_education_data,
                 'current_employer': ctx_employment_data,
                 'resume_details': ctx_resume,
+                'photo_details': ctx_photo,
             }
             response = simplejson.dumps(res)    
             return HttpResponse(response, status=200, mimetype='application/json')
