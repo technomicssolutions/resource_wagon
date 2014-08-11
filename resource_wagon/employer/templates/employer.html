@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Recruiter 
+{% endblock title %}
+{% block content %}
+<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
+<p>Industry Type :</p>{{user.recruiter_set.all.0.company.industry_type}}
+<p>Location :</p>{{user.recruiter_set.all.0.country}}
+<p>City :</p>{{user.recruiter_set.all.0.city}}
+<p>Email ID:</p>{{user.email}}
+<p>Mobile :</p>{{user.recruiter_set.all.0.mobile}}
+<p>Land Number :</p>{{user.recruiter_set.all.0.land_num}}
+<p class="btn"><input class="button" type="submit" name="submit" value="Edit Profile" ng-click=""></p>
+<li><a href="{% url 'logout' %}">Logout </a></li>
+{% endblock content %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %}Recruiter 
+{% endblock title %}
+{% block content %}
+<h2>{{user.first_name}}</h2>
+<h3>Personal Details</h3>
+<p>Email Id:</p>{{user.email}}
+
+
+<p>Gender :</p> {{user.jobseeker_set.all.0.gender}}
+
+
+<p>DOB :</p>{{user.jobseeker_set.all.0.dob}}
+
+
+
+<p>Marital Status :</p>{{user.jobseeker_set.all.0.maritial_status}}
+
+<p>Nationality :</p>{{user.jobseeker_set.all.0.nationality}}
+
+
+<p>Current Location :</p>{{user.jobseeker_set.all.0.country}}
+
+
+<p>City :</p>{{user.jobseeker_set.all.0.city}}
+
+<p>Mobile Number :</p>{{user.jobseeker_set.all.0.mobile}}
+
+
+<p>Alternate E-mail Id :</p>{{user.jobseeker_set.all.0.alt_mail}}
+
+<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click=""></p>
+<h3>Education Details</h3>
+<p>Basic Education :</p>{{user.jobseeker_set.all.0.education.basic_edu}}
+
+<p>Specialization :</p>{{user.jobseeker_set.all.0.education.basic_edu_specialization}}
+
+
+<p>Year of Passing :</p>{{user.jobseeker_set.all.0.education.pass_year_basic}}
+
+<p>Masters Education :</p>{{user.jobseeker_set.all.0.education.masters}}
+
+<p>Specialization :</p>{{user.jobseeker_set.all.0.education.masters_specialization}}
+
+<p>Year of Passing :</p>{{user.jobseeker_set.all.0.education.pass_year_masters}}
+
+<p>Doctrate :</p>
+
+<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click=""></p>
+						
+		
+<li><a href="{% url 'logout' %}">Logout </a></li>
+{% endblock content %}

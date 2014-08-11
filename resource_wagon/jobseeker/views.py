@@ -10,7 +10,7 @@ import ast
 import simplejson
 from datetime import datetime
 
-from models import (Employment, Education, Jobseeker, PreviousEmployer)
+from models import (Employment, Education, Jobseeker, PreviousEmployer,Doctorate)
 
 class JobseekerRegistration(View):
 
@@ -117,7 +117,7 @@ class SaveEducationalDetails(View):
         print educational_details
         status = 200
         if educational_details['id']:
-            job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
+            job_seeker = Jobseeker.objects.get(id=educational_details['id'])
             if job_seeker.education:
                 education = job_seeker.education
             else:
@@ -133,7 +133,8 @@ class SaveEducationalDetails(View):
             education.pass_year_masters = int(educational_details['pass_year_masters'])
             doctrate = ast.literal_eval(educational_details['doctrate'])
             education.save()
-            education.doctrate.clear()
+            if education.doctrate:
+                education.doctrate.clear()
             for doctrate_name in doctrate:
                 if len(doctrate_name['name']) > 0 and not doctrate_name['name'].isspace():
                     doctorate, created = Doctorate.objects.get_or_create(doctorate_name = doctrate_name['name'])
@@ -149,4 +150,51 @@ class SaveEducationalDetails(View):
 
             return HttpResponse(response, status=status, mimetype='application/json')
 
+class SaveResumeDetails(View):
+    def post(self, request, *args, **kwargs):
+        resume_details = ast.literal_eval(request.POST['resume_details'])
+        print resume_details
+        print request.FILES
+        status = 200
+        if resume_details['id']:
+            job_seeker = Jobseeker.objects.get(id=resume_details['id'])
+            if job_seeker.education:
+                education = job_seeker.education
+            else:
+                education = Education()
 
+            education.resume_title = resume_details['resume_title']
+            education.resume = request.FILES['resume_doc']
+            education.resume_text = resume_details['resume_text']
+            education.save()
+            job_seeker.education = education
+            job_seeker.save()
+            res = {
+                'result': 'ok',
+                'job_seeker_id': job_seeker.id,
+            }
+            response = simplejson.dumps(res)
+
+            return HttpResponse(response, status=status, mimetype='application/json')
+
+class SavePhotoDetails(View):
+    def post(self, request, *args, **kwargs):
+        photo_details = ast.literal_eval(request.POST['photo_details'])
+        print photo_details
+        print request.FILES
+        status = 200
+        if photo_details['id']:
+            job_seeker = Jobseeker.objects.get(id=photo_details['id'])
+            job_seeker.photo = request.FILES['photo_img']
+            job_seeker.save()
+            res = {
+                'result': 'ok',
+                'job_seeker_id': job_seeker.id,
+            }
+            response = simplejson.dumps(res)
+
+            return HttpResponse(response, status=status, mimetype='application/json')
+
+class JobSeekerView(View):
+    def get(self, request, *args, **kwargs):
+        return render(request,'jobseeker_details.html', {})    

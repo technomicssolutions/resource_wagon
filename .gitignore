@@ -17,6 +17,7 @@ lib64/
 parts/
 sdist/
 var/
+local_settings.py
 *.egg-info/
 .installed.cfg
 *.egg
