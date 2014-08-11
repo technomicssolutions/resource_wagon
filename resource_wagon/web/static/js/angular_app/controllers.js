@@ -2536,6 +2536,10 @@ function RecruiterController($scope, $element, $http, $timeout) {
     }
     $scope.recruiter_validation = function(){
         var letters = /^[A-Za-z]+$/;  
+        //console.log($scope.recruiter.mobile.length);
+        console.log($scope.recruiter.mobile == '');
+        console.log($scope.recruiter.mobile == undefined );
+        console.log(!Number($scope.recruiter.mobile));
         if ($scope.recruiter.name == '' || $scope.recruiter.name == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please enter the Company Name';
@@ -2552,7 +2556,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Password';
             return false;
-        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters)) {
+        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length != 10) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
@@ -2561,7 +2565,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
               $scope.error_flag = true;
               $scope.error_message = 'Please enter a Valid Land no.';
               return false;
-        }
+            }
         }else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
             $scope.employer_validation_message = 'Please upload  your profile  ';
             return false;
@@ -2571,6 +2575,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
 
     $scope.save_profile = function(){
         $scope.is_valid = $scope.recruiter_validation();
+        console.log($scope.recruiter_validation())
         if ($scope.is_valid) {
             $scope.error_flag = false;
             $scope.error_message = '';
