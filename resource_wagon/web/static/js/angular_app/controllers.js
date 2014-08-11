@@ -1672,6 +1672,22 @@ function current_employer_validation($scope) {
         return false;
     } return true;
 }
+function add_employer($scope){
+    if($scope.employers.length <3) {
+        $scope.employers.push({'employer':''});
+    }
+    if($scope.employers.length == 3){
+      $scope.hide_emp = false;
+    }
+}
+function add_doctorate($scope){
+    if($scope.doctorate.length <3) {
+        $scope.doctorate.push({'name':''});
+    }
+    if($scope.doctorate.length == 3){
+      $scope.hide_doc = false;
+    }
+}
 
 /* End common js methods */
 
@@ -1834,22 +1850,11 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.get_master_stream = function() {
         get_master_stream($scope);
     }    
-    $scope.add_employer = function() {
-        if($scope.employers.length <3) {
-            $scope.employers.push({'employer':''});
-        }
-        if($scope.employers.length == 3){
-          $scope.hide_emp = false;
-        }
+    $scope.add_doctorate = function(){
+        add_doctorate($scope);
     }
-    $scope.add_doctorate = function() {
-        if($scope.doctorate.length <3) {
-            $scope.doctorate.push({'name':''});
-        }
-        if($scope.doctorate.length == 3){
-          console.log($scope.doctorate.length);
-          $scope.hide_doc = false;
-        }
+    $scope.add_employer = function() {
+        add_employer($scope);
     }
     $scope.personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
@@ -2186,21 +2191,11 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.get_master_stream = function() {
         get_master_stream($scope);
     } 
-    $scope.add_employer = function() {
-        if($scope.employers.length <3) {
-            $scope.employers.push({'employer':''});
-        }
-        if($scope.employers.length == 3){
-          $scope.hide_emp = false;
-        }
+    $scope.add_doctorate = function(){
+        add_doctorate($scope);
     }
-    $scope.add_doctorate = function() {
-        if($scope.doctorate.length <3) {
-            $scope.doctorate.push({'name':''});
-        }
-        if($scope.doctorate.length == 3){
-          $scope.hide_doc = false;
-        }
+    $scope.add_employer = function() {
+        add_employer($scope);
     }
     $scope.edit_personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
