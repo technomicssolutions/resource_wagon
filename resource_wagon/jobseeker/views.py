@@ -6,12 +6,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
-from os import urandom
-from base64 import b64encode, b64decode
-from Crypto.Cipher import ARC4
-
-from hashlib import sha1
-
 import ast
 import simplejson
 from datetime import datetime
