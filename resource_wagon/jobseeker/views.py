@@ -31,7 +31,6 @@ class SavePersonalDetails(View):
 
         personal_details = ast.literal_eval(request.POST['personal_details'])
         status = 200
-        print personal_details
         if personal_details['id'] != 0:
             job_seeker = Jobseeker.objects.get(id=personal_details['id'])
             user = job_seeker.user
@@ -125,7 +124,6 @@ class SaveEducationalDetails(View):
     def post(self, request, *args, **kwargs):
 
         educational_details = ast.literal_eval(request.POST['educational_details'])
-        print educational_details
         status = 200
         if educational_details['id']:
             job_seeker = Jobseeker.objects.get(id=educational_details['id'])
@@ -285,8 +283,6 @@ class EditDetails(View):
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
                 'profile_photo': jobseeker.photo.name if jobseeker else '',
-                
-
             })
             res ={
                 'personal': ctx_jobseeker_data,

@@ -69,7 +69,7 @@
 
 	<p>Previous Employer :</p>
 	{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
-		{{doctrate}}</br>
+		{{employer}}</br>
 	{% endfor %}
 
 	<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>

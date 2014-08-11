@@ -2296,11 +2296,21 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_current_employer_details = function(jobseeker_id){
       $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
         {
-              $scope.view_personal_details = false;
-              $scope.view_educational_details = false;
-              $scope.view_employment_details = false;
-              $scope.view_resume_details = false;
-              $scope.current_employment_details = true;
+            $scope.view_personal_details = false;
+            $scope.view_educational_details = false;
+            $scope.view_employment_details = false;
+            $scope.view_resume_details = false;
+            $scope.current_employment_details = true;
+            if ($scope.current_employer.employers) {
+                if($scope.current_employer.employers.length > 1){
+                    for(var i=1; i < $scope.current_employer.employers.length; i++){
+                        $scope.employers.push({'employer': ''});
+                    }
+                }
+                for(var i=0; i< $scope.current_employer.employers.length; i++) {
+                    $scope.employers[i].employer = $scope.current_employer.employers[i].employer;
+                }
+            } 
         });
     }
     $scope.edit_current_employer_details = function(jobseeker_id) {
@@ -2308,7 +2318,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             $scope.current_employer.employers = JSON.stringify($scope.employers);
             params = {
                 'current_employer_details': angular.toJson($scope.current_employer),
-                
                 'csrfmiddlewaretoken': $scope.csrf_token,
             }
             $http({
@@ -2321,13 +2330,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
-                    console.log($scope.job_seeker_id)
-                    $scope.personal_details = false;
-                    $scope.current_employment_details = false;
-                    $scope.view_personal_details = true;
-                    $scope.view_educational_details = true;
-                    $scope.view_employment_details = true;
-                    $scope.view_resume_details = true;
+                    document.location.href = '/jobseeker/jobseeker_details/';
                 } else {
                     $scope.current_employer_validation_msg = data.message;
                 }
