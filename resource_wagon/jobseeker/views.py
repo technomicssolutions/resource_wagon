@@ -6,6 +6,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 
+from os import urandom
+from base64 import b64encode, b64decode
+from Crypto.Cipher import ARC4
+
+from hashlib import sha1
+
 import ast
 import simplejson
 from datetime import datetime
@@ -59,7 +65,14 @@ class SavePersonalDetails(View):
         job_seeker.city = personal_details['city']
         job_seeker.mobile = personal_details['mobile']
         job_seeker.save()
-
+        user = authenticate(username=personal_details['email'], password=personal_details['password'])
+    
+        if user and user.is_active:
+            login(request, user)
+            message = 'Logged in'
+            is_logged_in = True
+        else:
+            message = 'Not logged in'        
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
@@ -129,8 +142,8 @@ class SaveEducationalDetails(View):
             education.masters = educational_details['masters_edu']
             # if seeker['master_specialization'] != "":
             education.masters_specialization = educational_details['master_specialization']
-            # if seeker['pass_year_masters'] != "":
-            education.pass_year_masters = int(educational_details['pass_year_masters'])
+            if educational_details['pass_year_masters'] != "":
+                education.pass_year_masters = int(educational_details['pass_year_masters'])
             doctrate = ast.literal_eval(educational_details['doctrate'])
             education.save()
             if education.doctrate:
@@ -153,8 +166,6 @@ class SaveEducationalDetails(View):
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
         resume_details = ast.literal_eval(request.POST['resume_details'])
-        print resume_details
-        print request.FILES
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])
@@ -180,13 +191,13 @@ class SaveResumeDetails(View):
 class SavePhotoDetails(View):
     def post(self, request, *args, **kwargs):
         photo_details = ast.literal_eval(request.POST['photo_details'])
-        print photo_details
-        print request.FILES
         status = 200
+        is_logged_in = False
         if photo_details['id']:
             job_seeker = Jobseeker.objects.get(id=photo_details['id'])
             job_seeker.photo = request.FILES['photo_img']
             job_seeker.save()
+            
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,

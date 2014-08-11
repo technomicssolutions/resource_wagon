@@ -188,7 +188,7 @@
 		</div>
 
 		<div class="separation" ng-show="photo_detail">
-			<h3>Attach Your Photo and Certificates</h3>
+			<h3>Attach Your Photo </h3>
 			<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
 	            <img src="/media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
 	        </div>
@@ -198,15 +198,6 @@
 			<br>
 			<br>
 			<br>
-			<!-- <label>Attach Computer Education Certificates</label>	
-	        <input class="file_picker" id="certificate_file_[[$index]]" type="file" name="certificate_name" fileread="photo_details.certificate_file.src"/>
-	        <input type="hidden" ng-model="photo_details.certificate_file.src" >
-
-	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="photo_details.certificate_file.src" href="" ng-click="remove_certificate_files(photo_details)" >Remove </a>
-	        <a id="remove_file_link_[[$index]]" ng-show="photo_details.certificate" target="_blank" href="/media/[[photo_details.certificate_file]]" >View </a> 
-	        <a id="remove_file_link_[[$index]]" class="remove_attachment" ng-show="photo_details.certificate" href="" ng-click="delete_certificate_file(photo_details)">Remove </a>            
-	        <label> </label>
-	        <input type="button" value="Add Certificate Files"  ng-click="add_new_certificate_file()"/>    -->
 	        <div class="btn">
 				{% if not user.is_authenticated %}
 					<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use

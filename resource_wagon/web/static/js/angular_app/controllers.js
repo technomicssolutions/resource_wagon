@@ -2479,7 +2479,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
                 }
             }).success(function(data, status) {
                 if (data.result == 'ok') {
-                  $scope.job_seeker_id = data.job_seeker_id;
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    document.location.href = '/jobseeker/jobseeker_details/';
                     
                 //     $scope.personal_details = false;
                 //     $scope.educational_detail = false;
