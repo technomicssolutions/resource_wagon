@@ -12,7 +12,19 @@ GENDER = (
     ('male', 'Male'),
     ('female', 'Female'),
 )
-
+CURRENCY = (
+    ('US Dollars','US Dollars'),
+    ('UK Pound','UK Pound'),
+    ('Indian Rupees', 'Indian Rupees'),
+    ('UAE Dhirhams','UAE Dhirhams'),
+    ('Dinar', 'Dinar'),       
+    ('Riyal','Riyal'),
+    ('Australian Dollars','Australian Dollars'),
+    ('Singapore Dollars','Singapore Dollars'),
+    ('Sri Lankan Rupee','Sri Lankan Rupee'),
+    ('Euro',  'Euro'),      
+    ('Yen', 'Yen'),      
+    )
 COUNTRY_CHOICES = (
     ('Afghanistan', 'Afghanistan'),
     ('Akrotiri', 'Akrotiri'),

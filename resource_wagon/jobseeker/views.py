@@ -33,7 +33,7 @@ class SavePersonalDetails(View):
         status = 200
         if personal_details['id'] != 0:
             job_seeker = Jobseeker.objects.get(id=personal_details['id'])
-            user = jobseeker.user
+            user = job_seeker.user
         else:
             try:
                 user = User.objects.get(username=personal_details['email'])
@@ -101,7 +101,8 @@ class SaveCurrentEmployerDetails(View):
             employment.salary = current_employer_details['salary']
             employment.designation = current_employer_details['designation']
             employment.skills = current_employer_details['skills']
-            employment.curr_industry = current_employer_details['currency']
+            employment.currency = current_employer_details['currency']
+            employment.curr_industry = current_employer_details['industry']
             employment.function = current_employer_details['functions']
             employment.save()
             employment.previous_employer.clear()
@@ -208,4 +209,94 @@ class SavePhotoDetails(View):
 
 class JobSeekerView(View):
     def get(self, request, *args, **kwargs):
-        return render(request,'jobseeker_details.html', {})    
+        jobseeker_id =  request.user.jobseeker_set.all()[0].id
+        return render(request,'jobseeker_details.html', {'jobseeker_id':jobseeker_id,})    
+
+class EditDetails(View):
+    def get(self,request,*args,**kwargs):
+        jobseeker_id = kwargs['jobseeker_id']
+        jobseeker = Jobseeker.objects.get(id=jobseeker_id)
+        user = jobseeker.user
+        employment = jobseeker.employment
+        education = jobseeker.education
+        context ={
+            'jobseeker_id': jobseeker_id,
+            'jobseeker': jobseeker,
+            'user':user,
+            'employment':employment,
+            'education':education,
+        }
+        ctx_jobseeker_data = []
+        ctx_education_data = []
+        ctx_previous_company = []
+        ctx_employment_data = []
+        ctx_education_data = []
+        ctx_doctorate = []
+        ctx_resume = []
+        if jobseeker.employment.previous_employer.all().count() > 0:
+            for employer in jobseeker.employment.previous_employer.all():
+                ctx_previous_company.append({
+                    'employer': employer.previous_employer_name,
+                })
+
+        if jobseeker.education.doctrate.all().count() > 0: 
+            for doctrate in jobseeker.education.doctrate.all():
+                ctx_doctorate.append({
+                    'doctorate': doctrate.doctorate_name,
+                })
+        if request.is_ajax():
+            ctx_jobseeker_data.append ({
+                'id': jobseeker_id if jobseeker else '',
+                'email': user.email if user else '',
+                'first_name': user.first_name if user else '',
+                'last_name': user.last_name if user else '',
+                'gender':jobseeker.gender if jobseeker else '',
+                'dob': jobseeker.dob.strftime('%d/%m/%Y') if jobseeker else '',
+                'marital_status':jobseeker.marital_status if jobseeker else '',
+                'nationality':jobseeker.nationality if jobseeker else '',
+                'country':jobseeker.country if jobseeker else '',
+                'city':jobseeker.city if jobseeker else '',
+                'mobile':jobseeker.mobile if jobseeker else '',
+                'alt_email': jobseeker.alt_mail if jobseeker else '',
+
+            })
+            ctx_employment_data.append ({
+                'id': jobseeker_id if jobseeker else '',
+                'years': employment.exp_yrs if employment else '',
+                'months': employment.exp_mnths if employment else '',
+                'salary': employment.salary if employment else '',
+                'designation':employment.designation if employment else '',
+                'skills':employment.skills if employment else '',
+                'currency':employment.currency if employment else '',
+                'industry':employment.curr_industry if employment else '',
+                'functions':employment.function if employment else '',
+                'employers': ctx_previous_company,
+            })
+            ctx_education_data.append ({
+                'id': jobseeker_id if jobseeker else '',
+                'basic_edu': education.basic_edu if education else '',
+                'basic_specialization': education.basic_edu_specialization if education else '',
+                'pass_year_basic': education.pass_year_basic if education else '',
+                'masters_edu':education.masters if education else '',
+                'master_specialization':education.masters_specialization if education else '',
+                'pass_year_masters':education.pass_year_masters if education else '',
+                'doctorate': ctx_doctorate,
+            })
+
+            ctx_resume.append({
+                'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
+                'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
+                'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+                'profile_photo': jobseeker.photo.name if jobseeker else '',
+                
+
+            })
+            res ={
+                'personal': ctx_jobseeker_data,
+                'educational_details': ctx_education_data,
+                'current_employer': ctx_employment_data,
+                'resume_details': ctx_resume,
+            }
+            response = simplejson.dumps(res)    
+            return HttpResponse(response, status=200, mimetype='application/json')
+        return render(request, 'jobseeker_details.html', context)
