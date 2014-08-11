@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
 	MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
-	FUNCTIONS, Job, MASTERS_SPEC, BASIC_SPEC)
+	FUNCTIONS, Job, MASTERS_SPEC, BASIC_SPEC,CURRENCY)
 
 class PreviousEmployer(models.Model):
     previous_employer_name = models.CharField('Employer name', max_length=100, null=True, blank=True)
@@ -25,6 +25,7 @@ class Employment(models.Model):
     exp_mnths = models.IntegerField('Experience in Months',null=True, blank=True, choices=MONTHS)
     salary = models.IntegerField('Salary', null=True, blank=True)
     designation = models.CharField('Designation', null=True, blank=True, max_length=200)
+    currency = models.CharField('Currency',null=True, blank=True, max_length=200, choices=CURRENCY)
     skills = models.TextField('Key Skills', null=True, blank=True)
     curr_industry = models.CharField('Current Industry', null=True, blank=True, max_length=200, choices=INDUSTRY)
     function = models.CharField('Function', null=True, blank=True, max_length=200, choices=FUNCTIONS)
