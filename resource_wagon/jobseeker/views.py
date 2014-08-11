@@ -171,7 +171,8 @@ class SaveResumeDetails(View):
                 education = Education()
 
             education.resume_title = resume_details['resume_title']
-            education.resume = request.FILES['resume_doc']
+            if request.FILES.get('resume_doc', ''):
+                education.resume = request.FILES['resume_doc']
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -279,6 +280,7 @@ class EditDetails(View):
             })
 
             ctx_resume.append({
+                'id': jobseeker_id if jobseeker else '',
                 'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,

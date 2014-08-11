@@ -2403,7 +2403,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
             $scope.resume_validation_message = 'Please enter a Resume title';
             return false;
-        } else if (($scope.resume_doc.src == '' || $scope.resume_doc.src == undefined) && ($scope.resume_details.resume_text == '' || $scope.resume_details.resume_text == undefined)) {
+        } else if ((($scope.resume_doc.src == '' || $scope.resume_doc.src == undefined) && ($scope.resume_details.resume == '' || $scope.resume_details.resume == undefined)) && ($scope.resume_details.resume_text == '' || $scope.resume_details.resume_text == undefined)) {
             $scope.resume_validation_message = 'Please upload the C V or copy paste your resume  ';
             return false;
         } return true;
@@ -2411,11 +2411,11 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_resume_details = function(jobseeker_id){
       $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
         {
-              $scope.view_personal_details = false;
-              $scope.view_educational_details = false;
-              $scope.view_employment_details = false;
-              $scope.view_resume_details = false;
-              $scope.resume_detail = true;
+            $scope.view_personal_details = false;
+            $scope.view_educational_details = false;
+            $scope.view_employment_details = false;
+            $scope.view_resume_details = false;
+            $scope.resume_detail = true;
         });
     }
     $scope.edit_resume_details = function(jobseeker_id) {
@@ -2426,13 +2426,11 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
                 'csrfmiddlewaretoken': $scope.csrf_token,
             }
             var fd = new FormData();
-            console.log(params)
             fd.append('resume_doc', $scope.resume_doc.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
             var url = "/jobseeker/save_resume_details/";
-            console.log(fd);
             $http.post(url, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined
@@ -2440,15 +2438,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
-                    
-                    $scope.personal_details = false;
-                    $scope.educational_detail = false;
-                    $scope.resume_detail = false;
-                    $scope.view_personal_details = true;
-                    $scope.view_educational_details = true;
-                    $scope.view_employment_details = true;
-                    $scope.view_resume_details = true;
-
+                    document.location.href = '/jobseeker/jobseeker_details/';
                 } else {
                     $scope.resume_validation_message = data.message;
                 }

@@ -79,9 +79,9 @@
 </div>
 <div class="separation" ng-show="view_resume_details">
 	<h3>Attachments</h3>
-	<P>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</P>
+	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
 	
-
+	<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
 
 	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details({{jobseeker_id}})"></p>
 
@@ -255,7 +255,7 @@
 		<label>Attach CV<span class="red">*</span></label>
 		<input type="file" fileread="resume_doc.src"/>
 		<input type="hidden" ng-model="resume_doc.src">
-		<a href="/media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
+		<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 		<label>Copy and Paste Resume Here</label>
 		<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
