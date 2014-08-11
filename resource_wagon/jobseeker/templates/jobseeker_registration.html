@@ -3,7 +3,7 @@
 {% endblock title %}
 {% block body_id %}job_seeker_registration{% endblock body_id %}
 
-{% block controller %}ng-controller="JobSeekerController" ng-init="init('{{csrf_token}}', '{{user_id}}', '{{is_profile_edit}}')"{% endblock controller %}
+{% block controller %}ng-controller="JobSeekerController" ng-init="init('{{csrf_token}}')"{% endblock controller %}
 
 {% block content %}
 

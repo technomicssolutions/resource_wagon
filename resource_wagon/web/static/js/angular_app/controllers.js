@@ -1660,6 +1660,18 @@ function hide_jobseeker_details_block($scope) {
     $scope.view_employment_details = false;
     $scope.view_resume_details = false;
 }
+function current_employer_validation($scope) {
+    if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
+        $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
+        return false;
+    } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
+        $scope.current_employer_validation_msg = 'Please provide the Currency';
+        return false;
+    } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
+        $scope.current_employer_validation_msg = 'Please enter Key Skills';
+        return false;
+    } return true;
+}
 
 /* End common js methods */
 
@@ -1786,10 +1798,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.doctorate = [
         {'name': ''},
     ]
-    $scope.init = function(csrf_token, user_id, profile_edit) {
+    $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
-        $scope.user_id = user_id;
-        $scope.profile_edit = profile_edit;
         $scope.personal_details = true;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
@@ -1918,20 +1928,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             });
         }
     }
-    $scope.current_employer_validation = function() {
-        if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
-            $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
-            return false;
-        } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
-            $scope.current_employer_validation_msg = 'Please provide the Currency';
-            return false;
-        } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
-            $scope.current_employer_validation_msg = 'Please enter Key Skills';
-            return false;
-        } return true;
-    }
     $scope.save_current_employer_details = function() {
-        if ($scope.current_employer_validation()){
+        if (current_employer_validation($scope)){
             $scope.current_employer.employers = JSON.stringify($scope.employers);
             params = {
                 'current_employer_details': angular.toJson($scope.current_employer),
@@ -1947,7 +1945,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             }).success(function(data, status) {
                 if (data.result == 'ok') {
                     $scope.job_seeker_id = data.job_seeker_id;
-                    console.log($scope.job_seeker_id)
                     $scope.personal_details = false;
                     $scope.current_employment_details = false;
                     $scope.educational_detail = true;
@@ -2273,18 +2270,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             });
         }
     }
-    $scope.edit_current_employer_validation = function() {
-        if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
-            $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
-            return false;
-        } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
-            $scope.current_employer_validation_msg = 'Please provide the Currency';
-            return false;
-        } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
-            $scope.current_employer_validation_msg = 'Please enter Key Skills';
-            return false;
-        } return true;
-    }
     $scope.show_current_employer_details = function(){
         hide_jobseeker_details_block($scope);
         $scope.current_employment_details = true;
@@ -2303,7 +2288,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } 
     }
     $scope.edit_current_employer_details = function() {
-        if ($scope.edit_current_employer_validation()){
+        if (current_employer_validation($scope)){
             $scope.current_employer.employers = JSON.stringify($scope.employers);
             params = {
                 'current_employer_details': angular.toJson($scope.current_employer),
