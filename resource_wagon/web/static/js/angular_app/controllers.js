@@ -1632,6 +1632,7 @@ function get_job_seeker_details($scope, $http) {
     {
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
+        console.log($scope.current_employer);
         $scope.educational_details = data.educational_details[0];
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
@@ -1650,11 +1651,28 @@ function get_job_seeker_details($scope, $http) {
                     }
                 }
             }
+        }      
+        if ($scope.current_employer.companies.length > 0) {
+            for (var j=0; j<$scope.companies.length; j++) {
+                for (var i=0;i<$scope.current_employer.companies.length; i++) {
+                    if ($scope.current_employer.companies[i].id == $scope.companies[j].id) {
+                        $scope.companies[j].selected = true;
+                    }
+                }
+            }
         }
+        console.log($scope.companies);
     }).error(function(data, status)
     {
         console.log(data || "Request failed");
     });
+}
+function get_companies($scope, $http) {
+    $http.get('/jobseeker/get_companies/').success(function(data){
+        $scope.companies = data.companies;  
+     }).error(function(data){
+        console.log(data || "Request failed");
+    });    
 }
 function get_employer_details($scope, $http) {
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
@@ -1796,11 +1814,17 @@ function current_employer_validation($scope) {
     } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
         $scope.current_employer_validation_msg = 'Please enter Key Skills';
         return false;
-    } else if ($scope.current_employer.locations.length == 0){
+    } else if ($scope.current_employer.locations.length == 0 || $scope.current_employer.locations == ""){
         $scope.current_employer_validation_msg = 'Please choose Prefered Location';
         return false;
     } else if ($scope.current_employer.locations.length > 5){
         $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Locations';
+        return false;
+    } else if ($scope.current_employer.companies.length == 0 || $scope.current_employer.companies == ""){
+        $scope.current_employer_validation_msg = 'Please choose Prefered Company';
+        return false;
+    } else if ($scope.current_employer.companies.length > 5){
+        $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Companies';
         return false;
     } return true;
 }
@@ -2029,7 +2053,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;  
-        $scope.get_companies();
+        get_companies($scope, $http);
      }
     $scope.get_companies = function(){
       $http.get('/jobseeker/get_companies/').success(function(data){
@@ -2063,17 +2087,15 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         }
     }
    $scope.get_prefered_companies = function(company) {
-        if ($scope.current_employer.companies.length < 5) {
-            if (company.selected){
+        if ($scope.current_employer.companies.length < 5){
+            $scope.current_employer_validation_msg = '';
+            if (company.selected)
                 company.selected = false;
-            } else {
-                $scope.current_employer.companies.push(company);
+             else 
                 company.selected = true;
-            }
-        } else {
+         }else
             $scope.current_employer_validation_msg = 'Maximum of 5 companies';
-        }
-    }
+      }
     $scope.personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
         if ($scope.personal.email == '' || $scope.personal.email == undefined || !(validateEmail($scope.personal.email))) {
@@ -2195,7 +2217,8 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
-        get_job_seeker_details($scope, $http);
+        get_job_seeker_details($scope, $http);   
+        get_companies($scope, $http);      
     }   
     $scope.get_stream = function() {
         get_stream($scope);
@@ -2214,6 +2237,13 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             $scope.current_employer_validation_msg = '';
         } else {
             $scope.current_employer_validation_msg = 'Maximum of 5 locations';
+        }
+    }
+    $scope.get_prefered_companies = function(company) {
+        if ($scope.current_employer.companies.length < 5) {
+            $scope.current_employer_validation_msg = '';
+        } else {
+            $scope.current_employer_validation_msg = 'Maximum of 5 companies';
         }
     }
     $scope.edit_personal_details_validation = function() {
