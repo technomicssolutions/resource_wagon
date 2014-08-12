@@ -2499,11 +2499,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
         }
     }
     $scope.recruiter_validation = function(){
-        var letters = /^[A-Za-z]+$/;  
-        //console.log($scope.recruiter.mobile.length);
-        console.log($scope.recruiter.mobile == '');
-        console.log($scope.recruiter.mobile == undefined );
-        console.log(!Number($scope.recruiter.mobile));
+        $scope.error_message = '';
+        console.log($scope.recruiter.country);
         if ($scope.recruiter.name == '' || $scope.recruiter.name == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please enter the Company Name';
@@ -2516,22 +2513,28 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Type of Industry';
             return false;
-        } else if (($scope.user_id == '' || $scope.user_id == undefined) && ($scope.recruiter.password == '' || $scope.recruiter.password == undefined)) {
+        } else if ($scope.recruiter.password == '' || $scope.recruiter.password == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Password';
+            return false;
+        } else if ($scope.recruiter.password != $scope.recruiter.confirm_password ) {
+            $scope.error_flag = true;
+            $scope.error_message = 'Password Mismatch';
             return false;
         } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length != 10) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
-        } else if ($scope.recruiter.phone != '' || $scope.recruiter.phone != undefined) {
-            if ($scope.recruiter.phone.match(letters)) {
+        } else if ($scope.recruiter.phone!='' && !Number($scope.recruiter.phone)) {
               $scope.error_flag = true;
               $scope.error_message = 'Please enter a Valid Land no.';
-              return false;
-            }
-        }else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
-            $scope.employer_validation_message = 'Please upload  your profile  ';
+              return false;            
+        } else if ($scope.recruiter.country == '' || $scope.recruiter.country == undefined) {
+            $scope.error_flag = true;
+            $scope.error_message = 'Please choose the Country';
+            return false;
+        } else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
+            $scope.error_message = 'Please upload  your profile  ';
             return false;
         }
         return true;
@@ -2539,12 +2542,9 @@ function RecruiterController($scope, $element, $http, $timeout) {
 
     $scope.save_profile = function(){
         $scope.is_valid = $scope.recruiter_validation();
-        console.log($scope.recruiter_validation())
         if ($scope.is_valid) {
             $scope.error_flag = false;
             $scope.error_message = '';
-            console.log($scope.employer_id)
-            
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
@@ -2568,11 +2568,13 @@ function RecruiterController($scope, $element, $http, $timeout) {
                 headers: {'Content-Type': undefined
                 }
             }).success(function(data, status){
-
-                $scope.employer_id = data.employer_id;
-                
-                document.location.href = 'employer/employer_profile/'+$scope.employer_id+'/';
-                
+                if(data.result == "error"){
+                  $scope.error_message = data.message;
+                }
+                else{  
+                  document.location.href = '/employer/employer_profile/?id='+data.recruiter_id;;
+                }
+                                                                
             }).error(function(data, status){
                 $scope.error_flag = true;
                 $scope.error_message = data.message;
@@ -2585,8 +2587,9 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
   $scope.profile_doc = {};
   $scope.profile_doc.src = "";
   $scope.employer_id = 0;
-  $scope.init = function(csrf_token, user_id) {
+  $scope.init = function(csrf_token, employer_id) {
     $scope.csrf_token = csrf_token;
+    $scope.employer_id = employer_id;
     get_industries($scope);
     get_countries($scope);
     $scope.recruiter = {
@@ -2602,10 +2605,11 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'company_profile':''
 
         } 
-        $http.get($scope.url).success(function(data)
+        console.log($scope.employer_id);
+        $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
         { 
-          $scope.recruiter = data.recruiter[0];
-          console.log($scope.recruiter)
+          $scope.recruiter = data.recruiter[0];  
+          console.log($scope.recruiter);
         }).error(function(data, status)
         {
           console.log(data || "Request failed");

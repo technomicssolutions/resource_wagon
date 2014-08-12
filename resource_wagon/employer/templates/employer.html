@@ -2,6 +2,10 @@
 {% block title %}Recruiter 
 {% endblock title %}
 
+{% block controller %}
+ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{employer_id}}')"
+{% endblock controller %}
+
 {% block content %}
 <h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
 <p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
@@ -12,10 +16,10 @@
 <p>Land Number :{{user.recruiter_set.all.0.land_num}}</p>
 <p>ID:{{user.recruiter_set.all.0.id}}</p>
 <div class ="employer_button">
-	<a href="{% url 'edit_recruiter_profile' user.recruiter_set.all.0.id %}">
+
         <input type='submit' value='Update Profile'/>
     </a>
 </div>
-<li><a href="{% url 'logout' %}">Logout </a></li>
-<li><a href="{% url 'post_job' %}">Post Job</a></li>
+<li><a href="">Logout </a></li>
+<li><a href="">Post Job</a></li>
 {% endblock content %}
