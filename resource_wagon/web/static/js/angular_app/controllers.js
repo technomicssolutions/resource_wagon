@@ -121,7 +121,6 @@ function search_job($scope, search_option) {
     
 }
 
-
 function get_countries($scope){
     $scope.countries = [
           'Afghanistan',
@@ -2035,6 +2034,14 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;  
+        $scope.get_companies();
+     }
+    $scope.get_companies = function(){
+      $http.get('/jobseeker/get_companies/').success(function(data){
+        $scope.companies = data.companies;
+     }).error(function(data){
+        console.log(data || "Request failed");
+      });
     }
     $scope.get_stream = function() {
         get_stream($scope);
@@ -2058,6 +2065,18 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             }
         } else {
             $scope.current_employer_validation_msg = 'Maximum of 5 locations';
+        }
+    }
+   $scope.get_prefered_companies = function(company) {
+        if ($scope.current_employer.companies.length < 5) {
+            if (company.selected){
+                company.selected = false;
+            } else {
+                $scope.current_employer.companies.push(company);
+                company.selected = true;
+            }
+        } else {
+            $scope.current_employer_validation_msg = 'Maximum of 5 companies';
         }
     }
     $scope.personal_details_validation = function() {

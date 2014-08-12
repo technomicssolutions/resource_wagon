@@ -14,6 +14,7 @@ import simplejson
 from datetime import datetime
 
 from models import (Employment, Education, Jobseeker, PreviousEmployer,Doctorate)
+from employer.models import CompanyProfile
 
 class JobseekerRegistration(View):
 
@@ -21,6 +22,23 @@ class JobseekerRegistration(View):
     	if request.user.is_authenticated():
             logout(request)
         return render(request, 'jobseeker_registration.html', {})
+
+class Companies(View):
+
+    def get(self, request, *args, **kwargs):
+        companies = CompanyProfile.objects.all();
+        companies_list = []
+        for company in companies:
+            companies_list.append({
+                'id': company.id,
+                'name': company.company_name,
+                })
+        res = {
+            'result': 'ok',
+            'companies': companies_list,
+        }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, mimetype='application/json')
 
 class SavePersonalDetails(View):
 
@@ -80,6 +98,7 @@ class SaveCurrentEmployerDetails(View):
     def post(self, request, *args, **kwargs):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
+        preffered_companies = current_employer_details['locations']
         status = 200
         if current_employer_details['id']:
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])

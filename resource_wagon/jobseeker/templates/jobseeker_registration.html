@@ -127,6 +127,11 @@
 				<option value="">Select location</option>
 				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country.selected" ng-click="get_prefered_locations(country)">[[country]]</option>
 			</select>
+			<label> Prefered Companies </label>
+			<select name="companies" ng-model="current_employer.companies" multiple>
+				<option value="">Select Company</option>
+				<option ng-repeat="company in companies" value="[[company.id]]">[[company.name]]</option>
+			</select>
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_current_employer_details()"></p>
 			
 			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
