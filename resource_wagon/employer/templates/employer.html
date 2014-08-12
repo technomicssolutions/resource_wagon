@@ -20,6 +20,6 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
         <input type='submit' value='Update Profile'/>
     </a>
 </div>
-<li><a href="">Logout </a></li>
-<li><a href="">Post Job</a></li>
+<li><a href="{% url 'logout' %}">Logout </a></li>
+<li><a href="{% url 'postjobs' %}">Post Job</a></li>
 {% endblock content %}
