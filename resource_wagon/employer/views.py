@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from models import CompanyProfile,Recruiter
+from models import CompanyProfile,Recruiter,Job
 
 class EmployerRegistration(View):
 
@@ -144,3 +144,157 @@ class PostJobsView(View):
             'company_name': recruiter.company.company_name,
         }
         return render(request, 'job_post.html', context)
+    def post(self, request, *args, **kwargs):
+
+        current_user = request.user
+        recruiter = Recruiter.objects.get(user = current_user)
+        jobPosting = Job.objects.create(recruiter = recruiter)
+        post_data = request.POST
+        jobpost = ast.literal_eval(post_data['jobpost'])
+        
+        
+        company, created = CompanyProfile.objects.get_or_create(company_name = jobpost['company'])
+        jobPosting.job_title = jobpost['title']
+        jobPosting.ref_code = jobpost['code']
+        jobPosting.company = company
+        jobPosting.summary = jobpost['summary']
+        document = request.FILES.get('product_pdf', '')
+        if document:
+            jobPosting.document = document
+        if jobpost['salary']:
+            jobPosting.salary = jobpost['salary']
+        jobPosting.currency = jobpost['currency']    
+        jobPosting.skills = jobpost['skills']
+        jobPosting.industry = jobpost['industry']
+        jobPosting.job_location = jobpost['location']
+        jobPosting.education_req = jobpost['requirement']
+        jobPosting.function = jobpost['function']
+        jobPosting.specialization = jobpost['specialisation']
+        jobPosting.nationality = jobpost['nationality']
+
+        if jobpost['last_date']:
+            jobPosting.last_date  = datetime.strptime(jobpost['last_date'], '%d/%m/%Y')
+        jobPosting.name = jobpost['name']
+        jobPosting.phone = jobpost['phone']
+        jobPosting.mail_id = jobpost['email']
+        jobPosting.description = jobpost['profile']
+        if jobpost['post_date']:
+            jobPosting.posting_date = datetime.strptime(jobpost['post_date'], '%d/%m/%Y')
+        jobPosting.exp_req_min = jobpost['min']
+        jobPosting.exp_req_max = jobpost['max']
+        jobPosting.save()
+
+        res = {
+            'id' : jobPosting.id,
+            'message':'data posted on our server'
+        } 
+        response = simplejson.dumps(res)
+        status_code = 200
+        return HttpResponse(response, status = status_code, mimetype="application/json")
+
+class PostedJobsView(View):
+     def get(self, request,*args, **kwargs):
+        jobs = []
+        current_user = request.user
+        recruiter = Recruiter.objects.get(user = current_user)
+        jobs = Job.objects.filter(recruiter=recruiter)
+        context = {
+          'jobs': jobs,
+        }
+        return render(request, 'posted_jobs.html', context)
+
+class DeleteJob(View):
+
+    def get(self, request, *args, **kwargs):
+
+        try:
+            job = Job.objects.get(id = kwargs['job_id'])
+            job.delete()
+            current_user = request.user
+            recruiter = Recruiter.objects.get(user = current_user)
+            jobs = Job.objects.filter(recruiter=recruiter)
+        except Exception as ex:
+            print str(ex)
+            jobs = []
+        context = {
+          'jobs': jobs,
+          'message': 'Deleted',
+        }
+        return HttpResponseRedirect(reverse('posted_jobs'))
+
+class PublishJob(View):
+
+    def get(self, request, *args, **kwargs):
+
+        try:
+            job = Job.objects.get(id = kwargs['job_id'])
+            job.is_publish = True
+            job.save()
+            current_user = request.user
+            recruiter = Recruiter.objects.get(user = current_user)
+            jobs = Job.objects.filter(recruiter=request.user)
+        except Exception as ex:
+            print str(ex)
+            jobs = []
+        context = {
+          'jobs': jobs,
+          'message': 'Published', 
+        }
+
+        return HttpResponseRedirect(reverse('posted_jobs'))
+
+class EditPostJobsView(View):
+
+    def get(self, request, *args, **kwargs):
+        job_id = kwargs['job_id']
+
+        context = {
+            'job_id':job_id,
+        }
+        return render(request, 'job_post.html', context)
+
+    def post(self, request, *args, **kwargs):
+
+        jobPosting =Job.objects.get(id= kwargs['job_id'])
+        post_data = request.POST
+
+        jobpost = ast.literal_eval(post_data['jobpost'])
+        jobPosting.job_title = jobpost['title']
+        jobPosting.ref_code = jobpost['code']
+        company, created = CompanyProfile.objects.get_or_create(company_name = jobpost['company'])
+        jobPosting.company = company
+        jobPosting.summary = jobpost['summary']
+
+        document = request.FILES.get('product_pdf', '')
+        if document:
+            jobPosting.document = document
+        if jobpost['salary']:
+            jobPosting.salary = jobpost['salary']
+        jobPosting.currency = jobpost['currency'] 
+        jobPosting.skills = jobpost['skills']
+        jobPosting.industry = jobpost['industry']
+        jobPosting.job_location = jobpost['location']
+        jobPosting.function = jobpost['function']
+        jobPosting.education_req = jobpost['requirement']
+        jobPosting.specialization = jobpost['specialisation']
+        jobPosting.nationality = jobpost['nationality']
+        jobPosting.name = jobpost['name']
+        jobPosting.phone = jobpost['phone']
+        jobPosting.mail_id = jobpost['email']
+        jobPosting.description = jobpost['profile']        
+        jobPosting.exp_req_min = jobpost['min']
+        jobPosting.exp_req_max = jobpost['max']
+        if jobpost['last_date']:
+            jobPosting.last_date  = datetime.strptime(jobpost['last_date'], '%d-%m-%Y')
+            print jobPosting.last_date
+        if jobpost['post_date']:
+            jobPosting.posting_date = datetime.strptime(jobpost['post_date'], '%d-%m-%Y')
+        jobPosting.save()
+        context = {}
+        res = {
+            'id' : jobPosting.id,
+        } 
+        response = simplejson.dumps(res)
+        status_code = 200
+        return HttpResponse(response, status = status_code, mimetype="application/json")
+

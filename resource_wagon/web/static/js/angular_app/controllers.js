@@ -1667,90 +1667,7 @@ function get_master_stream($scope) {
     var masters_edu = $scope.educational_details.masters_edu;
     $scope.specializations = $scope.masters_education_specialization[masters_edu];
 } 
-function hide_jobseeker_details_block($scope) {
-    $scope.view_personal_details = false;
-    $scope.view_educational_details = false;
-    $scope.view_employment_details = false;
-    $scope.view_resume_details = false;
-}
-function current_employer_validation($scope) {
-    if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
-        $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
-        return false;
-    } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
-        $scope.current_employer_validation_msg = 'Please provide the Currency';
-        return false;
-    } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
-        $scope.current_employer_validation_msg = 'Please enter Key Skills';
-        return false;
-    } return true;
-}
-function add_employer($scope){
-    if($scope.employers.length <3) {
-        $scope.employers.push({'employer':''});
-    }
-    if($scope.employers.length == 3){
-      $scope.hide_emp = false;
-    }
-}
-function add_doctorate($scope){
-    if($scope.doctorate.length <3) {
-        $scope.doctorate.push({'name':''});
-    }
-    if($scope.doctorate.length == 3){
-      $scope.hide_doc = false;
-    }
-}
-
-/* End common js methods */
-
-function HomeController($scope, $element, $http, $timeout, share, $location)
-{
-    $scope.is_keyword = false;
-    $scope.is_location = false;
-    $scope.is_exp = false;
-    $scope.is_function = false;
-    $scope.experiences = [];
-    $scope.experience = 'select';
-    $scope.functional_area = 'select';
-
-    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, search_flag) {
-        $scope.csrf_token = csrf_token;
-        for(var i=0; i<=30; i++) {
-            $scope.experiences.push(i);
-        }
-        get_functions($scope);
-        $scope.search_flag = search_flag;
-        if(!($scope.search_flag)){
-          if(search_location != '' || search_location != undefined){
-            $scope.job_location = search_location;
-            console.log($scope.job_location);
-          }
-          if (search_keyword != '' || search_keyword != undefined) {
-            $scope.skill = search_keyword;
-            console.log($scope.skill);
-          }
-          if (search_experience != '' || search_experience != undefined) {
-            $scope.experience = search_experience;
-            console.log($scope.experience);
-          }
-          if (search_function_name != '' || search_function_name != undefined) {
-            $scope.functional_area = search_function_name;
-            console.log($scope.functional_area);
-          }
-        
-        }
-    }
-    $scope.post_cv = function(){
-        document.location.href = '/job_seeker_registration/';
-    }
-    $scope.job_search  = function() {
-        search_job($scope, '');
-    }
-}
-
-function JobSeekerController($scope, $element, $http, $timeout) {
-
+function job_seeker_initialization_details($scope) {
     $scope.year = [];
     $scope.months =[];
     $scope.experience =[];
@@ -1815,6 +1732,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         'resume_title': '',
         'resume_text': '',
         'resume': '',
+        'remove_resume': 'false',
     }
     $scope.photo_details = {
         'id': $scope.job_seeker_id,
@@ -1827,35 +1745,268 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.doctorate = [
         {'name': ''},
     ]
+    get_currencies($scope);
+    get_countries($scope);
+    get_nationalities($scope);
+    get_industries($scope);
+    get_functions($scope);
+    get_basic_education($scope);
+    get_basic_education_specialization($scope);
+    get_masters_education($scope);
+    get_masters_education_specialization($scope);
+    new Picker.Date($$('#dob'), {
+        timePicker: false,
+        positionOffset: {x: 5, y: 0},
+        pickerClass: 'datepicker_bootstrap',
+        useFadeInOut: !Browser.ie,
+        format:'%d/%m/%Y',
+    });
+    for(var i=1970; i<=2014; i++){
+        $scope.year.push(i);
+    }
+    for(var i=0; i<=50; i++){
+        $scope.experience.push(i);
+    }
+}
+function hide_jobseeker_details_block($scope) {
+    $scope.view_personal_details = false;
+    $scope.view_educational_details = false;
+    $scope.view_employment_details = false;
+    $scope.view_resume_details = false;
+}
+function current_employer_validation($scope) {
+    if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
+        $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
+        return false;
+    } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
+        $scope.current_employer_validation_msg = 'Please provide the Currency';
+        return false;
+    } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
+        $scope.current_employer_validation_msg = 'Please enter Key Skills';
+        return false;
+    } return true;
+}
+function add_employer($scope){
+    if($scope.employers.length <3) {
+        $scope.employers.push({'employer':''});
+    }
+    if($scope.employers.length == 3){
+      $scope.hide_emp = false;
+    }
+}
+function add_doctorate($scope){
+    if($scope.doctorate.length <3) {
+        $scope.doctorate.push({'name':''});
+    }
+    if($scope.doctorate.length == 3){
+      $scope.hide_doc = false;
+    }
+}
+function save_resume_details($scope, $http, type) {
+    params = {
+        'resume_details': angular.toJson($scope.resume_details),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+    }
+    var fd = new FormData();
+    fd.append('resume_doc', $scope.resume_doc.src);
+    for(var key in params){
+        fd.append(key, params[key]);          
+    }
+    var url = "/jobseeker/save_resume_details/";
+    $http.post(url, fd, {
+        transformRequest: angular.identity,
+        headers: {'Content-Type': undefined
+        }
+    }).success(function(data, status) {
+        if (data.result == 'ok') {
+            if (type == 'save') {
+                $scope.job_seeker_id = data.job_seeker_id;
+                $scope.personal_details = false;
+                $scope.educational_detail = false;
+                $scope.resume_detail = false;
+                $scope.photo_detail = true;
+            } else {
+                $scope.job_seeker_id = data.job_seeker_id;
+                document.location.href = '/jobseeker/jobseeker_details/';
+            }
+        } else {
+            $scope.resume_validation_message = data.message;
+        }
+    });
+}
+function save_photo_details($scope, $http) {
+    params = {
+        'photo_details': angular.toJson($scope.photo_details),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+    }
+    var fd = new FormData();
+    fd.append('photo_img', $scope.photo_img.src);
+    for(var key in params){
+        fd.append(key, params[key]);          
+    }
+    var url = "/jobseeker/save_photo_details/";
+    $http.post(url, fd, {
+        transformRequest: angular.identity,
+        headers: {'Content-Type': undefined
+        }
+    }).success(function(data, status) {
+        if (data.result == 'ok') {
+            $scope.job_seeker_id = data.job_seeker_id;
+            document.location.href = '/jobseeker/jobseeker_details/';
+        } else {
+            $scope.photo_validation_message = data.message;
+        }
+    });
+}
+function save_educational_details($scope, $http, type) {
+    $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
+    params = {
+        'educational_details': angular.toJson($scope.educational_details),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+    }
+    $http({
+        method : 'post',
+        url : "/jobseeker/save_educational_details/",
+        data : $.param(params),
+        headers : {
+            'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+    }).success(function(data, status) {
+        if (data.result == 'ok') {
+            if (type == 'save') {
+                $scope.job_seeker_id = data.job_seeker_id;
+                $scope.personal_details = false;
+                $scope.educational_detail = false;
+                $scope.resume_detail = true;
+            } else {
+                $scope.job_seeker_id = data.job_seeker_id;
+                document.location.href = '/jobseeker/jobseeker_details/';
+            }
+        } else {
+            $scope.educational_validation_msg = data.message;
+        }
+    });
+}
+function save_current_employer_details($scope, $http, type) {
+    if (current_employer_validation($scope)) {
+        $scope.current_employer.employers = JSON.stringify($scope.employers);
+        params = {
+            'current_employer_details': angular.toJson($scope.current_employer),
+            'csrfmiddlewaretoken': $scope.csrf_token,
+        }
+        $http({
+            method : 'post',
+            url : "/jobseeker/save_current_employer_details/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        }).success(function(data, status) {
+            if (data.result == 'ok') {
+                if (type == 'save') {
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    $scope.personal_details = false;
+                    $scope.current_employment_details = false;
+                    $scope.educational_detail = true;
+                } else {
+                    $scope.job_seeker_id = data.job_seeker_id;
+                    document.location.href = '/jobseeker/jobseeker_details/';
+                }
+            } else {
+                $scope.current_employer_validation_msg = data.message;
+            }
+        });
+    }
+}
+function save_personal_details($scope, $http, type) {
+    if (type == 'edit') {
+        $scope.personal.id = $scope.jobseeker_id;
+    }
+    params = {
+        'personal_details': angular.toJson($scope.personal),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+    }
+    $http({
+        method : 'post',
+        url : "/jobseeker/save_personal_details/",
+        data : $.param(params),
+        headers : {
+            'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+    }).success(function(data, status) {
+        if (data.result == 'ok') {
+            if (type == 'save') {
+                $scope.job_seeker_id = data.job_seeker_id;
+                $scope.current_employer.id = $scope.job_seeker_id;
+                $scope.educational_details.id = $scope.job_seeker_id;
+                $scope.resume_details.id = $scope.job_seeker_id;
+                $scope.photo_details.id = $scope.job_seeker_id;
+                $scope.personal_details = false;
+                $scope.current_employment_details = true;
+            } else {
+                document.location.href = '/jobseeker/jobseeker_details/';
+            }
+        } else {
+            $scope.personal_validation = data.message;
+        }
+    });
+}
+/* End common js methods */
+
+function HomeController($scope, $element, $http, $timeout, share, $location)
+{
+    $scope.is_keyword = false;
+    $scope.is_location = false;
+    $scope.is_exp = false;
+    $scope.is_function = false;
+    $scope.experiences = [];
+    $scope.experience = 'select';
+    $scope.functional_area = 'select';
+
+    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, search_flag) {
+        $scope.csrf_token = csrf_token;
+        for(var i=0; i<=30; i++) {
+            $scope.experiences.push(i);
+        }
+        get_functions($scope);
+        $scope.search_flag = search_flag;
+        if(!($scope.search_flag)){
+          if(search_location != '' || search_location != undefined){
+            $scope.job_location = search_location;
+            console.log($scope.job_location);
+          }
+          if (search_keyword != '' || search_keyword != undefined) {
+            $scope.skill = search_keyword;
+            console.log($scope.skill);
+          }
+          if (search_experience != '' || search_experience != undefined) {
+            $scope.experience = search_experience;
+            console.log($scope.experience);
+          }
+          if (search_function_name != '' || search_function_name != undefined) {
+            $scope.functional_area = search_function_name;
+            console.log($scope.functional_area);
+          }
+        
+        }
+    }
+    $scope.post_cv = function(){
+        document.location.href = '/job_seeker_registration/';
+    }
+    $scope.job_search  = function() {
+        search_job($scope, '');
+    }
+}
+
+function JobSeekerController($scope, $element, $http, $timeout) {
+    job_seeker_initialization_details($scope);
     $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
         $scope.personal_details = true;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
         $scope.resume_detail = false;
-        $scope.photo_detail = false;      
-        get_currencies($scope);
-        get_countries($scope);
-        get_nationalities($scope);
-        get_industries($scope);
-        get_functions($scope);
-        get_basic_education($scope);
-        get_basic_education_specialization($scope);
-        get_masters_education($scope);
-        get_masters_education_specialization($scope);
-        new Picker.Date($$('#dob'), {
-            timePicker: false,
-            positionOffset: {x: 5, y: 0},
-            pickerClass: 'datepicker_bootstrap',
-            useFadeInOut: !Browser.ie,
-            format:'%d/%m/%Y',
-        });
-        for(var i=1970; i<=2014; i++){
-            $scope.year.push(i);
-        }
-        for(var i=0; i<=50; i++){
-            $scope.experience.push(i);
-        }
+        $scope.photo_detail = false;  
     }
     $scope.get_stream = function() {
         get_stream($scope);
@@ -1920,58 +2071,11 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.save_personal_details = function() {
         if ($scope.personal_details_validation()){
-            params = {
-                'personal_details': angular.toJson($scope.personal),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url : "/jobseeker/save_personal_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    $scope.current_employer.id = $scope.job_seeker_id;
-                    $scope.educational_details.id = $scope.job_seeker_id;
-                    $scope.resume_details.id = $scope.job_seeker_id;
-                    $scope.photo_details.id = $scope.job_seeker_id;
-                    $scope.personal_details = false;
-                    $scope.current_employment_details = true;
-                } else {
-                    $scope.personal_validation = data.message;
-                }
-            });
+            save_personal_details($scope, $http, 'save');
         }
     }
     $scope.save_current_employer_details = function() {
-        if (current_employer_validation($scope)){
-            $scope.current_employer.employers = JSON.stringify($scope.employers);
-            params = {
-                'current_employer_details': angular.toJson($scope.current_employer),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url : "/jobseeker/save_current_employer_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    $scope.personal_details = false;
-                    $scope.current_employment_details = false;
-                    $scope.educational_detail = true;
-                } else {
-                    $scope.current_employer_validation_msg = data.message;
-                }
-            });
-        }
-
+        save_current_employer_details($scope, $http, 'save');
     }
     $scope.educational_details_validation = function() {
         if ($scope.educational_details.basic_edu == '' || $scope.educational_details.basic_edu == undefined){
@@ -1990,29 +2094,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.save_educational_details = function() {
         if ($scope.educational_details_validation()){
-            $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
-            params = {
-                'educational_details': angular.toJson($scope.educational_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url : "/jobseeker/save_educational_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    console.log($scope.job_seeker_id)
-                    $scope.personal_details = false;
-                    $scope.educational_detail = false;
-                    $scope.resume_detail = true;
-                } else {
-                    $scope.educational_validation_msg = data.message;
-                }
-            });
+            save_educational_details($scope, $http, 'save');
         }
     }
     $scope.resume_validation = function() {
@@ -2025,40 +2107,11 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         } return true;
     }
     $scope.save_resume_details = function() {
-        if ($scope.resume_validation()){
-            params = {
-                'resume_details': angular.toJson($scope.resume_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            var fd = new FormData();
-            console.log(params)
-            fd.append('resume_doc', $scope.resume_doc.src);
-            for(var key in params){
-                fd.append(key, params[key]);          
-            }
-            var url = "/jobseeker/save_resume_details/";
-            console.log(fd);
-            $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    
-                    $scope.personal_details = false;
-                    $scope.educational_detail = false;
-                    $scope.resume_detail = false;
-                    $scope.photo_detail = true;
-
-                } else {
-                    $scope.resume_validation_message = data.message;
-                }
-            });
+        if ($scope.resume_validation()) {
+            save_resume_details($scope, $http, 'save');
         }
     }
     $scope.photo_validation = function() {
-        console.log($scope.checkbox);
         if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
             $scope.photo_validation_message = 'Please upload  your photo  ';
             return false;
@@ -2069,137 +2122,26 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.save_photo_details = function() {
         if ($scope.photo_validation()){
-            
-            params = {
-                'photo_details': angular.toJson($scope.photo_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            var fd = new FormData();
-            fd.append('photo_img', $scope.photo_img.src);
-            for(var key in params){
-                fd.append(key, params[key]);          
-            }
-            var url = "/jobseeker/save_photo_details/";
-            console.log(fd);
-            $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    document.location.href = '/jobseeker/jobseeker_details/';
-
-                } else {
-                    $scope.photo_validation_message = data.message;
-                }
-            });
+            save_photo_details($scope, $http);
         }
     }
 }
 function EditJobSeekerController($scope, $element, $http, $timeout) {
-
-    $scope.year = [];
-    $scope.months =[];
-    $scope.experience =[];
-    $scope.hide_doc = true;
-    $scope.hide_emp = true;
-    $scope.photo_img = {};
-    $scope.photo_img.src = "";
-
-    $scope.resume_doc = {};
-    $scope.resume_doc.src = "";
-
+    job_seeker_initialization_details($scope);
     $scope.view_personal_details = true;
     $scope.view_educational_details = true;
     $scope.view_employment_details = true;
     $scope.view_resume_details = true;
     
-    $scope.job_seeker_id = 0;
-    $scope.personal = {
-        'id': $scope.job_seeker_id,
-        'first_name': '',
-        'last_name': '',
-        'gender': '',
-        'dob':'',
-        'marital_status': '',
-        'nationality': '',
-        'country': '',
-        'city': '',
-        'mobile': '',
-        'alt_email': '',
-    }
-    $scope.current_employer = {
-        'id': $scope.job_seeker_id,
-        'years': '0',
-        'months': '0',
-        'salary': 0,
-        'currency': '',
-        'designation': '',
-        'industry': '',
-        'functions': '',
-        'employers': [],
-        'skills': '',
-    }
-    $scope.educational_details = {
-        'id': $scope.job_seeker_id,
-        'basic_edu': '',
-        'basic_specialization': '',
-        'pass_year_basic': '',
-        'masters_edu': '',
-        'master_specialization': '',
-        'pass_year_masters': '',
-        'doctrate': [],
-    }
-    
-    $scope.resume_details = {
-        'id': $scope.job_seeker_id,
-        'resume_title': '',
-        'resume_text': '',
-        'resume': '',
-        
-    }
-    $scope.photo_details = {
-        'id': $scope.job_seeker_id,
-        'profile_photo': '',
-    }
-    $scope.employers = [
-        {'employer': ''},
-    ]
-    $scope.doctorate = [
-        {'name': ''},
-    ]
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
         $scope.jobseeker_id = jobseeker_id;
-        
         $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
-        get_currencies($scope);
-        get_countries($scope);
-        get_nationalities($scope);
-        get_industries($scope);
-        get_functions($scope);
-        get_basic_education($scope);
-        get_basic_education_specialization($scope);
-        get_masters_education($scope);
-        get_masters_education_specialization($scope);
-        new Picker.Date($$('#dob'), {
-            timePicker: false,
-            positionOffset: {x: 5, y: 0},
-            pickerClass: 'datepicker_bootstrap',
-            useFadeInOut: !Browser.ie,
-            format:'%d/%m/%Y',
-        });
-        for(var i=1970; i<=2014; i++){
-            $scope.year.push(i);
-        }
-        for(var i=0; i<=50; i++){
-            $scope.experience.push(i);
-        }
+        
         get_job_seeker_details($scope, $http);
     }   
     $scope.get_stream = function() {
@@ -2261,25 +2203,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_personal_details = function() {
         if ($scope.edit_personal_details_validation()){
-            $scope.personal.id = $scope.jobseeker_id;
-            params = {
-                'personal_details' :angular.toJson($scope.personal),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url : "/jobseeker/save_personal_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    document.location.href = '/jobseeker/jobseeker_details/';
-                } else {
-                    $scope.personal_validation = data.message;
-                }
-            });
+            save_personal_details($scope, $http, 'edit');
         }
     }
     $scope.show_current_employer_details = function(){
@@ -2300,28 +2224,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } 
     }
     $scope.edit_current_employer_details = function() {
-        if (current_employer_validation($scope)){
-            $scope.current_employer.employers = JSON.stringify($scope.employers);
-            params = {
-                'current_employer_details': angular.toJson($scope.current_employer),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url : "/jobseeker/save_current_employer_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    document.location.href = '/jobseeker/jobseeker_details/';
-                } else {
-                    $scope.current_employer_validation_msg = data.message;
-                }
-            });
-        }
+        save_current_employer_details($scope, $http, 'edit');
     }
     $scope.edit_educational_details_validation = function() {
 
@@ -2359,7 +2262,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             for(var i=0; i< $scope.educational_details.doctorate.length; i++) {
                 $scope.doctorate[i].name = $scope.educational_details.doctorate[i].doctorate;
             }
-            console.log($scope.educational_details.doctorate.length);
             if ($scope.educational_details.doctorate.length == 3){
                 $scope.hide_doc = false;
             }
@@ -2368,28 +2270,13 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_educational_details = function() {
         if ($scope.edit_educational_details_validation()){
-            $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
-            params = {
-                
-                'educational_details':angular.toJson($scope.educational_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            $http({
-                method : 'post',
-                url :  "/jobseeker/save_educational_details/",
-                data : $.param(params),
-                headers : {
-                    'Content-Type' : 'application/x-www-form-urlencoded'
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    document.location.href = '/jobseeker/jobseeker_details/';
-                } else {
-                    $scope.educational_validation_msg = data.message;
-                }
-            });
+            save_educational_details($scope, $http, 'edit');
         }
+    }
+    $scope.show_resume_details = function(){
+        get_job_seeker_details($scope, $http);
+        hide_jobseeker_details_block($scope);
+        $scope.resume_detail = true;
     }
     $scope.edit_resume_validation = function() {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
@@ -2400,35 +2287,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             return false;
         } return true;
     }
-    $scope.show_resume_details = function(){
-        get_job_seeker_details($scope, $http);
-        hide_jobseeker_details_block($scope);
-        $scope.resume_detail = true;
-    }
     $scope.edit_resume_details = function() {
         if ($scope.edit_resume_validation()){
-            params = {
-                'resume_details':angular.toJson($scope.resume_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            var fd = new FormData();
-            fd.append('resume_doc', $scope.resume_doc.src);
-            for(var key in params){
-                fd.append(key, params[key]);          
-            }
-            var url = "/jobseeker/save_resume_details/";
-            $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;
-                    document.location.href = '/jobseeker/jobseeker_details/';
-                } else {
-                    $scope.resume_validation_message = data.message;
-                }
-            });
+            save_resume_details($scope, $http, 'edit');
         }
     }
     $scope.show_photo_details = function() {
@@ -2437,37 +2298,19 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         $scope.photo_detail = true;
     }
     $scope.edit_photo_validation = function() {
-        if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
-            $scope.resume_validation_message = 'Please upload  your photo  ';
+        if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
+            $scope.photo_validation_message = 'Please upload your photo  ';
             return false;
         } return true;
     }
     $scope.edit_photo_details = function() {
         if ($scope.edit_photo_validation()){
-            params = {
-                'photo_details': angular.toJson($scope.photo_details),
-                'csrfmiddlewaretoken': $scope.csrf_token,
-            }
-            var fd = new FormData();
-            fd.append('photo_img', $scope.photo_img.src);
-            for(var key in params){
-                fd.append(key, params[key]);          
-            }
-            var url = "/jobseeker/save_photo_details/";
-            console.log(fd);
-            $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined
-                }
-            }).success(function(data, status) {
-                if (data.result == 'ok') {
-                    $scope.job_seeker_id = data.job_seeker_id;                    
-                    document.location.href = '/jobseeker/jobseeker_details/';
-                } else {
-                    $scope.photo_validation_message = data.message;
-                }
-            });
+            save_photo_details($scope, $http);
         }
+    }
+    $scope.remove_cv = function() {
+        $scope.resume_details.resume = '';
+        $scope.resume_details.remove_resume = 'true';
     }
 }
 
@@ -2736,11 +2579,25 @@ function  JobPostingController($scope,$element,$http,$timeout){
     get_req_education_specialization($scope);
     get_currencies($scope);
     $scope.job_id = id;
+    new Picker.Date($$('#last_dob'), {
+            timePicker: false,
+            positionOffset: {x: 5, y: 0},
+            pickerClass: 'datepicker_bootstrap',
+            useFadeInOut: !Browser.ie,
+            format:'%d/%m/%Y',
+        });
+    new Picker.Date($$('#post_dob'), {
+            timePicker: false,
+            positionOffset: {x: 5, y: 0},
+            pickerClass: 'datepicker_bootstrap',
+            useFadeInOut: !Browser.ie,
+            format:'%d/%m/%Y',
+        });
     for(var i=0; i<=50; i++){
         $scope.Min.push(i);
         $scope.Max.push(i);
     } 
-    $http.get('/post_jobs/').success(function(data)
+    $http.get('/employer/post_job/').success(function(data)
     {
         // $scope.companies = data.companies;
     }).error(function(data, status)
@@ -2768,8 +2625,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
 
   $scope.form_validation_postjob = function(){
     var letters = /^[A-Za-z]+$/;  
-    $scope.jobpost.last_date = $('#last_date').val();
-    $scope.jobpost.post_date = $('#post_date').val();
+    $scope.jobpost.last_date = $('#last_dob').val();
+    $scope.jobpost.post_date = $('#post_dob').val();
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
@@ -2856,8 +2713,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
   }
 
   $scope.save_job = function(){
-      $scope.jobpost.last_date = $('#last_date').val();
-      $scope.jobpost.post_date = $('#post_date').val();
+      $scope.jobpost.last_date = $('#last_dob').val();
+      $scope.jobpost.post_date = $('#post_dob').val();
         $scope.is_valid = $scope.form_validation_postjob();
         if ($scope.is_valid) {
           $scope.error_flag = false;
@@ -2869,7 +2726,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
             $scope.jobpost.last_date = '';
           }
             var file = $scope.product_pdf.src;
-            var edit =$scope.edit;
+            var edit = $scope.edit;
             params = {
                 'jobpost':angular.toJson($scope.jobpost),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
@@ -2880,12 +2737,15 @@ function  JobPostingController($scope,$element,$http,$timeout){
               fd.append(key, params[key]);
             }
             if($scope.job_id) {
-              var url = "/recruiter/post-jobs/edit/"+$scope.job_id+"/";
+              var url = "/employer/edit/"+$scope.job_id+"/";
             } else {
               if(edit == 1){
-                  var url = "/recruiter/post-jobs/";               
+                  var url = "/employer/post_job/";               
               }              
             } 
+           
+                        
+            
             $http.post(url, fd, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined
@@ -2895,7 +2755,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
                     $scope.id = data.id;
                     $scope.edit = $scope.edit + 1;  
                     
-                    var url = '/posted_jobs/';
+                    var url = '/employer/posted_jobs/';
                     document.location.href = url;
 
               }).error(function(data, status){

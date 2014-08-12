@@ -4,17 +4,17 @@
 
 {% block controller %}ng-controller="JobPostingController" ng-init="init('{{csrf_token}}','{{job_id}}')"{% endblock controller %}
 {% block content %}
-<div class= "div3">
 
-	<form class="" name="add_item" method="post" action="">
+
+	<form class="" name="" method="post" action="">
 				{% csrf_token %}
 
 		<div class="separation">
 			<br>
 			{% if job_id %}
-				<h2 class="hd1">Posted Job</h2>
+				<h2 >Posted Job</h2>
 			{% else %}
-				<h2 class="hd1">Post A Job</h2>
+				<h2 >Post A Job</h2>
 			{% endif %}
 			
 			<p class="mandatory">* Mandatory Fields</p>
@@ -137,7 +137,7 @@
 			</div>
 			<div class="formrow">
 				<label>Last Date to Apply</label>
-				<input type="text" name="last_date" id="last_date" placeholder="DD-MM-YYY">
+				<input type="text" name="last_date" id="last_dob" placeholder="DD-MM-YYY">
 						
 			</div>
 		</div>
@@ -162,7 +162,7 @@
 			</div>
 			<div class="formrow">
 				<label>Post Date</label>
-				<input type="text" name="post_date" id="post_date" placeholder="DD-MM-YYYY">
+				<input type="text" name="post_date" id="post_dob" placeholder="DD-MM-YYYY">
 						
 			</div>
 		</div>

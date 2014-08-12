@@ -64,15 +64,12 @@ class SavePersonalDetails(View):
         job_seeker.country = personal_details['country']
         job_seeker.city = personal_details['city']
         job_seeker.mobile = personal_details['mobile']
-        job_seeker.save()
-               
+        job_seeker.save()       
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
         }
-
         response = simplejson.dumps(res)
-
         return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveCurrentEmployerDetails(View):
@@ -110,7 +107,6 @@ class SaveCurrentEmployerDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveEducationalDetails(View):
@@ -154,12 +150,12 @@ class SaveEducationalDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
         resume_details = ast.literal_eval(request.POST['resume_details'])
+        print resume_details
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])
@@ -167,10 +163,14 @@ class SaveResumeDetails(View):
                 education = job_seeker.education
             else:
                 education = Education()
-
             education.resume_title = resume_details['resume_title']
-            if request.FILES.get('resume_doc', ''):
-                education.resume = request.FILES['resume_doc']
+            
+            if resume_details['remove_resume'] == 'true':
+                education.resume = ''
+            else:
+                if request.FILES.get('resume_doc', ''):
+                    education.resume = request.FILES['resume_doc']
+
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -180,25 +180,22 @@ class SaveResumeDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SavePhotoDetails(View):
     def post(self, request, *args, **kwargs):
         photo_details = ast.literal_eval(request.POST['photo_details'])
         status = 200
-        is_logged_in = False
         if photo_details['id']:
             job_seeker = Jobseeker.objects.get(id=photo_details['id'])
-            job_seeker.photo = request.FILES['photo_img']
+            if request.FILES.get('photo_img', ''):
+                job_seeker.photo = request.FILES['photo_img']
             job_seeker.save()
-            
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class JobSeekerView(View):
@@ -216,9 +213,9 @@ class EditDetails(View):
         context ={
             'jobseeker_id': jobseeker_id,
             'jobseeker': jobseeker,
-            'user':user,
-            'employment':employment,
-            'education':education,
+            'user': user,
+            'employment': employment,
+            'education': education,
         }
         ctx_jobseeker_data = []
         ctx_education_data = []
@@ -229,12 +226,12 @@ class EditDetails(View):
         ctx_resume = []
         ctx_photo = []
         if jobseeker.employment.previous_employer.all().count() > 0:
-            for employer in jobseeker.employment.previous_employer.all():
+            for employer in jobseeker.employment.previous_employer.all().order_by('-id'):
                 ctx_previous_company.append({
                     'employer': employer.previous_employer_name,
                 })
         if jobseeker.education.doctrate.all().count() > 0: 
-            for doctrate in jobseeker.education.doctrate.all():
+            for doctrate in jobseeker.education.doctrate.all().order_by('-id'):
                 ctx_doctorate.append({
                     'doctorate': doctrate.doctorate_name,
                 })
@@ -281,6 +278,7 @@ class EditDetails(View):
                 'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+                'remove_resume': 'false',
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',
