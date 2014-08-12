@@ -7,19 +7,62 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% endblock controller %}
 
 {% block content %}
-<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
-<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
-<p>Location :{{user.recruiter_set.all.0.country}}</p>
-<p>City :{{user.recruiter_set.all.0.city}}</p>
-<p>Email ID:{{user.email}}</p>
-<p>Mobile :{{user.recruiter_set.all.0.mobile}}</p>
-<p>Land Number :{{user.recruiter_set.all.0.land_num}}</p>
-<p>ID:{{user.recruiter_set.all.0.id}}</p>
-<div class ="employer_button">
-
-        <input type='submit' value='Update Profile'/>
-    </a>
+<div ng-show="view_employer_details">
+	<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
+	<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
+	<p>Location :{{user.recruiter_set.all.0.country}}</p>
+	<p>City :{{user.recruiter_set.all.0.city}}</p>
+	<p>Email ID:{{user.email}}</p>
+	<p>Mobile :{{user.recruiter_set.all.0.mobile}}</p>
+	<p>Land Number :{{user.recruiter_set.all.0.land_num}}</p>
+	<p>ID:{{user.recruiter_set.all.0.id}}</p>
+	<a href="/site_media/{{user.recruiter_set.all.0.company.company_profile.name}}" target="_blank">View Company Profile</a>
+	<div class ="employer_button">
+	        <input class="button" type="submit" name="submit" value="Update" 
+	    	ng-click="edit_employer_details()">
+	    </a>
+	</div>
 </div>
-<li><a href="">Logout </a></li>
+
+<div class="separation" ng-hide="view_employer_details">
+			<p class="mandatory">* Mandatory Fields</p>
+			<label>Company Name<span class="red">*</span></label>
+			<input type="text" name="name" ng-model="recruiter.name" value="{{ recruiter.name }}">
+			<label>Email Id<span class="red">*</span></label>
+			<input type="text" name="email" ng-model="recruiter.email" value="{{ recruiter.email }}">
+			<label>Industry Type<span class="red">*</span></label>
+			<select name="industry" ng-model="recruiter.industry"> 
+				<option value="">--------------Select------------</option>
+				<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>				
+			</select>
+<!-- 			{% if not is_profile_edit %}
+					<label>Password<span class="red">*</span></label> 
+					<input type="password" name="password" ng-model="recruiter.password" value="{{ recruiter.password }}">
+					<label>Confirm Password<span class="red">*</span></label> 
+					<input type="password" name="confirm_password" ng-model="recruiter.confirm_password" value="{{ recruiter.confirm_password }}">
+			{% endif %}
+			 -->
+			<label>Mobile Number<span class="red">*</span></label>
+			<input type="text" name="mobile" ng-model="recruiter.mobile" value="{{ recruiter.mobile }}">
+			<label>Land Line Number</label>
+			<input type="text" name="mobile" ng-model="recruiter.phone" value="{{ recruiter.phone }}">
+			<label>Country<span class="red">*</span></label> 
+			<select name="country" ng-model="recruiter.country">
+				<option value="">------------------Select------------------</option>
+				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
+				<option>Other</option>
+			</select>
+			<label>City</label>
+			<input type="text" name="city" ng-model="recruiter.city" value="{{ recruiter.city }}"> 
+			<label>Company description</label>
+			<textarea rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>
+			<h3>Attach Your Company Profile</h3>
+			<label>Company Profile<span class="red">*</span></label>
+			<input type="file" fileread="profile_doc.src"/>
+			<input type="hidden" ng-model="profile_doc.src">		
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
+			<p class="error_message error_p">[[error_message]]</p>
+</div>
+<li><a href="{% url 'logout' %}">Logout </a></li>
 <li><a href="">Post Job</a></li>
 {% endblock content %}
