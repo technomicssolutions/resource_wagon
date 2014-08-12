@@ -158,6 +158,7 @@ class SaveEducationalDetails(View):
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
         resume_details = ast.literal_eval(request.POST['resume_details'])
+        print resume_details
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])
@@ -166,8 +167,13 @@ class SaveResumeDetails(View):
             else:
                 education = Education()
             education.resume_title = resume_details['resume_title']
-            if request.FILES.get('resume_doc', ''):
-                education.resume = request.FILES['resume_doc']
+            
+            if resume_details['remove_resume'] == 'true':
+                education.resume = ''
+            else:
+                if request.FILES.get('resume_doc', ''):
+                    education.resume = request.FILES['resume_doc']
+
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -275,6 +281,7 @@ class EditDetails(View):
                 'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+                'remove_resume': 'false',
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',

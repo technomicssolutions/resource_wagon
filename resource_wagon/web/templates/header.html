@@ -1,0 +1,16 @@
+{% if user.is_authenticated %}
+    <ul>           
+        <li>{{user.username}}   
+        <li><a href="{% url 'home' %}">Home</a></li>    
+        <li><a href="#">Change Password</a></li>
+        {% if user.jobseeker_set.all.0 %}
+            <li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
+        {% else %}
+            <li><a href="{% url 'employer_profile' %}">View Profile</a></li>
+        {% endif %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>         
+        </li>
+    </ul>
+{% endif %}
+
+
