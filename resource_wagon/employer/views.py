@@ -344,3 +344,47 @@ class EditPostJobsView(View):
         status_code = 200
         return HttpResponse(response, status = status_code, mimetype="application/json")
 
+class JobDetailsView(View):
+    def get(self, request, *args, **kwargs):
+        job = Job.objects.get(id=kwargs['job_id'])
+        
+        context = {
+           'job' : job, 
+        }
+        if request.is_ajax():
+            ctx_jobpost = []
+                   
+            ctx_jobpost.append({
+                'title': job.job_title if job.job_title else '',
+                'code': job.ref_code if job.ref_code else '',
+                'company': job.company.company_name if job.company else '',
+                'summary': job.summary if job.summary else '',            
+                'details': job.document.name if job.document else '', 
+                'salary' : job.salary if job.salary else '',                
+                'currency': job.currency if job.currency else '',
+                'skills': job.skills if job.skills else '',
+                'min':job.exp_req_min if job.exp_req_min else 0,
+                'max':job.exp_req_max if job.exp_req_max else 0,
+                'location':job.job_location if job.job_location else '',
+                'industry':job.industry if job.industry else '',
+                'function': job.function if job.function else '',            
+                'requirement': job.education_req if job.education_req else '',
+                'specialisation': job.specialization if job.specialization else '',
+                'nationality': job.nationality if job.nationality else '',
+                'last_date': job.last_date.strftime('%d-%m-%Y') if job.last_date else '',
+                'name': job.name if job.name else '',
+                'phone': job.phone if job.phone else '',
+                'email': job.mail_id if job.mail_id else '',
+                'profile':job.description if job.description else '', 
+                'post_date': job.posting_date.strftime('%d-%m-%Y') if job.posting_date else '', 
+            })
+            
+            res = {
+                'jobpost': ctx_jobpost,
+            }
+            status_code = 200
+            response = simplejson.dumps(res)
+            
+            return HttpResponse(response, status=status_code, mimetype='application/json')
+        else:
+            return render(request, 'job_details.html', context)

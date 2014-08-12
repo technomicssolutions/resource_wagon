@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Search Jobs{% endblock title %}
+{% block body_id %}search_jobs{% endblock body_id %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{search_location}}', '{{search_keyword}}', '{{search_experience}}', '{{search_function_name}}', '{{search_flag}}')" {% endblock controller %}
+{% block search %}
+	
+            <label>Keywords</label>
+            <input type="text" name="search" placeholder="skills" ng-model="skill">
+            <p ng-show="is_keyword" class="error_message">Please enter the skills</p>
+        
+        
+            <label>Location</label>
+            <input type="text" name="search" placeholder="country" ng-model="job_location">
+            <p ng-show="is_location" class="error_message">Please enter the Location</p>
+        
+            <label>Exp</label><br>
+            <select ng-model="experience">
+                <option value="select" >Exp</option>
+                <option value="[[exp]]" ng-repeat="exp in experiences" ng-selected="exp == experience">[[exp]]</option>
+            </select>
+            <p ng-show="is_exp" class="error_message">Please Choose the Exp</p>
+       
+            <label>Functional Area</label><br>
+            <select ng-model="functional_area">
+                <option value="select">Select</option>
+                <option value="[[function]]" ng-repeat="function in functions" ng-selected="function == functional_area">[[function]]</option>
+            </select>
+            <p ng-show="is_function" class="error_message">Please choose the Functional area</p>
+        
+
+        
+            <a href="" class="search_button" ng-click="job_search()">Search</a>
+            
+        
+{% endblock search %}
+
+{% block content %}
+	{% if jobs|length %}
+		{% for job in jobs %}
+			
+				<h2><a href="{% url 'job_details' job_id=job.id %}">{{job.job_title}} </a></h2>
+				<p> Industry Type: {{job.industry}} </p>
+				<p> Functional Area: {{job.function}} </p>
+                <p> Qualification : {{job.education_req}} </p>
+				<p> Experience: {{job.exp_req_min}} - {{job.exp_req_max}} Yrs </p>
+				<br>
+                <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Login to apply"></a>
+                {% endif %}
+           
+            <br>
+		{% endfor %}
+	
+	{% endif %}
+		
+{% endblock %}

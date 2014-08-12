@@ -4,6 +4,7 @@
 <a href="{% url 'logout' %}">Logout</a>
 {% if user.jobseeker_set.all.0 %}
 	<a href="{% url 'jobseeker_details' %}">View Profile</a>
+	<a href="{% url 'search' %}">Search Jobs </a>
 {% else %}
 	<a href="{% url 'employer_profile' %}">View Profile</a>
 {% endif %}

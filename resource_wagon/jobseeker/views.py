@@ -5,6 +5,9 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from employer.models import Job
+import datetime as dt
+from datetime import datetime
 
 import ast
 import simplejson
@@ -287,3 +290,141 @@ class EditDetails(View):
             response = simplejson.dumps(res)    
             return HttpResponse(response, status=200, mimetype='application/json')
         return render(request, 'jobseeker_details.html', context)
+
+class SearchJobsView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        search = False
+        jobs_not_exist = False
+        location = request.GET.get('location', '')
+        function = request.GET.get('function', '')
+        skills = request.GET.get('skills', '')
+        exp = request.GET.get('experience', '')
+        industry = request.GET.get('industry', '')
+        search_flag = request.GET.get('search', '')
+        if search_flag == 'true':
+            search = True
+        jobs = []
+        if location and function and skills and exp and not search:
+            experience = int(exp)
+
+            jobs = Job.objects.filter(Q(job_location__icontains=location) , Q(function=function), Q(skills__icontains=skills), Q(exp_req_min__lte=experience, exp_req_max__gte=experience), is_publish=True).order_by('-id').order_by('order')
+
+            if not jobs.exists():
+                searched_for = str('"'+location+ '-'+skills+'-'+function+'-'+exp+'"')
+        
+        elif location and not function and not skills and not exp and not industry and not search: 
+            jobs = Job.objects.filter(job_location__icontains=location, is_publish=True).order_by('-id').order_by('order')    
+            if not jobs.exists():
+                searched_for = str('"'+location+'"')       
+        elif function and not location and not skills and not exp and not industry and not search:
+            jobs = Job.objects.filter(function=function, is_publish=True).order_by('-id').order_by('order')
+            if not jobs.exists():
+                searched_for = str('"'+function+'"')
+        elif skills and not location and not function and not exp and not industry and not search:
+            jobs = Job.objects.filter(skills__icontains=skills, is_publish=True).order_by('-id').order_by('order')
+
+            if not jobs.exists():
+                searched_for = str('"'+skills+'"')   
+        else:
+            if location == 'undefined':
+                location = ''
+            if function == 'undefined':
+                function = ''
+            if skills == 'undefined':
+                skills = ''
+            if industry == 'undefined':
+                industry = ''
+            if len(exp) > 0 and exp != 'undefined': 
+                jobs = Job.objects.filter(job_location__contains=location, function__contains=function, skills__icontains=skills, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True).order_by('-id').order_by('order')
+            elif exp == 'undefined' or exp == '':
+                jobs = Job.objects.filter(job_location__icontains=location, function__contains=function , skills__icontains=skills, industry__contains=industry, is_publish=True).order_by('-id').order_by('order')
+                
+            if not jobs.exists():
+                searched_for = ''
+        context = {
+            'jobs': jobs,
+        }
+        searched_for = ''
+
+        if len(jobs) == 0:
+            context.update({
+                'searched_for': searched_for,
+                'jobs_not_exist' : True,
+                'search_location' : location if location else '',
+                'search_keyword' : skills if skills else '',
+                'search_experience' : exp if exp else '',
+                'search_function_name' : function if function else '',
+                'search_industry' : industry if industry else '',
+            })
+            return render(request, 'search.html', context)
+        else:
+            context.update({
+                'search_location' : location if location else '',
+                'search_keyword' : skills if skills else '',
+                'search_experience': exp if exp else '',
+                'search_function_name' : function if function else '',
+                'search_flag': search,
+            })
+            print context
+            return render(request, 'search_jobs.html', context) 
+
+class SearchView(View):
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        location = request.GET.get('location', '')
+        skills = request.GET.get('skills', '')
+        function = request.GET.get('function', '')
+        industry = request.GET.get('industry', '')
+        if location:
+            context = {
+                'location': True,
+            }          
+
+        elif skills:
+            context = {
+                'skills': True,
+            }        
+
+        elif function:
+            context = {
+                'function': True,
+            }        
+
+        elif industry:
+            context = {
+                'industry': True,
+            }
+
+        return render(request, 'search.html', context) 
+
+class ApplyJobs(View):
+
+    def get(self, request, *args, **kwargs):
+
+        current_user = request.user
+        current_date = dt.datetime.now().date()
+        context = {}
+        job = Job.objects.get(id = kwargs['job_id'])
+
+        
+        jobseeker, created = Jobseeker.objects.get_or_create(user = current_user)
+        if job.last_date:
+            if job.last_date < current_date:
+                context = {
+                    'message' : 'Time expired, you cannot apply',
+                    'job' : job,
+                    'not_able_to_apply': True
+                }
+                return render(request, 'job_details.html', context)
+
+        jobseeker.applied_jobs.add(job)
+        jobseeker.save()
+
+        context = {
+            'job' : job,
+        }
+
+        return render(request, 'job_details.html', context)
