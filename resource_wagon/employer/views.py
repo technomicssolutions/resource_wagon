@@ -68,20 +68,22 @@ class SaveEmployer(View):
         
         company.company_name = recruiter_details['name']
         company.industry_type = recruiter_details['industry']
-        if recruiter_details['description']:
-            company.description = recruiter_details['description']
-        company.company_profile = request.FILES['profile_doc']
+        company.description = recruiter_details['description']
+        if request.FILES.get('profile_doc', ''):
+            company_profile = request.FILES['profile_doc']       
+            company.company_profile = company_profile
         company.save()
         recruiter.company = company
         recruiter.save()
         user.save()
-        user = authenticate(username=recruiter_details['email'], password=recruiter_details['password'])
-        if user and user.is_active:
-            login(request, user)
-            message = 'Logged in'
-            is_logged_in = True
-        else:
-            message = 'Not logged in' 
+        if request.user.is_authenticated() == False:
+            user = authenticate(username=recruiter_details['email'], password=recruiter_details['password'])
+            if user and user.is_active:
+                login(request, user)
+                message = 'Logged in'
+                is_logged_in = True
+            else:
+                message = 'Not logged in' 
 
         res = {
             'result': 'ok',
@@ -94,7 +96,7 @@ class SaveEmployer(View):
 class EmployerView(View):
 
     def get(self, request, *args, **kwargs):
-        employer_id = request.GET.get('id')
+        employer_id = request.user.recruiter_set.all()[0].id
         return render(request,'employer.html', {'employer_id':employer_id,})   
 
 
@@ -116,7 +118,6 @@ class EditEmployer(View):
             ctx_employer_data.append ({
                 'id' : recruiter_id,
                 'user': recruiter.user.username,
-                'company':recruiter.company,
                 'email':recruiter.user.email if recruiter.user.email else '',
                 'country':recruiter.country if recruiter.country else '',
                 'city': recruiter.city if recruiter.city else '',
@@ -125,62 +126,15 @@ class EditEmployer(View):
                 'name': recruiter.company.company_name if recruiter.company.company_name else '',
                 'industry': recruiter.company.industry_type if recruiter.company.industry_type else '',
                 'description': recruiter.company.description if recruiter.company.description else '',
-                #'company_profile': recruiter.company.company_profile if recruiter.company else '',
+                'company_profile': recruiter.company.company_profile.name if recruiter.company else '',
             })
             res ={
                 'recruiter': ctx_employer_data,
             }
             response = simplejson.dumps(res)    
             return HttpResponse(response, status=200, mimetype='application/json')
-        return render(request, 'edit_employer.html', context)
-    def post(self,request,*args,**kwargs):
-        recruiter_details = ast.literal_eval(request.POST['recruiter_details'])
-        print recruiter_details
-        print request.FILES
-        status = 200
-        if recruiter_details['id'] !=0 :
-            recruiter = Recruiter.objects.get(id=recruiter_details['id'])
-            user = recruiter.user
-        else:  
-            
-            try:
-                user.username = recruiter_details['email']
-                user.save()
-                res = {
-                    'result': 'error',
-                    'message': 'Email already exists',
-                }
-                response = simplejson.dumps(res)
-                return HttpResponse(response, status=status, mimetype='application/json')
-            except Exception as ex:
-                user.email = recruiter_details['email']
-                user.save()
-        recruiter.country = recruiter_details['country']
-        recruiter.city = recruiter_details['city']
-        recruiter.mobile = int(recruiter_details['mobile'])
-        recruiter.land_num = int(recruiter_details['phone'])
-        if recruiter.company:
-            company = recruiter.company
-        else:
-            company = CompanyProfile()
-        
-        company.company_name = recruiter_details['name']
-        company.industry_type = recruiter_details['industry']
-        company_profile = request.FILES['profile_doc']
-        if company_profile:
-            company.company_profile = company_profile
-        company.save()
-        recruiter.company = company
-        recruiter.save()
-        user.save()
-        
-        res = {
-            'result': 'ok',
-            'recruiter_id': recruiter.id,
-        }
-        response = simplejson.dumps(res)
+        return render(request, 'employer.html', context)
 
-        return HttpResponse(response, status=status, mimetype='application/json')
 
 class PostJobsView(View):
     def get(self,request,*args,**kwargs):

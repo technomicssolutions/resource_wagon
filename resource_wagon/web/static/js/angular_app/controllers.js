@@ -1659,6 +1659,19 @@ function get_job_seeker_details($scope, $http) {
         console.log(data || "Request failed");
     });
 }
+function get_employer_details($scope, $http) {
+  console.log($scope.employer_id);
+  $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
+    {
+      $scope.recruiter = data.recruiter[0]; 
+       
+    }).error(function(data, status)
+    {
+        console.log(data || "Request failed");
+    });
+
+}
+
 function get_stream($scope) { 
     var basic_edu = $scope.educational_details.basic_edu; 
     if (basic_edu == '' || basic_edu == undefined) {
@@ -2439,13 +2452,9 @@ function RecruiterController($scope, $element, $http, $timeout) {
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
-            if ($scope.employer_id) {
-                var url = '/employer/edit_profile/'+$scope.employer_id+'/';
-            } else {
-                var url = '/employer/save_recruiter_details/';
-            }
-                
-            params = {
+            var url = '/employer/save_recruiter_details/';
+            
+             params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
             }
@@ -2478,9 +2487,11 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
   $scope.profile_doc = {};
   $scope.profile_doc.src = "";
   $scope.employer_id = 0;
+  $scope.view_employer_details = true;
   $scope.init = function(csrf_token, employer_id) {
     $scope.csrf_token = csrf_token;
     $scope.employer_id = employer_id;
+    console.log($scope.employer_id);
     get_industries($scope);
     get_countries($scope);
     $scope.recruiter = {
@@ -2496,15 +2507,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'company_profile':''
 
         } 
-        console.log($scope.employer_id);
-        $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
-        { 
-          $scope.recruiter = data.recruiter[0];  
-          console.log($scope.recruiter);
-        }).error(function(data, status)
-        {
-          console.log(data || "Request failed");
-        });
+    }
+    $scope.edit_employer_details = function(){
+      get_employer_details($scope, $http);
+      $scope.view_employer_details = false;
     }
     $scope.edit_recruiter_validation = function(){
         var letters = /^[A-Za-z]+$/;  
@@ -2549,7 +2555,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
                 $scope.recruiter.description = '';
             }
             
-            var url = '/employer/edit_recruiter_profile/'+$scope.recruiter.id+'/';
+            var url = '/employer/save_recruiter_details/';
                 
             params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
@@ -2567,7 +2573,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
                 }
             }).success(function(data, status){
                 
-                document.location.href = 'employer/employer_profile/'+$scope.employer_id+'/';
+                document.location.href = '/employer/employer_profile/?id='+data.recruiter_id;;
                 
             }).error(function(data, status){
                 $scope.error_flag = true;
