@@ -2357,7 +2357,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         if ($scope.edit_educational_details_validation()){
             $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
             params = {
-                
                 'educational_details':angular.toJson($scope.educational_details),
                 'csrfmiddlewaretoken': $scope.csrf_token,
             }
@@ -2424,8 +2423,8 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         $scope.photo_detail = true;
     }
     $scope.edit_photo_validation = function() {
-        if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
-            $scope.resume_validation_message = 'Please upload  your photo  ';
+        if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
+            $scope.photo_validation_message = 'Please upload your photo  ';
             return false;
         } return true;
     }

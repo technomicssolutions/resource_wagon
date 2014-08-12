@@ -64,15 +64,12 @@ class SavePersonalDetails(View):
         job_seeker.country = personal_details['country']
         job_seeker.city = personal_details['city']
         job_seeker.mobile = personal_details['mobile']
-        job_seeker.save()
-               
+        job_seeker.save()       
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
         }
-
         response = simplejson.dumps(res)
-
         return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveCurrentEmployerDetails(View):
@@ -110,7 +107,6 @@ class SaveCurrentEmployerDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveEducationalDetails(View):
@@ -154,7 +150,6 @@ class SaveEducationalDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveResumeDetails(View):
@@ -167,7 +162,6 @@ class SaveResumeDetails(View):
                 education = job_seeker.education
             else:
                 education = Education()
-
             education.resume_title = resume_details['resume_title']
             if request.FILES.get('resume_doc', ''):
                 education.resume = request.FILES['resume_doc']
@@ -180,25 +174,22 @@ class SaveResumeDetails(View):
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class SavePhotoDetails(View):
     def post(self, request, *args, **kwargs):
         photo_details = ast.literal_eval(request.POST['photo_details'])
         status = 200
-        is_logged_in = False
         if photo_details['id']:
             job_seeker = Jobseeker.objects.get(id=photo_details['id'])
-            job_seeker.photo = request.FILES['photo_img']
+            if request.FILES.get('photo_img', ''):
+                job_seeker.photo = request.FILES['photo_img']
             job_seeker.save()
-            
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
             }
             response = simplejson.dumps(res)
-
             return HttpResponse(response, status=status, mimetype='application/json')
 
 class JobSeekerView(View):
@@ -216,9 +207,9 @@ class EditDetails(View):
         context ={
             'jobseeker_id': jobseeker_id,
             'jobseeker': jobseeker,
-            'user':user,
-            'employment':employment,
-            'education':education,
+            'user': user,
+            'employment': employment,
+            'education': education,
         }
         ctx_jobseeker_data = []
         ctx_education_data = []
