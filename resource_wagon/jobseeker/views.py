@@ -220,12 +220,12 @@ class EditDetails(View):
         ctx_resume = []
         ctx_photo = []
         if jobseeker.employment.previous_employer.all().count() > 0:
-            for employer in jobseeker.employment.previous_employer.all():
+            for employer in jobseeker.employment.previous_employer.all().order_by('-id'):
                 ctx_previous_company.append({
                     'employer': employer.previous_employer_name,
                 })
         if jobseeker.education.doctrate.all().count() > 0: 
-            for doctrate in jobseeker.education.doctrate.all():
+            for doctrate in jobseeker.education.doctrate.all().order_by('-id'):
                 ctx_doctorate.append({
                     'doctorate': doctrate.doctorate_name,
                 })

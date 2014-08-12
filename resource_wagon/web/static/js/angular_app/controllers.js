@@ -1654,6 +1654,106 @@ function get_master_stream($scope) {
     var masters_edu = $scope.educational_details.masters_edu;
     $scope.specializations = $scope.masters_education_specialization[masters_edu];
 } 
+function job_seeker_initialization_details($scope) {
+    $scope.year = [];
+    $scope.months =[];
+    $scope.experience =[];
+    $scope.salary = '';
+    $scope.currency = '';
+    $scope.resume_text = '';
+
+    $scope.hide_doc = true;
+    $scope.hide_emp = true;
+
+    $scope.is_valid = false;
+    $scope.error_flag = false;
+    $scope.error_message = '';
+
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
+
+    $scope.resume_doc = {};
+    $scope.resume_doc.src = "";
+
+    $scope.checkbox = false;
+    $scope.job_seeker_id = 0;
+    $scope.personal = {
+        'id': $scope.job_seeker_id,
+        'password': '',
+        'password1': '',
+        'first_name': '',
+        'last_name': '',
+        'gender': '',
+        'dob':'',
+        'marital_status': '',
+        'nationality': '',
+        'country': '',
+        'city': '',
+        'mobile': '',
+        'alt_email': '',
+    }
+    $scope.current_employer = {
+        'id': $scope.job_seeker_id,
+        'years': '0',
+        'months': '0',
+        'salary': 0,
+        'currency': '',
+        'designation': '',
+        'industry': '',
+        'functions': '',
+        'employers': [],
+        'skills': '',
+    }
+    $scope.educational_details = {
+        'id': $scope.job_seeker_id,
+        'basic_edu': '',
+        'basic_specialization': '',
+        'pass_year_basic': '',
+        'masters_edu': '',
+        'master_specialization': '',
+        'pass_year_masters': '',
+        'doctrate': [],
+    }
+    $scope.resume_details = {
+        'id': $scope.job_seeker_id,
+        'resume_title': '',
+        'resume_text': '',
+        'resume': '',
+    }
+    $scope.photo_details = {
+        'id': $scope.job_seeker_id,
+        'profile_photo': '',
+    }
+    $scope.employers = [
+        {'employer': ''},
+    ]
+
+    $scope.doctorate = [
+        {'name': ''},
+    ]
+    get_currencies($scope);
+    get_countries($scope);
+    get_nationalities($scope);
+    get_industries($scope);
+    get_functions($scope);
+    get_basic_education($scope);
+    get_basic_education_specialization($scope);
+    get_masters_education($scope);
+    get_masters_education_specialization($scope);
+    new Picker.Date($$('#dob'), {
+        timePicker: false,
+        positionOffset: {x: 5, y: 0},
+        pickerClass: 'datepicker_bootstrap',
+        useFadeInOut: !Browser.ie,
+        format:'%d/%m/%Y',
+    });
+    for(var i=1970; i<=2014; i++){
+        $scope.year.push(i);
+    }
+    for(var i=0; i<=50; i++){
+        $scope.experience.push(i);
+    }
+}
 function hide_jobseeker_details_block($scope) {
     $scope.view_personal_details = false;
     $scope.view_educational_details = false;
@@ -1774,7 +1874,6 @@ function save_educational_details($scope, $http, type) {
         }
     });
 }
-
 function save_current_employer_details($scope, $http, type) {
     if (current_employer_validation($scope)) {
         $scope.current_employer.employers = JSON.stringify($scope.employers);
@@ -1887,112 +1986,14 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
 }
 
 function JobSeekerController($scope, $element, $http, $timeout) {
-
-    $scope.year = [];
-    $scope.months =[];
-    $scope.experience =[];
-    $scope.salary = '';
-    $scope.currency = '';
-    $scope.resume_text = '';
-
-    $scope.hide_doc = true;
-    $scope.hide_emp = true;
-
-    $scope.is_valid = false;
-    $scope.error_flag = false;
-    $scope.error_message = '';
-
-    $scope.photo_img = {};
-    $scope.photo_img.src = "";
-
-    $scope.resume_doc = {};
-    $scope.resume_doc.src = "";
-
-    $scope.checkbox = false;
-    $scope.job_seeker_id = 0;
-    $scope.personal = {
-        'id': $scope.job_seeker_id,
-        'password': '',
-        'password1': '',
-        'first_name': '',
-        'last_name': '',
-        'gender': '',
-        'dob':'',
-        'marital_status': '',
-        'nationality': '',
-        'country': '',
-        'city': '',
-        'mobile': '',
-        'alt_email': '',
-    }
-    $scope.current_employer = {
-        'id': $scope.job_seeker_id,
-        'years': '0',
-        'months': '0',
-        'salary': 0,
-        'currency': '',
-        'designation': '',
-        'industry': '',
-        'functions': '',
-        'employers': [],
-        'skills': '',
-    }
-    $scope.educational_details = {
-        'id': $scope.job_seeker_id,
-        'basic_edu': '',
-        'basic_specialization': '',
-        'pass_year_basic': '',
-        'masters_edu': '',
-        'master_specialization': '',
-        'pass_year_masters': '',
-        'doctrate': [],
-    }
-    $scope.resume_details = {
-        'id': $scope.job_seeker_id,
-        'resume_title': '',
-        'resume_text': '',
-        'resume': '',
-    }
-    $scope.photo_details = {
-        'id': $scope.job_seeker_id,
-        'profile_photo': '',
-    }
-    $scope.employers = [
-        {'employer': ''},
-    ]
-
-    $scope.doctorate = [
-        {'name': ''},
-    ]
+    job_seeker_initialization_details($scope);
     $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
         $scope.personal_details = true;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
         $scope.resume_detail = false;
-        $scope.photo_detail = false;      
-        get_currencies($scope);
-        get_countries($scope);
-        get_nationalities($scope);
-        get_industries($scope);
-        get_functions($scope);
-        get_basic_education($scope);
-        get_basic_education_specialization($scope);
-        get_masters_education($scope);
-        get_masters_education_specialization($scope);
-        new Picker.Date($$('#dob'), {
-            timePicker: false,
-            positionOffset: {x: 5, y: 0},
-            pickerClass: 'datepicker_bootstrap',
-            useFadeInOut: !Browser.ie,
-            format:'%d/%m/%Y',
-        });
-        for(var i=1970; i<=2014; i++){
-            $scope.year.push(i);
-        }
-        for(var i=0; i<=50; i++){
-            $scope.experience.push(i);
-        }
+        $scope.photo_detail = false;  
     }
     $scope.get_stream = function() {
         get_stream($scope);
@@ -2113,75 +2114,12 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     }
 }
 function EditJobSeekerController($scope, $element, $http, $timeout) {
-
-    $scope.year = [];
-    $scope.months =[];
-    $scope.experience =[];
-    $scope.hide_doc = true;
-    $scope.hide_emp = true;
-    $scope.photo_img = {};
-    $scope.photo_img.src = "";
-
-    $scope.resume_doc = {};
-    $scope.resume_doc.src = "";
-
+    job_seeker_initialization_details($scope);
     $scope.view_personal_details = true;
     $scope.view_educational_details = true;
     $scope.view_employment_details = true;
     $scope.view_resume_details = true;
     
-    $scope.job_seeker_id = 0;
-    $scope.personal = {
-        'id': $scope.job_seeker_id,
-        'first_name': '',
-        'last_name': '',
-        'gender': '',
-        'dob':'',
-        'marital_status': '',
-        'nationality': '',
-        'country': '',
-        'city': '',
-        'mobile': '',
-        'alt_email': '',
-    }
-    $scope.current_employer = {
-        'id': $scope.job_seeker_id,
-        'years': '0',
-        'months': '0',
-        'salary': 0,
-        'currency': '',
-        'designation': '',
-        'industry': '',
-        'functions': '',
-        'employers': [],
-        'skills': '',
-    }
-    $scope.educational_details = {
-        'id': $scope.job_seeker_id,
-        'basic_edu': '',
-        'basic_specialization': '',
-        'pass_year_basic': '',
-        'masters_edu': '',
-        'master_specialization': '',
-        'pass_year_masters': '',
-        'doctrate': [],
-    }
-    $scope.resume_details = {
-        'id': $scope.job_seeker_id,
-        'resume_title': '',
-        'resume_text': '',
-        'resume': '',
-    }
-    $scope.photo_details = {
-        'id': $scope.job_seeker_id,
-        'profile_photo': '',
-    }
-    $scope.employers = [
-        {'employer': ''},
-    ]
-    $scope.doctorate = [
-        {'name': ''},
-    ]
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
         $scope.jobseeker_id = jobseeker_id;
@@ -2190,28 +2128,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
-        get_currencies($scope);
-        get_countries($scope);
-        get_nationalities($scope);
-        get_industries($scope);
-        get_functions($scope);
-        get_basic_education($scope);
-        get_basic_education_specialization($scope);
-        get_masters_education($scope);
-        get_masters_education_specialization($scope);
-        new Picker.Date($$('#dob'), {
-            timePicker: false,
-            positionOffset: {x: 5, y: 0},
-            pickerClass: 'datepicker_bootstrap',
-            useFadeInOut: !Browser.ie,
-            format:'%d/%m/%Y',
-        });
-        for(var i=1970; i<=2014; i++){
-            $scope.year.push(i);
-        }
-        for(var i=0; i<=50; i++){
-            $scope.experience.push(i);
-        }
+        
         get_job_seeker_details($scope, $http);
     }   
     $scope.get_stream = function() {
