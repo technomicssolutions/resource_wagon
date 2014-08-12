@@ -2045,8 +2045,12 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         }
     }
     $scope.photo_validation = function() {
+        console.log($scope.checkbox);
         if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
-            $scope.resume_validation_message = 'Please upload  your photo  ';
+            $scope.photo_validation_message = 'Please upload  your photo  ';
+            return false;
+        } else if (!$scope.checkbox) {
+            $scope.photo_validation_message = 'Please agree to the terms and conditions';
             return false;
         } return true;
     }
@@ -2307,6 +2311,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         }
     }
     $scope.edit_educational_details_validation = function() {
+
         if ($scope.educational_details.basic_edu == '' || $scope.educational_details.basic_edu == undefined){
             $scope.educational_validation_msg = 'Please select Basic Education';
             return false;
@@ -2319,6 +2324,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } else if ($scope.educational_details.masters_edu != '' && ($scope.educational_details.master_specialization == '' || $scope.educational_details.master_specialization == undefined || $scope.educational_details.master_specialization == 'select')){
             $scope.educational_validation_msg = 'Please select Specialization for Masters Education ';
             return false;
+        } else if ($scope.educational_details.masters_edu != '' && ($scope.educational_details.pass_year_masters == '' || $scope.educational_details.pass_year_masters == undefined || $scope.educational_details.pass_year_masters == 'select')){
+            $scope.educational_validation_msg = 'Please select Year of Passing for Masters Education ';
+            return false;
         } return true;
     }
     $scope.show_educational_details = function(){
@@ -2326,6 +2334,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         get_job_seeker_details($scope, $http);
         get_stream($scope);
         get_master_stream($scope);
+        if ($scope.educational_details.pass_year_masters == '' || $scope.educational_details.pass_year_masters == undefined) {
+            $scope.educational_details.pass_year_masters = '';
+        }
         if ($scope.educational_details.doctorate) {
             if($scope.educational_details.doctorate.length > 1 && $scope.educational_details.doctorate.length <= 3){
                 for(var i=1; i < $scope.educational_details.doctorate.length; i++){

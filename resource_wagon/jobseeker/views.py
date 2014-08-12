@@ -271,9 +271,9 @@ class EditDetails(View):
                 'basic_edu': education.basic_edu if education else '',
                 'basic_specialization': education.basic_edu_specialization if education else '',
                 'pass_year_basic': education.pass_year_basic if education else '',
-                'masters_edu':education.masters if education else '',
-                'master_specialization':education.masters_specialization if education else '',
-                'pass_year_masters':education.pass_year_masters if education else '',
+                'masters_edu': education.masters if education else '',
+                'master_specialization': education.masters_specialization if education else '',
+                'pass_year_masters': education.pass_year_masters if education else '',
                 'doctorate': ctx_doctorate,
             })
             ctx_resume.append({
