@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from employer.models import Job
+from web.models import Job
 import datetime as dt
 from datetime import datetime
 
@@ -441,7 +441,7 @@ class ApplyJobs(View):
                     'not_able_to_apply': True
                 }
                 return render(request, 'job_details.html', context)
-
+        print type(job),job
         jobseeker.applied_jobs.add(job)
         jobseeker.save()
 
