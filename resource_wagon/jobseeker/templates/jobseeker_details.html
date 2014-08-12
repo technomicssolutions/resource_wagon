@@ -29,10 +29,9 @@
 
 	<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
 
-	<p>Marital Status :</p>{{user.jobseeker_set.all.0.marital_status}}
 	<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
 	
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
 </div>
 
 <div class="separation" ng-show="view_educational_details">
@@ -54,7 +53,7 @@
 	{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
 		{{doctrate}}</br>
 	{% endfor %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
 </div>
 <div class="separation" ng-show="view_employment_details">
 	<h3>Current Employment Details</h3>
@@ -70,21 +69,28 @@
 
 	<p>Previous Employer :</p>
 	{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
-		{{doctrate}}</br>
+		{{employer}}</br>
 	{% endfor %}
 
 	<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
 
 
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
 </div>
 <div class="separation" ng-show="view_resume_details">
-	<h3>Attachments</h3>
-	<P>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</P>
+	<h3>Resume Details</h3>
+	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
 	
+	<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
 
-
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details({{jobseeker_id}})"></p>
+	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
+</div>
+<div class="separation" ng-show="view_resume_details">
+	<h3>Photo</h3>
+	{% if user.jobseeker_set.all.0.photo %}
+		<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
+	{% endif %}
+	<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 
 </div>
 					
@@ -100,10 +106,7 @@
 		<h3>Personal Details</h3>
 		<label>Email Id<span class="red">*</span></label>
 		<input type="text" name="email" ng-model="personal.email" value="{{personal.email}}">
-		
-
 	
-		
 		<label>First Name<span class="red">*</span></label>
 		<input type="text" name="first_name" ng-model="personal.first_name" value="{{personal.first_name}}">
 		<label>Last Name<span class="red">*</span></label>
@@ -149,7 +152,6 @@
 		<input type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
 
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
-		<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
 		<p class="error_message error_p">[[personal_validation]]</p>
 	</div>
 	<div class="clear"></div>
@@ -247,10 +249,7 @@
 		<div class="add_employers">
 			<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
 			<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
-		</div>		
-		<!-- <input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_jobseeker()">
-		<input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()">
-		<p>[[error_message]]</p> -->
+		</div>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
 		
 		<p class="error_message error_p">[[educational_validation_msg]]</p>
@@ -263,17 +262,27 @@
 		<label>Attach CV<span class="red">*</span></label>
 		<input type="file" fileread="resume_doc.src"/>
 		<input type="hidden" ng-model="resume_doc.src">
-		<a href="/media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
+		<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 		<label>Copy and Paste Resume Here</label>
 		<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
 		<p class="error_message error_p">[[resume_validation_message]]</p>
 	</div>
+	<div class="separation" ng-show="photo_detail">
+		<h3>Update Photo </h3>
+		<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
+            <img src="/site_media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
+        </div>
+		<label>Attach Photo</label>
+		<input type="file" fileread="photo_img.src"/>
+		<input type="hidden" ng-model="photo_img.src">
+		<br>
+		<br>
+		<br>
+        
+		<p class="error_message error_p">[[photo_validation_message]]</p>
+	</div>
 
-	
-	<div class="rounded_photo" ng-show="resume_details.profile_photo" id="profile_image">
-        <img src="/media/[[resume_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
-    </div>
 		
 </form>
 {% endblock content %}

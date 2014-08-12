@@ -42,6 +42,12 @@ class SavePersonalDetails(View):
                 user.set_password(personal_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
+                user = authenticate(username=personal_details['email'], password=personal_details['password'])
+                if user and user.is_active:
+                    login(request, user)
+                    message = 'Logged in'
+                else:
+                    message = 'Not logged in' 
         user.first_name = personal_details['first_name']
         user.last_name = personal_details['last_name']
         user.email = personal_details['email']
@@ -59,14 +65,7 @@ class SavePersonalDetails(View):
         job_seeker.city = personal_details['city']
         job_seeker.mobile = personal_details['mobile']
         job_seeker.save()
-        user = authenticate(username=personal_details['email'], password=personal_details['password'])
-    
-        if user and user.is_active:
-            login(request, user)
-            message = 'Logged in'
-            is_logged_in = True
-        else:
-            message = 'Not logged in'        
+               
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
@@ -81,10 +80,8 @@ class SaveCurrentEmployerDetails(View):
     def post(self, request, *args, **kwargs):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
-        print current_employer_details
         status = 200
         if current_employer_details['id']:
-
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
             if job_seeker.employment:
                 employment = job_seeker.employment
@@ -108,7 +105,6 @@ class SaveCurrentEmployerDetails(View):
             employment.save()
             job_seeker.employment = employment
             job_seeker.save()
-
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
@@ -122,7 +118,6 @@ class SaveEducationalDetails(View):
     def post(self, request, *args, **kwargs):
 
         educational_details = ast.literal_eval(request.POST['educational_details'])
-        print educational_details
         status = 200
         if educational_details['id']:
             job_seeker = Jobseeker.objects.get(id=educational_details['id'])
@@ -133,12 +128,16 @@ class SaveEducationalDetails(View):
             education.basic_edu = educational_details['basic_edu']
             education.basic_edu_specialization = educational_details['basic_specialization']
             education.pass_year_basic = int(educational_details['pass_year_basic'])
-            # if seeker['masters_edu'] != "":
-            education.masters = educational_details['masters_edu']
-            # if seeker['master_specialization'] != "":
-            education.masters_specialization = educational_details['master_specialization']
-            if educational_details['pass_year_masters'] != "":
-                education.pass_year_masters = int(educational_details['pass_year_masters'])
+            if educational_details['masters_edu'] != "":
+                education.masters = educational_details['masters_edu']
+                if educational_details['master_specialization'] != "":
+                    education.masters_specialization = educational_details['master_specialization']
+                if educational_details['pass_year_masters'] != "":
+                    education.pass_year_masters = int(educational_details['pass_year_masters'])
+            else:
+                education.masters = ''
+                education.masters_specialization = ''
+                education.pass_year_masters = None
             doctrate = ast.literal_eval(educational_details['doctrate'])
             education.save()
             if education.doctrate:
@@ -170,7 +169,8 @@ class SaveResumeDetails(View):
                 education = Education()
 
             education.resume_title = resume_details['resume_title']
-            education.resume = request.FILES['resume_doc']
+            if request.FILES.get('resume_doc', ''):
+                education.resume = request.FILES['resume_doc']
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -227,12 +227,12 @@ class EditDetails(View):
         ctx_education_data = []
         ctx_doctorate = []
         ctx_resume = []
+        ctx_photo = []
         if jobseeker.employment.previous_employer.all().count() > 0:
             for employer in jobseeker.employment.previous_employer.all():
                 ctx_previous_company.append({
                     'employer': employer.previous_employer_name,
                 })
-
         if jobseeker.education.doctrate.all().count() > 0: 
             for doctrate in jobseeker.education.doctrate.all():
                 ctx_doctorate.append({
@@ -276,20 +276,22 @@ class EditDetails(View):
                 'pass_year_masters':education.pass_year_masters if education else '',
                 'doctorate': ctx_doctorate,
             })
-
             ctx_resume.append({
+                'id': jobseeker_id if jobseeker else '',
                 'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+            })
+            ctx_photo.append({
+                'id': jobseeker_id if jobseeker else '',
                 'profile_photo': jobseeker.photo.name if jobseeker else '',
-                
-
             })
             res ={
                 'personal': ctx_jobseeker_data,
                 'educational_details': ctx_education_data,
                 'current_employer': ctx_employment_data,
                 'resume_details': ctx_resume,
+                'photo_details': ctx_photo,
             }
             response = simplejson.dumps(res)    
             return HttpResponse(response, status=200, mimetype='application/json')

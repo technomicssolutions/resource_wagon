@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<a href="{% url 'logout' %}">Logout</a>
+{% if user.jobseeker_set.all.0 %}
+	<a href="{% url 'jobseeker_details' %}">View Profile</a>
+{% else %}
+	<a href="{% url 'employer_profile' %}">View Profile</a>
+{% endif %}
 	<p> Hai How are you? </p>
 {% endblock content %}
