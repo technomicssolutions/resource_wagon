@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
 	MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
 	FUNCTIONS, Job, MASTERS_SPEC, BASIC_SPEC,CURRENCY)
+from employer.models import CompanyProfile
 
 class PreviousEmployer(models.Model):
     previous_employer_name = models.CharField('Employer name', max_length=100, null=True, blank=True)
@@ -59,12 +60,17 @@ class Education(models.Model):
         return str(self.basic_edu)
 
     class Meta:
-
-        verbose_name = 'Education'
         verbose_name_plural = 'Education'
 
+class Location(models.Model):
 
+    location = models.CharField('Location', null=True, blank=True, max_length=200, choices=COUNTRY_CHOICES)
 
+    def __unicode__(self):
+        return str(self.location)
+
+    class Meta:
+        verbose_name_plural = 'Location'
 
 
 class Jobseeker(models.Model):
@@ -84,7 +90,9 @@ class Jobseeker(models.Model):
     age = models.IntegerField('Age', null=True, blank=True)
     education = models.ForeignKey(Education, null=True, blank=True)
     employment = models.ForeignKey(Employment, null=True, blank=True)
-    applied_jobs  = models.ManyToManyField(Job)
+    applied_jobs  = models.ManyToManyField(Job, null=True, blank=True)
+    prefered_locations = models.ManyToManyField(Location, null=True, blank=True)
+    prefered_companies = models.ManyToManyField(CompanyProfile, null=True, blank=True)
 
     def __unicode__(self):
         return self.user.username

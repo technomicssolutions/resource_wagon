@@ -75,7 +75,7 @@
 		<div class="clear"></div>
 
 		<div class="separation" ng-show="current_employment_details ">
-			<h3>Current Employment Details</h3>
+			<h3>Employment Details</h3>
 			<label>Total Experience</label>
 			<select name="years" ng-model="current_employer.years" class="years_select">
 				<option value="">Years</option>
@@ -122,7 +122,11 @@
 			</div>
 			<label>Key Skills<span class="red">*</span></label>
 			<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
-
+			<label> Prefered Location </label>
+			<select name="locations" ng-model="current_employer.locations" multiple>
+				<option value="">Select location</option>
+				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country.selected" ng-click="get_prefered_locations(country)">[[country]]</option>
+			</select>
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_current_employer_details()"></p>
 			
 			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
