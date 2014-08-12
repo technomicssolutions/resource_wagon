@@ -11,7 +11,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from models import CompanyProfile,Recruiter,Job
+from models import CompanyProfile,Recruiter
+from web.models import Job
 
 class EmployerRegistration(View):
 
