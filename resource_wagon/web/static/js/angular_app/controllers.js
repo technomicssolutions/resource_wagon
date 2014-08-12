@@ -2193,12 +2193,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
-            var index = $scope.current_employer.locations.indexOf(country);
-            if (index == -1) {
-                $scope.current_employer.locations.splice(index, 1);
-            } else {
-                $scope.current_employer.locations.push(country);
-            }
+            $scope.current_employer_validation_msg = '';
         } else {
             $scope.current_employer_validation_msg = 'Maximum of 5 locations';
         }
