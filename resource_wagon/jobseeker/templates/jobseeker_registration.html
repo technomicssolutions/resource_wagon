@@ -184,6 +184,7 @@
 			<a href="/media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 			<label>Copy and Paste Resume Here</label>
 			<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
+			<label>Allow recruiters to view resume</label><input type="checkbox" true ng-model="resume_details.show_resume">
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_resume_details()"></p>
 			<p class="error_message error_p">[[resume_validation_message]]</p>
 		</div>

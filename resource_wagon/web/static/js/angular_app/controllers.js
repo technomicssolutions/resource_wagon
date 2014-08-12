@@ -5,32 +5,32 @@
 
 function search_by_location(search_type){
   if (search_type == 'location') {
-    var url = '/search/?location=location';
+    var url = '/jobseeker/search/?location=location';
     document.location.href = url;
   }
   if (search_type == 'skills') {
-    var url = '/search/?skills=skills';
+    var url = '/jobseeker/search/?skills=skills';
     document.location.href = url;
   }
 }
 
 function search_by_skills(search_type){
   if (search_type == 'skills') {
-    var url = '/search/?skills=skills';
+    var url = '/jobseeker/search/?skills=skills';
     document.skills.href = url;
   }
 }
 
 function search_by_function(search_type){
   if (search_type == 'function') {
-    var url = '/search/?function=function';
+    var url = '/jobseeker/search/?function=function';
     document.function.href = url;
   }
 }
 
 function search_by_industry(search_type){
   if (search_type == 'industry') {
-    var url = '/search/?industry=industry';
+    var url = '/jobseeker/search/?industry=industry';
     document.industry.href = url;
   }
 }
@@ -78,7 +78,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/search/jobs/?location='+$scope.search.location;
+                var url = '/jobseeker/search_jobs/?location='+$scope.search.location;
                 document.location.href = url;
             }
         } else if (search_option == 'skills') {
@@ -89,7 +89,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/search/jobs/?skills='+$scope.search.keyword;
+                var url = '/jobseeker/search_jobs/?skills='+$scope.search.keyword;
                 document.location.href = url;
             }
         } else {
@@ -102,7 +102,7 @@ function search_job($scope, search_option) {
                 $scope.alert_style = {};
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/search/jobs/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
+                var url = '/jobseeker/search_jobs/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
                 document.location.href = url;
             }
         }
@@ -114,7 +114,7 @@ function search_job($scope, search_option) {
           $scope.is_location = false;
           $scope.is_exp = false;
           $scope.is_function = false;
-          var url = '/search/jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
+          var url = '/jobseeker/search_jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
           document.location.href = url;
       }
     }
@@ -1826,6 +1826,11 @@ function add_doctorate($scope){
     }
 }
 function save_resume_details($scope, $http, type) {
+  console.log($scope.resume_details);
+  if($scope.resume_details.show_resume == true)
+    $scope.resume_details.show_resume = "true";
+  else
+    $scope.resume_details.show_resume = "false";
     params = {
         'resume_details': angular.toJson($scope.resume_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2648,17 +2653,17 @@ function  JobPostingController($scope,$element,$http,$timeout){
         console.log(data || "Request failed");
     });
 
-    // if ($scope.job_id){
-    //   $http.get('/job/details/'+$scope.job_id+'/').success(function(data)
-    //         {
-    //             $scope.jobpost = data.jobpost[0]; 
-    //             $('#last_date').val($scope.jobpost.last_date);
-    //             $('#post_date').val($scope.jobpost.post_date);
-    //         }).error(function(data, status)
-    //         {
-    //             console.log(data || "Request failed");
-    //         });
-    // }		
+    if ($scope.job_id){
+      $http.get('/employer/details/'+$scope.job_id+'/').success(function(data)
+            {
+                $scope.jobpost = data.jobpost[0]; 
+                $('#last_dob').val($scope.jobpost.last_date);
+                $('#post_dob').val($scope.jobpost.post_date);
+            }).error(function(data, status)
+            {
+                console.log(data || "Request failed");
+            });
+    }		
   }
 
   $scope.get_req_stream = function(){
