@@ -164,7 +164,6 @@ class SaveEducationalDetails(View):
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
         resume_details = ast.literal_eval(request.POST['resume_details'])
-        print resume_details
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])

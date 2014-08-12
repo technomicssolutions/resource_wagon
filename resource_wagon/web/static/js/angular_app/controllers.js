@@ -70,7 +70,6 @@ function search_job($scope, search_option) {
         $scope.error_flag = false;
         $scope.error_message = '';
         if(search_option == 'location') {
-            console.log('in location')
             if (($scope.search.location == '' || $scope.search.location == undefined)) {
                 $scope.error_flag = true;
                 $scope.error_message = 'Please enter value for the location';
@@ -1643,7 +1642,6 @@ function get_job_seeker_details($scope, $http) {
         if ($scope.current_employer.years == null) {
             $scope.current_employer.years = '';
         }
-        console.log($scope.current_employer.locations);
         if ($scope.current_employer.locations.length > 0) {
             for (var j=0; j<$scope.countries.length; j++) {
                 for (var i=0;i<$scope.current_employer.locations.length; i++) {
@@ -1660,8 +1658,7 @@ function get_job_seeker_details($scope, $http) {
     });
 }
 function get_employer_details($scope, $http) {
-  console.log($scope.employer_id);
-  $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
+    $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
       $scope.recruiter = data.recruiter[0]; 
        
@@ -1671,7 +1668,6 @@ function get_employer_details($scope, $http) {
     });
 
 }
-
 function get_stream($scope) { 
     var basic_edu = $scope.educational_details.basic_edu; 
     if (basic_edu == '' || basic_edu == undefined) {
@@ -1826,11 +1822,10 @@ function add_doctorate($scope){
     }
 }
 function save_resume_details($scope, $http, type) {
-  console.log($scope.resume_details);
-  if($scope.resume_details.is_resume_show == true)
-    $scope.resume_details.is_resume_show = "true";
-  else
-    $scope.resume_details.is_resume_show = "false";
+    if($scope.resume_details.is_resume_show == true)
+        $scope.resume_details.is_resume_show = "true";
+    else
+        $scope.resume_details.is_resume_show = "false";
     params = {
         'resume_details': angular.toJson($scope.resume_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2403,7 +2398,6 @@ function RecruiterController($scope, $element, $http, $timeout) {
     }
     $scope.recruiter_validation = function(){
         $scope.error_message = '';
-        console.log($scope.recruiter.country);
         if ($scope.recruiter.name == '' || $scope.recruiter.name == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please enter the Company Name';
@@ -2490,7 +2484,6 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
   $scope.init = function(csrf_token, employer_id) {
     $scope.csrf_token = csrf_token;
     $scope.employer_id = employer_id;
-    console.log($scope.employer_id);
     get_industries($scope);
     get_countries($scope);
     $scope.recruiter = {
@@ -2548,21 +2541,16 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = false;
             $scope.error_message = '';
             $scope.employer_id = $scope.recruiter.id;
-            console.log($scope.employer_id)
-            
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
-            
             var url = '/employer/save_recruiter_details/';
-                
             params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            console.log($scope.profile_doc.src)
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -2708,7 +2696,6 @@ function  JobPostingController($scope,$element,$http,$timeout){
       return false;
     } else if ($scope.jobpost.min != 0 ) {
       if($scope.jobpost.min == '' || $scope.jobpost.min == undefined || $scope.jobpost.min == '-min-'){
-        console.log('$scope.jobpost.min', $scope.jobpost.min, $scope.jobpost.min == '' , $scope.jobpost.min == undefined, $scope.jobpost.min == '-min-');
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the minimum Experience Required';
         return false;
@@ -2755,23 +2742,21 @@ function  JobPostingController($scope,$element,$http,$timeout){
       $scope.error_flag = true;
       $scope.error_message = 'Please provide the Company Profile';
       return false;
-    } 
-    return true;
-  }
-
-  $scope.save_job = function(){
-      $scope.jobpost.last_date = $('#last_dob').val();
-      $scope.jobpost.post_date = $('#post_dob').val();
+    } return true;
+    }
+    $scope.save_job = function(){
+        $scope.jobpost.last_date = $('#last_dob').val();
+        $scope.jobpost.post_date = $('#post_dob').val();
         $scope.is_valid = $scope.form_validation_postjob();
         if ($scope.is_valid) {
-          $scope.error_flag = false;
-          $scope.error_message = '';
-          if ($scope.jobpost.post_date == null) {
-            $scope.jobpost.post_date = '';
-          }
-          if ($scope.jobpost.last_date == null) {
-            $scope.jobpost.last_date = '';
-          }
+            $scope.error_flag = false;
+            $scope.error_message = '';
+            if ($scope.jobpost.post_date == null) {
+                $scope.jobpost.post_date = '';
+            }
+            if ($scope.jobpost.last_date == null) {
+                $scope.jobpost.last_date = '';
+            }
             var file = $scope.product_pdf.src;
             var edit = $scope.edit;
             params = {
@@ -2786,43 +2771,35 @@ function  JobPostingController($scope,$element,$http,$timeout){
             if($scope.job_id) {
               var url = "/employer/edit/"+$scope.job_id+"/";
             } else {
-              if(edit == 1){
-                  var url = "/employer/post_job/";               
-              }              
+                if(edit == 1){
+                    var url = "/employer/post_job/";               
+                }              
             } 
-           
-                        
-            
             $http.post(url, fd, {
-                    transformRequest: angular.identity,
-                    headers: {'Content-Type': undefined
-                    }
-                    
-                }).success(function(data, status){
-                    $scope.id = data.id;
-                    $scope.edit = $scope.edit + 1;  
-                    
-                    var url = '/employer/posted_jobs/';
-                    document.location.href = url;
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined
+                }
+                
+            }).success(function(data, status){
+                $scope.id = data.id;
+                $scope.edit = $scope.edit + 1;  
+                
+                var url = '/employer/posted_jobs/';
+                document.location.href = url;
 
-              }).error(function(data, status){
-                  console.log(data);
+            }).error(function(data, status){
+                 console.log(data);
             });
         }        
     }
-    
     $scope.view_posted_jobs = function() {
         var url = '/posted_jobs/';
         document.location.href = url;
     }
 }
-
 function SearchController($scope,$element,$http,$timeout){
-
     $scope.experiences = [];
-
     $scope.alert_style = {};
-    
     $scope.search = {
         'keyword' : '',
         'location' : '',
@@ -2830,7 +2807,6 @@ function SearchController($scope,$element,$http,$timeout){
         'function_name' : '',
         'industry' : '',
     }
-
     $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry) {
         $scope.csrf_token = csrf_token;
         get_functions($scope);
@@ -2856,7 +2832,6 @@ function SearchController($scope,$element,$http,$timeout){
             $scope.experiences.push(i);
         }
     }
-
     $scope.search = function(search_type){
         search_job($scope, search_type);
     } 
