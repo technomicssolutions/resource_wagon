@@ -2181,7 +2181,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
-        
         get_job_seeker_details($scope, $http);
     }   
     $scope.get_stream = function() {
