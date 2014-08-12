@@ -170,7 +170,10 @@ class SaveResumeDetails(View):
             else:
                 if request.FILES.get('resume_doc', ''):
                     education.resume = request.FILES['resume_doc']
-
+            if resume_details['show_resume'] == 'true':
+                education.show_resume = True 
+            else:
+                education.show_resume = False 
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -279,6 +282,7 @@ class EditDetails(View):
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
                 'remove_resume': 'false',
+                'show_resume': True if jobseeker.education.show_resume else False,
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',

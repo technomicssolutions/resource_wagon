@@ -52,6 +52,7 @@ class Education(models.Model):
     resume_title = models.CharField('Resume Title', max_length=200)
     resume = models.FileField(upload_to = "uploads/resumes/", null=True, blank=True)
     resume_text = models.TextField('Resume Text', null=True, blank=True)
+    # show_resume = models.BooleanField("Show Resume", default = True)
     
 
     def __unicode__(self):

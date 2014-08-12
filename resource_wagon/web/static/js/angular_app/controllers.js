@@ -1803,6 +1803,11 @@ function add_doctorate($scope){
     }
 }
 function save_resume_details($scope, $http, type) {
+  console.log($scope.resume_details);
+  if($scope.resume_details.show_resume == true)
+    $scope.resume_details.show_resume = "true";
+  else
+    $scope.resume_details.show_resume = "false";
     params = {
         'resume_details': angular.toJson($scope.resume_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
