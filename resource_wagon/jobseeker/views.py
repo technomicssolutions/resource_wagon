@@ -10,7 +10,7 @@ import ast
 import simplejson
 from datetime import datetime
 
-from models import (Employment, Education, Jobseeker, PreviousEmployer, Doctorate, Location)
+from models import (Employment, Education, Jobseeker, PreviousEmployer,Doctorate)
 
 class JobseekerRegistration(View):
 
@@ -77,7 +77,6 @@ class SaveCurrentEmployerDetails(View):
     def post(self, request, *args, **kwargs):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
-        print current_employer_details
         status = 200
         if current_employer_details['id']:
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
@@ -102,12 +101,6 @@ class SaveCurrentEmployerDetails(View):
                     employment.previous_employer.add(employer_obj)
             employment.save()
             job_seeker.employment = employment
-            prefered_locations = current_employer_details['locations']
-            if job_seeker.prefered_locations:
-                job_seeker.prefered_locations.clear()
-            for prefered_location in prefered_locations:
-                location, created = Location.objects.get_or_create(location=prefered_location)
-                job_seeker.prefered_locations.add(location)
             job_seeker.save()
             res = {
                 'result': 'ok',
@@ -162,6 +155,7 @@ class SaveEducationalDetails(View):
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
         resume_details = ast.literal_eval(request.POST['resume_details'])
+        print resume_details
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])
@@ -176,10 +170,10 @@ class SaveResumeDetails(View):
             else:
                 if request.FILES.get('resume_doc', ''):
                     education.resume = request.FILES['resume_doc']
-            if resume_details['show_resume'] == 'true':
-                education.show_resume = True 
+            if resume_details['is_resume_show'] == 'true':
+                education.is_resume_show = True 
             else:
-                education.show_resume = False 
+                education.is_resume_show = False 
             education.resume_text = resume_details['resume_text']
             education.save()
             job_seeker.education = education
@@ -234,7 +228,6 @@ class EditDetails(View):
         ctx_doctorate = []
         ctx_resume = []
         ctx_photo = []
-        ctx_locations = []
         if jobseeker.employment.previous_employer.all().count() > 0:
             for employer in jobseeker.employment.previous_employer.all().order_by('-id'):
                 ctx_previous_company.append({
@@ -245,9 +238,6 @@ class EditDetails(View):
                 ctx_doctorate.append({
                     'doctorate': doctrate.doctorate_name,
                 })
-        if jobseeker.prefered_locations.all().count() > 0: 
-            for location in jobseeker.prefered_locations.all().order_by('-id'):
-                ctx_locations.append(location.location)
         if request.is_ajax():
             ctx_jobseeker_data.append ({
                 'id': jobseeker_id if jobseeker else '',
@@ -269,13 +259,12 @@ class EditDetails(View):
                 'years': employment.exp_yrs if employment else '',
                 'months': employment.exp_mnths if employment else '',
                 'salary': employment.salary if employment else '',
-                'designation': employment.designation if employment else '',
-                'skills': employment.skills if employment else '',
-                'currency': employment.currency if employment else '',
-                'industry': employment.curr_industry if employment else '',
-                'functions': employment.function if employment else '',
+                'designation':employment.designation if employment else '',
+                'skills':employment.skills if employment else '',
+                'currency':employment.currency if employment else '',
+                'industry':employment.curr_industry if employment else '',
+                'functions':employment.function if employment else '',
                 'employers': ctx_previous_company,
-                'locations': ctx_locations,
             })
             ctx_education_data.append ({
                 'id': jobseeker_id if jobseeker else '',
@@ -293,7 +282,7 @@ class EditDetails(View):
                 'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
                 'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
                 'remove_resume': 'false',
-                'show_resume': True if jobseeker.education.show_resume else False,
+                'is_resume_show': True if jobseeker.education.is_resume_show else False,  
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',
