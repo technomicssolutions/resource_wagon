@@ -56,7 +56,7 @@
 	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
 </div>
 <div class="separation" ng-show="view_employment_details">
-	<h3>Current Employment Details</h3>
+	<h3>Employment Details</h3>
 	<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
 
 	<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
@@ -80,6 +80,13 @@
 <div class="separation" ng-show="view_resume_details">
 	<h3>Resume Details</h3>
 	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
+	<p>Resume visible to recruiters:
+	{% if user.jobseeker_set.all.0.education.show_resume %}
+		Yes
+	{% else %}
+		No
+	{% endif %}
+	</p>
 	{% if user.jobseeker_set.all.0.education.resume %}
 		<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
 	{% endif %}
@@ -161,11 +168,11 @@
 		<h3>Current Employment Details</h3>
 		<label>Total Experience</label>
 		<select name="years" ng-model="current_employer.years" class="years_select">
-			<option value="{{current_employer.years}}">years</option>
+			<option value="">years</option>
 			<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
 		</select>
 		<select name="months" ng-model="current_employer.months" class="month_select">
-			<option value="{{current_employer.months}}">months</option>
+			<option value="">months</option>
 			<option value="0">0</option>
 			<option value="1">1</option>
 			<option value="2">2</option>
@@ -190,12 +197,12 @@
 		<input type="text" name="designation" ng-model="current_employer.designation">
 		<label>Current Industry</label>
 		<select name="industry" ng-model="current_employer.industry"> 
-			<option value="{{current_employer.industry}}"></option>
+			<option value="">Select</option>
 			<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == current_employer.industry">[[industry]]</option>				
 		</select>
 		<label>Functional Area</label>
 		<select name ="functions" ng-model="current_employer.functions">
-			<option value="{{current_employer.function}}"></option>
+			<option value="">Select</option>
 			<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == current_employer.functions">[[function]]</option>
 		</select>
 		<label>Previous Employer</label>
@@ -205,7 +212,11 @@
 		</div>
 		<label>Key Skills<span class="red">*</span></label>
 		<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
-
+		<label> Prefered Location </label>
+		<select name="locations" ng-model="current_employer.locations" multiple>
+			<option value="">Select location</option>
+			<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
+		</select>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
 		
 		<p class="error_message error_p">[[current_employer_validation_msg]]</p>
@@ -265,6 +276,7 @@
 		<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 		<label>Copy and Paste Resume Here</label>
 		<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
+		<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.show_resume"></label>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
 		<a href=""  ng-click="remove_cv()" ng-show="resume_details.resume">Delete CV</a>
 		<p class="error_message error_p">[[resume_validation_message]]</p>
