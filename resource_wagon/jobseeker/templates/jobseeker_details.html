@@ -4,7 +4,7 @@
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
 
 {% block content %}
-<h2>{{user.first_name}}</h2>
+<h2>Welcome {{user.first_name}}</h2>
 <div class="separation" ng-show="view_personal_details">
 	<h3>Personal Details</h3>
 	<p>Email Id:{{user.email}}</p>
@@ -279,7 +279,7 @@
 		<br>
 		<br>
 		<br>
-        
+		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_photo_details()"></p>
 		<p class="error_message error_p">[[photo_validation_message]]</p>
 	</div>
 
