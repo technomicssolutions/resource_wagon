@@ -1719,6 +1719,7 @@ function job_seeker_initialization_details($scope) {
         'resume_title': '',
         'resume_text': '',
         'resume': '',
+        'remove_resume': 'false',
     }
     $scope.photo_details = {
         'id': $scope.job_seeker_id,
@@ -1794,7 +1795,6 @@ function save_resume_details($scope, $http, type) {
         'csrfmiddlewaretoken': $scope.csrf_token,
     }
     var fd = new FormData();
-    console.log(params)
     fd.append('resume_doc', $scope.resume_doc.src);
     for(var key in params){
         fd.append(key, params[key]);          
@@ -2294,6 +2294,10 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         if ($scope.edit_photo_validation()){
             save_photo_details($scope, $http);
         }
+    }
+    $scope.remove_cv = function() {
+        $scope.resume_details.resume = '';
+        $scope.resume_details.remove_resume = 'true';
     }
 }
 
