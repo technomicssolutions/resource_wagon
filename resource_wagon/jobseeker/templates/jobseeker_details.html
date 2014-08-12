@@ -81,7 +81,7 @@
 	<h3>Resume Details</h3>
 	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
 	<p>Resume visible to recruiters:
-	{% if user.jobseeker_set.all.0.education.show_resume %}
+	{% if user.jobseeker_set.all.0.education.is_resume_show %}
 		Yes
 	{% else %}
 		No
@@ -276,7 +276,7 @@
 		<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
 		<label>Copy and Paste Resume Here</label>
 		<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
-		<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.show_resume"></label>
+		<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.is_resume_show"></label>
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
 		<a href=""  ng-click="remove_cv()" ng-show="resume_details.resume">Delete CV</a>
 		<p class="error_message error_p">[[resume_validation_message]]</p>
