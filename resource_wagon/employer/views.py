@@ -148,8 +148,8 @@ class PostJobsView(View):
     def post(self, request, *args, **kwargs):
 
         current_user = request.user
-        recruiter = Recruiter.objects.get(user = current_user)
-        jobPosting = Job.objects.create(recruiter = recruiter)
+        
+        jobPosting = Job.objects.create(recruiter = current_user)
         post_data = request.POST
         jobpost = ast.literal_eval(post_data['jobpost'])
         
@@ -197,8 +197,8 @@ class PostedJobsView(View):
      def get(self, request,*args, **kwargs):
         jobs = []
         current_user = request.user
-        recruiter = Recruiter.objects.get(user = current_user)
-        jobs = Job.objects.filter(recruiter=recruiter)
+        
+        jobs = Job.objects.filter(recruiter=current_user)
         context = {
           'jobs': jobs,
         }
@@ -212,8 +212,8 @@ class DeleteJob(View):
             job = Job.objects.get(id = kwargs['job_id'])
             job.delete()
             current_user = request.user
-            recruiter = Recruiter.objects.get(user = current_user)
-            jobs = Job.objects.filter(recruiter=recruiter)
+            
+            jobs = Job.objects.filter(recruiter=current_user)
         except Exception as ex:
             print str(ex)
             jobs = []
@@ -232,8 +232,7 @@ class PublishJob(View):
             job.is_publish = True
             job.save()
             current_user = request.user
-            recruiter = Recruiter.objects.get(user = current_user)
-            jobs = Job.objects.filter(recruiter=request.user)
+            jobs = Job.objects.filter(recruiter=current_user)
         except Exception as ex:
             print str(ex)
             jobs = []
