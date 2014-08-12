@@ -2573,11 +2573,25 @@ function  JobPostingController($scope,$element,$http,$timeout){
     get_req_education_specialization($scope);
     get_currencies($scope);
     $scope.job_id = id;
+    new Picker.Date($$('#last_dob'), {
+            timePicker: false,
+            positionOffset: {x: 5, y: 0},
+            pickerClass: 'datepicker_bootstrap',
+            useFadeInOut: !Browser.ie,
+            format:'%d/%m/%Y',
+        });
+    new Picker.Date($$('#post_dob'), {
+            timePicker: false,
+            positionOffset: {x: 5, y: 0},
+            pickerClass: 'datepicker_bootstrap',
+            useFadeInOut: !Browser.ie,
+            format:'%d/%m/%Y',
+        });
     for(var i=0; i<=50; i++){
         $scope.Min.push(i);
         $scope.Max.push(i);
     } 
-    $http.get('/post_jobs/').success(function(data)
+    $http.get('/employer/post_job/').success(function(data)
     {
         // $scope.companies = data.companies;
     }).error(function(data, status)
@@ -2605,8 +2619,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
 
   $scope.form_validation_postjob = function(){
     var letters = /^[A-Za-z]+$/;  
-    $scope.jobpost.last_date = $('#last_date').val();
-    $scope.jobpost.post_date = $('#post_date').val();
+    $scope.jobpost.last_date = $('#last_dob').val();
+    $scope.jobpost.post_date = $('#post_dob').val();
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
@@ -2693,8 +2707,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
   }
 
   $scope.save_job = function(){
-      $scope.jobpost.last_date = $('#last_date').val();
-      $scope.jobpost.post_date = $('#post_date').val();
+      $scope.jobpost.last_date = $('#last_dob').val();
+      $scope.jobpost.post_date = $('#post_dob').val();
         $scope.is_valid = $scope.form_validation_postjob();
         if ($scope.is_valid) {
           $scope.error_flag = false;
@@ -2706,7 +2720,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
             $scope.jobpost.last_date = '';
           }
             var file = $scope.product_pdf.src;
-            var edit =$scope.edit;
+            var edit = $scope.edit;
             params = {
                 'jobpost':angular.toJson($scope.jobpost),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
@@ -2717,12 +2731,15 @@ function  JobPostingController($scope,$element,$http,$timeout){
               fd.append(key, params[key]);
             }
             if($scope.job_id) {
-              var url = "/recruiter/post-jobs/edit/"+$scope.job_id+"/";
+              var url = "/employer/edit/"+$scope.job_id+"/";
             } else {
               if(edit == 1){
-                  var url = "/recruiter/post-jobs/";               
+                  var url = "/employer/post_job/";               
               }              
             } 
+           
+                        
+            
             $http.post(url, fd, {
                     transformRequest: angular.identity,
                     headers: {'Content-Type': undefined
@@ -2732,7 +2749,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
                     $scope.id = data.id;
                     $scope.edit = $scope.edit + 1;  
                     
-                    var url = '/posted_jobs/';
+                    var url = '/employer/posted_jobs/';
                     document.location.href = url;
 
               }).error(function(data, status){
