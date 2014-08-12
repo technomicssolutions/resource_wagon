@@ -31,15 +31,7 @@
 			</div>	
 			<div class="formrow">
 				<label>Company Name<span class="red">*</span></label>
-				{% if user.is_superuser %}
-					<select style="width: 14%" name="company" ng-model="jobpost.company" >
-
-						<option value="">-Select-</option>
-						<option ng-repeat="company in companies" value="[[company.name]]" ng-selected="company.name == jobpost.company">[[company.name]]</option>
-					</select>
-				{% else %}
 					<input type ="text" name="title" value="{{company_name}}" readonly id="company_name">
-				{% endif %}
 			</div>
 			
 		</div>

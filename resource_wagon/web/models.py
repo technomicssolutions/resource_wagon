@@ -1,6 +1,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+
 from django.conf import settings
 
 USER_TYPE = (
@@ -1119,9 +1120,11 @@ EDUCATION_REQUIRED = (
 
 
 class Job(models.Model):
-
+    from employer.models import CompanyProfile
     recruiter = models.ForeignKey(User)
+    company = models.ForeignKey(CompanyProfile, null=True, blank=True)
     job_title = models.CharField('Job Title', max_length=200)
+    salary = models.IntegerField('Salary', null=True, blank=True)
     ref_code = models.CharField('Ref Code', max_length=15, null=True, blank=True)
     summary = models.CharField('Summary', max_length=2000)
     document = models.FileField (upload_to = "uploads/doc/", null=True, blank=True)
@@ -1143,6 +1146,7 @@ class Job(models.Model):
     is_featured = models.BooleanField('Is Featured', default=False)
     description = models.TextField('Description', null=True, blank=True)
     is_publish = models.BooleanField('Publish', default=False)
+    currency = models.CharField('Currency', max_length=30, null=True, blank=True, choices=CURRENCY)
 
     def __unicode__(self):
         return self.job_title
