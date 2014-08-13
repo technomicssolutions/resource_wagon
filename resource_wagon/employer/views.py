@@ -398,4 +398,11 @@ class ViewApplicants(View):
 
         return render(request, 'applicants.html', context)
 
+# class AdminRequest(View):
+
+#     def get(self, request, *args, **kwargs):
+
+
+
+
 

@@ -37,8 +37,9 @@ class ApplicantReport(View):
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
         print jobseeker
         report_heading = jobseeker.user.first_name + jobseeker.user.last_name 
-        p.drawString(0, y - 60, report_heading)
+        p.drawString(0, y , report_heading)
         p.setFontSize(15)
+        p = header(p, y)
         p.drawString(0, y - 80, "Personal Details")
         p.setFontSize(13)
         p.drawString(20, y - 100, "Gender :")
@@ -54,6 +55,7 @@ class ApplicantReport(View):
         p.drawString(20, y - 240, "City :")
         p.drawString(60, y - 240, jobseeker.city)
         p.setFontSize(15)
+        p = header(p, y)
         p.drawString(0, y - 280, "Educational Details")
         p.setFontSize(13)
         p.drawString(20, y - 300, "Basic Education :")
@@ -74,10 +76,12 @@ class ApplicantReport(View):
                 y1 = y1 - 30
                 p.drawString(150,y1,doctrate)
         p.setFontSize(15)
+        p = header(p, y)
         p.drawString(0,y-420, "Techinical Skills")
         p.setFontSize(13)
         p.drawString(20,y-440,jobseeker.employment.skills)
         p.setFontSize(15)
+        p = header(p, y)
         p.drawString(0,y-460,"Employment Details")
         p.setFontSize(13)
         p.drawString(20,y-480,"Total Experience:")
@@ -98,6 +102,7 @@ class ApplicantReport(View):
                 y1 = y1 - 10
                 p.drawString(150,y1,str(employer))
         p.setFontSize(15)
+        
         y1 = y - 600
         if jobseeker.prefered_locations:
             p.drawString(0,y-600,"Preffered Location:")
@@ -105,6 +110,8 @@ class ApplicantReport(View):
                 y1 = y1 - 30
                 p.setFontSize(13)
                 p.drawString(150,y1,str(location))
+        p.setFontSize(15)
+        
         y1 = y - 650
         if jobseeker.prefered_companies:
             p.drawString(0,y-650,"Preffered Company:")

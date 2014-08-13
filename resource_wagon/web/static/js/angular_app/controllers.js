@@ -2885,21 +2885,7 @@ function SearchController($scope,$element,$http,$timeout){
         search_job($scope, search_type);
     } 
 
-    $scope.search_cv = function() {
-        if (($scope.resume_title == '' || $scope.resume_title == undefined) && ($scope.age == '' || $scope.age == undefined) && ($scope.keyword == '' || $scope.keyword == undefined)) {
-                $scope.error_flag = true;
-                $scope.error_message = 'Please enter value for the any of the criteria';
-                $scope.alert_style = {border: '1px solid #FF0000'};
-                
-        }  else {
-            $scope.alert_style = {};
-            $scope.error_flag = false;
-            $scope.error_message = '';
-            var url = '/search_cv/?cv_title='+$scope.resume_title+'&age='+$scope.age+'&keyword='+$scope.keyword;
-            document.location.href = url;
-        }
-
-    }
+   
 }
 
 function CandidateSearchController($scope,$element,$http,$timeout){
