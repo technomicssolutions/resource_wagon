@@ -8,10 +8,7 @@ function search_by_location(search_type){
     var url = '/jobseeker/search/?location=location';
     document.location.href = url;
   }
-  if (search_type == 'skills') {
-    var url = '/jobseeker/search/?skills=skills';
-    document.location.href = url;
-  }
+  
 }
 
 function search_by_skills(search_type){
@@ -2750,7 +2747,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
         return false;
       }
     } else if ($scope.jobpost.max != 0 ) {
-      if($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-min-'){
+      if($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-max-'){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the maximum Experience Required';
         return false;
