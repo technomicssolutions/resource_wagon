@@ -482,3 +482,27 @@ class ApplyJobs(View):
         }
 
         return render(request, 'job_details.html', context)
+
+
+class ActivityLog(View):
+
+    def get(self, request, *args, **kwargs):
+        jobseeker_id =  request.user.jobseeker_set.all()[0].id
+        jobseeker = Jobseeker.objects.get(id=jobseeker_id)
+        applied_jobs = jobseeker.applied_jobs.all();
+        applied_jobs_list = []
+        for job in applied_jobs:
+            applied_jobs_list.append({
+                'job_title': job.job_title,
+                'recruiter': job.company.company_name,
+                'job_location': job.job_location,
+                'last_date': job.last_date,
+                'description': job.description,
+                })
+        print applied_jobs_list
+        context = {
+        'applied_jobs': applied_jobs_list,
+        }
+        print applied_jobs_list      
+        return render(request, 'activity_log.html',context)
+
