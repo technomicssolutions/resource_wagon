@@ -77,7 +77,10 @@
 	{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
 		{{location}}</br>
 	{% endfor %}
-
+	<p>Prefered Companies :</p>
+	{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
+		{{company}}</br>
+	{% endfor %}
 	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
 </div>
 <div class="separation" ng-show="view_resume_details">
@@ -158,6 +161,8 @@
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
 			<p class="error_message error_p">[[personal_validation]]</p>
 		</div>
+
+
 		<div class="clear"></div>
 
 		<div class="separation" ng-show="current_employment_details ">
@@ -213,6 +218,11 @@
 			<select name="locations" ng-model="current_employer.locations" multiple>
 				<option value="">Select location</option>
 				<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
+			</select>
+			<label> Prefered Company </label>
+			<select name="companies" ng-model="current_employer.companies" multiple>
+				<option value="">Select company</option>
+				<option ng-repeat="company in companies" value="[[company.id]]" ng-selected="company.selected" ng-click="get_prefered_companies(company)">[[company.name]]</option>
 			</select>
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
 			

@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from jobseeker.views import JobseekerRegistration, SavePersonalDetails, SaveCurrentEmployerDetails,  SaveEducationalDetails, SaveResumeDetails, SavePhotoDetails, JobSeekerView, EditDetails, SearchJobsView, SearchView, ApplyJobs
+from jobseeker.views import JobseekerRegistration, SavePersonalDetails, SaveCurrentEmployerDetails,  SaveEducationalDetails, SaveResumeDetails, SavePhotoDetails, JobSeekerView, EditDetails, SearchJobsView, SearchView, ApplyJobs,Companies
 
 urlpatterns = patterns('',
     url(r'^registration/$', JobseekerRegistration.as_view(), name="jobseeker_registration"),
@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^save_photo_details/$', SavePhotoDetails.as_view(), name="save_photo_details"),
     url(r'^jobseeker_details/$', JobSeekerView.as_view(), name="jobseeker_details"),
     url(r'^edit_details/(?P<jobseeker_id>\d+)/$', EditDetails.as_view(), name="edit_details"),
+    url(r'^get_companies/$', Companies.as_view(), name="get_companies"),
   	url(r'^search_jobs/$',SearchJobsView.as_view(), name='search_jobs'),
   	url(r'^search/$', SearchView.as_view(), name='search'),
   	url(r'^apply/(?P<job_id>\d+)/$', login_required(ApplyJobs.as_view()), name='apply_jobs'),

@@ -13,6 +13,7 @@ import ast
 import simplejson
 from datetime import datetime
 
+from employer.models import CompanyProfile
 from models import (Employment, Education, Jobseeker, PreviousEmployer, Doctorate, Location)
 
 class JobseekerRegistration(View):
@@ -21,6 +22,23 @@ class JobseekerRegistration(View):
     	if request.user.is_authenticated():
             logout(request)
         return render(request, 'jobseeker_registration.html', {})
+
+class Companies(View):
+
+    def get(self, request, *args, **kwargs):
+        companies = CompanyProfile.objects.all();
+        companies_list = []
+        for company in companies:
+            companies_list.append({
+                'id': company.id,
+                'name': company.company_name,
+                })
+        res = {
+            'result': 'ok',
+            'companies': companies_list,
+        }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, mimetype='application/json')
 
 class SavePersonalDetails(View):
 
@@ -111,6 +129,14 @@ class SaveCurrentEmployerDetails(View):
                 location, created = Location.objects.get_or_create(location=prefered_location)
                 job_seeker.prefered_locations.add(location)                     
                 job_seeker.save()
+            prefered_companies = current_employer_details['companies']
+            if job_seeker.prefered_companies:
+                job_seeker.prefered_companies.clear()
+            for prefered_company in prefered_companies:
+                print prefered_company
+                job_seeker.prefered_companies.add(prefered_company)                     
+                job_seeker.save()           
+       
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
@@ -237,6 +263,7 @@ class EditDetails(View):
         ctx_resume = []
         ctx_photo = []
         ctx_locations = []
+        ctx_companies = []
         if jobseeker.employment.previous_employer.all().count() > 0:
             for employer in jobseeker.employment.previous_employer.all().order_by('-id'):
                 ctx_previous_company.append({
@@ -250,6 +277,12 @@ class EditDetails(View):
         if jobseeker.prefered_locations.all().count() > 0:
             for location in jobseeker.prefered_locations.all().order_by('-id'):
                 ctx_locations.append(location.location)
+        if jobseeker.prefered_companies.all().count() > 0:
+            for company in jobseeker.prefered_companies.all().order_by('-id'):
+                ctx_companies.append({
+                    'id': company.id,
+                    'name': company.company_name,
+                    })
         if request.is_ajax():
             ctx_jobseeker_data.append ({
                 'id': jobseeker_id if jobseeker else '',
@@ -278,6 +311,7 @@ class EditDetails(View):
                 'functions':employment.function if employment else '',
                 'employers': ctx_previous_company,
                 'locations': ctx_locations,
+                'companies': ctx_companies,
             })
             ctx_education_data.append ({
                 'id': jobseeker_id if jobseeker else '',
