@@ -6,6 +6,9 @@
         {% if user.jobseeker_set.all.0 %}
             <li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
             <a href="{% url 'search' %}">Search Jobs </a>
+            
+            <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
+            <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
         {% else %}
             <li><a href="{% url 'employer_profile' %}">View Profile</a></li>
         {% endif %}
