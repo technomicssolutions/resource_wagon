@@ -10,6 +10,7 @@
             <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
             <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
         {% else %}
+            <li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
             <li><a href="{% url 'employer_profile' %}">View Profile</a></li>
             <li><a href="{% url 'postjobs' %}">Post Job</a></li>
             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>

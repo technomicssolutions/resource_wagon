@@ -133,7 +133,6 @@ class SaveCurrentEmployerDetails(View):
             if job_seeker.prefered_companies:
                 job_seeker.prefered_companies.clear()
             for prefered_company in prefered_companies:
-                print prefered_company
                 job_seeker.prefered_companies.add(prefered_company)                     
                 job_seeker.save()           
        

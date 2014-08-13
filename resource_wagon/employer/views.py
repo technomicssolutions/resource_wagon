@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from models import CompanyProfile,Recruiter
 from jobseeker.models import Jobseeker
 from web.models import Job
+from jobseeker.models import Jobseeker
 
 class EmployerRegistration(View):
 
@@ -344,8 +345,42 @@ class JobDetailsView(View):
             response = simplejson.dumps(res)
             
             return HttpResponse(response, status=status_code, mimetype='application/json')
-        else:
-            return render(request, 'posted_jobs.html', context)
+        return render(request, 'posted_jobs.html', context)
+
+
+class SearchCandidatesView(View):
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():            
+            industry = request.GET.get('industry')
+            functions = request.GET.get('functions')
+            months = request.GET.get('months')
+            years = request.GET.get('years')
+            skills = request.GET.get('skills')
+            basic_edu = request.GET.get('basic_edu')
+            basic_specialization = request.GET.get('basic_specialization')
+            jobseekers_list = []
+            try:                 
+                jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, employment__exp_yrs=int(years), employment__exp_mnths=int(months), education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
+            except:
+                jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
+            for jobseeker in jobseekers:
+                jobseekers_list.append({
+                    'id': jobseeker.id,
+                    'first_name': jobseeker.user.first_name,
+                    'last_name': jobseeker.user.last_name,
+                    'email': jobseeker.user.username,
+                    'resume_title': jobseeker.education.resume_title,
+                    'resume': jobseeker.education.resume.name,
+                    })
+            res = {
+                'result': 'ok',
+                'candidates_data': jobseekers_list,
+            }
+            status_code = 200
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status_code, mimetype='application/json')
+        return render(request, 'search_candidates.html', {}) 
+
 
 class ViewApplicants(View):
 
@@ -363,6 +398,7 @@ class ViewApplicants(View):
 # class AdminRequest(View):
 
 #     def get(self, request, *args, **kwargs):
+
 
 
 
