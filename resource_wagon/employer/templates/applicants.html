@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Applicant Details{% endblock title %}
+{% block body_id %}applicant_details{% endblock body_id %}
+
+{% block content %}
+{% if jobseekers %}
+	<table >
+			<tr >
+				<th>Name</th>
+				<th>Skills</th>
+				<th>Experience</th>
+				<th>Education</th>
+				<th>Functional Area</th>
+				<th>Current Industry</th>
+				<th></th>
+				<th></th>
+			</tr>
+		{% for jobseeker in jobseekers %}
+			<tr>
+				<td>{{jobseeker.user.first_name}}</td>
+				<td> {{jobseeker.employment.skills}}</td>
+				<td>{{jobseeker.employment.exp_yrs}}yr {{jobseeker.employment.exp_mnths}}months</td>
+				<td>{{jobseeker.education.basic_edu}}</td>
+				<td>{{jobseeker.employment.function}}</td>
+				<td>{{jobseeker.employment.curr_industry}}</td>
+				<!-- {% if jobseeker.education.is_resume_show %} -->
+					<td><a href="{% url 'applicant_resume' jobseeker_id=jobseeker.id %}"><input type="submit" name="resume" value="Download Resume"></a></td>
+				<!-- {% else %}
+					<p>Cannot View the Resume </p> -->
+				<!-- {% endif %} -->
+			</tr>
+		{% endfor %}
+	</table>
+{% else %}
+	<p>No applicants</p>
+{% endif %}
+{% endblock content %}

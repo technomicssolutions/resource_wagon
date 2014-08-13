@@ -2653,8 +2653,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
 
 	$scope.init = function(csrf_token,id) {
 		$scope.csrf_token = csrf_token;
-		$scope.product_pdf = {};
-    $scope.product_pdf.src = "";
+		$scope.job_details_pdf = {};
+    $scope.job_details_pdf.src = "";
 		get_countries($scope);
 		get_nationalities($scope);
 		get_industries($scope);
@@ -2806,14 +2806,14 @@ function  JobPostingController($scope,$element,$http,$timeout){
             if ($scope.jobpost.last_date == null) {
                 $scope.jobpost.last_date = '';
             }
-            var file = $scope.product_pdf.src;
+            var file = $scope.job_details_pdf.src;
             var edit = $scope.edit;
             params = {
                 'jobpost':angular.toJson($scope.jobpost),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
             }
             var fd = new FormData();
-            fd.append('product_pdf', $scope.product_pdf.src);
+            fd.append('job_details_pdf', $scope.job_details_pdf.src);
             for(var key in params){
               fd.append(key, params[key]);
             }
@@ -2901,6 +2901,7 @@ function SearchController($scope,$element,$http,$timeout){
 
     }
 }
+
 function CandidateSearchController($scope,$element,$http,$timeout){
   $scope.init = function(){
     get_industries($scope);
@@ -2959,3 +2960,4 @@ function CandidateSearchController($scope,$element,$http,$timeout){
       }
     }
 }
+

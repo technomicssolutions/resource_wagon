@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from models import CompanyProfile,Recruiter
+from jobseeker.models import Jobseeker
 from web.models import Job
 from jobseeker.models import Jobseeker
 
@@ -160,7 +161,7 @@ class PostJobsView(View):
         jobPosting.ref_code = jobpost['code']
         jobPosting.company = company
         jobPosting.summary = jobpost['summary']
-        document = request.FILES.get('product_pdf', '')
+        document = request.FILES.get('job_details_pdf', '')
         if document:
             jobPosting.document = document
         if jobpost['salary']:
@@ -247,6 +248,7 @@ class PublishJob(View):
 class EditPostJobsView(View):
 
     def get(self, request, *args, **kwargs):
+        
         job_id = kwargs['job_id']
 
         context = {
@@ -266,7 +268,7 @@ class EditPostJobsView(View):
         jobPosting.company = company
         jobPosting.summary = jobpost['summary']
 
-        document = request.FILES.get('product_pdf', '')
+        document = request.FILES.get('job_details_pdf', '')
         if document:
             jobPosting.document = document
         if jobpost['salary']:
@@ -300,7 +302,9 @@ class EditPostJobsView(View):
         return HttpResponse(response, status = status_code, mimetype="application/json")
 
 class JobDetailsView(View):
+    
     def get(self, request, *args, **kwargs):
+        
         job = Job.objects.get(id=kwargs['job_id'])
         
         context = {
@@ -341,8 +345,7 @@ class JobDetailsView(View):
             response = simplejson.dumps(res)
             
             return HttpResponse(response, status=status_code, mimetype='application/json')
-        else:
-            return render(request, 'job_details.html', context)
+        return render(request, 'posted_jobs.html', context)
 
 
 class SearchCandidatesView(View):
@@ -377,3 +380,19 @@ class SearchCandidatesView(View):
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status_code, mimetype='application/json')
         return render(request, 'search_candidates.html', {}) 
+
+
+class ViewApplicants(View):
+
+    def get(self, request, *args, **kwargs):
+        job_id =kwargs['job_id']
+        job = Job.objects.get(id=job_id)
+        jobseekers = Jobseeker.objects.filter(applied_jobs=job)
+        context = {
+            'job': job,
+            'jobseekers':jobseekers,
+        }
+
+        return render(request, 'applicants.html', context)
+
+
