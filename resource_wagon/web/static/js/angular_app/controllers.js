@@ -2901,3 +2901,61 @@ function SearchController($scope,$element,$http,$timeout){
 
     }
 }
+function CandidateSearchController($scope,$element,$http,$timeout){
+  $scope.init = function(){
+    get_industries($scope);
+    get_functions($scope);
+    get_basic_education($scope);
+    get_basic_education_specialization($scope);
+    $scope.experience = [];
+    $scope.candidates_data_table = false;
+    for(var i=0; i<=50; i++)
+      $scope.experience.push(i);   
+    }
+    $scope.get_stream = function() {
+        get_stream($scope);
+    }
+    $scope.validate_search_candidates = function(){
+      if($scope.educational_details == undefined || $scope.educational_details.basic_edu == "" || $scope.educational_details.basic_edu == undefined){
+        $scope.error_message = "Please select the educational qualification required";
+        return false;
+      }
+      if($scope.educational_details.basic_specialization == "" || $scope.educational_details.basic_specialization == undefined)
+          $scope.educational_details.basic_specialization = "";
+      if(!angular.isUndefined($scope.search_candidate)){
+        if($scope.search_candidate.functions == "" || $scope.search_candidate.functions == undefined)
+          $scope.search_candidate.functions = "";
+        if($scope.search_candidate.industry == "" || $scope.search_candidate.industry == undefined)
+          $scope.search_candidate.industry = "";
+        if($scope.search_candidate.months == "" || $scope.search_candidate.months == undefined)
+          $scope.search_candidate.months = "";
+        if($scope.search_candidate.skills == "" || $scope.search_candidate.skills == undefined)
+          $scope.search_candidate.skills = "";
+        if($scope.search_candidate.years == "" || $scope.search_candidate.years == undefined)
+          $scope.search_candidate.years = "";
+      }  
+      else{
+          $scope.search_candidate = {
+            'functions': '',
+            'industry': '',
+            'months': '',
+            'years': '',
+            'skills': '',
+          }
+      }  
+      return true;       
+       
+    }
+    $scope.search_candidates = function(){
+      if ($scope.validate_search_candidates()) {
+        $scope.error_message = '';
+        var url = '/employer/search_candidates/?functions='+$scope.search_candidate.functions+'&industry='+$scope.search_candidate.industry+'&months='+$scope.search_candidate.months+'&years='+$scope.search_candidate.years+'&skills='+$scope.search_candidate.skills+'&basic_edu='+$scope.educational_details.basic_edu+'&basic_specialization='+$scope.educational_details.basic_specialization;
+        $http.get(url).success(function(data) {
+            $scope.candidates_data = data.candidates_data;
+            console.log($scope.candidates_data);
+            if($scope.candidates_data.length > 0)
+              $scope.candidates_data_table = true;
+        })
+      }
+    }
+}
