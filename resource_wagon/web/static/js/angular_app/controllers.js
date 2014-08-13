@@ -2912,11 +2912,11 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         if($scope.search_candidate.industry == "" || $scope.search_candidate.industry == undefined)
           $scope.search_candidate.industry = "";
         if($scope.search_candidate.months == "" || $scope.search_candidate.months == undefined)
-          $scope.search_candidate.months = "";
+          $scope.search_candidate.months = 0;
         if($scope.search_candidate.skills == "" || $scope.search_candidate.skills == undefined)
           $scope.search_candidate.skills = "";
         if($scope.search_candidate.years == "" || $scope.search_candidate.years == undefined)
-          $scope.search_candidate.years = "";
+          $scope.search_candidate.years = 0;
       }  
       else{
           $scope.search_candidate = {
@@ -2941,6 +2941,9 @@ function CandidateSearchController($scope,$element,$http,$timeout){
               $scope.candidates_data_table = true;
         })
       }
+    }
+    $scope.resume_download = function(jobseeker_id){
+
     }
 }
 

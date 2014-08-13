@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block title %}Search Candidates
+{% endblock title %}
+{% block body_id %}search_candidates{% endblock body_id %}
+
+{% block controller %}
+ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
+{% endblock controller %}
+
+{% block content %}
+
+<h2> Search Candidates </h2>
+
+	<label>Industry</label>
+		<select name="industry" ng-model="search_candidate.industry"> 
+			<option value="">Select</option>
+			<option ng-repeat="industry in industries" value="[[industry]]">[[industry]]</option>	
+		</select>
+	<label>Functional Area</label>
+		<select name ="functions" ng-model="search_candidate.functions">
+			<option value="">---------------Select-------------</option>
+			<option ng-repeat="function in functions" value="[[function]]" >[[function]]</option>
+		</select>
+	<label>Please choose the educational qualification required for this job:* </label>
+			<select name="basic_edu" ng-model="educational_details.basic_edu" >
+			<option value="">-----------Select---------</option>
+			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
+		</select>
+	<label>Specialization</label>
+		<select name="basic_specialization" ng-model="educational_details.basic_specialization">
+			<option value="">-----------Select---------</option>
+			<option ng-repeat="specialization in basic_specializations" value="[[specialization]]"> [[specialization]]</option>
+		</select>
+	<label>How much work experience do you want?</label>
+		<select name="years" ng-model="search_candidate.years" class="years_select">
+			<option value="">Years</option>
+			<option ng-repeat="expr in experience" value="[[expr]]">[[expr]]</option>
+		</select>
+		<select name="months" ng-model="search_candidate.months" class="month_select">
+			<option value="">Months</option>
+			<option value="0">0</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+		</select> 
+	<label>What are the Key Skills required for your job?</label>
+		<textarea rows="4" cols="20" name="skills" ng-model="search_candidate.skills"></textarea>
+	<div class="btn">
+		<input class="button" type="submit" name="submit" value="Search Candidates" ng-click="search_candidates()">
+		<br>
+		<p>[[error_message]]</p>		
+	</div>
+	<div>
+
+
+	<table ng-show="candidates_data_table">
+			<tr >
+				<th>Name</th>
+				<th>Specialization</th>
+				<th>Skills</th>
+				<th>Experience</th>
+				<th></th>
+				<th></th>
+			</tr>
+			<tr ng-repeat="candidate in candidates_data">
+				<td>[[candidate.first_name]] [[candidate.last_name]]</td>
+				<td> [[candidate.specialization]]</td>
+				<td> [[candidate.skills]]</td>
+				<td> [[candidate.exp_yrs]]y [[candidate.exp_mnths]]m</td>
+				<td><a href="/reports/applicant_resume/[[candidate.id]]/"><input type="submit" name="resume" value="Download Resume"></a></td>
+
+			</tr>
+	</table>
+
+{% endblock %}
