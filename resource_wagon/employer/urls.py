@@ -2,7 +2,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from employer.views import EmployerRegistration, SaveEmployer,EmployerView, EditEmployer, PostJobsView,PostedJobsView,DeleteJob,PublishJob,EditPostJobsView,JobDetailsView
+from employer.views import EmployerRegistration, SaveEmployer,EmployerView, EditEmployer, PostJobsView,PostedJobsView,DeleteJob,PublishJob,EditPostJobsView,JobDetailsView,ViewApplicants
 
 urlpatterns = patterns('',
     url(r'^registration/$', EmployerRegistration.as_view(), name="employer_registration"),
@@ -15,4 +15,5 @@ urlpatterns = patterns('',
     url(r'^publish/(?P<job_id>\d+)/$', PublishJob.as_view(), name='publish_job'),
     url(r'^edit/(?P<job_id>\d+)/$',login_required(EditPostJobsView.as_view()), name='post_jobs_edit'),
     url(r'^details/(?P<job_id>\d+)/$',JobDetailsView.as_view(), name='job_details'),
+    url(r'^applicants/(?P<job_id>\d+)/$',ViewApplicants.as_view(), name='applicants'),
 )

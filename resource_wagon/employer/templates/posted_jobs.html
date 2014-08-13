@@ -28,6 +28,7 @@
 		<br>
 		<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
 		<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
+		<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
 		{% if not job.is_publish %}
 			<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
 		{% endif %}
