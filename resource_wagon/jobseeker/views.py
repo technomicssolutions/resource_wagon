@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.db.models import Q
+
 from web.models import Job
 import datetime as dt
 from datetime import datetime
@@ -99,6 +101,7 @@ class SaveCurrentEmployerDetails(View):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
         status = 200
+        print current_employer_details
         if current_employer_details['id']:
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
             if job_seeker.employment:
@@ -129,7 +132,7 @@ class SaveCurrentEmployerDetails(View):
                 location, created = Location.objects.get_or_create(location=prefered_location)
                 job_seeker.prefered_locations.add(location)                     
                 job_seeker.save()
-            prefered_companies = current_employer_details['companies']
+            prefered_companies = current_employer_details['selected_companies']
             if job_seeker.prefered_companies:
                 job_seeker.prefered_companies.clear()
             for prefered_company in prefered_companies:
@@ -148,6 +151,7 @@ class SaveEducationalDetails(View):
     def post(self, request, *args, **kwargs):
 
         educational_details = ast.literal_eval(request.POST['educational_details'])
+        print educational_details
         status = 200
         if educational_details['id']:
             job_seeker = Jobseeker.objects.get(id=educational_details['id'])
@@ -362,9 +366,8 @@ class SearchJobsView(View):
         jobs = []
         if location and function and skills and exp and not search:
             experience = int(exp)
-
-            jobs = Job.objects.filter(Q(job_location__icontains=location) , Q(function=function), Q(skills__icontains=skills), Q(exp_req_min__lte=experience, exp_req_max__gte=experience), is_publish=True).order_by('-id').order_by('order')
-
+            jobs = Job.objects.filter(Q(job_title__icontains=skills), Q(job_location__icontains=location) , Q(function=function), Q(skills__icontains=skills), Q(exp_req_min__lte=experience, exp_req_max__gte=experience), is_publish=True).order_by('-id').order_by('order')
+        
             if not jobs.exists():
                 searched_for = str('"'+location+ '-'+skills+'-'+function+'-'+exp+'"')
         
@@ -377,8 +380,7 @@ class SearchJobsView(View):
             if not jobs.exists():
                 searched_for = str('"'+function+'"')
         elif skills and not location and not function and not exp and not industry and not search:
-            jobs = Job.objects.filter(skills__icontains=skills, is_publish=True).order_by('-id').order_by('order')
-
+            jobs = Job.objects.filter(job_title__icontains=skills, skills__icontains=skills, is_publish=True).order_by('-id').order_by('order')
             if not jobs.exists():
                 searched_for = str('"'+skills+'"')   
         else:
@@ -391,9 +393,9 @@ class SearchJobsView(View):
             if industry == 'undefined':
                 industry = ''
             if len(exp) > 0 and exp != 'undefined': 
-                jobs = Job.objects.filter(job_location__contains=location, function__contains=function, skills__icontains=skills, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True).order_by('-id').order_by('order')
+                jobs = Job.objects.filter(Q(job_title__icontains=skills)| Q(job_location__contains=location, function__contains=function, skills__icontains=skills, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
             elif exp == 'undefined' or exp == '':
-                jobs = Job.objects.filter(job_location__icontains=location, function__contains=function , skills__icontains=skills, industry__contains=industry, is_publish=True).order_by('-id').order_by('order')
+                jobs = Job.objects.filter(Q(job_title__icontains=skills)| Q(job_location__icontains=location, function__contains=function, skills__icontains=skills, industry__contains=industry, is_publish=True)).order_by('-id').order_by('order')
                 
             if not jobs.exists():
                 searched_for = ''
@@ -421,7 +423,6 @@ class SearchJobsView(View):
                 'search_function_name' : function if function else '',
                 'search_flag': search,
             })
-            print context
             return render(request, 'search_jobs.html', context) 
 
 class SearchView(View):
@@ -483,6 +484,18 @@ class ApplyJobs(View):
 
         return render(request, 'job_details.html', context)
 
+
+class JobDetails(View):
+
+    def get(self, request, *args, **kwargs):
+
+        context = {}
+        job = Job.objects.get(id = kwargs['job_id'])
+        context = {
+            'job' : job,
+        }
+        return render(request, 'job_details.html', context)
+   
 
 class ActivityLog(View):
 

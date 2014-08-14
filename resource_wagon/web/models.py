@@ -1139,7 +1139,7 @@ class Job(models.Model):
     name = models.CharField('Name', max_length=200)
     phone = models.CharField('Phone', max_length=200,null=True, blank=True)
     mail_id = models.CharField('Email Id', max_length=70)
-    posting_date = models.DateField('Posting Date', null=True, blank=True)
+    posting_date = models.DateField('Posting Date', null=True, blank=True, auto_now_add=True)
     last_date = models.DateField('Last Date', null=True, blank=True)
     exp_req_min = models.IntegerField('Experience Required Min', null=True, blank=True, choices=YEARS)
     exp_req_max = models.IntegerField('Experience Required Max', null=True, blank=True, choices=YEARS)

@@ -1632,7 +1632,6 @@ function get_job_seeker_details($scope, $http) {
     {
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
-        console.log($scope.current_employer);
         $scope.educational_details = data.educational_details[0];
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
@@ -1646,7 +1645,6 @@ function get_job_seeker_details($scope, $http) {
             for (var j=0; j<$scope.countries.length; j++) {
                 for (var i=0;i<$scope.current_employer.locations.length; i++) {
                     if ($scope.current_employer.locations[i].location == $scope.countries[j]) {
-                        console.log($scope.current_employer.locations[i].location, $scope.countries[j]);
                         $scope.countries[j].selected = true;
                     }
                 }
@@ -1820,7 +1818,7 @@ function current_employer_validation($scope) {
     } else if ($scope.current_employer.locations.length > 5){
         $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Locations';
         return false;
-    } else if ($scope.current_employer.companies.length == 0 || $scope.current_employer.companies == ""){
+    } else if ($scope.current_employer.companies == undefined || $scope.current_employer.companies.length == 0 || $scope.current_employer.companies == "" ){
         $scope.current_employer_validation_msg = 'Please choose Prefered Company';
         return false;
     } else if ($scope.current_employer.companies.length > 5){
@@ -1934,12 +1932,23 @@ function save_educational_details($scope, $http, type) {
     });
 }
 function save_current_employer_details($scope, $http, type) {
+
     if (current_employer_validation($scope)) {
+        $scope.current_employer.selected_companies = [];
+        if(!angular.isUndefined($scope.current_employer.companies[0].id)){
+              for(var i = 0; i < $scope.current_employer.companies.length; i++){
+                $scope.current_employer.selected_companies.push($scope.current_employer.companies[i].id);
+              }
+        }
+        else
+           $scope.current_employer.selected_companies = $scope.current_employer.companies;
+
         $scope.current_employer.employers = JSON.stringify($scope.employers);
         params = {
             'current_employer_details': angular.toJson($scope.current_employer),
             'csrfmiddlewaretoken': $scope.csrf_token,
         }
+        console.log($scope.current_employer.employers);     
         $http({
             method : 'post',
             url : "/jobseeker/save_current_employer_details/",
@@ -2211,14 +2220,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
-        $scope.jobseeker_id = jobseeker_id;
+        $scope.jobseeker_id = jobseeker_id;        
         $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
         get_job_seeker_details($scope, $http);   
-        get_companies($scope, $http);      
+        get_companies($scope, $http);   
     }   
     $scope.get_stream = function() {
         get_stream($scope);
@@ -2642,7 +2651,6 @@ function  JobPostingController($scope,$element,$http,$timeout){
         'specialisation': '',
         'nationality': '',
         'last_date': '',
-        'post_date': '',
         'name': '',
         'phone': '',
         'email': '',
@@ -2681,9 +2689,10 @@ function  JobPostingController($scope,$element,$http,$timeout){
         $scope.Min.push(i);
         $scope.Max.push(i);
     } 
-    $http.get('/employer/post_job/').success(function(data)
+    $http.get('/employer/post_job').success(function(data)
     {
-        // $scope.companies = data.companies;
+        console.log(data.company_name);
+        $scope.jobpost.company_name = data.company_name;
     }).error(function(data, status)
     {
         console.log(data || "Request failed");
@@ -2694,7 +2703,6 @@ function  JobPostingController($scope,$element,$http,$timeout){
             {
                 $scope.jobpost = data.jobpost[0]; 
                 $('#last_dob').val($scope.jobpost.last_date);
-                $('#post_dob').val($scope.jobpost.post_date);
             }).error(function(data, status)
             {
                 console.log(data || "Request failed");
@@ -2710,7 +2718,6 @@ function  JobPostingController($scope,$element,$http,$timeout){
   $scope.form_validation_postjob = function(){
     var letters = /^[A-Za-z]+$/;  
     $scope.jobpost.last_date = $('#last_dob').val();
-    $scope.jobpost.post_date = $('#post_dob').val();
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
@@ -2787,15 +2794,10 @@ function  JobPostingController($scope,$element,$http,$timeout){
       $scope.error_flag = true;
       $scope.error_message = 'Please provide a Valid Email Id';
       return false;
-    } else if ($scope.jobpost.profile == '' || $scope.jobpost.profile == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Company Profile';
-      return false;
     } return true;
     }
     $scope.save_job = function(){
-        $scope.jobpost.last_date = $('#last_dob').val();
-        $scope.jobpost.post_date = $('#post_dob').val();
+        $scope.jobpost.last_date = $('#last_dob').val();       
         $scope.is_valid = $scope.form_validation_postjob();
         if ($scope.is_valid) {
             $scope.error_flag = false;

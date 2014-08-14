@@ -38,7 +38,7 @@
 	{% if jobs|length %}
 		{% for job in jobs %}
 			
-				<h2><a href="{% url 'job_details' job_id=job.id %}">{{job.job_title}} </a></h2>
+				<h2><a href="{% url 'view_job_details' job_id=job.id %}">{{job.job_title}} </a></h2>
 				<p> Industry Type: {{job.industry}} </p>
 				<p> Functional Area: {{job.function}} </p>
                 <p> Qualification : {{job.education_req}} </p>
