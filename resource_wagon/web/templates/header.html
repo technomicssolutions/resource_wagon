@@ -2,7 +2,7 @@
     <ul>           
         <li>{{user.username}}   
         <li><a href="{% url 'home' %}">Home</a></li>    
-        <li><a href="#">Change Password</a></li>
+        <li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
         {% if user.jobseeker_set.all.0 %}
             <li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
             <li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
@@ -17,6 +17,8 @@
             <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
         {% endif %}
         {% if user.is_superuser %}
+            <a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
+            <a href="{% url 'employer_registration' %}"> Employer Registration </a>
             <li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
             
             <a href="{% url 'search' %}">Search Jobs </a>
