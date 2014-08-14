@@ -405,10 +405,6 @@ class SearchJobsView(View):
         if exp == 'undefined' or exp == '':
             exp = 0
         jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
-        
-        # elif exp == 'undefined' or exp == '':
-        #     jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__icontains=location, function__contains=function, industry__contains=industry, is_publish=True)).order_by('-id').order_by('order')
-        #     print 'outside'
         if not jobs.exists():
             searched_for = ''
         context = {
