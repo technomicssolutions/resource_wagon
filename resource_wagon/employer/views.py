@@ -4,7 +4,7 @@ import re
 import ast
 from datetime import datetime
 
-
+from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
@@ -99,8 +99,20 @@ class SaveEmployer(View):
 class EmployerView(View):
 
     def get(self, request, *args, **kwargs):
-        employer_id = request.user.recruiter_set.all()[0].id
-        return render(request,'employer.html', {'employer_id':employer_id,})   
+        if  request.user.is_superuser:
+            recruiters = Recruiter.objects.all()
+            context = {
+                'recruiters':recruiters,
+                
+            }
+        else:
+            employer_id = request.user.recruiter_set.all()[0].id
+            context = {
+            
+            'employer_id':employer_id,
+            }
+            
+        return render(request,'employer.html', context)   
 
 
 class EditEmployer(View):
@@ -199,10 +211,11 @@ class PostedJobsView(View):
      def get(self, request,*args, **kwargs):
         jobs = []
         current_user = request.user
-        
+        alljobs = Job.objects.all()
         jobs = Job.objects.filter(recruiter=current_user)
         context = {
           'jobs': jobs,
+          'alljobs': alljobs,
         }
         return render(request, 'posted_jobs.html', context)
 
@@ -234,12 +247,14 @@ class PublishJob(View):
             job.is_publish = True
             job.save()
             current_user = request.user
+            alljobs = Job.objects.all()
             jobs = Job.objects.filter(recruiter=current_user)
         except Exception as ex:
             print str(ex)
             jobs = []
         context = {
           'jobs': jobs,
+          'alljobs': alljobs,
           'message': 'Published', 
         }
 
@@ -306,9 +321,10 @@ class JobDetailsView(View):
     def get(self, request, *args, **kwargs):
         
         job = Job.objects.get(id=kwargs['job_id'])
-        
+        alljobs = Job.objects.all()
         context = {
            'job' : job, 
+           'alljobs': alljobs,
         }
         if request.is_ajax():
             ctx_jobpost = []
@@ -398,10 +414,23 @@ class ViewApplicants(View):
 
         return render(request, 'applicants.html', context)
 
-# class AdminRequest(View):
+class AdminRequest(View):
 
-#     def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
 
+        jobseeker_id = kwargs['jobseeker_id']
+        jobseeker = Jobseeker.objects.get(id=jobseeker_id)
+        current_user =request.user
+        user = User.objects.get(is_superuser=True)
+        print user,"admin"
+        email_to = user.email
+        print email_to
+        subject = "Requesting Contact details "
+        message = "send contact details of" + jobseeker.user.email
+        from_email = current_user.email
+        print from_email
+        send_mail(subject, message, from_email,[email_to])
+        return HttpResponseRedirect(reverse('posted_jobs'))
 
 
 

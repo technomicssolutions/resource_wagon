@@ -4,108 +4,150 @@
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
 
 {% block content %}
-<h2>Welcome {{user.first_name}}</h2>
-<div class="separation" ng-show="view_personal_details">
-	<h3>Personal Details</h3>
-	<p>Email Id:{{user.email}}</p>
+
+{% if not user.is_superuser %}
+	<h2>Welcome {{user.first_name}}</h2>
+	<div class="separation" ng-show="view_personal_details">
+		<h3>Personal Details</h3>
+		<p>Email Id:{{user.email}}</p>
 
 
-	<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
+		<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
 
 
-	<p>DOB :{{user.jobseeker_set.all.0.dob}}</p>
+		<p>DOB :{{user.jobseeker_set.all.0.dob}}</p>
 
 
 
-	<p>Marital Status :{{user.jobseeker_set.all.0.marital_status}}</p>
+		<p>Marital Status :{{user.jobseeker_set.all.0.marital_status}}</p>
 
-	<p>Nationality :{{user.jobseeker_set.all.0.nationality}}</p>
-
-
-	<p>Current Location :{{user.jobseeker_set.all.0.country}}</p>
+		<p>Nationality :{{user.jobseeker_set.all.0.nationality}}</p>
 
 
-	<p>City :{{user.jobseeker_set.all.0.city}}</p>
-
-	<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
-
-	<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
-	
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
-</div>
-
-<div class="separation" ng-show="view_educational_details">
-	<h3>Education Details</h3>
-	<p>Basic Education :{{user.jobseeker_set.all.0.education.basic_edu}}</p>
-
-	<p>Specialization :{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</p>
+		<p>Current Location :{{user.jobseeker_set.all.0.country}}</p>
 
 
-	<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_basic}}</p>
+		<p>City :{{user.jobseeker_set.all.0.city}}</p>
 
-	<p>Masters Education :{{user.jobseeker_set.all.0.education.masters}}</p>
+		<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
 
-	<p>Specialization :{{user.jobseeker_set.all.0.education.masters_specialization}}</p>
+		<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
+		
+		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
+	</div>
 
-	<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_masters}}</p>
+	<div class="separation" ng-show="view_educational_details">
+		<h3>Education Details</h3>
+		<p>Basic Education :{{user.jobseeker_set.all.0.education.basic_edu}}</p>
 
-	<p>Doctrate :</p>
-	{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
-		{{doctrate}}</br>
-	{% endfor %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
-</div>
-<div class="separation" ng-show="view_employment_details">
-	<h3>Employment Details</h3>
-	<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
+		<p>Specialization :{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</p>
 
-	<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
 
-	<p>Current Designation :{{user.jobseeker_set.all.0.employment.designation}}</p>
+		<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_basic}}</p>
 
-	<p>Current Industry :{{user.jobseeker_set.all.0.employment.curr_industry}}</p>
+		<p>Masters Education :{{user.jobseeker_set.all.0.education.masters}}</p>
 
-	<p>Functional Area :{{user.jobseeker_set.all.0.employment.function}}</p>
+		<p>Specialization :{{user.jobseeker_set.all.0.education.masters_specialization}}</p>
 
-	<p>Previous Employer :</p>
-	{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
-		{{employer}}</br>
-	{% endfor %}
+		<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_masters}}</p>
 
-	<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
-	<p>Prefered Locations :</p>
-	{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
-		{{location}}</br>
-	{% endfor %}
-	<p>Prefered Companies :</p>
-	{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
-		{{company}}</br>
-	{% endfor %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
-</div>
-<div class="separation" ng-show="view_resume_details">
-	<h3>Resume Details</h3>
-	<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
-	<p>Resume visible to recruiters:
-	{% if user.jobseeker_set.all.0.education.is_resume_show %}
-		Yes
-	{% else %}
-		No
+		<p>Doctrate :</p>
+		{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
+			{{doctrate}}</br>
+		{% endfor %}
+		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
+	</div>
+	<div class="separation" ng-show="view_employment_details">
+		<h3>Employment Details</h3>
+		<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
+
+		<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
+
+		<p>Current Designation :{{user.jobseeker_set.all.0.employment.designation}}</p>
+
+		<p>Current Industry :{{user.jobseeker_set.all.0.employment.curr_industry}}</p>
+
+		<p>Functional Area :{{user.jobseeker_set.all.0.employment.function}}</p>
+
+		<p>Previous Employer :</p>
+		{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
+			{{employer}}</br>
+		{% endfor %}
+
+		<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
+		<p>Prefered Locations :</p>
+		{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
+			{{location}}</br>
+		{% endfor %}
+		<p>Prefered Companies :</p>
+		{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
+			{{company}}</br>
+		{% endfor %}
+		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
+	</div>
+	<div class="separation" ng-show="view_resume_details">
+		<h3>Resume Details</h3>
+		<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
+		<p>Resume visible to recruiters:
+		{% if user.jobseeker_set.all.0.education.is_resume_show %}
+			Yes
+		{% else %}
+			No
+		{% endif %}
+		</p>
+		{% if user.jobseeker_set.all.0.education.resume %}
+			<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
+		{% endif %}
+		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
+	</div>
+	<div class="separation" ng-show="view_resume_details">
+		<h3>Photo</h3>
+		{% if user.jobseeker_set.all.0.photo %}
+			<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
+		{% endif %}
+		<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
+
+	</div>
+{% else %}
+	{% if jobseekers %}
+		
+		<table >
+			<tr >
+				<th>Name</th>
+				<th>Email Id</th>
+				<th>Gender</th>
+				<th>Nationality</th>
+				<th>Mobile Number</th>
+				<th>Functional Area</th>
+				<th>Resume</th>
+				<th></th>
+				
+			</tr>
+			{% for jobseeker in jobseekers %}
+				<tr>
+					<td>{{jobseeker.user.first_name}}</td>
+					
+					<td>{{jobseeker.user.email}}</td>
+
+
+					<td>{{jobseeker.gender}}</td> 
+
+					<td>{{jobseeker.nationality}}</td>
+
+					<td>{{jobseeker.mobile}}</td>
+
+					
+
+					<td>{{jobseeker.employment.function}}</td>
+
+					<td>{{jobseeker.education.resume_title}}</td>
+					{% if jobseeker.education.resume %}
+						<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+					{% endif %}
+				</tr>
+		{% endfor %}
 	{% endif %}
-	</p>
-	{% if user.jobseeker_set.all.0.education.resume %}
-		<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
-	{% endif %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
-</div>
-<div class="separation" ng-show="view_resume_details">
-	<h3>Photo</h3>
-	{% if user.jobseeker_set.all.0.photo %}
-		<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
-	{% endif %}
-	<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
-
-</div>
+{% endif %}
 	<form name="registration" method="post" action="">
 		{% csrf_token %}
 		<div class="separation" ng-show="personal_details">

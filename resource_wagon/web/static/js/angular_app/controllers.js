@@ -8,6 +8,10 @@ function search_by_location(search_type){
     var url = '/jobseeker/search/?location=location';
     document.location.href = url;
   }
+  if (search_type == 'skills') {
+    var url = '/jobseeker/search/?skills=skills';
+    document.location.href = url;
+  }
   
 }
 
