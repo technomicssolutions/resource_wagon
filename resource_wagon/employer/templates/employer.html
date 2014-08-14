@@ -7,22 +7,51 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% endblock controller %}
 
 {% block content %}
-<div ng-show="view_employer_details">
-	<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
-	<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
-	<p>Location :{{user.recruiter_set.all.0.country}}</p>
-	<p>City :{{user.recruiter_set.all.0.city}}</p>
-	<p>Email ID:{{user.email}}</p>
-	<p>Mobile :{{user.recruiter_set.all.0.mobile}}</p>
-	<p>Land Number :{{user.recruiter_set.all.0.land_num}}</p>
-	<p>ID:{{user.recruiter_set.all.0.id}}</p>
-	<a href="/site_media/{{user.recruiter_set.all.0.company.company_profile.name}}" target="_blank">View Company Profile</a>
-	<div class ="employer_button">
-	        <input class="button" type="submit" name="submit" value="Update" 
-	    	ng-click="edit_employer_details()">
-	    </a>
+{% if not user.is_superuser %}
+	<div ng-show="view_employer_details">
+		<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
+		<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
+		<p>Location :{{user.recruiter_set.all.0.country}}</p>
+		<p>City :{{user.recruiter_set.all.0.city}}</p>
+		<p>Email ID:{{user.email}}</p>
+		<p>Mobile :{{user.recruiter_set.all.0.mobile}}</p>
+		<p>Land Number :{{user.recruiter_set.all.0.land_num}}</p>
+		<a href="/site_media/{{user.recruiter_set.all.0.company.company_profile.name}}" target="_blank">View Company Profile</a>
+		<div class ="employer_button">
+		        <input class="button" type="submit" name="submit" value="Update" 
+		    	ng-click="edit_employer_details()">
+		    </a>
+		</div>
 	</div>
-</div>
+{% else %}
+	{% if recruiters %}
+		<table >
+			<tr >
+				<th>Company Name</th>
+				<th>Industry Type</th>
+				<th>Country</th>
+				<th>City</th>
+				<th>Email Id</th>
+				<th>Mobile</th>
+				<th>Land Number</th>
+				<th>Company Profile</th>
+				
+			</tr>
+		{% for recruiter in recruiters %}
+			<tr>
+				<td>{{recruiter.company.company_name}}</td>
+				<td>{{recruiter.company.industry_type}}</td>
+				<td>{{recruiter.country}}</td>
+				<td>{{recruiter.city}}</td>
+				<td>{{recruiter.user.email}}fg</td>
+				<td>{{recruiter.mobile}}</td>
+				<td>{{recruiter.land_num}}</td>
+				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
+			</tr>	
+		{% endfor %}
+	{% endif %}
+		
+{% endif %}
 
 <div class="separation" ng-hide="view_employer_details">
 			<p class="mandatory">* Mandatory Fields</p>

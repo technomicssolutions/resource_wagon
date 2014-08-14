@@ -240,8 +240,17 @@ class SavePhotoDetails(View):
 
 class JobSeekerView(View):
     def get(self, request, *args, **kwargs):
-        jobseeker_id =  request.user.jobseeker_set.all()[0].id
-        return render(request,'jobseeker_details.html', {'jobseeker_id':jobseeker_id,})    
+        if request.user.is_superuser:
+            jobseekers = Jobseeker.objects.all()
+            context={
+                'jobseekers':jobseekers,
+            }
+        else:
+            jobseeker_id =  request.user.jobseeker_set.all()[0].id
+            context={
+                'jobseeker_id':jobseeker_id,
+            }
+        return render(request,'jobseeker_details.html', context)    
 
 class EditDetails(View):
     def get(self,request,*args,**kwargs):
@@ -502,8 +511,9 @@ class ActivityLog(View):
     def get(self, request, *args, **kwargs):
         jobseeker_id =  request.user.jobseeker_set.all()[0].id
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
-        applied_jobs = jobseeker.applied_jobs.all();
+        applied_jobs = jobseeker.applied_jobs.all()
         applied_jobs_list = []
+
         for job in applied_jobs:
             applied_jobs_list.append({
                 'job_title': job.job_title,
@@ -512,10 +522,10 @@ class ActivityLog(View):
                 'last_date': job.last_date,
                 'description': job.description,
                 })
-        print applied_jobs_list
+        
         context = {
         'applied_jobs': applied_jobs_list,
         }
-        print applied_jobs_list      
+             
         return render(request, 'activity_log.html',context)
 

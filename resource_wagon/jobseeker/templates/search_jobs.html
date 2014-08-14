@@ -44,13 +44,15 @@
                 <p> Qualification : {{job.education_req}} </p>
 				<p> Experience: {{job.exp_req_min}} - {{job.exp_req_max}} Yrs </p>
 				<br>
-                {% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
-                    <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
-                {% else %}
-                    <p>You have already applied for this job</p>
-                {% endif %}
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Login to apply"></a>
+                {% if not user.is_superuser %}
+                    {% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
+                        <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
+                    {% else %}
+                        <p>You have already applied for this job</p>
+                    {% endif %}
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Login to apply"></a>
+                    {% endif %}
                 {% endif %}
            
             <br>

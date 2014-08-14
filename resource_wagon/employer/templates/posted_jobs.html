@@ -6,40 +6,74 @@
 {% block controller %}ng-controller="JobPostingController" ng-init="init('{{csrf_token}}','{{job_id}}')"{% endblock controller %}
 
 {% block content %}
+{% if user.is_superuser %}
+	{% if alljobs %}
+		{% for job in alljobs %}
 
+			<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
+		<label>From : {{job.company.company_name}}</label>
+		
+				<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}}</p>
+				
+			
+			
+				<p>Education : {{job.education_req}}</p>
+				
+			
+				<p>Specialization : {{job.specialization}}</p>
+				
+								
+			<br>
+			{% if not user.is_superuser %}
+				<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
+			{% endif %}
+			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
+			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
+			{% if not user.is_superuser %}
+				{% if not job.is_publish %}
+					<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
+				{% endif %}
+			{% endif %}
+			{{message}}
+		{% endfor %}
+	{% else %}
+		<p> You have no posted jobs. Please click <a href="{% url 'postjobs' %}"> Here </a> to post a job</p>
+	{% endif %}
 
-{% if jobs %}
-	{% for job in jobs %}
+{% else %}
+	{% if jobs %}
+		{% for job in jobs %}
+
 
 
 		<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
 	<label>From : {{job.company.company_name}}</label>
 	
 			<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}} yrs</p>
-			
 		
-		
-			<p>Education : {{job.education_req}}</p>
-			
-		
+
 			<p>Specialization : {{job.specialization}}</p>
 			<p>Date Posted : {{job.posting_date}}</p>
+
 			
-							
-		<br>
-		<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
-		<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
-		<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
-		{% if not job.is_publish %}
-			<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
-		{% endif %}
-		{{message}}
-	{% endfor %}
-{% else %}
-	<p> You have no posted jobs. Please click <a href="{% url 'postjobs' %}"> Here </a> to post a job</p>
+				<p>Education : {{job.education_req}}</p>
+
+				
+								
+			<br>
+			<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
+			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
+			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
+			{% if not job.is_publish %}
+				<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
+			{% endif %}
+			{{message}}
+		{% endfor %}
+	{% else %}
+		<p> You have no posted jobs. Please click <a href="{% url 'postjobs' %}"> Here </a> to post a job</p>
+	{% endif %}
+
 {% endif %}
-
-
 
 
 {% endblock %}

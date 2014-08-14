@@ -1155,3 +1155,4 @@ class Job(models.Model):
 
         verbose_name = 'JobPosting'
         verbose_name_plural = 'JobPosting'
+
