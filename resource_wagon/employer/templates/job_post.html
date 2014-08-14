@@ -31,7 +31,7 @@
 			</div>	
 			<div class="formrow">
 				<label>Company Name<span class="red">*</span></label>
-					<input type ="text" name="title" value="{{company_name}}" readonly id="company_name">
+					<input type ="text" name="title" ng-model="jobpost.company_name" readonly id="company_name">
 			</div>
 			
 		</div>
@@ -50,7 +50,7 @@
 			    <a href="/site_media/[[jobpost.details]]" ng-show="jobpost.details" target="_blank">Details</a>
 			</div>
 			<div class="formrow">
-				<label>Salary</label>
+				<label>Salary(per annum)</label>
 				<input style="width: 18%" type ="text" name="salary" ng-model="jobpost.salary">
 				<select style="width: 16%" name="currency" ng-model="jobpost.currency">
 					<option value="">-Select Currency-</option>
@@ -68,7 +68,7 @@
 				<input type ="text" name="skills" ng-model="jobpost.skills">
 			</div>
 			<div class="formrow">
-				<label>Experience<span class="red">*</span></label>
+				<label>Experience(years)<span class="red">*</span></label>
 				<select style="width: 14%" name="min" ng-model="jobpost.min">
 					<option>-min-</option>
 					<option ng-repeat="min in Min" value="[[min]]" ng-selected="min == jobpost.min">[[min]]</option>
@@ -147,15 +147,6 @@
 			<div class="formrow">
 				<label>Email<span class="red">*</span></label>
 				<input type ="text" name="email" ng-model="jobpost.email">
-			</div>
-			<div class="formrow">
-				<label>Company profile<span class="red">*</span></label>
-					<textarea ng-model="jobpost.profile"> </textarea>
-			</div>
-			<div class="formrow">
-				<label>Post Date</label>
-				<input type="text" name="post_date" id="post_dob" placeholder="DD-MM-YYYY">
-						
 			</div>
 		</div>
 				

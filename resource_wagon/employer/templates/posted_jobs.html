@@ -45,17 +45,19 @@
 		{% for job in jobs %}
 
 
-			<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
-		<label>From : {{job.company.company_name}}</label>
+
+		<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
+	<label>From : {{job.company.company_name}}</label>
+	
+			<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}} yrs</p>
 		
-				<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}}</p>
-				
-			
+
+			<p>Specialization : {{job.specialization}}</p>
+			<p>Date Posted : {{job.posting_date}}</p>
+
 			
 				<p>Education : {{job.education_req}}</p>
-				
-			
-				<p>Specialization : {{job.specialization}}</p>
+
 				
 								
 			<br>
