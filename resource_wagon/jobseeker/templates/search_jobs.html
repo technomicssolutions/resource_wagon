@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Search Jobs{% endblock title %}
 {% block body_id %}search_jobs{% endblock body_id %}
-{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{search_location}}', '{{search_keyword}}', '{{search_experience}}', '{{search_function_name}}', '{{search_flag}}')" {% endblock controller %}
+{% block controller %}ng-controller="SearchController" ng-init="init('{{csrf_token}}', '{{search_location}}', '{{search_keyword}}', '{{search_experience}}', '{{search_function_name}}', '{{search_flag}}')" {% endblock controller %}
 {% block search %}
 	
             <label>Keywords</label>

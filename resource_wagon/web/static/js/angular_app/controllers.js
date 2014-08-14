@@ -2000,50 +2000,48 @@ function save_personal_details($scope, $http, type) {
 }
 /* End common js methods */
 
-function HomeController($scope, $element, $http, $timeout, share, $location)
-{
-    $scope.is_keyword = false;
-    $scope.is_location = false;
-    $scope.is_exp = false;
-    $scope.is_function = false;
-    $scope.experiences = [];
-    $scope.experience = 'select';
-    $scope.functional_area = 'select';
+// function HomeController($scope, $element, $http, $timeout, share, $location)
+// {
+//     $scope.is_keyword = false;
+//     $scope.is_location = false;
+//     $scope.is_exp = false;
+//     $scope.is_function = false;
+//     $scope.experiences = [];
+//     $scope.experience = 'select';
+//     $scope.functional_area = 'select';
 
-    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, search_flag) {
-        $scope.csrf_token = csrf_token;
-        for(var i=0; i<=30; i++) {
-            $scope.experiences.push(i);
-        }
-        get_functions($scope);
-        $scope.search_flag = search_flag;
-        if(!($scope.search_flag)){
-          if(search_location != '' || search_location != undefined){
-            $scope.job_location = search_location;
-            console.log($scope.job_location);
-          }
-          if (search_keyword != '' || search_keyword != undefined) {
-            $scope.skill = search_keyword;
-            console.log($scope.skill);
-          }
-          if (search_experience != '' || search_experience != undefined) {
-            $scope.experience = search_experience;
-            console.log($scope.experience);
-          }
-          if (search_function_name != '' || search_function_name != undefined) {
-            $scope.functional_area = search_function_name;
-            console.log($scope.functional_area);
-          }
+//     $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, search_flag) {
+//         $scope.csrf_token = csrf_token;
+//         for(var i=0; i<=30; i++) {
+//             $scope.experiences.push(i);
+//         }
+//         get_functions($scope);
+//         $scope.search_flag = search_flag;
+//         if(!($scope.search_flag)){
+//           if(search_location != '' || search_location != undefined){
+//             $scope.job_location = search_location;
+//             console.log($scope.job_location);
+//           }
+//           if (search_keyword != '' || search_keyword != undefined) {
+//             $scope.skill = search_keyword;
+//             console.log($scope.skill);
+//           }
+//           if (search_experience != '' || search_experience != undefined) {
+//             $scope.experience = search_experience;
+//             console.log($scope.experience);
+//           }
+//           if (search_function_name != '' || search_function_name != undefined) {
+//             $scope.functional_area = search_function_name;
+//             console.log($scope.functional_area);
+//           }
         
-        }
-    }
-    $scope.post_cv = function(){
-        document.location.href = '/job_seeker_registration/';
-    }
-    $scope.job_search  = function() {
-        search_job($scope, '');
-    }
-}
+//         }
+//     }
+    
+//     $scope.job_search  = function() {
+//         search_job($scope, '');
+//     }
+// }
 
 function JobSeekerController($scope, $element, $http, $timeout) {
     job_seeker_initialization_details($scope);
@@ -2848,6 +2846,12 @@ function  JobPostingController($scope,$element,$http,$timeout){
     }
 }
 function SearchController($scope,$element,$http,$timeout){
+    $scope.is_keyword = false;
+    $scope.is_location = false;
+    $scope.is_exp = false;
+    $scope.is_function = false;
+    $scope.experience = 'select';
+    $scope.functional_area = 'select';
     $scope.experiences = [];
     $scope.alert_style = {};
     $scope.search = {
@@ -2857,11 +2861,34 @@ function SearchController($scope,$element,$http,$timeout){
         'function_name' : '',
         'industry' : '',
     }
-    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry) {
+    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry,search_flag) {
         $scope.csrf_token = csrf_token;
+       
+        for(var i=0; i<=30; i++) {
+            $scope.experiences.push(i);
+        }
         get_functions($scope);
         get_industries($scope);
-
+        $scope.search_flag = search_flag;
+        if(!($scope.search_flag)){
+          if(search_location != '' || search_location != undefined){
+            $scope.job_location = search_location;
+            console.log($scope.job_location);
+          }
+          if (search_keyword != '' || search_keyword != undefined) {
+            $scope.skill = search_keyword;
+            console.log($scope.skill);
+          }
+          if (search_experience != '' || search_experience != undefined) {
+            $scope.experience = search_experience;
+            console.log($scope.experience);
+          }
+          if (search_function_name != '' || search_function_name != undefined) {
+            $scope.functional_area = search_function_name;
+            console.log($scope.functional_area);
+          }
+        
+        }
         if(search_location != '' || search_location != undefined){
           $scope.search.location = search_location;
         }
@@ -2878,9 +2905,10 @@ function SearchController($scope,$element,$http,$timeout){
           $scope.search.industry = search_industry;
         }
 
-        for(var i=0; i<=50; i++){
-            $scope.experiences.push(i);
-        }
+        
+    }
+    $scope.job_search  = function() {
+        search_job($scope, '');
     }
     $scope.search = function(search_type){
         search_job($scope, search_type);

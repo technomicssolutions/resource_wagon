@@ -48,3 +48,32 @@ class Logout(View):
 
         logout(request)
         return HttpResponseRedirect(reverse('home'))
+
+class ResetPassword(View):
+
+    def get(self, request, *args, **kwargs):
+
+        user = User.objects.get(id=kwargs['user_id'])
+        context = {
+            'user_id': user.id
+        }
+        return render(request, 'reset_password.html', context)
+
+    def post(self, request, *args, **kwargs):
+
+        context = {}
+        user = User.objects.get(id=kwargs['user_id'])
+        if request.POST['password'] != request.POST['confirm_password']:
+            context = {
+                'user_id': user.id,
+                'message': 'Password is not matched with Confirm Password',
+            }
+            return render(request, 'reset_password.html', context)
+        if len(request.POST['password']) > 0 and not request.POST['password'].isspace():
+            user.set_password(request.POST['password'])
+        user.save()
+        if user == request.user:
+            logout(request)
+            return HttpResponseRedirect(reverse('home'))  
+        elif request.user.is_superuser:
+            return HttpResponseRedirect(reverse('home'))
