@@ -2986,7 +2986,7 @@ function ReportController($scope,$element,$http,$timeout){
   get_companies($scope, $http);
   get_countries($scope);
   $scope.select_report = function(){
-    if($scope.report_type == ''){
+    if($scope.report_type == '' || $scope.report_type == 4){
       $scope.show_domain = false;
       $scope.show_employer = false;
       $scope.show_location = false;
@@ -3039,6 +3039,9 @@ function ReportController($scope,$element,$http,$timeout){
           document.location.href = '/reports/reports/?report_type='+$scope.report_type+'&country='+$scope.country;
         }
       
+    } else if($scope.report_type == 4){
+          $scope.validation_message = "";
+          document.location.href = '/reports/reports/?report_type='+$scope.report_type;
     }
     return true;
   }  

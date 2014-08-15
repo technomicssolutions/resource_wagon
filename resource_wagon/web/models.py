@@ -1147,6 +1147,7 @@ class Job(models.Model):
     description = models.TextField('Description', null=True, blank=True)
     is_publish = models.BooleanField('Publish', default=False)
     currency = models.CharField('Currency', max_length=30, null=True, blank=True, choices=CURRENCY)
+    search_count = models.IntegerField('Search Count',null=True,blank=True,default=0)
 
     def __unicode__(self):
         return self.job_title

@@ -386,8 +386,14 @@ class SearchJobsView(View):
         if exp == 'undefined' or exp == '':
             exp = 0
         jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
+        try:
+            for job in jobs:                
+                job.search_count = job.search_count+1
+                job.save()
+        except:
+            pass
         if not jobs.exists():
-            searched_for = ''
+            searched_for = '' 
         context = {
             'jobs': jobs,
         }
