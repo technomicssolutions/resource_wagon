@@ -3,14 +3,15 @@ import simplejson
 import re
 import ast
 from datetime import datetime
-
+from django.conf import settings
 from django.shortcuts import render
 from django.views.generic.base import View
+from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from models import RequestSend
+from models import RequestSend, Reply
 
 class Home(View):
     
@@ -90,3 +91,24 @@ class RequestView(View):
             'requests':requests,
         }
         return render(request, 'requests.html', context)
+
+class ReplyEmployer(View):
+
+    def post(self, request, *args, **kwargs):
+
+        request_id = kwargs['request_id']
+        request = RequestSend.objects.get(id=request_id)
+        email_to = request.recruiter.user.email
+        subject = " Contact details "
+        message = " contact details of " + request.jobseeker.user.first_name + request.jobseeker.user.last_name + "Email : " + str(request.jobseeker.user.email) + "Mobile:" + str(request.jobseeker.mobile) + "Land Line:" + str(request.jobseeker.land_num)
+        from_email = settings.DEFAULT_FROM_EMAIL 
+        request.is_replied = True
+        reply = Reply()
+        reply.request = request
+        request.save()
+        
+        reply.save()
+        print from_email
+        send_mail(subject, message, from_email,[email_to])
+        
+        return HttpResponseRedirect(reverse('request')) 

@@ -1163,7 +1163,17 @@ class RequestSend(models.Model):
 
     recruiter = models.ForeignKey(Recruiter)
     jobseeker = models.ForeignKey(Jobseeker)
-    request_date = models.DateField('Requseted Date',null=True, blank=True, auto_now_add=True)
-    is_replied = models.BooleanField('is_replied', default=False)
+    request_date = models.DateField('Requested Date',null=True, blank=True, auto_now_add=True)
+    is_request = models.BooleanField('Requested', default=True)
+    is_replied = models.BooleanField('Replied', default=False)
+    
     def __unicode__(self):
         return self.recruiter.company.company_name
+
+class Reply(models.Model):
+
+    request = models.ForeignKey(RequestSend)
+    reply_date = models.DateField('Replied Date',null=True, blank=True, auto_now_add=True)
+
+    def __unicode__(self):
+        return self.request.recruiter.company.company_name

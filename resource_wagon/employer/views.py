@@ -15,7 +15,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from models import CompanyProfile,Recruiter
 from jobseeker.models import Jobseeker
-from web.models import Job, RequestSend
+from web.models import Job, RequestSend, Reply
 from jobseeker.models import Jobseeker
 
 class EmployerRegistration(View):
@@ -428,20 +428,30 @@ class AdminRequest(View):
         current_user =request.user
         user = User.objects.get(is_superuser=True)
         recruiter = Recruiter.objects.get(user=current_user)
-        recruiter_id = recruiter.id
+
         request_send  = RequestSend()
         request_send.jobseeker = jobseeker
         request_send.recruiter = recruiter
         request_send.save()
        
-        print user,"admin"
+       
         email_to = user.email
-        print email_to
+        
         subject = "Requesting Contact details "
         message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
         from_email = settings.DEFAULT_FROM_EMAIL 
-        print from_email
+        
         send_mail(subject, message, from_email,[email_to])
         
         return HttpResponseRedirect(reverse('posted_jobs'))
 
+class Inbox(View):
+
+    def get(self, request, *args, **kwargs):
+
+        replies = Reply.objects.all()
+        context = {
+            'replies':replies,
+        }
+
+        return render(request, 'inbox.html', context)
