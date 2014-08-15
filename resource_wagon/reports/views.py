@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse
 
 from jobseeker.models import Jobseeker,Education,Employment
+from web.models import Job
+from employer.models import CompanyProfile
 
 def header(canvas, y):
 
@@ -122,3 +124,140 @@ class ApplicantReport(View):
         p.showPage()
         p.save()
         return response
+
+class ReportsView(View):
+
+    def get(self, request, *args, **kwargs): 
+        if request.GET.get('report_type'):
+            report_type = request.GET.get('report_type')
+            if report_type == '1':
+                domain = request.GET.get('domain')
+                jobs = Job.objects.filter(function=domain)
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = "Job posted in "+domain
+                p.drawString(320, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Employer Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for job in jobs:   
+                    p.drawString(l, m, "Employer #"+str(count))          
+                    p.drawString(l+20, m-20, "Name :")
+                    p.drawString(l+140, m-20, job.company.company_name)
+                    p.drawString(l+20, m-40, "Date Posted :")
+                    p.drawString(l+140, m-40, str(job.posting_date))
+                    p.drawString(l+20, m-60, "Job Title :")
+                    p.drawString(l+140, m-60, str(job.job_title))
+                    p.drawString(l+20, m-80, "Eligibility :")
+                    p.drawString(l+140, m-80, str(job.education_req) + str(job.specialization))
+                    p.drawString(l+20, m-100, "Experience Req :")
+                    p.drawString(l+140, m-100, str(job.exp_req_min)+"-"+str(job.exp_req_max)+" years")
+                    p.drawString(l+20, m-120, "Job Location :")
+                    p.drawString(l+140, m-120, str(job.job_location))
+                    p.drawString(l+20, m-140, "Salary :")
+                    p.drawString(l+140, m-140, str(job.salary))
+
+                    p.drawString(l+500, m-20, "Contact Number :")
+                    p.drawString(l+620, m-20, str(job.phone))
+                    p.drawString(l+500, m-40, "Contact Email :")
+                    p.drawString(l+620, m-40, str(job.mail_id))
+                
+                    count = count+1
+                    m = m - 200
+            if report_type == '2':
+                employer = request.GET.get('employer')
+                company = CompanyProfile.objects.get(id=employer)
+                jobs = company.job_set.all()
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = "Job posted by "+company.company_name
+                p.drawString(320, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Job Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for job in jobs:   
+                    p.drawString(l, m, "Job#"+str(count))          
+                    p.drawString(l+20, m-20, "Job Title :")
+                    p.drawString(l+140, m-20, str(job.job_title))
+                    p.drawString(l+20, m-40, "Date Posted :")
+                    p.drawString(l+140, m-40, str(job.posting_date))
+                    p.drawString(l+20, m-60, "Eligibility :")
+                    p.drawString(l+140, m-60, str(job.education_req) + str(job.specialization))
+                    p.drawString(l+20, m-80, "Experience Req :")
+                    p.drawString(l+140, m-80, str(job.exp_req_min)+"-"+str(job.exp_req_max)+" years")
+                    p.drawString(l+20, m-100, "Job Location :")
+                    p.drawString(l+140, m-100, str(job.job_location))
+                    p.drawString(l+20, m-120, "Salary :")
+                    p.drawString(l+140, m-120, str(job.salary))
+
+                    p.drawString(l+500, m-20, "Contact Number :")
+                    p.drawString(l+620, m-20, str(job.phone))
+                    p.drawString(l+500, m-40, "Contact Email :")
+                    p.drawString(l+620, m-40, str(job.mail_id))
+                
+                    count = count+1
+                    m = m - 200
+            if report_type == '3':
+                country = request.GET.get('country')
+                jobs = Job.objects.filter(job_location=country)
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = "Jobs in "+country
+                p.drawString(320, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Job Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for job in jobs:   
+                    p.drawString(l, m, "Employer #"+str(count))          
+                    p.drawString(l+20, m-20, "Name :")
+                    p.drawString(l+140, m-20, job.company.company_name)
+                    p.drawString(l+20, m-40, "Date Posted :")
+                    p.drawString(l+140, m-40, str(job.posting_date))
+                    p.drawString(l+20, m-60, "Job Title :")
+                    p.drawString(l+140, m-60, str(job.job_title))
+                    p.drawString(l+20, m-80, "Eligibility :")
+                    p.drawString(l+140, m-80, str(job.education_req) + str(job.specialization))
+                    p.drawString(l+20, m-100, "Experience Req :")
+                    p.drawString(l+140, m-100, str(job.exp_req_min)+"-"+str(job.exp_req_max)+" years")
+                    p.drawString(l+20, m-120, "Job Location :")
+                    p.drawString(l+140, m-120, str(job.job_location))
+                    p.drawString(l+20, m-140, "Salary :")
+                    p.drawString(l+140, m-140, str(job.salary))
+
+                    p.drawString(l+500, m-20, "Contact Number :")
+                    p.drawString(l+620, m-20, str(job.phone))
+                    p.drawString(l+500, m-40, "Contact Email :")
+                    p.drawString(l+620, m-40, str(job.mail_id))
+                
+                    count = count+1
+                    m = m - 200
+
+            p.showPage()
+            p.save()
+            return response                
+        else:
+            return render(request, 'reports.html', {}) 
