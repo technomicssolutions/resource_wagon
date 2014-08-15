@@ -472,6 +472,8 @@ class ApplyJobs(View):
         print type(job),job
         jobseeker.applied_jobs.add(job)
         jobseeker.save()
+        job.applicants_count = job.applicants_count + 1
+        job.save()
 
         context = {
             'job' : job,

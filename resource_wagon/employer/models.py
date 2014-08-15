@@ -31,6 +31,7 @@ class Recruiter(models.Model):
     land_num = models.CharField('Land Phone', blank=True, max_length=20)
     company = models.ForeignKey(CompanyProfile, null=True, blank=True)
     is_request_sent = models.BooleanField("Show Request", default = True)
+    job_count = models.IntegerField('Job Count',null=True,blank=True,default=0)
 
     def __unicode__(self):
         return self.user.username

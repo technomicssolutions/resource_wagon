@@ -14,7 +14,7 @@ from django.http import HttpResponse
 
 from jobseeker.models import Jobseeker,Education,Employment
 from web.models import Job
-from employer.models import CompanyProfile
+from employer.models import CompanyProfile, Recruiter
 
 def header(canvas, y):
 
@@ -172,6 +172,9 @@ class ReportsView(View):
                 
                     count = count+1
                     m = m - 200
+                    if m <= 270:
+                        m = y - 50
+                        p.showPage()
             if report_type == '2':
                 employer = request.GET.get('employer')
                 company = CompanyProfile.objects.get(id=employer)
@@ -213,6 +216,9 @@ class ReportsView(View):
                 
                     count = count+1
                     m = m - 200
+                    if m <= 270:
+                        m = y - 50
+                        p.showPage()
             if report_type == '3':
                 country = request.GET.get('country')
                 jobs = Job.objects.filter(job_location=country)
@@ -255,6 +261,9 @@ class ReportsView(View):
                 
                     count = count+1
                     m = m - 200
+                    if m <= 270:
+                        m = y - 50
+                        p.showPage()
             if report_type == '4':
                 jobs = Job.objects.all().order_by('-search_count')[:10];
                 status_code = 200
@@ -290,11 +299,87 @@ class ReportsView(View):
                     p.drawString(l+140, m-140, str(job.salary))
 
                     p.drawString(l+500, m-20, "Searched :")
-                    p.drawString(l+620, m-20, str(job.search_count)+" times")
-         
+                    p.drawString(l+620, m-20, str(job.search_count)+" times")         
                 
                     count = count+1
                     m = m - 200
+                    if m <= 270:
+                        m = y - 50
+                        p.showPage()
+            if report_type == '5':
+                jobs = Job.objects.all().order_by('-applicants_count')[:10];
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = ("Most Applied Jobs")
+                p.drawString(320, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Job Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for job in jobs:   
+                    p.drawString(l, m, "Job #"+str(count))      
+                    p.drawString(l+20, m-20, "Job Title :")
+                    p.drawString(l+140, m-20, str(job.job_title))
+                    p.drawString(l+20, m-40, "Company :")
+                    p.drawString(l+140, m-40, job.company.company_name)
+                    p.drawString(l+20, m-60, "Date Posted :")
+                    p.drawString(l+140, m-60, str(job.posting_date))
+                    p.drawString(l+20, m-80, "Eligibility :")
+                    p.drawString(l+140, m-80, str(job.education_req) + str(job.specialization))
+                    p.drawString(l+20, m-100, "Experience Req :")
+                    p.drawString(l+140, m-100, str(job.exp_req_min)+"-"+str(job.exp_req_max)+" years")
+                    p.drawString(l+20, m-120, "Job Location :")
+                    p.drawString(l+140, m-120, str(job.job_location))
+                    p.drawString(l+20, m-140, "Salary :")
+                    p.drawString(l+140, m-140, str(job.salary))
+
+                    p.drawString(l+500, m-20, str(job.applicants_count)+" people(s) applied")                       
+         
+                    count = count+1
+                    m = m - 200 
+                    if m <= 270:
+                        m = y - 50
+                        p.showPage()
+            if report_type == '6':
+                recruiters = Recruiter.objects.all().order_by('-job_count')[:10];
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = ("Companies who posted highest jobs")
+                p.drawString(300, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Job Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for recruiter in recruiters:   
+                    p.drawString(l, m, "Recruiter #"+str(count))      
+                    p.drawString(l+20, m-20, "Company :")
+                    p.drawString(l+140, m-20, recruiter.company.company_name)
+                    p.drawString(l+20, m-40, "Industry Type :")
+                    p.drawString(l+140, m-40, str(recruiter.company.industry_type))
+                    p.drawString(l+20, m-60, "Country :")
+                    p.drawString(l+140, m-60, str(recruiter.country))
+             
+                    p.drawString(l+500, m-20, str(recruiter.job_count)+" job(s) posted")                       
+         
+                    count = count+1
+                    m = m - 100 
+                    if m <= 270:
+                        m = y - 120
+                        p.showPage()
 
             p.showPage()
             p.save()

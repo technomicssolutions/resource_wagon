@@ -253,6 +253,9 @@ class PublishJob(View):
             job.is_publish = True
             job.save()
             current_user = request.user
+            recruiter = Recruiter.objects.get(user=current_user)
+            recruiter.job_count = recruiter.job_count + 1
+            recruiter.save()
             alljobs = Job.objects.all()
             jobs = Job.objects.filter(recruiter=current_user)
         except Exception as ex:
