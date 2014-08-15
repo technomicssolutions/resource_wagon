@@ -380,6 +380,41 @@ class ReportsView(View):
                     if m <= 270:
                         m = y - 120
                         p.showPage()
+            if report_type == '7':
+                job_id = request.GET.get('job_id')
+                job = Job.objects.get(id=job_id)
+                jobseekers = Jobseeker.objects.filter(applied_jobs=job)
+                status_code = 200
+                response = HttpResponse(content_type='application/pdf')
+                p = canvas.Canvas(response, pagesize=(1000, 1250))
+                y = 1150
+                p.setFontSize(15)
+                p = header(p, y)
+                report_heading = ("Candidates applied for "+ job.job_title)
+                p.drawString(300, y , report_heading)
+                p.setFontSize(15)
+                p = header(p, y)
+                p.drawString(60, y - 60, "Candidate Details")
+                p.setFontSize(13)
+                count = 1
+                l = 60
+                m = y - 120
+                for jobseeker in jobseekers:   
+                    p.drawString(l, m, "Candidate #"+str(count))      
+                    p.drawString(l+20, m-20, "Name :")
+                    p.drawString(l+140, m-20, jobseeker.user.first_name+" "+jobseeker.user.last_name)
+                    p.drawString(l+20, m-40, "Education")
+                    p.drawString(l+140, m-40, str(jobseeker.education))
+                    p.drawString(l+20, m-60, "Gender :")
+                    p.drawString(l+140, m-60, jobseeker.gender)
+                    p.drawString(l+20, m-80, "Country :")
+                    p.drawString(l+140, m-80, jobseeker.country)             
+           
+                    count = count+1
+                    m = m - 120 
+                    if m <= 270:
+                        m = y - 120
+                        p.showPage()
 
             p.showPage()
             p.save()

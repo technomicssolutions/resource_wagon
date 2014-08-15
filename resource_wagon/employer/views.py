@@ -117,6 +117,25 @@ class EmployerView(View):
         return render(request,'employer.html', context)   
 
 
+class GetJobs(View):
+    def get(self,request,*args,**kwargs):
+        jobs = Job.objects.all()
+        jobs_list = []
+        for job in jobs:
+            jobs_list.append({
+                'id': job.id,
+                'recruiter': job.company.company_name,
+                'job_title': job.job_title,
+                'post_date': str(job.posting_date),
+                 'last_date': str(job.last_date),
+                })
+        res ={
+            'jobs_list': jobs_list,
+        }
+        response = simplejson.dumps(res)    
+        return HttpResponse(response, status=200, mimetype='application/json')
+
+
 class EditEmployer(View):
     def get(self,request,*args,**kwargs):
         recruiter_id = kwargs['employer_id']
@@ -382,11 +401,11 @@ class SearchCandidatesView(View):
             basic_edu = request.GET.get('basic_edu')
             basic_specialization = request.GET.get('basic_specialization')
             jobseekers_list = []
-            try:                 
-                jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, employment__exp_yrs=int(years), employment__exp_mnths=int(months), education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
-                print jobseekers
-            except:
-                jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
+            if months == "":
+                months = 0
+            if years == "":
+                years = 0
+            jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, employment__exp_yrs=int(years), employment__exp_mnths=int(months), education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
             for jobseeker in jobseekers:
                 jobseekers_list.append({
                     'id': jobseeker.id,

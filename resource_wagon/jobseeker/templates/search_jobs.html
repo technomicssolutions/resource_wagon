@@ -16,7 +16,8 @@
             <label>Exp</label><br>
             <select ng-model="experience">
                 <option value="select" >Exp</option>
-                <option value="[[exp]]" ng-repeat="exp in experiences" ng-selected="exp == experience">[[exp]]</option>
+               
+                <option value="[[exp]]" ng-repeat="exp in experiences">[[exp]]</option>
             </select>
             <p ng-show="is_exp" class="error_message">Please Choose the Exp</p>
        
