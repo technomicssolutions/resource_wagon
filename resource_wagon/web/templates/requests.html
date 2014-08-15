@@ -16,19 +16,19 @@
 				
 			</tr>
 		{% for request in requests %}
-		
-			<tr>
-				<td>{{request.request_date}}</td>
-				<td>{{request.recruiter.company.company_name}}</td>
-				<td>{{request.recruiter.user.email}}</td>
-				<td>{{request.jobseeker.user.first_name}} {{request.jobseeker.user.last_name}}</td>
-				{% if not is_replied %}
-					<td><a href="">Send contact details</a></td>
-				{% else %}
-					<p>Already Sent the details </p>
-				{% endif %}
-			</tr>
-		
+			<form method="post" action="{% url 'reply' request.id %}">{% csrf_token %}
+				<tr>
+					<td>{{request.request_date}}</td>
+					<td>{{request.recruiter.company.company_name}}</td>
+					<td>{{request.recruiter.user.email}}</td>
+					<td>{{request.jobseeker.user.first_name}} {{request.jobseeker.user.last_name}}</td>
+					{% if  request.is_replied %}
+						<td>Already Sent the details </td>
+					{% else %}
+						<td><input type="submit" name="request" value="Send Contact Details"></td>
+					{% endif %}
+				</tr>
+			</form>
 		{% endfor %}
 	</table>
 {% else %}
