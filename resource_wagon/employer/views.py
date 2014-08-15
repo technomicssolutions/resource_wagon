@@ -455,3 +455,13 @@ class Inbox(View):
         }
 
         return render(request, 'inbox.html', context)
+
+class DeleteInbox(View):
+
+    def get(self, request, *args, **kwargs):
+
+        reply_id = kwargs['reply_id']
+        reply = Reply.objects.get(id=reply_id)
+        reply.delete()
+
+        return render(request, 'inbox.html', {})

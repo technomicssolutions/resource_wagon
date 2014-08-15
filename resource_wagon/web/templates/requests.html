@@ -27,6 +27,7 @@
 					{% else %}
 						<td><input type="submit" name="request" value="Send Contact Details"></td>
 					{% endif %}
+					<td><a href="{% url 'delete_request' request_id=request.id %}"><input type="button" name="edit" value="Delete"></a></td>
 				</tr>
 			</form>
 		{% endfor %}

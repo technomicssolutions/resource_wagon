@@ -33,6 +33,7 @@
 					{% else %}
 						<td>Can't see Resume</td>
 					{% endif %}
+					<td><a href="{% url 'delete_reply' reply_id=reply.id %}"><input type="button" name="edit" value="Delete"></a></td>
 				</tr>
 			</form>
 		{% endfor %}

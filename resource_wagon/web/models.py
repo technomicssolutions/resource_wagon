@@ -1167,14 +1167,25 @@ class RequestSend(models.Model):
     request_date = models.DateField('Requested Date',null=True, blank=True, auto_now_add=True)
     is_request = models.BooleanField('Requested', default=True)
     is_replied = models.BooleanField('Replied', default=False)
+    is_delete = models.BooleanField('Delete', default=False)
     
     def __unicode__(self):
         return self.recruiter.company.company_name
+
+    class Meta:
+
+        verbose_name = 'Requested'
+        verbose_name_plural = 'Requested'
 
 class Reply(models.Model):
 
     request = models.ForeignKey(RequestSend)
     reply_date = models.DateField('Replied Date',null=True, blank=True, auto_now_add=True)
-
+    is_delete = models.BooleanField('Delete', default=False)
     def __unicode__(self):
         return self.request.recruiter.company.company_name
+
+    class Meta:
+
+        verbose_name = 'Reply'
+        verbose_name_plural = 'Reply'

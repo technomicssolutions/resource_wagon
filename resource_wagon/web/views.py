@@ -92,6 +92,16 @@ class RequestView(View):
         }
         return render(request, 'requests.html', context)
 
+class DeleteRequest(View):
+
+    def get(self, request, *args, **kwargs):
+
+        request_id = kwargs['request_id']
+        request = RequestSend.objects.get(id=request_id)
+        request.delete()
+
+        return render(request, 'requests.html', {})
+
 class ReplyEmployer(View):
 
     def post(self, request, *args, **kwargs):
