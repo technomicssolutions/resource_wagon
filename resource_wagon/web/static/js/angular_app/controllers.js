@@ -2981,3 +2981,67 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     }
 }
 
+function ReportController($scope,$element,$http,$timeout){
+  get_functions($scope);
+  get_companies($scope, $http);
+  get_countries($scope);
+  $scope.select_report = function(){
+    if($scope.report_type == ''){
+      $scope.show_domain = false;
+      $scope.show_employer = false;
+      $scope.show_location = false;
+    }
+    if($scope.report_type == 1){
+      $scope.show_domain = true;
+      $scope.show_employer = false;
+      $scope.show_location = false;
+    }
+    else if($scope.report_type == 2){
+      $scope.show_domain = false;
+      $scope.show_employer = true;
+      $scope.show_location = false;
+    }
+    else if($scope.report_type == 3){
+      $scope.show_domain = false;
+      $scope.show_employer = false;
+      $scope.show_location = true;
+    }
+  }
+  $scope.view_report = function(){
+    if($scope.report_type == '' || $scope.report_type == undefined){
+      $scope.validation_message = "Please select the report type";
+      return false;
+    } else if($scope.report_type == 1){
+        if($scope.domain == '' || $scope.domain ==  undefined){
+          $scope.validation_message = "Please select the domain";
+        }
+        else{
+          $scope.validation_message = "";
+          document.location.href = '/reports/reports/?report_type='+$scope.report_type+'&domain='+$scope.domain;
+        }
+    } else if($scope.report_type == 2){
+        if($scope.employers == '' || $scope.employers ==  undefined){
+          $scope.validation_message = "Please select the employer";
+          return false;
+        }
+        else{
+          $scope.validation_message = "";
+          document.location.href = '/reports/reports/?report_type='+$scope.report_type+'&employer='+$scope.employers;
+        }
+      
+    } else if($scope.report_type == 3){
+        if($scope.country == '' || $scope.country ==  undefined){
+          $scope.validation_message = "Please select the country";
+          return false;
+        }
+        else{
+          $scope.validation_message = "";
+          document.location.href = '/reports/reports/?report_type='+$scope.report_type+'&country='+$scope.country;
+        }
+      
+    }
+    return true;
+  }  
+
+}
+
