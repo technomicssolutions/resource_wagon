@@ -4,6 +4,8 @@ import re
 import ast
 from datetime import datetime
 
+from django.conf import settings
+from django.db import IntegrityError
 from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
 from django.shortcuts import render
 from django.views.generic.base import View
@@ -13,7 +15,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from models import CompanyProfile,Recruiter
 from jobseeker.models import Jobseeker
-from web.models import Job
+from web.models import Job, RequestSend
 from jobseeker.models import Jobseeker
 
 class EmployerRegistration(View):
@@ -425,13 +427,21 @@ class AdminRequest(View):
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
         current_user =request.user
         user = User.objects.get(is_superuser=True)
+        recruiter = Recruiter.objects.get(user=current_user)
+        recruiter_id = recruiter.id
+        request_send  = RequestSend()
+        request_send.jobseeker = jobseeker
+        request_send.recruiter = recruiter
+        request_send.save()
+       
         print user,"admin"
         email_to = user.email
         print email_to
         subject = "Requesting Contact details "
-        message = "send contact details of" + jobseeker.user.email
-        from_email = current_user.email
+        message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
+        from_email = settings.DEFAULT_FROM_EMAIL 
         print from_email
         send_mail(subject, message, from_email,[email_to])
+        
         return HttpResponseRedirect(reverse('posted_jobs'))
 

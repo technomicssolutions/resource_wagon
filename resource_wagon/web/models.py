@@ -1156,3 +1156,14 @@ class Job(models.Model):
         verbose_name = 'JobPosting'
         verbose_name_plural = 'JobPosting'
 
+from jobseeker.models import Jobseeker
+from employer.models import Recruiter
+
+class RequestSend(models.Model):
+
+    recruiter = models.ForeignKey(Recruiter)
+    jobseeker = models.ForeignKey(Jobseeker)
+    request_date = models.DateField('Requseted Date',null=True, blank=True, auto_now_add=True)
+    is_replied = models.BooleanField('is_replied', default=False)
+    def __unicode__(self):
+        return self.recruiter.company.company_name

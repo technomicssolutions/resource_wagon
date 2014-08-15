@@ -2,11 +2,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
-	MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
-	FUNCTIONS, EDUCATION_REQUIRED,CURRENCY)
-
+    MASTERS_EDU, MARITAL_STATUS, NATIONALITY, GENDER, YEARS, MONTHS, INDUSTRY, \
+    FUNCTIONS, EDUCATION_REQUIRED,CURRENCY)
 
 
 class CompanyProfile(models.Model):
@@ -23,7 +21,7 @@ class CompanyProfile(models.Model):
 
         verbose_name = 'CompanyProfile'
         verbose_name_plural = 'CompanyProfile'
-
+        
 class Recruiter(models.Model):
     
     user = models.ForeignKey(User)
@@ -32,6 +30,7 @@ class Recruiter(models.Model):
     mobile = models.CharField ('Mobile', max_length=20)
     land_num = models.CharField('Land Phone', blank=True, max_length=20)
     company = models.ForeignKey(CompanyProfile, null=True, blank=True)
+    is_request_sent = models.BooleanField("Show Request", default = True)
 
     def __unicode__(self):
         return self.user.username

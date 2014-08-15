@@ -10,13 +10,16 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from models import RequestSend
 
 class Home(View):
+    
     def get(self, request, *args, **kwargs):
         context = {}
         return render(request, 'home.html', context)
 
 class Login(View):
+    
     def get(self, request, *args, **kwargs):
         context = {}
         return render(request, 'login.html', context)
@@ -77,3 +80,13 @@ class ResetPassword(View):
             return HttpResponseRedirect(reverse('home'))  
         elif request.user.is_superuser:
             return HttpResponseRedirect(reverse('home'))
+
+class RequestView(View):
+
+    def get(self, request, *args, **kwargs):
+
+        requests = RequestSend.objects.all()
+        context = {
+            'requests':requests,
+        }
+        return render(request, 'requests.html', context)

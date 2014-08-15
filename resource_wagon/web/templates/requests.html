@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}Request Details{% endblock title %}
+{% block body_id %}request_details{% endblock body_id %}
+
+{% block content %}
+{% if requests %}
+
+	<table >
+			<tr >
+				<th>Date</th>
+				<th>Company Name</th>
+				<th>Email</th>
+				<th>Requested Jobseeker</th>
+				<th></th>
+				<th></th>
+				
+			</tr>
+		{% for request in requests %}
+		
+			<tr>
+				<td>{{request.request_date}}</td>
+				<td>{{request.recruiter.company.company_name}}</td>
+				<td>{{request.recruiter.user.email}}</td>
+				<td>{{request.jobseeker.user.first_name}} {{request.jobseeker.user.last_name}}</td>
+				{% if not is_replied %}
+					<td><a href="">Send contact details</a></td>
+				{% else %}
+					<p>Already Sent the details </p>
+				{% endif %}
+			</tr>
+		
+		{% endfor %}
+	</table>
+{% else %}
+	<p>No Requests</p>
+
+{% endif %}
+
+{% endblock content %}
