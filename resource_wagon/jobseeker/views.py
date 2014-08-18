@@ -404,10 +404,11 @@ class SearchJobsView(View):
             skills = ''
         if industry == 'undefined':
             industry = ''
-
+        print exp
         if exp == 'undefined' or exp == '':
-            exp = 0
-        jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
+            jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, is_publish=True)).order_by('-id').order_by('order')
+        else:
+            jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
         try:
             for job in jobs:                
                 job.search_count = job.search_count+1

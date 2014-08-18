@@ -1674,6 +1674,14 @@ function get_companies($scope, $http) {
         console.log(data || "Request failed");
     });    
 }
+function get_jobs($scope, $http) {
+    $http.get('/employer/get_jobs/').success(function(data){
+        $scope.jobs = data.jobs_list;  
+        console.log($scope.jobs);
+     }).error(function(data){
+        console.log(data || "Request failed");
+    });    
+}
 function get_employer_details($scope, $http) {
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
@@ -2940,6 +2948,7 @@ function SearchController($scope,$element,$http,$timeout){
         }
         get_functions($scope);
         get_industries($scope);
+        //get_countries($scope);
         $scope.search_flag = search_flag;
         if(!($scope.search_flag)){
           if(search_location != '' || search_location != undefined){
@@ -2965,9 +2974,6 @@ function SearchController($scope,$element,$http,$timeout){
         }
         if (search_keyword != '' || search_keyword != undefined) {
           $scope.search.keyword = search_keyword;
-        }
-        if (search_experience != '' || search_experience != undefined) {
-          $scope.search.experience = search_experience;
         }
         if (search_function_name != '' || search_function_name != undefined) {
           $scope.search.function_name = search_function_name;
@@ -3059,24 +3065,45 @@ function ReportController($scope,$element,$http,$timeout){
       $scope.show_domain = false;
       $scope.show_employer = false;
       $scope.show_location = false;
+      $scope.show_jobs = false;
+      $scope.show_button = true;
+      $scope.show_companies = false;
     }
     if($scope.report_type == 1){
       $scope.show_domain = true;
       $scope.show_employer = false;
       $scope.show_location = false;
+      $scope.show_jobs = false;
+      $scope.show_button = true;
+      $scope.show_companies = false;
     }
     else if($scope.report_type == 2){
       $scope.show_domain = false;
       $scope.show_employer = true;
       $scope.show_location = false;
+      $scope.show_jobs = false;
+      $scope.show_button = true;
+      $scope.show_companies = false;
     }
     else if($scope.report_type == 3){
       $scope.show_domain = false;
       $scope.show_employer = false;
       $scope.show_location = true;
+      $scope.show_jobs = false;
+      $scope.show_button = true;
+      $scope.show_companies = false;
+    }
+    else if($scope.report_type == 7){
+      get_jobs($scope,$http);
+      $scope.show_domain = false;
+      $scope.show_employer = false;
+      $scope.show_location = false;
+      $scope.show_jobs = true;
+      $scope.show_button = false;
+      $scope.show_companies = false;
     }
   }
-  $scope.view_report = function(){
+  $scope.view_report = function(id){
     if($scope.report_type == '' || $scope.report_type == undefined){
       $scope.validation_message = "Please select the report type";
       return false;
@@ -3111,7 +3138,11 @@ function ReportController($scope,$element,$http,$timeout){
     } else if($scope.report_type == 4 || $scope.report_type == 5 || $scope.report_type == 6){
           $scope.validation_message = "";
           document.location.href = '/reports/reports/?report_type='+$scope.report_type;
+    } else if($scope.report_type == 7){        
+        $scope.validation_message = "";
+        document.location.href = '/reports/reports/?report_type='+$scope.report_type+'&job_id='+id;
     } 
+
     return true;
   }  
 
