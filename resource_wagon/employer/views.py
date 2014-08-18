@@ -17,6 +17,7 @@ from models import CompanyProfile,Recruiter
 from jobseeker.models import Jobseeker
 from web.models import Job, RequestSend, Reply
 from jobseeker.models import Jobseeker
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 class EmployerRegistration(View):
 
@@ -433,6 +434,18 @@ class ViewApplicants(View):
         job_id =kwargs['job_id']
         job = Job.objects.get(id=job_id)
         jobseekers = Jobseeker.objects.filter(applied_jobs=job)
+        jobseekers_list = Jobseeker.objects.all()
+        paginator = Paginator(jobseekers_list, 20) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+            jobseekers = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            jobseekers = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            jobseekers = paginator.page(paginator.num_pages)
         context = {
             'job': job,
             'jobseekers':jobseekers,
@@ -456,6 +469,7 @@ class AdminRequest(View):
         request_send.recruiter = recruiter
         request_send.save()
        
+
        
         email_to = user.email
         
@@ -472,6 +486,18 @@ class Inbox(View):
     def get(self, request, *args, **kwargs):
 
         replies = Reply.objects.all()
+        
+        paginator = Paginator(replies, 20) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+            replies = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            replies = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            replies = paginator.page(paginator.num_pages)
         context = {
             'replies':replies,
         }

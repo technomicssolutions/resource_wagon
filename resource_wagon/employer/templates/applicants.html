@@ -31,11 +31,28 @@
 				{% else %}
 					<p>Cannot View the Resume </p>
 				{% endif %}
-				<td><input type="submit" name="request" value="Send Request To Admin For Contact Details"></td>
-				
+				{% if not user.is_superuser %}
+					<td><input type="submit" name="request" value="Send Request To Admin For Contact Details"></td>
+				{% endif %}
 			</tr>
 		</form>
 		{% endfor %}
+		<div >
+   		<span >
+        {% if jobseekers.has_previous %}
+            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span >
+            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
+        </span>
+
+        {% if jobseekers.has_next %}
+            <a href="?page={{ jobseekers.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
 	</table>
 {% else %}
 	<p>No applicants</p>

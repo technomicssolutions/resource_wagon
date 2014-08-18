@@ -19,11 +19,12 @@
 			</tr>
 		{% for reply in replies %}
 			<form method="post" action="">{% csrf_token %}
-				{% if reply.is_delete %}
+				{% if not reply.is_delete %}
 					<tr>
 						<td>{{reply.reply_date}}</td>
 						<td>{{reply.request.jobseeker.user.first_name}} {{reply.request.jobseeker.user.last_name}}</td>
 						<td></td>
+						<td>{{reply.request.jobseeker.applied_jobs.all.0.job_title}}</td>
 						<td>{{reply.request.jobseeker.user.email}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>
@@ -38,8 +39,24 @@
 						<td><a href="{% url 'delete_reply' reply_id=reply.id %}"><input type="button" name="edit" value="Delete"></a></td>
 					</tr>
 			</form>
+
 			{% endif %}
 		{% endfor %}
+		<div >
+	   		<span >
+		        {% if replies.has_previous %}
+		            <a href="?page={{ replies.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span >
+		            Page {{ replies.number }} of {{ replies.paginator.num_pages }}.
+		        </span>
+
+		        {% if replies.has_next %}
+		            <a href="?page={{ replies.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div>
 	</table>
 {% else %}
 	<p>No Replies From Admin</p>
