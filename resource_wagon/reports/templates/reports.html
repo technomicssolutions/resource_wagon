@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block title %}Reports{% endblock title %}
+{% block body_id %}reports{% endblock body_id %}
+{% block controller %}ng-controller="ReportController" ng-init="init('{{csrf_token}}')"{% endblock controller %}
+{% block content %}
+
+<label>Select Type </label>
+	<select name="industry" ng-model="report_type" ng-change="select_report()"> 
+	<option value="">---------Select-------</option>
+	<option value="1">Jobs by domain</option>
+	<option value="2">Jobs by employer</option>
+	<option value="3">Jobs by location</option>
+	<option value="4">Most searched job</option>
+	<option value="5">Most applied Jobs</option>
+	<option value="6">Recruiters who posted highest number of jobs</option>
+	<option value="7">Canidates applied for a particular job</option>
+	</select>
+<div ng-show="show_domain">
+	<label>Choose Domain</label>
+	<select name ="functions" ng-model="domain">
+		<option value="">---------------Select-------------</option>
+		<option ng-repeat="function in functions" value="[[function]]">[[function]]</option>
+	</select>
+</div>
+<div ng-show="show_employer">
+	<label>Choose Employer</label>
+	<select name ="employers" ng-model="employers">
+		<option value="">---------------Select-------------</option>
+		<option ng-repeat="company in companies" value="[[company.id]]">[[company.name]]</option>
+	</select>
+</div>
+<div ng-show="show_location">
+	<label>Choose Location</label>
+	<select name ="countries" ng-model="country">
+		<option value="">---------------Select-------------</option>
+		<option ng-repeat="country in countries" value="[[country]]">[[country]]</option>
+	</select>
+</div>
+<div ng-show="show_jobs">
+	<table>
+		<tr>
+			<th>Job Title</th>
+			<th>Recruiter</th>
+			<th>Posted Date</th>
+			<th>Last Date</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="job in jobs">
+			<td>[[ job.job_title ]]</td>
+			<td>[[ job.recruiter ]]</td>
+			<td>[[ job.post_date ]]</td>
+			<td>[[ job.last_date ]]</td>
+			<td><input type="submit" value="View Report" ng-click="view_report(job.id)"></td>
+		</tr>
+	</table>
+</div>
+<div ng-show="show_button">
+	<input type="submit" value="View Report" ng-click="view_report(report_type)">
+</div>
+<p >[[validation_message]]</p>
+{% endblock content %}
