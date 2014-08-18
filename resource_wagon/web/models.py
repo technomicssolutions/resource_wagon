@@ -1904,9 +1904,11 @@ MASTERS_SPEC =(
     )
 
 EDUCATION_REQUIRED = (
-    ('Diploma', 'Diploma'),
+    ('Diploma', 'Diploma'),   
     ('Intermediate Schooling', 'Intermediate Schooling'),
     ('Secondary Schooling', 'Secondary Schooling'),
+    ('Degree - Any', 'Degree - Any'),
+    ('PG - Any', 'PG - Any'),
     ('Bachelor of Architecture', 'Bachelor of Architecture'),
     ('Bachelor of Arts', 'Bachelor of Arts'),
     ('Bachelor of Business Administration', 'Bachelor of Business Administration'),
