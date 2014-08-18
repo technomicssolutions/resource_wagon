@@ -1630,7 +1630,8 @@ function get_currencies($scope){
 }
 function get_job_seeker_details($scope, $http) {
     $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
-    {
+    { 
+        $scope.user_login_details = data.user_login_details[0];
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
         $scope.educational_details = data.educational_details[0];
@@ -1718,12 +1719,17 @@ function job_seeker_initialization_details($scope) {
 
     $scope.checkbox = false;
     $scope.job_seeker_id = 0;
-    $scope.personal = {
+    $scope.user_login_details = {
         'id': $scope.job_seeker_id,
         'password': '',
         'password1': '',
         'first_name': '',
         'last_name': '',
+    }
+    $scope.personal = {
+        'id': $scope.job_seeker_id,
+        
+       
         'gender': '',
         'dob':'',
         'marital_status': '',
@@ -1798,6 +1804,7 @@ function job_seeker_initialization_details($scope) {
     }
 }
 function hide_jobseeker_details_block($scope) {
+    
     $scope.view_personal_details = false;
     $scope.view_educational_details = false;
     $scope.view_employment_details = false;
@@ -2007,6 +2014,42 @@ function save_personal_details($scope, $http, type) {
         }
     });
 }
+function save_user_login_details($scope, $http, type) {
+    if (type == 'edit') {
+        $scope.user_login_details.id = $scope.jobseeker_id;
+    }
+    params = {
+        'email_details': angular.toJson($scope.user_login_details),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+    }
+    $http({
+        method : 'post',
+        url : "/jobseeker/save_user_login_details/",
+        data : $.param(params),
+        headers : {
+            'Content-Type' : 'application/x-www-form-urlencoded'
+        }
+    }).success(function(data, status) {
+        if (data.result == 'ok') {
+            if (type == 'save') {
+                $scope.job_seeker_id = data.job_seeker_id;
+                console.log($scope.job_seeker_id );
+                $scope.personal.id = $scope.job_seeker_id;
+                $scope.current_employer.id = $scope.job_seeker_id;
+                $scope.educational_details.id = $scope.job_seeker_id;
+                $scope.resume_details.id = $scope.job_seeker_id;
+                $scope.photo_details.id = $scope.job_seeker_id;
+                $scope.user_login_details = false;
+                $scope.personal_details = true;
+                
+            } else {
+                document.location.href = '/jobseeker/jobseeker_details/';
+            }
+        } else {
+            $scope.user_login_details_validation = data.message;
+        }
+    });
+}
 /* End common js methods */
 
 // function HomeController($scope, $element, $http, $timeout, share, $location)
@@ -2056,7 +2099,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     job_seeker_initialization_details($scope);
     $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
-        $scope.personal_details = true;
+        $scope.user_login_details = true
+        $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
         $scope.resume_detail = false;
@@ -2106,25 +2150,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
       }
     $scope.personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
-        if ($scope.personal.email == '' || $scope.personal.email == undefined || !(validateEmail($scope.personal.email))) {
-            $scope.personal_validation = 'Please enter Email';
-            return false;
-        } else if ($scope.personal.password == '' || $scope.personal.password == undefined) {
-            $scope.personal_validation = 'Please enter Password';
-            return false;
-        } else if ($scope.personal.password1 == '' || $scope.personal.password1 == undefined) {
-            $scope.personal_validation = 'Please enter Confirm Password';
-            return false;
-        } else if ($scope.personal.password != $scope.personal.password1) {
-            $scope.personal_validation = 'Please correctly enter the Password and Confirm Password';
-            return false;
-        } else if ($scope.personal.first_name == '' || $scope.personal.first_name == undefined) {
-            $scope.personal_validation = 'Please enter First Name';
-            return false;
-        } else if ($scope.personal.last_name == '' || $scope.personal.last_name == undefined) {
-            $scope.personal_validation = 'Please enter Last Name';
-            return false;
-        } else if ($scope.personal.gender == '' || $scope.personal.gender == undefined) {
+        if ($scope.personal.gender == '' || $scope.personal.gender == undefined) {
             $scope.personal_validation = 'Please enter Gender';
             return false;
         } else if ($scope.personal.dob == '' || $scope.personal.dob == undefined) {
@@ -2157,6 +2183,36 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         if ($scope.personal_details_validation()){
             save_personal_details($scope, $http, 'save');
         }
+    }
+    $scope.save_user_login_details = function() {
+        if ($scope.user_login_details_validation()){
+            save_user_login_details($scope, $http, 'save');
+        }
+    }
+    $scope.user_login_validation = function() {
+        
+        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.user_login_details.email))) {
+            $scope.user_login_validation = 'Please enter Email';
+            return false;
+        } else if ($scope.user_login_details.password == '' || $scope.user_login_details.password == undefined) {
+            $scope.user_login_validation = 'Please enter Password';
+            return false;
+        } else if ($scope.user_login_details.password1 == '' || $scope.user_login_details.password1 == undefined) {
+            $scope.user_login_validation = 'Please enter Confirm Password';
+            return false;
+        } else if ($scope.user_login_details.password != $scope.user_login_details.password1) {
+            $scope.user_login_validation = 'Please correctly enter the Password and Confirm Password';
+            return false;
+        } else if (!$scope.checkbox) {
+            $scope.user_login_validation = 'Please agree to the terms and conditions';
+            return false;
+        }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
+            $scope.user_login_validation = 'Please enter First Name';
+            return false;
+        } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
+            $scope.user_login_validation = 'Please enter Last Name';
+            return false;
+        } return true;
     }
     $scope.save_current_employer_details = function() {
         save_current_employer_details($scope, $http, 'save');
@@ -2199,9 +2255,6 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
             $scope.photo_validation_message = 'Please upload  your photo  ';
             return false;
-        } else if (!$scope.checkbox) {
-            $scope.photo_validation_message = 'Please agree to the terms and conditions';
-            return false;
         } return true;
     }
     $scope.save_photo_details = function() {
@@ -2212,6 +2265,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
 }
 function EditJobSeekerController($scope, $element, $http, $timeout) {
     job_seeker_initialization_details($scope);
+    $scope.view_user_login_details = true;
     $scope.view_personal_details = true;
     $scope.view_educational_details = true;
     $scope.view_employment_details = true;
@@ -2219,7 +2273,8 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
-        $scope.jobseeker_id = jobseeker_id;        
+        $scope.jobseeker_id = jobseeker_id; 
+        $scope.user_login_details = false;       
         $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
@@ -2256,16 +2311,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_personal_details_validation = function() {
         $scope.personal.dob = $$('#dob')[0].get('value');
-        if ($scope.personal.email == '' || $scope.personal.email == undefined || !(validateEmail($scope.personal.email))) {
-            $scope.personal_validation = 'Please enter Email';
-            return false;
-        }else if ($scope.personal.first_name == '' || $scope.personal.first_name == undefined) {
-            $scope.personal_validation = 'Please enter First Name';
-            return false;
-        } else if ($scope.personal.last_name == '' || $scope.personal.last_name == undefined) {
-            $scope.personal_validation = 'Please enter Last Name';
-            return false;
-        } else if ($scope.personal.gender == '' || $scope.personal.gender == undefined) {
+        if ($scope.personal.gender == '' || $scope.personal.gender == undefined) {
             $scope.personal_validation = 'Please enter Gender';
             return false;
         } else if ($scope.personal.dob == '' || $scope.personal.dob == undefined) {
@@ -2294,6 +2340,24 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
             return false;
         } return true;
     }
+    $scope.edit_user_login_validation = function() {
+        
+        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.email.email))) {
+            $scope.edit_user_login_validation = 'Please enter Email';
+            return false;
+        }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
+            $scope.edit_user_login_validation = 'Please enter First Name';
+            return false;
+        } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
+            $scope.edit_user_login_validation = 'Please enter Last Name';
+            return false;
+        }
+      }
+    $scope.show_user_login_details = function(jobseeker_id){
+        get_job_seeker_details($scope, $http);
+        $scope.user_login_details = true;
+        hide_jobseeker_details_block($scope);
+    }
     $scope.show_personal_details = function(jobseeker_id){
         get_job_seeker_details($scope, $http);
         $scope.personal_details = true;
@@ -2302,6 +2366,11 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.edit_personal_details = function() {
         if ($scope.edit_personal_details_validation()){
             save_personal_details($scope, $http, 'edit');
+        }
+    }
+    $scope.edit_user_login_details = function() {
+        if ($scope.edit_user_login_validation()){
+            save_user_login_details($scope, $http, 'edit');
         }
     }
     $scope.show_current_employer_details = function(){

@@ -7,9 +7,14 @@
 
 {% if not user.is_superuser %}
 	<h2>Welcome {{user.first_name}}</h2>
+	<div class="separation" ng-show="view_user_login_details">
+		<h3>User Details</h3>
+		<p>Email Id:{{user.email}}</p>
+		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
+	</div>
 	<div class="separation" ng-show="view_personal_details">
 		<h3>Personal Details</h3>
-		<p>Email Id:{{user.email}}</p>
+		
 
 
 		<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
@@ -150,16 +155,22 @@
 {% endif %}
 	<form name="registration" method="post" action="">
 		{% csrf_token %}
+		<div class="separation" ng-show="user_login_details">
+			<p class="mandatory">* Mandatory Fields</p>
+			<label>Email Id<span class="red">*</span></label>
+			<input type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
+		
+			<label>First Name<span class="red">*</span></label>
+			<input type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
+			<label>Last Name<span class="red">*</span></label>
+			<input type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
+			<p class="error_message error_p">[[user_login_validation]]</p>
+		</div>
 		<div class="separation" ng-show="personal_details">
 			<p class="mandatory">* Mandatory Fields</p>
 			<h3>Personal Details</h3>
-			<label>Email Id<span class="red">*</span></label>
-			<input type="text" name="email" ng-model="personal.email" value="{{personal.email}}">
-		
-			<label>First Name<span class="red">*</span></label>
-			<input type="text" name="first_name" ng-model="personal.first_name" value="{{personal.first_name}}">
-			<label>Last Name<span class="red">*</span></label>
-			<input type="text" name="last_name" ng-model="personal.last_name"  value="{{personal.last_name}}">
+			
 			<label>Gender<span class="red">*</span></label> 
 			<input type="radio" name="gender" ng-model="personal.gender" value="male">
 			<span class="span_label">Male</span>

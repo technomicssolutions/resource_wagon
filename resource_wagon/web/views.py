@@ -98,7 +98,8 @@ class DeleteRequest(View):
 
         request_id = kwargs['request_id']
         request = RequestSend.objects.get(id=request_id)
-        request.delete()
+        request.is_delete =True
+        request.save()
 
         return render(request, 'requests.html', {})
 

@@ -19,23 +19,26 @@
 			</tr>
 		{% for reply in replies %}
 			<form method="post" action="">{% csrf_token %}
-				<tr>
-					<td>{{reply.reply_date}}</td>
-					<td>{{reply.request.jobseeker.user.first_name}} {{reply.request.jobseeker.user.last_name}}</td>
-					<td></td>
-					<td>{{reply.request.jobseeker.user.email}}</td>
-					<td>{{reply.request.jobseeker.mobile}}</td>
-					<td>{{reply.request.jobseeker.mobile}}</td>
-					{% if reply.request.jobseeker.education.is_resume_show %}
-						{% if reply.request.jobseeker.education.resume %}
-							<td><a href="/site_media/{{reply.request.jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+				{% if reply.is_delete %}
+					<tr>
+						<td>{{reply.reply_date}}</td>
+						<td>{{reply.request.jobseeker.user.first_name}} {{reply.request.jobseeker.user.last_name}}</td>
+						<td></td>
+						<td>{{reply.request.jobseeker.user.email}}</td>
+						<td>{{reply.request.jobseeker.mobile}}</td>
+						<td>{{reply.request.jobseeker.mobile}}</td>
+						{% if reply.request.jobseeker.education.is_resume_show %}
+							{% if reply.request.jobseeker.education.resume %}
+								<td><a href="/site_media/{{reply.request.jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+							{% endif %}
+						{% else %}
+							<td>Can't see Resume</td>
 						{% endif %}
-					{% else %}
-						<td>Can't see Resume</td>
-					{% endif %}
-					<td><a href="{% url 'delete_reply' reply_id=reply.id %}"><input type="button" name="edit" value="Delete"></a></td>
-				</tr>
+						
+						<td><a href="{% url 'delete_reply' reply_id=reply.id %}"><input type="button" name="edit" value="Delete"></a></td>
+					</tr>
 			</form>
+			{% endif %}
 		{% endfor %}
 	</table>
 {% else %}

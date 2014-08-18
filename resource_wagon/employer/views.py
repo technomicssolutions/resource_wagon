@@ -466,7 +466,8 @@ class DeleteInbox(View):
 
         reply_id = kwargs['reply_id']
         reply = Reply.objects.get(id=reply_id)
-        reply.delete()
+        reply.is_delete = True
+        reply.save()
 
         return render(request, 'inbox.html', {})
 

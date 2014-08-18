@@ -42,18 +42,18 @@ class Companies(View):
         response = simplejson.dumps(res)
         return HttpResponse(response, mimetype='application/json')
 
-class SavePersonalDetails(View):
+class SaveUserLoginDetails(View):
 
-    def post(self, request, *args, **kwargs):
+      def post(self, request, *args, **kwargs):
 
-        personal_details = ast.literal_eval(request.POST['personal_details'])
+        user_login_details = ast.literal_eval(request.POST['user_login_details'])
         status = 200
-        if personal_details['id'] != 0:
-            job_seeker = Jobseeker.objects.get(id=personal_details['id'])
+        if user_login_details['id'] != 0:
+            job_seeker = Jobseeker.objects.get(id=user_login_details['id'])
             user = job_seeker.user
         else:
             try:
-                user = User.objects.get(username=personal_details['email'])
+                user = User.objects.get(username=user_login_details['email'])
                 res = {
                     'result': 'error',
                     'message': 'Email already exists',
@@ -61,39 +61,55 @@ class SavePersonalDetails(View):
                 response = simplejson.dumps(res)
                 return HttpResponse(response, status=status, mimetype='application/json')
             except Exception as ex:
-                user = User.objects.create(username=personal_details['email'])
-                user.set_password(personal_details['password'])
+                user = User.objects.create(username=user_login_details['email'])
+                user.set_password(user_login_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
-                user = authenticate(username=personal_details['email'], password=personal_details['password'])
+                user = authenticate(username=user_login_details['email'], password=user_login_details['password'])
                 if user and user.is_active:
                     login(request, user)
                     message = 'Logged in'
                 else:
                     message = 'Not logged in' 
-        user.first_name = personal_details['first_name']
-        user.last_name = personal_details['last_name']
-        user.email = personal_details['email']
-        user.save()
-        current_year = datetime.now().year
-        b_year = datetime.strptime(personal_details['dob'], '%d/%m/%Y').year
-        age = current_year - b_year
-        job_seeker.gender = personal_details['gender']
-        job_seeker.nationality = personal_details['nationality']
-        job_seeker.dob = datetime.strptime(personal_details['dob'], '%d/%m/%Y')
-        job_seeker.marital_status = personal_details['marital_status']
-        job_seeker.age = age
-        job_seeker.alt_mail = personal_details['alt_email']
-        job_seeker.country = personal_details['country']
-        job_seeker.city = personal_details['city']
-        job_seeker.mobile = personal_details['mobile']
-        job_seeker.save()       
+        user.first_name = user_login_details['first_name']
+        user.last_name = user_login_details['last_name']
+        user.email = user_login_details['email']
+        user.save()  
         res = {
             'result': 'ok',
             'job_seeker_id': job_seeker.id,
         }
         response = simplejson.dumps(res)
         return HttpResponse(response, status=status, mimetype='application/json')
+
+class SavePersonalDetails(View):
+
+    def post(self, request, *args, **kwargs):
+
+        personal_details = ast.literal_eval(request.POST['personal_details'])
+        status = 200
+        print personal_details['id']
+        if personal_details['id']:
+            job_seeker = Jobseeker.objects.get(id=personal_details['id'])   
+            current_year = datetime.now().year
+            b_year = datetime.strptime(personal_details['dob'], '%d/%m/%Y').year
+            age = current_year - b_year
+            job_seeker.gender = personal_details['gender']
+            job_seeker.nationality = personal_details['nationality']
+            job_seeker.dob = datetime.strptime(personal_details['dob'], '%d/%m/%Y')
+            job_seeker.marital_status = personal_details['marital_status']
+            job_seeker.age = age
+            job_seeker.alt_mail = personal_details['alt_email']
+            job_seeker.country = personal_details['country']
+            job_seeker.city = personal_details['city']
+            job_seeker.mobile = personal_details['mobile']
+            job_seeker.save()       
+            res = {
+                'result': 'ok',
+                'job_seeker_id': job_seeker.id,
+            }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
 
 class SaveCurrentEmployerDetails(View):
 
@@ -266,6 +282,7 @@ class EditDetails(View):
             'employment': employment,
             'education': education,
         }
+        ctx_user_login_data = []
         ctx_jobseeker_data = []
         ctx_education_data = []
         ctx_previous_company = []
@@ -296,11 +313,15 @@ class EditDetails(View):
                     'name': company.company_name,
                     })
         if request.is_ajax():
-            ctx_jobseeker_data.append ({
+            ctx_user_login_data.append({
                 'id': jobseeker_id if jobseeker else '',
                 'email': user.email if user else '',
                 'first_name': user.first_name if user else '',
                 'last_name': user.last_name if user else '',
+                })
+
+            ctx_jobseeker_data.append ({
+                
                 'gender':jobseeker.gender if jobseeker else '',
                 'dob': jobseeker.dob.strftime('%d/%m/%Y') if jobseeker else '',
                 'marital_status':jobseeker.marital_status if jobseeker else '',
@@ -348,6 +369,7 @@ class EditDetails(View):
                 'profile_photo': jobseeker.photo.name if jobseeker else '',
             })
             res ={
+                'user_login_details': ctx_user_login_data,
                 'personal': ctx_jobseeker_data,
                 'educational_details': ctx_education_data,
                 'current_employer': ctx_employment_data,

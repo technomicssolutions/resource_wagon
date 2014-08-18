@@ -11,23 +11,28 @@
 		{% csrf_token %}
 
 			<p class="mandatory">* Mandatory Fields</p>
-		<div class="separation" ng-show="personal_details">
+		<div class="separation" ng-show="user_login_details">
 			<label>Email Id<span class="red">*</span></label>
-			<input type="text" name="email" ng-model="personal.email">
+			<input type="text" name="email" ng-model="user_login_details.email">
 			{% if not is_profile_edit %}
 					<label>Password<span class="red">*</span></label> 
-					<input type="password" name="password" ng-model="personal.password">
+					<input type="password" name="password" ng-model="user_login_details.password">
 					<label>Confirm Password<span class="red">*</span></label> 
-					<input type="password" name="password1" ng-model="personal.password1">
+					<input type="password" name="password1" ng-model="user_login_details.password1">
 			{% endif %}
+			<label>First Name<span class="red">*</span></label>
+			<input type="text" name="first_name" ng-model="user_login_details.first_name">
+			<label>Last Name<span class="red">*</span></label>
+			<input type="text" name="last_name" ng-model="user_login_details.last_name">
+			
+			<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_user_login_details()"></p>
+			<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
+			<p class="error_message error_p">[[user_login_details_validation]]</p>
 		</div>
 
 		<div class="separation" ng-show="personal_details">
 			<h3>Personal Details</h3>
-			<label>First Name<span class="red">*</span></label>
-			<input type="text" name="first_name" ng-model="personal.first_name">
-			<label>Last Name<span class="red">*</span></label>
-			<input type="text" name="last_name" ng-model="personal.last_name">
 			<label>Gender<span class="red">*</span></label> 
 			<input type="radio" name="gender" ng-model="personal.gender" value="male">
 			<span class="span_label">Male</span>
@@ -206,9 +211,7 @@
 			<br>
 			<br>
 	        <div class="btn">
-				{% if not user.is_authenticated %}
-					<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
-				{% endif %}
+				
 				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_photo_details()"></p>
 				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
 				

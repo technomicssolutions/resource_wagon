@@ -129,8 +129,6 @@ INSTALLED_APPS = (
     'jobseeker',
     'web',
     'reports',
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
 )
 
 # A sample logging configuration. The only tangible logging
