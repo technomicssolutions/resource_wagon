@@ -9,6 +9,7 @@
 			<tr >
 				<th>Date</th>
 				<th>Company Name</th>
+				<th>Job Title</th>
 				<th>Email</th>
 				<th>Requested Jobseeker</th>
 				<th></th>
@@ -16,11 +17,12 @@
 				
 			</tr>
 		{% for request in requests %}
-			{% if request.is_delete %}
+			{% if not request.is_delete %}
 				<form method="post" action="{% url 'reply' request.id %}">{% csrf_token %}
 					<tr>
 						<td>{{request.request_date}}</td>
 						<td>{{request.recruiter.company.company_name}}</td>
+						<td>{{request.jobseeker.applied_jobs.all.0.job_title}}</td>
 						<td>{{request.recruiter.user.email}}</td>
 						<td>{{request.jobseeker.user.first_name}} {{request.jobseeker.user.last_name}}</td>
 						{% if  request.is_replied %}
@@ -30,7 +32,7 @@
 						{% endif %}
 						
 							<td><a href="{% url 'delete_request' request_id=request.id %}"><input type="button" name="edit" value="Delete"></a></td>
-						{% endif %}
+						
 					</tr>
 				</form>
 			{% endif %}

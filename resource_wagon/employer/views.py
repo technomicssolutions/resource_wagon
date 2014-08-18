@@ -456,6 +456,7 @@ class AdminRequest(View):
         request_send.recruiter = recruiter
         request_send.save()
        
+
        
         email_to = user.email
         

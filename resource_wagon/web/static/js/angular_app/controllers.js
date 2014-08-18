@@ -1812,7 +1812,7 @@ function job_seeker_initialization_details($scope) {
     }
 }
 function hide_jobseeker_details_block($scope) {
-    $scope.view_user_login_details - false;
+    $scope.view_user_login_details = false;
     $scope.view_personal_details = false;
     $scope.view_educational_details = false;
     $scope.view_employment_details = false;
@@ -1919,6 +1919,9 @@ function save_photo_details($scope, $http) {
     });
 }
 function save_educational_details($scope, $http, type) {
+    if (type == 'edit') {
+        $scope.educational_details.id = $scope.jobseeker_id;
+      } 
     $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
     params = {
         'educational_details': angular.toJson($scope.educational_details),
@@ -1949,6 +1952,9 @@ function save_educational_details($scope, $http, type) {
 }
 function save_current_employer_details($scope, $http, type) {
 
+    if (type == 'edit') {
+        $scope.current_employer.id = $scope.jobseeker_id;
+      } 
     if (current_employer_validation($scope)) {
         $scope.current_employer.selected_companies = [];
         if(!angular.isUndefined($scope.current_employer.companies[0].id)){
@@ -1964,7 +1970,8 @@ function save_current_employer_details($scope, $http, type) {
             'current_employer_details': angular.toJson($scope.current_employer),
             'csrfmiddlewaretoken': $scope.csrf_token,
         }
-        console.log($scope.current_employer.employers);     
+        console.log($scope.current_employer.employers); 
+     
         $http({
             method : 'post',
             url : "/jobseeker/save_current_employer_details/",
@@ -2027,7 +2034,7 @@ function save_user_login_details($scope, $http, type) {
         $scope.user_login_details.id = $scope.jobseeker_id;
     }
     params = {
-        'email_details': angular.toJson($scope.user_login_details),
+        'user_login_details': angular.toJson($scope.user_login_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
     }
     $http({
@@ -2047,7 +2054,7 @@ function save_user_login_details($scope, $http, type) {
                 $scope.educational_details.id = $scope.job_seeker_id;
                 $scope.resume_details.id = $scope.job_seeker_id;
                 $scope.photo_details.id = $scope.job_seeker_id;
-                $scope.user_login_details = false;
+                $scope.user_login_detail = false;
                 $scope.personal_details = true;
                 
             } else {
@@ -2107,7 +2114,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     job_seeker_initialization_details($scope);
     $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
-        $scope.user_login_details = true
+        $scope.user_login_detail = true;
         $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
@@ -2197,7 +2204,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             save_user_login_details($scope, $http, 'save');
         }
     }
-    $scope.user_login_validation = function() {
+    $scope.user_login_details_validation = function() {
         
         if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.user_login_details.email))) {
             $scope.user_login_validation = 'Please enter Email';
@@ -2281,8 +2288,10 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
-        $scope.jobseeker_id = jobseeker_id; 
-        $scope.user_login_details = false;       
+        $scope.jobseeker_id = jobseeker_id;
+        $scope.current_employer.id  = jobseeker_id;
+        $scope.educational_details.id = jobseeker_id;
+        $scope.user_login_detail = false;       
         $scope.personal_details = false;
         $scope.current_employment_details = false;
         $scope.educational_detail = false;
@@ -2351,19 +2360,19 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.edit_user_login_validation = function() {
         
         if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.email.email))) {
-            $scope.edit_user_login_validation = 'Please enter Email';
+            $scope.edit_user_login_validation_message = 'Please enter Email';
             return false;
         }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
-            $scope.edit_user_login_validation = 'Please enter First Name';
+            $scope.edit_user_login_validation_message = 'Please enter First Name';
             return false;
         } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
-            $scope.edit_user_login_validation = 'Please enter Last Name';
+            $scope.edit_user_login_validation_message = 'Please enter Last Name';
             return false;
         }
       }
     $scope.show_user_login_details = function(jobseeker_id){
         get_job_seeker_details($scope, $http);
-        $scope.user_login_details = true;
+        $scope.user_login_detail = true;
         hide_jobseeker_details_block($scope);
     }
     $scope.show_personal_details = function(jobseeker_id){

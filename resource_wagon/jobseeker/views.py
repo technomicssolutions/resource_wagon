@@ -208,6 +208,7 @@ class SaveEducationalDetails(View):
 
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
+        print request.POST['resume_details']
         resume_details = ast.literal_eval(request.POST['resume_details'])
         status = 200
         if resume_details['id']:

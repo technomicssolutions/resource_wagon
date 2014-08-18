@@ -19,11 +19,12 @@
 			</tr>
 		{% for reply in replies %}
 			<form method="post" action="">{% csrf_token %}
-				{% if reply.is_delete %}
+				{% if not reply.is_delete %}
 					<tr>
 						<td>{{reply.reply_date}}</td>
 						<td>{{reply.request.jobseeker.user.first_name}} {{reply.request.jobseeker.user.last_name}}</td>
 						<td></td>
+						<td>{{reply.request.jobseeker.applied_jobs.all.0.job_title}}</td>
 						<td>{{reply.request.jobseeker.user.email}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>

@@ -113,9 +113,9 @@ class ReplyEmployer(View):
         subject = " Contact details "
         message = " contact details of " + request.jobseeker.user.first_name + request.jobseeker.user.last_name + "Email : " + str(request.jobseeker.user.email) + "Mobile:" + str(request.jobseeker.mobile) + "Land Line:" + str(request.jobseeker.land_num)
         from_email = settings.DEFAULT_FROM_EMAIL 
-        request.is_replied = True
         reply = Reply()
         reply.request = request
+        reply.request.is_replied = True
         request.save()
         
         reply.save()
