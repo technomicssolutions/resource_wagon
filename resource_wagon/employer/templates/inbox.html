@@ -39,8 +39,24 @@
 						<td><a href="{% url 'delete_reply' reply_id=reply.id %}"><input type="button" name="edit" value="Delete"></a></td>
 					</tr>
 			</form>
+
 			{% endif %}
 		{% endfor %}
+		<div >
+	   		<span >
+		        {% if replies.has_previous %}
+		            <a href="?page={{ replies.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span >
+		            Page {{ replies.number }} of {{ replies.paginator.num_pages }}.
+		        </span>
+
+		        {% if replies.has_next %}
+		            <a href="?page={{ replies.next_page_number }}">next</a>
+		        {% endif %}
+		    </span>
+		</div>
 	</table>
 {% else %}
 	<p>No Replies From Admin</p>
