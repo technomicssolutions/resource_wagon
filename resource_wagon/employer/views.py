@@ -104,6 +104,17 @@ class EmployerView(View):
     def get(self, request, *args, **kwargs):
         if  request.user.is_superuser:
             recruiters = Recruiter.objects.all()
+            paginator = Paginator(recruiters, 20) # Show 25 contacts per page
+
+            page = request.GET.get('page')
+            try:
+                recruiters = paginator.page(page)
+            except PageNotAnInteger:
+                # If page is not an integer, deliver first page.
+                recruiters = paginator.page(1)
+            except EmptyPage:
+                # If page is out of range (e.g. 9999), deliver last page of results.
+                recruiters = paginator.page(paginator.num_pages)
             context = {
                 'recruiters':recruiters,
                 
@@ -490,7 +501,7 @@ class Inbox(View):
     def get(self, request, *args, **kwargs):
 
         replies = Reply.objects.all()
-        
+
         paginator = Paginator(replies, 20) # Show 25 contacts per page
 
         page = request.GET.get('page')

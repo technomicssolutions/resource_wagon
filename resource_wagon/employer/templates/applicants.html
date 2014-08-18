@@ -38,20 +38,20 @@
 		</form>
 		{% endfor %}
 		<div >
-   		<span >
-        {% if jobseekers.has_previous %}
-            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
-        {% endif %}
+	   		<span >
+		        {% if jobseekers.has_previous %}
+		            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
+		        {% endif %}
 
-        <span >
-            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
-        </span>
+		        <span >
+		            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
+		        </span>
 
-        {% if jobseekers.has_next %}
-            <a href="?page={{ jobseekers.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-</div>
+		        {% if jobseekers.has_next %}
+		            <a href="?page={{ jobseekers.next_page_number }}">next</a>
+		        {% endif %}
+	    	</span>
+		</div>
 
 	</table>
 {% else %}
