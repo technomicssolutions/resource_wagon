@@ -1812,7 +1812,7 @@ function job_seeker_initialization_details($scope) {
     }
 }
 function hide_jobseeker_details_block($scope) {
-    
+    $scope.view_user_login_details - false;
     $scope.view_personal_details = false;
     $scope.view_educational_details = false;
     $scope.view_employment_details = false;
