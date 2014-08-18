@@ -11,7 +11,7 @@
 		{% csrf_token %}
 
 			<p class="mandatory">* Mandatory Fields</p>
-		<div class="separation" ng-show="user_login_details">
+		<div class="separation" ng-show="user_login_detail">
 			<label>Email Id<span class="red">*</span></label>
 			<input type="text" name="email" ng-model="user_login_details.email">
 			{% if not is_profile_edit %}
@@ -28,7 +28,7 @@
 			<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
 			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_user_login_details()"></p>
 			<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
-			<p class="error_message error_p">[[user_login_details_validation]]</p>
+			<p class="error_message error_p">[[user_login_validation]]</p>
 		</div>
 
 		<div class="separation" ng-show="personal_details">
