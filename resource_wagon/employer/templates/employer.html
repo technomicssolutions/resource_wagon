@@ -49,6 +49,21 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
 			</tr>	
 		{% endfor %}
+		<div >
+	   		<span >
+	        {% if recruiters.has_previous %}
+	            <a href="?page={{ recruiters.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span >
+	            Page {{ recruiters.number }} of {{ recruiters.paginator.num_pages }}.
+	        </span>
+
+	        {% if recruiters.has_next %}
+	            <a href="?page={{ recruiters.next_page_number }}">next</a>
+	        {% endif %}
+		    </span>
+		</div>
 	{% endif %}
 		
 {% endif %}
