@@ -12,6 +12,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from models import RequestSend, Reply
+from django.contrib.sites.models import Site
+from django.template.loader import render_to_string
+from random import randint
 
 class Home(View):
     
@@ -52,6 +55,55 @@ class Logout(View):
 
         logout(request)
         return HttpResponseRedirect(reverse('home'))
+
+class ForgotPassword(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'forgot_password.html', {})
+
+    def post(self, request, *args, **kwargs):
+
+        user = User.objects.filter(email = request.POST['email_id'])
+        if user.exists():
+            user = user[0]
+            print randint(1000,9999)
+            randum_num = randint(1000,9999)
+            user.set_password(str(randum_num))
+            user.save()
+            subject = 'Reset Your Password'
+            text_content = 'Your New Password is'+ str(randum_num)
+            from_email = settings.DEFAULT_FROM_EMAIL
+            # try:
+            #     site_url = Site.objects.get_current().domain
+            # except:
+            #     site_url = Site.objects.all()[0]
+            # print site_url
+            # url = 'http://%s%s'%(site_url,'/reset_password/'+str(user.id)+'/') 
+            # ctx = {
+            #     'url': url,
+            #     'user': user,
+            # }
+            # html_content = render_to_string('login.html', ctx)
+            to = []
+            if subject  and from_email:
+                
+                to.append(user.email)
+                for i in range(len(to)):
+                    msg = EmailMultiAlternatives(subject, text_content, from_email, [to[i]])
+                    # msg.attach_alternative(html_content, "text/html")
+                    msg.send()
+                    context = {
+                        'message': 'An email has been sent to your registered email account. Please Check  your new password and login.',
+                    }
+                    return render(request, 'login.html', context)
+                    
+        else:
+            context = {
+                'message': 'You have no matching profiles with this email id',
+            }
+            return render(request, 'forgot_password.html', context)
+
 
 class ResetPassword(View):
 

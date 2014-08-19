@@ -3219,7 +3219,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
             $scope.edit_user_login_validation_message = 'Please enter Last Name';
             return false;
-        }
+        }return true;
       }
     $scope.show_user_login_details = function(jobseeker_id){
         get_job_seeker_details($scope, $http);

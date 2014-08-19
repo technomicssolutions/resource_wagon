@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block body %}
 	<div class="login">
+		
 		<h3 class="sub_heading"> Login </h3>
 		<form action="{%url 'login' %}" method="POST" >
 			{% csrf_token %}
@@ -8,7 +9,12 @@
 			<input type="text" name="username" />
 			<label> Password: </label>
 			<input type="password" name="password" />
-			<input type="submit" name="submit" value="Login" />
+			<div>
+				<label><a href="{% url 'forgot_password' %}">Forgot Password</a></label>
+				<input  type="submit" value="Login">	
+			</div>
+			<p>{{ message }}</p>
+			
 		</form>
 	</div>
 	<a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
