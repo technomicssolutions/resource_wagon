@@ -3209,7 +3209,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_user_login_validation = function() {
         
-        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.email.email))) {
+        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.user_login_details.email))) {
             $scope.edit_user_login_validation_message = 'Please enter Email';
             return false;
         }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
@@ -3218,7 +3218,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
             $scope.edit_user_login_validation_message = 'Please enter Last Name';
             return false;
-        }
+        }return true;
       }
     $scope.show_user_login_details = function(jobseeker_id){
         get_job_seeker_details($scope, $http);
