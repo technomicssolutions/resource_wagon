@@ -449,7 +449,7 @@ class ViewApplicants(View):
         job_id =kwargs['job_id']
         job = Job.objects.get(id=job_id)
         jobseekers = Jobseeker.objects.filter(applied_jobs=job)
-        jobseekers_list = Jobseeker.objects.all()
+        jobseekers_list = Jobseeker.objects.filter(applied_jobs=job)
         paginator = Paginator(jobseekers_list, 20) # Show 25 contacts per page
 
         page = request.GET.get('page')
@@ -500,10 +500,10 @@ class Inbox(View):
 
     def get(self, request, *args, **kwargs):
 
-        replies = Reply.objects.all()
+        replies = Reply.objects.filter(request__recruiter__user = request.user )
 
         paginator = Paginator(replies, 20) # Show 25 contacts per page
-
+        print replies
         page = request.GET.get('page')
         try:
             replies = paginator.page(page)

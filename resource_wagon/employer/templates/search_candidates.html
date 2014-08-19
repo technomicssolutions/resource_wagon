@@ -12,10 +12,8 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 <h2> Search Candidates </h2>
 
 	<label>Industry</label>
-		<select name="industry" ng-model="search_candidate.industry"> 
-			<option value="">Select</option>
-			<option ng-repeat="industry in industries" value="[[industry]]">[[industry]]</option>	
-		</select>
+		<select name="industry" ng-model="search_candidate.industry" ng-options="industry as industry for industry in industries">
+				</select>
 	<label>Functional Area</label>
 		<select name ="functions" ng-model="search_candidate.functions">
 			<option value="">---------------Select-------------</option>
@@ -60,7 +58,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	</div>
 	<div>
 
-
+{% if candidates_data %}
 	<table ng-show="candidates_data_table">
 			<tr >
 				<th>Name</th>
@@ -79,5 +77,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 
 			</tr>
 	</table>
-
+{% else %}
+	<p>No candidates found matching the search</p>
+{% endif %}
 {% endblock %}

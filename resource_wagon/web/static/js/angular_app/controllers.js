@@ -2346,7 +2346,7 @@ function get_nationalities($scope){
 
 function get_industries($scope){
     $scope.industries = [
-    'Automotive/ Ancillaries',
+        'Automotive/ Ancillaries',
         'Banking/ Financial Services',
         'Bio Technology and Life Sciences',
         'Chemicals/Petrochemicals',
@@ -2404,26 +2404,7 @@ function get_industries($scope){
         'Paper',
         'Printing/ Packaging',
         'Public Relations (PR)',
-        'Import / Export',
-        'Iron/ Steel',
-        'ISP',
-        'Law Enforcement/Security Services',
-        'Leather',
-        'Market Research',
-        'Medical Transcription',
-        'Mining',
-        'NGO',
-        'Import / Export',
-        'Iron/ Steel',
-        'ISP',
-        'Law Enforcement/Security Services',
-        'Leather',
-        'Market Research',
-        'Medical Transcription',
-        'Mining',
-        'NGO',
         'Shipping/ Marine Services',
-        'Travel/ Tourism',
         'Tyres',
         'Wood',
         'Travel/ Tourism',
@@ -2762,7 +2743,7 @@ function save_photo_details($scope, $http) {
             $scope.job_seeker_id = data.job_seeker_id;
             document.location.href = '/jobseeker/jobseeker_details/';
         } else {
-            $scope.photo_validation_message = data.message;
+            // $scope.photo_validation_message = data.message;
         }
     });
 }
@@ -3115,16 +3096,16 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             save_resume_details($scope, $http, 'save');
         }
     }
-    $scope.photo_validation = function() {
-        if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
-            $scope.photo_validation_message = 'Please upload  your photo  ';
-            return false;
-        } return true;
-    }
+    // $scope.photo_validation = function() {
+    //     if ($scope.photo_img.src == '' || $scope.photo_img.src == undefined) {
+    //         $scope.photo_validation_message = 'Please upload  your photo  ';
+    //         return false;
+    //     } return true;
+    // }
     $scope.save_photo_details = function() {
-        if ($scope.photo_validation()){
+        // if ($scope.photo_validation()){
             save_photo_details($scope, $http);
-        }
+        // }
     }
 }
 function EditJobSeekerController($scope, $element, $http, $timeout) {

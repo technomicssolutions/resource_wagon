@@ -69,9 +69,7 @@
 
 			<div class="formrow">
 				<label>Industry Type</label>
-				<select name="industry" ng-model="search.industry"> 
-					<option value="">------Select------</option>
-					<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry==search.industry">[[industry]]</option>
+				<select name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
 				</select>
 			</div>
 			<br><br><br>
