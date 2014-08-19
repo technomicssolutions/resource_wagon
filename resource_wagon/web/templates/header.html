@@ -1,43 +1,109 @@
-<div class="logo">
-    <img src="/static/images/logo.png" id="logo">
-</div>
-{% if user.is_authenticated %}
-    <ul>           
-        <li>{{user.username}}   
-        <li><a href="{% url 'home' %}">Home</a></li>    
-        <li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
-        {% if user.jobseeker_set.all.0 %}
-            <li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
-            <li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
-            <a href="{% url 'search' %}">Search Jobs </a>
-            
-            <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
-            <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
-        {% elif user.recruiter_set.all.0 %}
-            <li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
-            <li><a href="{% url 'employer_profile' %}">View Profile</a></li>
-            <li><a href="{% url 'postjobs' %}">Post Job</a></li>
-            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-            <li><a href="{% url 'admin_reply' %}">Inbox</a></li>
-        {% endif %}
-        {% if user.is_superuser %}
-            <a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
-            <a href="{% url 'employer_registration' %}"> Employer Registration </a>
-            <li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
-            <li><a href="{% url 'request' %}">Requests</a></li>
-            <a href="{% url 'search' %}">Search Jobs </a>
-            <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
-            <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
-            <li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
-            <li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
-            
-            <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-            <li><a href="{% url 'reports' %}">Reports</a>
+{% comment %}
+    
+    {% if user.is_authenticated %}
+        <ul>           
+            <li>{{user.username}}   
+            <li><a href="{% url 'home' %}">Home</a></li>    
+            <li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
+            {% if user.jobseeker_set.all.0 %}
+                <li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
+                <li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
+                <a href="{% url 'search' %}">Search Jobs </a>
+                
+                <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
+                <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
+            {% elif user.recruiter_set.all.0 %}
+                <li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
+                <li><a href="{% url 'employer_profile' %}">View Profile</a></li>
+                <li><a href="{% url 'postjobs' %}">Post Job</a></li>
+                <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                <li><a href="{% url 'admin_reply' %}">Inbox</a></li>
+            {% endif %}
+            {% if user.is_superuser %}
+                <a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
+                <a href="{% url 'employer_registration' %}"> Employer Registration </a>
+                <li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
+                <li><a href="{% url 'request' %}">Requests</a></li>
+                <a href="{% url 'search' %}">Search Jobs </a>
+                <a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
+                <a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
+                <li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
+                <li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
+                
+                <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+                <li><a href="{% url 'reports' %}">Reports</a>
+                </li>
+            {% endif %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>         
             </li>
-        {% endif %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>         
-        </li>
-    </ul>
-{% endif %}
+        </ul>
+    {% endif %}
+{% endcomment %}
 
-
+<header>
+    <div class="social_div">
+        <div class="social_links">
+            <a href="" class="fb"></a>
+            <a href="" class="twitter"></a>
+            <a href="" class="linked_in"></a>            
+        </div>
+    </div>
+    <div class="header_content">
+        <div class="logo_div">
+            <div class="logo">
+                <img src="/static/images/logo.png" id="logo">
+            </div>
+            <div class="create_account_link">
+                <a href=""> Login </a> /
+                <a href=""> Create Account </a>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="banner_top"></div>
+        <div class="banner">
+            <img src="/static/images/slide1.jpg" />
+            <div class="quick_search_overlay"></div>
+            <div class="quick_search">
+                <h3> Quick search </h3>
+                <div class="search_controls">
+                    <input type="text" name="search_key" />
+                    <select name="state">
+                        <option> Select </option>
+                    </select>
+                    <select name="state">
+                        <option> Select </option>
+                    </select>
+                    <button class="search_button"></button>
+                    <div class="clear"></div>
+                    <div class="button_links">
+                        <a href="" class="login_link"> </a>
+                        <a href="" class="registration"> </a>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="menu">
+            <ul>
+                <li> 
+                    <span></span>
+                    <a href=""> HOME </a> 
+                </li>
+                <li> 
+                    <span></span>
+                    <a href=""> COMAPNIES </a> 
+                </li>
+                <li> 
+                    <span></span>
+                    <a href=""> CANDIDATES </a> 
+                </li>
+                <li> 
+                    <span></span>
+                    <a href=""> ABOUT US </a> 
+                </li>
+            </ul>
+        </div>
+        <div class="menu_border"></div>
+    </div>
+    <div class="clear"></div>
+</header>
