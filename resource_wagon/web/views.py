@@ -168,6 +168,7 @@ class ReplyEmployer(View):
         reply = Reply()
         reply.request = request
         reply.request.is_replied = True
+        
         request.save()
         
         reply.save()

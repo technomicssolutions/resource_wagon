@@ -16,9 +16,7 @@
 			<label>Email Id<span class="red">*</span></label>
 			<input type="text" name="email" ng-model="recruiter.email">
 			<label>Industry Type<span class="red">*</span></label>
-			<select name="industry" ng-model="recruiter.industry"> 
-				<option value="">--------------Select------------</option>
-				<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>				
+			<select name="industry" ng-model="recruiter.industry" ng-options="industry as industry for industry in industries">
 			</select>
 			{% if not is_profile_edit %}
 					<label>Password<span class="red">*</span></label> 
