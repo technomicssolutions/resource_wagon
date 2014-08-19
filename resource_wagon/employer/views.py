@@ -222,7 +222,8 @@ class PostJobsView(View):
         jobPosting.industry = jobpost['industry']
         jobPosting.job_location = jobpost['location']
         jobPosting.education_req = jobpost['requirement']
-        jobPosting.function = jobpost['function']
+        jobPosting.function = jobpost['category']
+        jobPosting.func_role = jobpost['role']
         jobPosting.specialization = jobpost['specialisation']
         jobPosting.nationality = jobpost['nationality']
 
@@ -309,6 +310,7 @@ class EditPostJobsView(View):
         context = {
             'job_id':job_id,
         }
+        print job_id
         return render(request, 'job_post.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -332,7 +334,8 @@ class EditPostJobsView(View):
         jobPosting.skills = jobpost['skills']
         jobPosting.industry = jobpost['industry']
         jobPosting.job_location = jobpost['location']
-        jobPosting.function = jobpost['function']
+        jobPosting.function = jobpost['category']
+        jobPosting.func_role = jobpost['role']
         jobPosting.education_req = jobpost['requirement']
         jobPosting.specialization = jobpost['specialisation']
         jobPosting.nationality = jobpost['nationality']
@@ -379,7 +382,8 @@ class JobDetailsView(View):
                 'max':job.exp_req_max if job.exp_req_max else 0,
                 'location':job.job_location if job.job_location else '',
                 'industry':job.industry if job.industry else '',
-                'function': job.function if job.function else '',            
+                'category': job.function if job.function else '',  
+                'role': job.func_role if job.func_role else '',          
                 'requirement': job.education_req if job.education_req else '',
                 'specialisation': job.specialization if job.specialization else '',
                 'nationality': job.nationality if job.nationality else '',

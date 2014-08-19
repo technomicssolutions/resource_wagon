@@ -797,6 +797,8 @@ function get_education_required($scope){
         'Diploma',
         'Intermediate Schooling',
         'Secondary Schooling',
+        'Degree - Any',
+        'PG - Any',
         'Bachelor of Architecture',
         'Bachelor of Arts',
         'Bachelor of Business Administration',
@@ -2582,8 +2584,7 @@ function job_seeker_initialization_details($scope) {
         'last_name': '',
     }
     $scope.personal = {
-        'id': $scope.job_seeker_id,
-        
+        'id': $scope.job_seeker_id,   
        
         'gender': '',
         'dob':'',
@@ -3605,9 +3606,9 @@ function  JobPostingController($scope,$element,$http,$timeout){
 		get_functions($scope);
 		get_education_required($scope);
     get_req_education_specialization($scope);
-    get_req_roles($scope);
+    get_req_roles($scope);    
     get_currencies($scope);
-    $scope.job_id = id;
+    $scope.job_id = id;    
     new Picker.Date($$('#last_dob'), {
             timePicker: false,
             positionOffset: {x: 5, y: 0},
@@ -3639,107 +3640,107 @@ function  JobPostingController($scope,$element,$http,$timeout){
       $http.get('/employer/details/'+$scope.job_id+'/').success(function(data)
             {
                 $scope.jobpost = data.jobpost[0]; 
+                $scope.func_roles = $scope.req_roles[$scope.jobpost.category];
+                console.log($scope.jobpost);
                 $('#last_dob').val($scope.jobpost.last_date);
             }).error(function(data, status)
             {
                 console.log(data || "Request failed");
             });
     }		
+    console.log($scope.jobpost.category);
+    $scope.get_req_role = function(){
+      var req_category = $scope.jobpost.category;
+      $scope.func_roles = $scope.req_roles[req_category];
+    }
   }
 
-  $scope.get_req_stream = function(){
-    var req_edu = $scope.jobpost.requirement;
-    $scope.specializations = $scope.req_education_specialization[req_edu];
-  }
-
-  $scope.get_req_role = function(){
-    var req_category = $scope.jobpost.category;
-    $scope.func_roles = $scope.req_roles[req_category];
-  }
   $scope.form_validation_postjob = function(){
     var letters = /^[A-Za-z]+$/;  
     $scope.jobpost.last_date = $('#last_dob').val();
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
-    
+    console.log(!Number($scope.jobpost.min));
+    console.log($scope.jobpost.min == '');
+    console.log($scope.jobpost.min == 0);
     if ($scope.jobpost.title == ''|| $scope.jobpost.title == undefined){
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide a Job Title';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide a Job Title';
+        return false;
     } else if ($scope.jobpost.code == '' || $scope.jobpost.code == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide Reference Code';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide Reference Code';
+        return false;
     } else if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide Company Name';
-      return false; 
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide Company Name';
+        return false; 
     }  else if ($scope.jobpost.summary == '' || $scope.jobpost.summary == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide Job summary';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide Job summary';
+        return false;
     } else if (($scope.jobpost.salary != null || $scope.jobpost.salary != '' || $scope.jobpost.salary != undefined) && $scope.jobpost.salary != Number($scope.jobpost.salary)){
-      $scope.error_flag = true;
-      $scope.error_message = 'Please enter a Valid Amount for Salary';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please enter a Valid Amount for Salary';
+        return false;
     }  else if ($scope.jobpost.salary != '' && ($scope.jobpost.currency == '' || $scope.jobpost.currency == undefined)) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Currency';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Currency';
+        return false;
     } else if ($scope.jobpost.skills == '' || $scope.jobpost.skills == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Required Skills';
-      return false;
-    } else if ($scope.jobpost.min != 0 ) {
-      if($scope.jobpost.min == '' || $scope.jobpost.min == undefined || $scope.jobpost.min == '-min-'){
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Required Skills';
+        return false;
+    } else if ($scope.jobpost.min == '' || $scope.jobpost.min == undefined || $scope.jobpost.min == '-min-' ) {      
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the minimum Experience Required';
-        return false;
-      }
-    } else if ($scope.jobpost.max != 0 ) {
-      if($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-max-'){
+        return false;      
+    } else if ($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-max-' ) {
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the maximum Experience Required';
         return false;
-      }
     } else if ($scope.jobpost.location == '' || $scope.jobpost.location == undefined || $scope.jobpost.location == '-select-') {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Job location';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Job location';
+        return false;
     } else if ($scope.jobpost.industry == '' || $scope.jobpost.industry == undefined || $scope.jobpost.industry == '-select-') {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Industry';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Industry';
+        return false;
     } else if ($scope.jobpost.category == '' || $scope.jobpost.category == undefined || $scope.jobpost.category == '-select-') {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Category/Function';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Category/Function';
+        return false;
+    } else if ($scope.jobpost.role == '' || $scope.jobpost.role == undefined || $scope.jobpost.role == '-select-') {
+        $scope.error_flag = true;
+        $scope.error_message = 'Please select the role/position';
+        return false;
     } else if ($scope.jobpost.requirement == '' || $scope.jobpost.requirement == undefined || $scope.jobpost.requirement == '-select-') {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Education Required';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Education Required';
+        return false;
     } else if ($scope.jobpost.nationality == '' || $scope.jobpost.nationality == undefined || $scope.jobpost.nationality == '-select-') {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please select your Nationality';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please select Nationality';
+        return false;
     } else if ($scope.jobpost.name == '' || $scope.jobpost.name == undefined) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide the Name of the Job Owner';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide the Name of the Job Owner';
+        return false;
     } else if ($scope.jobpost.phone == '' || $scope.jobpost.phone == undefined || $scope.jobpost.phone.match(letters)) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please enter a Valid Phone Number';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please enter a Valid Phone Number';
+        return false;
     } else if (!(validateEmail($scope.jobpost.email))) {
-      $scope.error_flag = true;
-      $scope.error_message = 'Please provide a Valid Email Id';
-      return false;
+        $scope.error_flag = true;
+        $scope.error_message = 'Please provide a Valid Email Id';
+        return false;
     } return true;
     }
     $scope.save_job = function(){
         $scope.jobpost.last_date = $('#last_dob').val();       
-        $scope.is_valid = $scope.form_validation_postjob();
+        $scope.is_valid = $scope.form_validation_postjob();   
         if ($scope.is_valid) {
             $scope.error_flag = false;
             $scope.error_message = '';
@@ -3749,6 +3750,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
             if ($scope.jobpost.last_date == null) {
                 $scope.jobpost.last_date = '';
             }
+            if($scope.jobpost.specialisation == "")
+              $scope.jobpost.specialisation = "Any";
             var file = $scope.job_details_pdf.src;
             var edit = $scope.edit;
             params = {
