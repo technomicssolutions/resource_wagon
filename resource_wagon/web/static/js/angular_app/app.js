@@ -1,5 +1,5 @@
 'use strict';
-var app = angular.module('resource_wagon', ['resource_wagon.services', 'resource_wagon.directives']);
+var app = angular.module('resource_wagon', ['resource_wagon.services', 'resource_wagon.directives', 'ngRoute']);
 
 app.config(function($interpolateProvider)
 {
@@ -13,4 +13,8 @@ app.config(['$routeProvider', '$locationProvider', function($routes, $location) 
         window.location.href = loc.replace("#", "#!");
     }    
     $location.hashPrefix('!');*/
+}]);
+
+app.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.headers.common["X-Requested-With"] = 'XMLHttpRequest';
 }]);
