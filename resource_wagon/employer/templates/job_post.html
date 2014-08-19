@@ -96,7 +96,7 @@
 			</div>
 			<div class="formrow">
 				<label>Category/Function<span class="red">*</span></label>
-				<select name="category" ng-model="jobpost.category" ng-click="get_req_role()">
+				<select name="category" ng-model="jobpost.category" ng-change="get_req_role()">
 					<option>-select-</option>
 					<option ng-repeat="category in functions" value="[[category]]" ng-selected="category == jobpost.category">[[category]]</option>
 				</select>
@@ -105,7 +105,7 @@
 				<label>Select Role<span class="red">*</span></label>
 				<select name="role" ng-model="jobpost.role">
 					<option>-select-</option>
-					<option ng-repeat="role in func_roles" value="[[role]]" ng-selected="role == jobpost.role">[[role]]</option>
+					<option ng-repeat="post in func_roles" value="[[post]]" ng-selected="post == jobpost.role">[[post]]</option>
 				</select>
 			</div>
 			<div class="formrow">

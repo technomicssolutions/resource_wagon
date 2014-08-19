@@ -3210,7 +3210,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_user_login_validation = function() {
         
-        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.email.email))) {
+        if ($scope.user_login_details.email == '' || $scope.user_login_details.email == undefined || !(validateEmail($scope.user_login_details.email))) {
             $scope.edit_user_login_validation_message = 'Please enter Email';
             return false;
         }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
@@ -3652,6 +3652,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     $scope.get_req_role = function(){
       var req_category = $scope.jobpost.category;
       $scope.func_roles = $scope.req_roles[req_category];
+      $scope.jobpost.role = '';
     }
   }
 
@@ -3661,9 +3662,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
-    console.log(!Number($scope.jobpost.min));
-    console.log($scope.jobpost.min == '');
-    console.log($scope.jobpost.min == 0);
+    console.log($scope.jobpost.role);
     if ($scope.jobpost.title == ''|| $scope.jobpost.title == undefined){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide a Job Title';
@@ -3692,11 +3691,11 @@ function  JobPostingController($scope,$element,$http,$timeout){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the Required Skills';
         return false;
-    } else if ($scope.jobpost.min == '' || $scope.jobpost.min == undefined || $scope.jobpost.min == '-min-' ) {      
+    } else if ($scope.jobpost.min != 0 && ($scope.jobpost.min == '' || $scope.jobpost.min == undefined || $scope.jobpost.min == '-min-') ) {      
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the minimum Experience Required';
         return false;      
-    } else if ($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-max-' ) {
+    } else if ($scope.jobpost.max != 0 && ($scope.jobpost.max == '' || $scope.jobpost.max == undefined || $scope.jobpost.max == '-max-') ) {
         $scope.error_flag = true;
         $scope.error_message = 'Please provide the maximum Experience Required';
         return false;
