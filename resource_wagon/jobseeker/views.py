@@ -327,6 +327,7 @@ class EditDetails(View):
                     'name': company.company_name,
                     })
         if request.is_ajax():
+            
             ctx_user_login_data.append({
                 'id': jobseeker_id if jobseeker else '',
                 'email': user.email if user else '',

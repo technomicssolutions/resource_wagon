@@ -126,61 +126,6 @@
 		<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 
 	</div>
-{% else %}
-	{% if jobseekers %}
-		
-		<table >
-			<tr >
-				<th>Name</th>
-				<th>Email Id</th>
-				<th>Gender</th>
-				<th>Nationality</th>
-				<th>Mobile Number</th>
-				<th>Functional Area</th>
-				<th>Resume</th>
-				<th></th>
-				
-			</tr>
-		{% for jobseeker in jobseekers %}
-			<tr>
-				<td>{{jobseeker.user.first_name}}</td>
-				
-				<td>{{jobseeker.user.email}}</td>
-
-
-				<td>{{jobseeker.gender}}</td> 
-
-				<td>{{jobseeker.nationality}}</td>
-
-				<td>{{jobseeker.mobile}}</td>
-
-				
-
-				<td>{{jobseeker.employment.function}}</td>
-
-				<td>{{jobseeker.education.resume_title}}</td>
-				{% if jobseeker.education.resume %}
-					<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
-				{% endif %}
-			</tr>
-		{% endfor %}
-		<div >
-	   		<span >
-		        {% if jobseekers.has_previous %}
-		            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
-		        {% endif %}
-
-		        <span >
-		            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
-		        </span>
-
-		        {% if jobseekers.has_next %}
-		            <a href="?page={{ jobseekers.next_page_number }}">next</a>
-		        {% endif %}
-	    	</span>
-		</div>
-	{% endif %}
-{% endif %}
 	<form name="registration" method="post" action="">
 		{% csrf_token %}
 		<div class="separation" ng-show="user_login_detail">
@@ -384,4 +329,61 @@
 			<p class="error_message error_p">[[photo_validation_message]]</p>
 		</div>
 	</form>
+{% else %}
+	{% if jobseekers %}
+		
+		<table >
+			<tr >
+				<th>Name</th>
+				<th>Email Id</th>
+				<th>Gender</th>
+				<th>Nationality</th>
+				<th>Mobile Number</th>
+				<th>Functional Area</th>
+				<th>Resume</th>
+				<th></th>
+				
+			</tr>
+		{% for jobseeker in jobseekers %}
+			<tr>
+				<td>{{jobseeker.user.first_name}}</td>
+				
+				<td>{{jobseeker.user.email}}</td>
+
+
+				<td>{{jobseeker.gender}}</td> 
+
+				<td>{{jobseeker.nationality}}</td>
+
+				<td>{{jobseeker.mobile}}</td>
+
+				
+
+				<td>{{jobseeker.employment.function}}</td>
+
+				<td>{{jobseeker.education.resume_title}}</td>
+				{% if jobseeker.education.resume %}
+					<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+				{% endif %}
+			</tr>
+		{% endfor %}
+		<div >
+	   		<span >
+		        {% if jobseekers.has_previous %}
+		            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
+		        {% endif %}
+
+		        <span >
+		            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
+		        </span>
+
+		        {% if jobseekers.has_next %}
+		            <a href="?page={{ jobseekers.next_page_number }}">next</a>
+		        {% endif %}
+	    	</span>
+		</div>
+	{% endif %}
+{% endif %}
+
+	
 {% endblock content %}
