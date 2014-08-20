@@ -276,10 +276,18 @@ class JobSeekerView(View):
                 'jobseekers':jobseekers,
             }
         else:
-            jobseeker_id =  request.user.jobseeker_set.all()[0].id
-            context={
-                'jobseeker_id':jobseeker_id,
-            }
+            print request.user
+            if request.user.is_authenticated():
+                jobseeker_id =  request.user.jobseeker_set.all()[0].id
+                context={
+                        'jobseeker_id':jobseeker_id,
+                } 
+            else:
+                context = {
+                    'message':'You are not permitted to view this page',
+                }
+
+           
         return render(request,'jobseeker_details.html', context)    
 
 class EditDetails(View):
@@ -403,11 +411,9 @@ class SearchJobsView(View):
         jobs_not_exist = False
         location = request.GET.get('location', '')
         function = request.GET.get('function', '')
-        print function
         skills = request.GET.get('skills', '')
         exp = request.GET.get('experience', '')
         industry = request.GET.get('industry', '')
-        print industry
         search_flag = request.GET.get('search', '')
         if search_flag == 'true':
             search = True
@@ -453,7 +459,7 @@ class SearchJobsView(View):
                 pass
             if not jobs.exists():
                 searched_for = '' 
-        print jobs
+        
         context = {
             'jobs': jobs,
         }

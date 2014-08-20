@@ -120,12 +120,17 @@ class EmployerView(View):
                 
             }
         else:
-            employer_id = request.user.recruiter_set.all()[0].id
-            context = {
-            
-            'employer_id':employer_id,
-            }
-            
+            if request.user.is_authenticated():
+                employer_id = request.user.recruiter_set.all()[0].id
+                context = {
+                
+                'employer_id':employer_id,
+                }
+            else:
+                context = {
+                    'message':'You are not permitted to view this page',
+                }
+
         return render(request,'employer.html', context)   
 
 
