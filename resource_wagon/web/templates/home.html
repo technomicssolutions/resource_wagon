@@ -1,54 +1,73 @@
 {% extends 'base.html' %}
-{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{search_location}}', '{{search_keyword}}', '{{search_experience}}', '{{search_function_name}}','{{search_industry}}', '{{search_flag}}')" {% endblock controller %}
+{% block header %}
+	{% include 'home_header.html' %}
+{% endblock header %}
 {% block content %}
-<div class="premium_employer">
-	<div class="premium_employer_content">
-		<div class="slide_left"></div>
-		<div class="slide_content">
-			<img src="/static/images/premium-btn.png" />
-			<img src="/static/images/img1.jpg" class="employer" />
-			<img src="/static/images/img1.jpg" class="employer" />
-			<img src="/static/images/img1.jpg" class="employer" />
-		</div>
-		<div class="slide_right"></div>
-		<div class="clear"></div>
-	</div>
-</div>
-<div class="menu_border"></div>
-
-<div class="gray_content">
-	<div class="latest_job_posting">
-		<div class="heading">
-			<h3> Latest Job Posting </h3>
-		</div>
-		<div class="job_listing">
-			<table class="table">
-				<tr>
-					<th>Poted Date</th>
-					<th>Position</th>
-					<th>Company</th>
-					
-					<th>Qualification</th>
-				</tr>
-				
-				{% for job in jobs %}
-					<tr class="{% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
-						<td>{{job.posting_date}}</td>
-						<td>{{job.job_title}}</td>
-						<td>{{job.company.company_name}}</td>
-						<td>{{job.education_req}}</td>
-					</tr>
-				{% endfor %}
-			</table>
+	<div class="premium_employer">
+		<div class="premium_employer_content">
+			<div class="slide_left"></div>
+			<div class="slide_content">
+				<img src="/static/images/premium-btn.png" />
+				<img src="/static/images/img1.jpg" class="employer" />
+				<img src="/static/images/img1.jpg" class="employer" />
+				<img src="/static/images/img1.jpg" class="employer" />
+			</div>
+			<div class="slide_right"></div>
 			<div class="clear"></div>
 		</div>
 	</div>
-	<div class="find_your_perfect_job">
-		<div class="heading">
-			<h4> Find your perfect job </h4>
+	<div class="menu_border"></div>
+	<div class="gray_content">
+		<div class="latest_job_posting">
+			<div class="heading">
+				<h3> Latest Job Posting </h3>
+			</div>
+			<div class="job_listing">
+				<table class="table">
+					<tr>
+						<th>Poted Date</th>
+						<th>Position</th>
+						<th>Company</th>
+						<th>Level</th>
+						<th>Qualification</th>
+					</tr>
+					<tr class="even">
+						<td>Poted Date</td>
+						<td>Position</td>
+						<td>Company</td>
+						<td>Level</td>
+						<td>Qualification</td>
+					</tr>
+					<tr>
+						<td>Poted Date</td>
+						<td>Position</td>
+						<td>Company</td>
+						<td>Level</td>
+						<td>Qualification</td>
+					</tr>
+					<tr class="even">
+						<td>Poted Date</td>
+						<td>Position</td>
+						<td>Company</td>
+						<td>Level</td>
+						<td>Qualification</td>
+					</tr>
+					<tr>
+						<td>Poted Date</td>
+						<td>Position</td>
+						<td>Company</td>
+						<td>Level</td>
+						<td>Qualification</td>
+					</tr>
+				</table>
+				<div class="clear"></div>
+			</div>
 		</div>
+		<div class="find_your_perfect_job">
+			<div class="heading">
+				<h4> Find your perfect job </h4>
+			</div>
+		</div>
+		<div class="clear"></div>
 	</div>
-	<div class="clear"></div>
-</div>
-
 {% endblock content %}
