@@ -4,386 +4,387 @@
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
 
 {% block content %}
+{% if  user.is_authenticated %}
+	{% if not user.is_superuser %}
+			<div>
+				{% if user.jobseeker_set.all.0.photo %}
+					<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt=""   >
+				{% else %}
 
-{% if not user.is_superuser %}
-		<div>
-			{% if user.jobseeker_set.all.0.photo %}
-				<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt=""   >
-			{% else %}
-
-		    	{% if user.jobseeker_set.all.0.gender == 'male' %}
-		    		<img src="/static/images/user5.jpeg" alt=""  >
-		    
-		    	{% else %}
-		    		<img src="/static/images/user6.jpeg" alt=""  >
-		    	{% endif %}
-		    {% endif %}
-    	</div>
-	<h2>Welcome {{user.first_name}}</h2>
-	<div class="separation" ng-show="view_user_login_details">
-		<h3>User Details</h3>
-		<p>Email Id:{{user.email}}</p>
-		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
-	</div>
-	<div class="separation" ng-show="view_personal_details">
-		<h3>Personal Details</h3>
-		
-
-
-		<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
-
-
-		<p>DOB :{{user.jobseeker_set.all.0.dob}}</p>
-
-
-
-		<p>Marital Status :{{user.jobseeker_set.all.0.marital_status}}</p>
-
-		<p>Nationality :{{user.jobseeker_set.all.0.nationality}}</p>
-
-
-		<p>Current Location :{{user.jobseeker_set.all.0.country}}</p>
-
-
-		<p>City :{{user.jobseeker_set.all.0.city}}</p>
-
-		<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
-
-		<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
-		
-		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
-	</div>
-
-	<div class="separation" ng-show="view_educational_details">
-		<h3>Education Details</h3>
-		<p>Basic Education :{{user.jobseeker_set.all.0.education.basic_edu}}</p>
-
-		<p>Specialization :{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</p>
-
-
-		<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_basic}}</p>
-
-		<p>Masters Education :{{user.jobseeker_set.all.0.education.masters}}</p>
-
-		<p>Specialization :{{user.jobseeker_set.all.0.education.masters_specialization}}</p>
-
-		<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_masters}}</p>
-
-		<p>Doctrate :</p>
-		{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
-			{{doctrate}}</br>
-		{% endfor %}
-		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
-	</div>
-	<div class="separation" ng-show="view_employment_details">
-		<h3>Employment Details</h3>
-		<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
-
-		<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
-
-		<p>Current Designation :{{user.jobseeker_set.all.0.employment.designation}}</p>
-
-		<p>Current Industry :{{user.jobseeker_set.all.0.employment.curr_industry}}</p>
-
-		<p>Functional Area :{{user.jobseeker_set.all.0.employment.function}}</p>
-
-		<p>Previous Employer :</p>
-		{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
-			{{employer}}</br>
-		{% endfor %}
-
-		<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
-		<p>Prefered Locations :</p>
-		{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
-			{{location}}</br>
-		{% endfor %}
-		<p>Prefered Companies :</p>
-		{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
-			{{company}}</br>
-		{% endfor %}
-		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
-	</div>
-	<div class="separation" ng-show="view_resume_details">
-		<h3>Resume Details</h3>
-		<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
-		<p>Resume visible to recruiters:
-		{% if user.jobseeker_set.all.0.education.is_resume_show %}
-			Yes
-		{% else %}
-			No
-		{% endif %}
-		</p>
-		{% if user.jobseeker_set.all.0.education.resume %}
-			<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
-		{% endif %}
-		<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
-	</div>
-	<div class="separation" ng-show="view_resume_details">
-		<h3>Photo</h3>
-		{% if user.jobseeker_set.all.0.photo %}
-			<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
-		{% endif %}
-		<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
-
-	</div>
-	<form name="registration" method="post" action="">
-		{% csrf_token %}
-		<div class="separation" ng-show="user_login_detail">
-			<p class="mandatory">* Mandatory Fields</p>
-			<label>Email Id<span class="red">*</span></label>
-			<input type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
-		
-			<label>First Name<span class="red">*</span></label>
-			<input type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
-			<label>Last Name<span class="red">*</span></label>
-			<input type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
-			<p class="error_message error_p">[[user_login_validation]]</p>
+			    	{% if user.jobseeker_set.all.0.gender == 'male' %}
+			    		<img src="/static/images/user5.jpeg" alt=""  >
+			    
+			    	{% else %}
+			    		<img src="/static/images/user6.jpeg" alt=""  >
+			    	{% endif %}
+			    {% endif %}
+	    	</div>
+		<h2>Welcome {{user.first_name}}</h2>
+		<div class="separation" ng-show="view_user_login_details">
+			<h3>User Details</h3>
+			<p>Email Id:{{user.email}}</p>
+			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
 		</div>
-		<div class="separation" ng-show="personal_details">
-			<p class="mandatory">* Mandatory Fields</p>
+		<div class="separation" ng-show="view_personal_details">
 			<h3>Personal Details</h3>
 			
-			<label>Gender<span class="red">*</span></label> 
-			<input type="radio" name="gender" ng-model="personal.gender" value="male">
-			<span class="span_label">Male</span>
-			<input type="radio" name="gender" ng-model="personal.gender" value="female">
-			<span class="span_label">Female</span>
-			<div class="clear"></div>
-			<label>DOB<span class="red">*</span></label>
-
-			<input type="text" name="dob" id="dob" ng-model="personal.dob">
-
-			<label>Marital Status<span class="red">*</span></label>
-			<select name="marital_status" ng-model="personal.marital_status">
-				<option value="{{personal.marital_status}}"></option>
-				<option value="Single">Single</option>
-				<option value="Married">Married</option>
-				<option value="Divorced">Divorced</option>
-				<option value="Widowed">Widowed</option>
-			</select>
-
-			<label>Nationality<span class="red">*</span></label>
-			<select name="nationality" ng-model="personal.nationality"> 
-				<option value="{{personal.nationality}}"></option>
-				<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality== personal.nationality">[[nationality]]</option>
-			</select>
-		
-			<label>Current Location<span class="red">*</span></label> 
-			<select name="country" ng-model="personal.country">
-				<option value="{{personal.country}}"></option>
-				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== personal.country">[[country]]</option>
-				<option>Other</option>
-			</select>
-
-			<label>City<span class="red">*</span></label>
-			<input type="text" name="city" ng-model="personal.city" value="{{personal.city}}">
-			<label>Mobile Number<span class="red">*</span></label>
-			<input type="text" name="mobile" ng-model="personal.mobile" value="{{personal.mobile}}">
-
-			<label>Alternate E-mail Id</label>
-			<input type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
-
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
-			<p class="error_message error_p">[[personal_validation]]</p>
-		</div>
 
 
-		<div class="clear"></div>
+			<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
 
-		<div class="separation" ng-show="current_employment_details ">
-			<p class="mandatory">* Mandatory Fields</p>
-			<h3>Current Employment Details</h3>
-			<label>Total Experience</label>
-			<select name="years" ng-model="current_employer.years" class="years_select">
-				<option value="">years</option>
-				<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
-			</select>
-			<select name="months" ng-model="current_employer.months" class="month_select">
-				<option value="">months</option>
-				<option value="0">0</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-			</select> 
-			<label>Monthly Salary</label>
-			<input type="text" name="salary" ng-model="current_employer.salary">
-			<label> Currency </label>
-			<select name="currency" ng-model="current_employer.currency">
-				<option value="">Select Currency</option>
-				<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == current_employer.currency">[[currency]]</option>
-			</select>
-			<label>Current Designation</label>
-			<input type="text" name="designation" ng-model="current_employer.designation">
-			<label>Current Industry</label>
-			<select name="industry" ng-model="current_employer.industry"> 
-				<option value="">Select</option>
-				<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == current_employer.industry">[[industry]]</option>				
-			</select>
-			<label>Functional Area</label>
-			<select name ="functions" ng-model="current_employer.functions">
-				<option value="">Select</option>
-				<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == current_employer.functions">[[function]]</option>
-			</select>
-			<label>Previous Employer</label>
-			<div class="add_employers">
-				<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
-				<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
-			</div>
-			<label>Key Skills<span class="red">*</span></label>
-			<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
-			<label> Prefered Location </label>
-			<select name="locations" ng-model="current_employer.locations" multiple>
-				<option value="">Select location</option>
-				<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
-			</select>
-			<label> Prefered Company </label>
-			<select name="companies" ng-model="current_employer.companies" multiple>
-				<option value="">Select company</option>
-				<option ng-repeat="company in companies" value="[[company.id]]" ng-selected="company.selected" ng-click="get_prefered_companies(company)">[[company.name]]</option>
-			</select>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
+
+			<p>DOB :{{user.jobseeker_set.all.0.dob}}</p>
+
+
+
+			<p>Marital Status :{{user.jobseeker_set.all.0.marital_status}}</p>
+
+			<p>Nationality :{{user.jobseeker_set.all.0.nationality}}</p>
+
+
+			<p>Current Location :{{user.jobseeker_set.all.0.country}}</p>
+
+
+			<p>City :{{user.jobseeker_set.all.0.city}}</p>
+
+			<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
+
+			<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
 			
-			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
+			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
 		</div>
 
-		<div class="separation" ng-show="educational_detail">
-			<p class="mandatory">* Mandatory Fields</p>
+		<div class="separation" ng-show="view_educational_details">
 			<h3>Education Details</h3>
-			<label>Basic Education<span class="red">*</span></label>
-			<select name="basic_edu" ng-model="educational_details.basic_edu" >
-				<option value="">-----------Select---------</option>
-				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-change="get_stream()">[[education]]</option>
-			</select>
-			<label>Specialization<span class="red">*</span></label>
-				<select name="basic_specialization" ng-model="educational_details.basic_specialization">
-					<option value="">-----------Select---------</option>
-					<option ng-repeat="specialization in basic_specializations" value="[[specialization]]" ng-selected="specialization == educational_details.basic_specialization">[[specialization]]</option>
-				</select>
+			<p>Basic Education :{{user.jobseeker_set.all.0.education.basic_edu}}</p>
 
-			<label>Year of Passing<span class="red">*</span></label>
-			<select name="pass_year_basic" ng-model="educational_details.pass_year_basic">
-				<option value="">--------Select-------</option>
-				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_basic ">[[yr]]</option>
-			</select>
-			<label>Masters Education</label>
-			<select name="masters_edu" ng-model="educational_details.masters_edu" >
-				<option value="">---------Select---------</option>
-				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-change="get_master_stream()">[[edu]]</option>
-			</select>
-			<label>Specialization</label>
-				<select name="master_specialization" ng-model="educational_details.master_specialization">
-					<option value="">-----------Select---------</option>
-					<option ng-repeat="specialization in specializations" value="[[specialization]]" ng-selected="specialization == educational_details.master_specialization">[[specialization]]</option>
-				</select>
-			<label>Year of Passing</label>
-			<select name="pass_year_masters" ng-model="educational_details.pass_year_masters" >
-				<option value="">--------Select-------</option>
-				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_masters">[[yr]]</option>
-			</select>
-			<label>Doctrate</label>
-			<div class="add_employers">
-				<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
-				<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
-			</div>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
+			<p>Specialization :{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</p>
+
+
+			<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_basic}}</p>
+
+			<p>Masters Education :{{user.jobseeker_set.all.0.education.masters}}</p>
+
+			<p>Specialization :{{user.jobseeker_set.all.0.education.masters_specialization}}</p>
+
+			<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_masters}}</p>
+
+			<p>Doctrate :</p>
+			{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
+				{{doctrate}}</br>
+			{% endfor %}
+			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
+		</div>
+		<div class="separation" ng-show="view_employment_details">
+			<h3>Employment Details</h3>
+			<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
+
+			<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
+
+			<p>Current Designation :{{user.jobseeker_set.all.0.employment.designation}}</p>
+
+			<p>Current Industry :{{user.jobseeker_set.all.0.employment.curr_industry}}</p>
+
+			<p>Functional Area :{{user.jobseeker_set.all.0.employment.function}}</p>
+
+			<p>Previous Employer :</p>
+			{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
+				{{employer}}</br>
+			{% endfor %}
+
+			<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
+			<p>Prefered Locations :</p>
+			{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
+				{{location}}</br>
+			{% endfor %}
+			<p>Prefered Companies :</p>
+			{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
+				{{company}}</br>
+			{% endfor %}
+			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
+		</div>
+		<div class="separation" ng-show="view_resume_details">
+			<h3>Resume Details</h3>
+			<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
+			<p>Resume visible to recruiters:
+			{% if user.jobseeker_set.all.0.education.is_resume_show %}
+				Yes
+			{% else %}
+				No
+			{% endif %}
+			</p>
+			{% if user.jobseeker_set.all.0.education.resume %}
+				<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
+			{% endif %}
+			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
+		</div>
+		<div class="separation" ng-show="view_resume_details">
+			<h3>Photo</h3>
+			{% if user.jobseeker_set.all.0.photo %}
+				<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
+			{% endif %}
+			<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
+
+		</div>
+		<form name="registration" method="post" action="">
+			{% csrf_token %}
+			<div class="separation" ng-show="user_login_detail">
+				<p class="mandatory">* Mandatory Fields</p>
+				<label>Email Id<span class="red">*</span></label>
+				<input type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
 			
-			<p class="error_message error_p">[[educational_validation_msg]]</p>
-		</div>
-		<div class="separation" ng-show="resume_detail">
-			<h3>Attach Your Resume</h3>
-			<p class="mandatory">* Mandatory Fields</p>
-			<label>Resume Title<span class="red">*</span></label>
-			<input type="text" name="resume_title" ng-model="resume_details.resume_title">
-			<label>Attach CV<span class="red">*</span></label>
-			<input type="file" fileread="resume_doc.src"/>
-			<input type="hidden" ng-model="resume_doc.src">
-			<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
-			<label>Copy and Paste Resume Here</label>
-			<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
-			<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.is_resume_show"></label>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
-			<a href=""  ng-click="remove_cv()" ng-show="resume_details.resume">Delete CV</a>
-			<p class="error_message error_p">[[resume_validation_message]]</p>
-		</div>
-		<div class="separation" ng-show="photo_detail">
-			<h3>Update Photo </h3>
-			<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
-	            <img src="/site_media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
-	        </div>
-			<label>Attach Photo</label>
-			<input type="file" fileread="photo_img.src"/>
-			<input type="hidden" ng-model="photo_img.src">
-			<br>
-			<br>
-			<br>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_photo_details()"></p>
-			<p class="error_message error_p">[[photo_validation_message]]</p>
-		</div>
-	</form>
-{% else %}
-	{% if jobseekers %}
-		
-		<table >
-			<tr >
-				<th>Name</th>
-				<th>Email Id</th>
-				<th>Gender</th>
-				<th>Nationality</th>
-				<th>Mobile Number</th>
-				<th>Functional Area</th>
-				<th>Resume</th>
-				<th></th>
+				<label>First Name<span class="red">*</span></label>
+				<input type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
+				<label>Last Name<span class="red">*</span></label>
+				<input type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
+				<p class="error_message error_p">[[user_login_validation]]</p>
+			</div>
+			<div class="separation" ng-show="personal_details">
+				<p class="mandatory">* Mandatory Fields</p>
+				<h3>Personal Details</h3>
 				
-			</tr>
-		{% for jobseeker in jobseekers %}
-			<tr>
-				<td>{{jobseeker.user.first_name}}</td>
+				<label>Gender<span class="red">*</span></label> 
+				<input type="radio" name="gender" ng-model="personal.gender" value="male">
+				<span class="span_label">Male</span>
+				<input type="radio" name="gender" ng-model="personal.gender" value="female">
+				<span class="span_label">Female</span>
+				<div class="clear"></div>
+				<label>DOB<span class="red">*</span></label>
+
+				<input type="text" name="dob" id="dob" ng-model="personal.dob">
+
+				<label>Marital Status<span class="red">*</span></label>
+				<select name="marital_status" ng-model="personal.marital_status">
+					<option value="{{personal.marital_status}}"></option>
+					<option value="Single">Single</option>
+					<option value="Married">Married</option>
+					<option value="Divorced">Divorced</option>
+					<option value="Widowed">Widowed</option>
+				</select>
+
+				<label>Nationality<span class="red">*</span></label>
+				<select name="nationality" ng-model="personal.nationality"> 
+					<option value="{{personal.nationality}}"></option>
+					<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality== personal.nationality">[[nationality]]</option>
+				</select>
+			
+				<label>Current Location<span class="red">*</span></label> 
+				<select name="country" ng-model="personal.country">
+					<option value="{{personal.country}}"></option>
+					<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== personal.country">[[country]]</option>
+					<option>Other</option>
+				</select>
+
+				<label>City<span class="red">*</span></label>
+				<input type="text" name="city" ng-model="personal.city" value="{{personal.city}}">
+				<label>Mobile Number<span class="red">*</span></label>
+				<input type="text" name="mobile" ng-model="personal.mobile" value="{{personal.mobile}}">
+
+				<label>Alternate E-mail Id</label>
+				<input type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
+
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
+				<p class="error_message error_p">[[personal_validation]]</p>
+			</div>
+
+
+			<div class="clear"></div>
+
+			<div class="separation" ng-show="current_employment_details ">
+				<p class="mandatory">* Mandatory Fields</p>
+				<h3>Current Employment Details</h3>
+				<label>Total Experience</label>
+				<select name="years" ng-model="current_employer.years" class="years_select">
+					<option value="">years</option>
+					<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
+				</select>
+				<select name="months" ng-model="current_employer.months" class="month_select">
+					<option value="">months</option>
+					<option value="0">0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+				</select> 
+				<label>Monthly Salary</label>
+				<input type="text" name="salary" ng-model="current_employer.salary">
+				<label> Currency </label>
+				<select name="currency" ng-model="current_employer.currency">
+					<option value="">Select Currency</option>
+					<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == current_employer.currency">[[currency]]</option>
+				</select>
+				<label>Current Designation</label>
+				<input type="text" name="designation" ng-model="current_employer.designation">
+				<label>Current Industry</label>
+				<select name="industry" ng-model="current_employer.industry"> 
+					<option value="">Select</option>
+					<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == current_employer.industry">[[industry]]</option>				
+				</select>
+				<label>Functional Area</label>
+				<select name ="functions" ng-model="current_employer.functions">
+					<option value="">Select</option>
+					<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == current_employer.functions">[[function]]</option>
+				</select>
+				<label>Previous Employer</label>
+				<div class="add_employers">
+					<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
+					<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
+				</div>
+				<label>Key Skills<span class="red">*</span></label>
+				<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
+				<label> Prefered Location </label>
+				<select name="locations" ng-model="current_employer.locations" multiple>
+					<option value="">Select location</option>
+					<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
+				</select>
+				<label> Prefered Company </label>
+				<select name="companies" ng-model="current_employer.companies" multiple>
+					<option value="">Select company</option>
+					<option ng-repeat="company in companies" value="[[company.id]]" ng-selected="company.selected" ng-click="get_prefered_companies(company)">[[company.name]]</option>
+				</select>
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
 				
-				<td>{{jobseeker.user.email}}</td>
+				<p class="error_message error_p">[[current_employer_validation_msg]]</p>
+			</div>
 
+			<div class="separation" ng-show="educational_detail">
+				<p class="mandatory">* Mandatory Fields</p>
+				<h3>Education Details</h3>
+				<label>Basic Education<span class="red">*</span></label>
+				<select name="basic_edu" ng-model="educational_details.basic_edu" >
+					<option value="">-----------Select---------</option>
+					<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-change="get_stream()">[[education]]</option>
+				</select>
+				<label>Specialization<span class="red">*</span></label>
+					<select name="basic_specialization" ng-model="educational_details.basic_specialization">
+						<option value="">-----------Select---------</option>
+						<option ng-repeat="specialization in basic_specializations" value="[[specialization]]" ng-selected="specialization == educational_details.basic_specialization">[[specialization]]</option>
+					</select>
 
-				<td>{{jobseeker.gender}}</td> 
-
-				<td>{{jobseeker.nationality}}</td>
-
-				<td>{{jobseeker.mobile}}</td>
-
+				<label>Year of Passing<span class="red">*</span></label>
+				<select name="pass_year_basic" ng-model="educational_details.pass_year_basic">
+					<option value="">--------Select-------</option>
+					<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_basic ">[[yr]]</option>
+				</select>
+				<label>Masters Education</label>
+				<select name="masters_edu" ng-model="educational_details.masters_edu" >
+					<option value="">---------Select---------</option>
+					<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-change="get_master_stream()">[[edu]]</option>
+				</select>
+				<label>Specialization</label>
+					<select name="master_specialization" ng-model="educational_details.master_specialization">
+						<option value="">-----------Select---------</option>
+						<option ng-repeat="specialization in specializations" value="[[specialization]]" ng-selected="specialization == educational_details.master_specialization">[[specialization]]</option>
+					</select>
+				<label>Year of Passing</label>
+				<select name="pass_year_masters" ng-model="educational_details.pass_year_masters" >
+					<option value="">--------Select-------</option>
+					<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_masters">[[yr]]</option>
+				</select>
+				<label>Doctrate</label>
+				<div class="add_employers">
+					<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
+					<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
+				</div>
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
 				
+				<p class="error_message error_p">[[educational_validation_msg]]</p>
+			</div>
+			<div class="separation" ng-show="resume_detail">
+				<h3>Attach Your Resume</h3>
+				<p class="mandatory">* Mandatory Fields</p>
+				<label>Resume Title<span class="red">*</span></label>
+				<input type="text" name="resume_title" ng-model="resume_details.resume_title">
+				<label>Attach CV<span class="red">*</span></label>
+				<input type="file" fileread="resume_doc.src"/>
+				<input type="hidden" ng-model="resume_doc.src">
+				<a href="/site_media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
+				<label>Copy and Paste Resume Here</label>
+				<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
+				<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.is_resume_show"></label>
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
+				<a href=""  ng-click="remove_cv()" ng-show="resume_details.resume">Delete CV</a>
+				<p class="error_message error_p">[[resume_validation_message]]</p>
+			</div>
+			<div class="separation" ng-show="photo_detail">
+				<h3>Update Photo </h3>
+				<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
+		            <img src="/site_media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
+		        </div>
+				<label>Attach Photo</label>
+				<input type="file" fileread="photo_img.src"/>
+				<input type="hidden" ng-model="photo_img.src">
+				<br>
+				<br>
+				<br>
+				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_photo_details()"></p>
+				<p class="error_message error_p">[[photo_validation_message]]</p>
+			</div>
+		</form>
+	{% else %}
+		{% if jobseekers %}
+			
+			<table >
+				<tr >
+					<th>Name</th>
+					<th>Email Id</th>
+					<th>Gender</th>
+					<th>Nationality</th>
+					<th>Mobile Number</th>
+					<th>Functional Area</th>
+					<th>Resume</th>
+					<th></th>
+					
+				</tr>
+			{% for jobseeker in jobseekers %}
+				<tr>
+					<td>{{jobseeker.user.first_name}}</td>
+					
+					<td>{{jobseeker.user.email}}</td>
 
-				<td>{{jobseeker.employment.function}}</td>
 
-				<td>{{jobseeker.education.resume_title}}</td>
-				{% if jobseeker.education.resume %}
-					<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
-				{% endif %}
-			</tr>
-		{% endfor %}
-		<div >
-	   		<span >
-		        {% if jobseekers.has_previous %}
-		            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
-		        {% endif %}
+					<td>{{jobseeker.gender}}</td> 
 
-		        <span >
-		            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
-		        </span>
+					<td>{{jobseeker.nationality}}</td>
 
-		        {% if jobseekers.has_next %}
-		            <a href="?page={{ jobseekers.next_page_number }}">next</a>
-		        {% endif %}
-	    	</span>
-		</div>
-	{% endif %}
+					<td>{{jobseeker.mobile}}</td>
+
+					
+
+					<td>{{jobseeker.employment.function}}</td>
+
+					<td>{{jobseeker.education.resume_title}}</td>
+					{% if jobseeker.education.resume %}
+						<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+					{% endif %}
+				</tr>
+			{% endfor %}
+			<div >
+		   		<span >
+			        {% if jobseekers.has_previous %}
+			            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
+			        {% endif %}
+
+			        <span >
+			            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
+			        </span>
+
+			        {% if jobseekers.has_next %}
+			            <a href="?page={{ jobseekers.next_page_number }}">next</a>
+			        {% endif %}
+		    	</span>
+			</div>
+		{% endif %}
 {% endif %}
-
-	
+{% else %}
+	<p>{{message}}</p>
+{% endif %}	
 {% endblock content %}
