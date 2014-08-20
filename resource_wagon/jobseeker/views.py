@@ -407,32 +407,53 @@ class SearchJobsView(View):
         skills = request.GET.get('skills', '')
         exp = request.GET.get('experience', '')
         industry = request.GET.get('industry', '')
+        print industry
         search_flag = request.GET.get('search', '')
         if search_flag == 'true':
             search = True
         jobs = []
+        if location and industry and skills  and not search:
+            jobs = Job.objects.filter(Q(job_location__icontains=location) , Q(industry=industry), Q(skills__icontains=skills), is_publish=True).order_by('-id').order_by('order')
 
-        if location == 'undefined':
-            location = ''
-        if function == 'undefined':
-            function = ''
-        if skills == 'undefined':
-            skills = ''
-        if industry == 'undefined':
-            industry = ''
-        print exp
-        if exp == 'undefined' or exp == '':
-            jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, is_publish=True)).order_by('-id').order_by('order')
-        else:
-            jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
-        try:
-            for job in jobs:                
-                job.search_count = job.search_count+1
-                job.save()
-        except:
-            pass
-        if not jobs.exists():
-            searched_for = '' 
+            if not jobs.exists():
+                searched_for = str('"'+skills+ '-'+industry+'-'+location+'"')
+        
+        elif location  and not skills  and not industry and not search: 
+            jobs = Job.objects.filter(job_location__icontains=location, is_publish=True).order_by('-id').order_by('order')    
+            if not jobs.exists():
+                searched_for = str('"'+location+'"')       
+        elif industry and not location and not skills and not search:
+            jobs = Job.objects.filter(industry=industry, is_publish=True).order_by('-id').order_by('order')
+            print jobs
+            if not jobs.exists():
+                searched_for = str('"'+industry+'"')
+        elif skills and not location  and not industry and not search:
+            jobs = Job.objects.filter(skills__icontains=skills, is_publish=True).order_by('-id').order_by('order')
+            if not jobs.exists():
+                searched_for = str('"'+skills+'"')  
+        else: 
+            if location == 'undefined':
+                location = ''
+            if function == 'undefined':
+                function = ''
+            if skills == 'undefined':
+                skills = ''
+            if industry == 'undefined':
+                industry = ''
+            print exp
+            if exp == 'undefined' or exp == '':
+                jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, is_publish=True)).order_by('-id').order_by('order')
+            else:
+                jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
+            try:
+                for job in jobs:                
+                    job.search_count = job.search_count+1
+                    job.save()
+            except:
+                pass
+            if not jobs.exists():
+                searched_for = '' 
+        print jobs
         context = {
             'jobs': jobs,
         }
@@ -455,6 +476,7 @@ class SearchJobsView(View):
                 'search_keyword' : skills if skills else '',
                 'search_experience': exp if exp else '',
                 'search_function_name' : function if function else '',
+                'search_industry' : industry if industry else '',
                 'search_flag': search,
             })
             return render(request, 'search_jobs.html', context) 

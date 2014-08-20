@@ -11,7 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-from models import RequestSend, Reply
+from models import RequestSend, Reply, Job
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from random import randint
@@ -19,7 +19,10 @@ from random import randint
 class Home(View):
     
     def get(self, request, *args, **kwargs):
-        context = {}
+        jobs = Job.objects.all().order_by('-posting_date')[:10]
+        context = {
+            'jobs': jobs,
+        }
         return render(request, 'home.html', context)
 
 class Login(View):

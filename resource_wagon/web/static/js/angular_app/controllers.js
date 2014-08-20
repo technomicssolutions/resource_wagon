@@ -2465,6 +2465,7 @@ function get_job_seeker_details($scope, $http) {
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
         $scope.educational_details = data.educational_details[0];
+        console.log($scope.educational_details);
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
         if ($scope.educational_details.pass_year_masters == null) {
@@ -2895,48 +2896,51 @@ function save_user_login_details($scope, $http, type) {
 }
 /* End common js methods */
 
-// function HomeController($scope, $element, $http, $timeout, share, $location)
-// {
-//     $scope.is_keyword = false;
-//     $scope.is_location = false;
-//     $scope.is_exp = false;
-//     $scope.is_function = false;
-//     $scope.experiences = [];
-//     $scope.experience = 'select';
-//     $scope.functional_area = 'select';
+function HomeController($scope, $element, $http, $timeout, share, $location)
+{
+    $scope.is_keyword = false;
+    $scope.location = 'select';
+    $scope.industry = 'select';
+    $scope.search = {
+        'keyword' : '',
+        'location' : '',
+        'industry' : '',
+    }
 
-//     $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, search_flag) {
-//         $scope.csrf_token = csrf_token;
-//         for(var i=0; i<=30; i++) {
-//             $scope.experiences.push(i);
-//         }
-//         get_functions($scope);
-//         $scope.search_flag = search_flag;
-//         if(!($scope.search_flag)){
-//           if(search_location != '' || search_location != undefined){
-//             $scope.job_location = search_location;
-//             console.log($scope.job_location);
-//           }
-//           if (search_keyword != '' || search_keyword != undefined) {
-//             $scope.skill = search_keyword;
-//             console.log($scope.skill);
-//           }
-//           if (search_experience != '' || search_experience != undefined) {
-//             $scope.experience = search_experience;
-//             console.log($scope.experience);
-//           }
-//           if (search_function_name != '' || search_function_name != undefined) {
-//             $scope.functional_area = search_function_name;
-//             console.log($scope.functional_area);
-//           }
+    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name,search_industry, search_flag) {
+        $scope.csrf_token = csrf_token;
+        get_industries($scope);
+        get_countries($scope);
+        $scope.search_flag = search_flag;
+        if(!($scope.search_flag)){
+          if(search_location != '' || search_location != undefined){
+            $scope.job_location = search_location;
+            console.log($scope.job_location);
+          }
+          if (search_keyword != '' || search_keyword != undefined) {
+            $scope.skill = search_keyword;
+            console.log($scope.skill);
+          }
+          if (search_industry != '' || search_industry != undefined) {
+          $scope.search.industry = search_industry;
+          console.log($scope.search.industry );
+          }
         
-//         }
-//     }
+        }
+    }
     
-//     $scope.job_search  = function() {
-//         search_job($scope, '');
-//     }
-// }
+    $scope.job_search  = function() {
+      
+          $scope.is_keyword = false;
+          $scope.is_location = false;
+          $scope.is_exp = false;
+          $scope.is_function = false;
+          var url = '/jobseeker/search_jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&industry='+$scope.search.industry;
+          document.location.href = url;
+  
+  
+    }
+}
 
 function JobSeekerController($scope, $element, $http, $timeout) {
     job_seeker_initialization_details($scope);
@@ -3059,6 +3063,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         }
     }
     $scope.save_current_employer_details = function() {
+      if($scope.current_employer_validation())
         save_current_employer_details($scope, $http, 'save');
     }
     $scope.educational_details_validation = function() {
@@ -3134,9 +3139,11 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.get_stream = function() {
         get_stream($scope);
     }
+    
     $scope.get_master_stream = function() {
         get_master_stream($scope);
     } 
+    
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
@@ -3223,6 +3230,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.show_current_employer_details = function(){
         hide_jobseeker_details_block($scope);
+        get_job_seeker_details($scope, $http);
         $scope.current_employment_details = true;
 
         if ($scope.current_employer.employers) {
@@ -3240,7 +3248,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } 
     }
     $scope.edit_current_employer_details = function() {
+      if($scope.current_employer_validation ()){
         save_current_employer_details($scope, $http, 'edit');
+      }
     }
     $scope.edit_educational_details_validation = function() {
         
@@ -3264,8 +3274,10 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_educational_details = function(){
         hide_jobseeker_details_block($scope);
         get_job_seeker_details($scope, $http);
+        $scope.educational_detail = true;
         get_stream($scope);
         get_master_stream($scope);
+       
         if ($scope.educational_details.pass_year_masters == '' || $scope.educational_details.pass_year_masters == undefined) {
             $scope.educational_details.pass_year_masters = '';
         }
@@ -3282,7 +3294,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
                 $scope.hide_doc = false;
             }
         }
-        $scope.educational_detail = true;
+        
     }
     $scope.edit_educational_details = function() {
         if ($scope.edit_educational_details_validation()){

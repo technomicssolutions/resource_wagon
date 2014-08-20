@@ -261,7 +261,7 @@
 			<label>Basic Education<span class="red">*</span></label>
 			<select name="basic_edu" ng-model="educational_details.basic_edu" >
 				<option value="">-----------Select---------</option>
-				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
+				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-change="get_stream()">[[education]]</option>
 			</select>
 			<label>Specialization<span class="red">*</span></label>
 				<select name="basic_specialization" ng-model="educational_details.basic_specialization">
@@ -275,9 +275,9 @@
 				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_basic ">[[yr]]</option>
 			</select>
 			<label>Masters Education</label>
-			<select name="masters_edu" ng-model="educational_details.masters_edu" ng-change="get_master_stream()">
+			<select name="masters_edu" ng-model="educational_details.masters_edu" >
 				<option value="">---------Select---------</option>
-				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-click="get_master_stream()">[[edu]]</option>
+				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-change="get_master_stream()">[[edu]]</option>
 			</select>
 			<label>Specialization</label>
 				<select name="master_specialization" ng-model="educational_details.master_specialization">

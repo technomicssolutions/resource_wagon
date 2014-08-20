@@ -42,6 +42,7 @@ class ApplicantReport(View):
         p.drawString(400, y , report_heading)
         p.setFontSize(15)
         # p = header(p, y)
+
         p.drawString(60, y - 80, "Personal Details")
         p.setFontSize(10)
         p.drawString(80, y - 100, "Gender :")
@@ -66,22 +67,22 @@ class ApplicantReport(View):
         p.drawString(80, y - 330, "Passed Out Year :")
         p.drawString(180,y-330,str(jobseeker.education.pass_year_basic))
         if jobseeker.education.masters:
-            p.drawString(80, y - 350, "Masters Education :")
-            p.drawString(180, y - 350, jobseeker.education.masters)
-            p.drawString(350,y-350,jobseeker.education.masters_specialization)
-            p.drawString(80, y - 365, "Passed Out Year :")
-            p.drawString(180,y-365,str(jobseeker.education.pass_year_masters))
-        y1 = y - 385
+            p.drawString(550, y - 300, "Masters Education :")
+            p.drawString(650, y - 300, jobseeker.education.masters)
+            p.drawString(850,y-300,jobseeker.education.masters_specialization)
+            p.drawString(300, y - 330, "Passed Out Year :")
+            p.drawString(400,y-330,str(jobseeker.education.pass_year_masters))
+        y1 = y - 360
         if jobseeker.education.doctrate.all():
-            p.drawString(80,y-385,"Doctrates:")
+            p.drawString(80,y1,"Doctrates:")
             for doctrate in jobseeker.education.doctrate.all():
                 y1 = y1 - 30
                 p.drawString(180,y1,doctrate)
         p.setFontSize(15)
         # p = header(p, y)
-        p.drawString(60,y-420, "Techinical Skills:")
+        p.drawString(60,y-400, "Techinical Skills:")
         p.setFontSize(10)
-        p.drawString(200,y-420,jobseeker.employment.skills)
+        p.drawString(200,y-400,jobseeker.employment.skills)
         p.setFontSize(15)
         # p = header(p, y)
         p.drawString(60,y-460,"Employment Details")
@@ -90,23 +91,23 @@ class ApplicantReport(View):
         p.drawString(180,y-480 ,str(jobseeker.employment.exp_yrs)+"Year")
         p.drawString(210,y-480, str(jobseeker.employment.exp_mnths)+"Month")
         if jobseeker.employment.curr_industry:
-            p.drawString(80,y-500,"Current Industry:")
-            p.drawString(180,y-500,jobseeker.employment.curr_industry)
+            p.drawString(300,y-480,"Current Industry:")
+            p.drawString(400,y-480,jobseeker.employment.curr_industry)
         if jobseeker.employment.function:
-            p.drawString(80,y-520,"Funtional Area:")
-            p.drawString(180,y-520,jobseeker.employment.function)
+            p.drawString(80,y-500,"Funtional Area:")
+            p.drawString(180,y-500,jobseeker.employment.function)
         if jobseeker.employment.designation:
-            p.drawString(80,y-540,"Current Designation:")
-            p.drawString(180,y-540,jobseeker.employment.designation)
-        y1 = y - 560
+            p.drawString(250,y-500,"Current Designation:")
+            p.drawString(350,y-500,jobseeker.employment.designation)
+        y1 = y - 520
         if jobseeker.employment.previous_employer.all():
-            p.drawString(80,y-560,"Previous Employers:")
+            p.drawString(80,y1,"Previous Employers:")
             for employer in jobseeker.employment.previous_employer.all():
                 y1 = y1 - 10
                 p.drawString(150,y1,str(employer))
         p.setFontSize(15)
         
-        y1 = y - 600
+        y1 = y - 550
         if jobseeker.prefered_locations:
             p.drawString(60,y1,"Preffered Location:")
             for location in jobseeker.prefered_locations.all():
@@ -115,7 +116,7 @@ class ApplicantReport(View):
                 p.drawString(180,y1,str(location))
         p.setFontSize(15)
         
-        y1 = y - 650
+        y1 = y - 600
         if jobseeker.prefered_companies:
             p.drawString(60,y1,"Preffered Company:")
             for company in jobseeker.prefered_companies.all():
