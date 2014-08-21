@@ -3007,61 +3007,19 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           document.location.href = url;
   
     }
-
     $scope.show_login_popup = function() {
-      show_popup();
-      $scope.login = true;
-      $scope.registration = false;
+     show_login_popup($scope,'');
+    }
+    $scope.user_login = function() {
+     user_login($scope,$http);
     }
     $scope.show_registration_popup = function() {
-      show_popup();
-      $scope.login = false;
-      $scope.registration = true;
+     show_registration_popup($scope,'');
     }
-
-    $scope.login_validation = function(){
-      if ($scope.username == '' || $scope.username == undefined) {
-            $scope.login_validation_message = 'Please enter username';
-            return false;
-        }else if ($scope.password == '' || $scope.password == undefined) {
-            $scope.login_validation_message = 'Please enter password';
-            return false;
-        }return true;
-    }
-    $scope.user_login = function(){
-      if($scope.login_validation()){
-        $scope.login_details.username = $scope.username;
-        $scope.login_details.password = $scope.password;
-        params = {
-            'login_details': angular.toJson($scope.login_details),
-            'csrfmiddlewaretoken': $scope.csrf_token,
-        }
-        $http({
-            method : 'post',
-            url : "/web/login/",
-            data : $.param(params),
-            headers : {
-                'Content-Type' : 'application/x-www-form-urlencoded'
-            }
-        }).success(function(data, status) {
-            if (data.result == 'recruiter') {
-              document.location.href = '/employer/employer_dashboard/';
-            }else if(data.result == 'jobseeker'){
-              document.location.href = '/jobseeker/jobseeker_dashboard/';
-            }else if(data.result == 'admin'){
-              document.location.href = '/admin_dashboard/';
-            }else if(data.result == 'error'){
-              $scope.login_validation_message = data.message;
-            }
-        });
-      }
-    }
-
     $scope.hide_popup = function() {
-      hide_popup();
-      $scope.username = '';
-      $scope.password = '';
+     hide_popup($scope,'');
     }
+    
 }
 
 function JobSeekerController($scope, $element, $http, $timeout) {
