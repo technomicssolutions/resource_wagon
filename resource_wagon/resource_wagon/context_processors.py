@@ -8,7 +8,7 @@ def site_variables(request):
 			user_type = 'admin'
 	   	elif request.user.recruiter_set.all().count() > 0:
 	   		user_type = 'recruiter'	   	
-	   	elif user.jobseeker_set.all().acount() > 0:
+	   	elif request.user.jobseeker_set.all().acount() > 0:
 	   		user_type = 'jobseeker'	
 		return {
 		 'user_type': user_type,
