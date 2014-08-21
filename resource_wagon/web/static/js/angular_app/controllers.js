@@ -3016,7 +3016,10 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
     }
     $scope.hide_popup = function() {
         hide_popup($scope,'');
-    }    
+
+    }
+    
+
 }
 
 function JobSeekerController($scope, $element, $http, $timeout) {
