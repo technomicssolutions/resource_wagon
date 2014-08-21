@@ -224,7 +224,6 @@
         
        <div class="clear"></div>
        
-		<div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_resume_details">
 			<h3>Photo</h3>
 			{% if user.jobseeker_set.all.0.photo %}
@@ -233,7 +232,6 @@
 			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 
 		</div>
-        </div>
         
        <div class="clear"></div>
        
@@ -244,30 +242,32 @@
                 <div class="separation" ng-show="user_login_detail">
                     <p class="mandatory">* Mandatory Fields</p>
                     
-                    <div class="form-group">
+                    	<div class="form-group">
                         <label class="col-sm-2 control-label">Email Id<span class="red">*</span></label>
                             <div class="col-sm-10">
                                 <input class="form-control" type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
                             </div>
-                	</div>
-                    
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">First Name<span class="red">*</span></label>
+                        </div>
+                       
+                         <div class="form-group">  
+                        <label class="col-sm-2 control-label">First Name<span class="red">*</span></label> 
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
+                            	<input class="form-control" type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
                             </div>
-                    </div>
-                    
-                    <div class="form-group">
+                         </div>
+                         
+                         <div class="form-group">  
                         <label class="col-sm-2 control-label">Last Name<span class="red">*</span></label>
                             <div class="col-sm-10">
-                                <input class="form-control" type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
-                            </div>
-                    </div>
-                    
-                    <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
-                    <p class="error_message error_p">[[user_login_validation]]</p>
-                </div>
+                             	<input class="form-control" type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
+                             </div>
+                         </div>
+                         
+                         <div class="form-group">  
+                            <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
+                            <p class="error_message error_p">[[user_login_validation]]</p>
+                   		 </div>
+                    </div>     
             </div>
             
             <div class="col-xs-12 col-md-8">
