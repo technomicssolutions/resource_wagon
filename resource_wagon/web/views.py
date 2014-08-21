@@ -12,7 +12,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from models import RequestSend, Reply, Job
 from employer.models import CompanyProfile
@@ -203,6 +203,17 @@ class Aboutus(View):
 class Companies(View):
     def get(self, request, *args, **kwargs):
         companies = CompanyProfile.objects.all()
+        paginator = Paginator(companies, 20) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+            companies = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            companies = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            companies = paginator.page(paginator.num_pages)
         return render(request, 'companies.html', {
             'companies': companies
         })
