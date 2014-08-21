@@ -99,6 +99,12 @@ class SaveEmployer(View):
 
         return HttpResponse(response, status=status, mimetype='application/json')
 
+class DashBoardEmployer(View):
+     
+     def get(self, request, *args, **kwargs):
+
+        return render(request,'employer_dashboard.html', {})  
+
 class EmployerView(View):
 
     def get(self, request, *args, **kwargs):

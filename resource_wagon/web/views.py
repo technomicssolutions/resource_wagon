@@ -25,23 +25,60 @@ class Home(View):
         }
         return render(request, 'home.html', context)
 
-class Login(View):
+class Dashboard(View):
     
     def get(self, request, *args, **kwargs):
-        context = {}
-        return render(request, 'login.html', context)
+
+        return render(request, 'dashboard.html', {})
+
+class Login(View):
+    
+    # def get(self, request, *args, **kwargs):
+    #     context = {}
+    #     return render(request, 'login.html', context)
 
     def post(self, request, *args, **kwargs):
 
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        login_details  = ast.literal_eval(request.POST['login_details'])
+        print login_details
+        user = authenticate(username=login_details['username'], password=login_details['password'])
+        print user
+        status = 200
         if user and user.is_active:
             login(request, user)
         else:
-            context = {
-                'message' : 'Username or password is incorrect'
-            }
-            return render(request, 'login.html', context)
+            res = {
+                    'result': 'error',
+                    'message': 'Username or password is incorrect',
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+        
+        if user.recruiter_set.all():
+            res = {
+                    'result': 'recruiter',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+            
+        elif user.jobseeker_set.all():
+            res = {
+                    'result': 'jobseeker',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+            
+        elif user.is_superuser :
+            res = {
+                    'result': 'admin',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
         return HttpResponseRedirect(reverse('home'))
+    
 
 class Logout(View):
 
