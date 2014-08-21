@@ -14,6 +14,10 @@
 <li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
 <li><a href="{% url 'reports' %}">Reports</a>
 </li>
-      
+<div class="dashboard_content">
+	{% block dashboard_content %}
+		
+	{% endblock dashboard_content %}
+</div>   
            
 {% endblock %}

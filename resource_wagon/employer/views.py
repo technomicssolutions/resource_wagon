@@ -125,6 +125,7 @@ class EmployerView(View):
                 'recruiters':recruiters,
                 
             }
+            return render(request,'employer_profile.html', context)  
         else:
             if request.user.is_authenticated():
                 employer_id = request.user.recruiter_set.all()[0].id

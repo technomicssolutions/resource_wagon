@@ -45,7 +45,7 @@ function user_login ($scope,$http){
           }else if(data.result == 'jobseeker'){
             document.location.href = '/jobseeker/dashboard/';
           }else if(data.result == 'admin'){
-            document.location.href = '/dashboard/';
+            document.location.href = '/admin_dashboard/';
           }else if(data.result == 'error'){
             $scope.login_validation_message = data.message;
           }

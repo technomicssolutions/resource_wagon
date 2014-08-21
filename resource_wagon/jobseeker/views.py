@@ -281,6 +281,7 @@ class JobSeekerView(View):
             context={
                 'jobseekers':jobseekers,
             }
+            return render(request,'jobseeker_profile.html', context)     
         else:
             print request.user
             if request.user.is_authenticated():
