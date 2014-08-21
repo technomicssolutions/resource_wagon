@@ -27,40 +27,17 @@ top: -30px;
 right: -30px;
 }
 
-/*form {
-	width: 100%;
-	margin: auto;
+.outer
+{
+	float:left;
+	width:100%;
+	padding:0px;
 	border:1px solid #FF0000;
 }
-form label 
+.col-md-4, .col-md-8
 {
-	width: 36%;
-	height: 40px;
-	font-style:italic;
-	color:#706f6f;
-	font-size:14px;
-	font-weight:normal;
 	border:1px solid #FF0000;
 }
-form .span_label {
-	width: 30%;
-	float: left;
-}
-form input[type="text"], input[type="password"], textarea, select 
-{
-	width: 60%;
-	float: right;
-	height: 30px;
-	border:1px solid #d6bdae;
-}*//*
-form input[type="checkbox"], input[type="radio"] {
-	float: left;
-}
-
-form .years_select, .month_select {
-	width: 33%;
-	height: 40px;
-}*/
 
 /***************** Footer styles *************/
 footer

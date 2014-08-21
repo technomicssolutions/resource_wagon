@@ -19,187 +19,369 @@
 			    	{% endif %}
 			    {% endif %}
 	    	</div>
+            
 		<h2>Welcome {{user.first_name}}</h2>
+        <div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_user_login_details">
+        	
 			<h3>User Details</h3>
-			<p>Email Id:{{user.email}}</p>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
-		</div>
+            <div class="form-group">
+                <p class="outer">
+                    <span class="col-xs-6 col-md-4">Email Id:</span>
+                   <span class="col-xs-12 col-md-8">{{user.email}}</span>
+                </p>           
+            </div>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
+           
+            </div>
+            </div>
+       <div class="clear"></div>
+
+        <div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_personal_details">
+        <div class="form-group">
 			<h3>Personal Details</h3>
+            
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Gender :</span>
+                <span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.gender}}</span>
+            </p>
+
+
+			 <p class="outer">
+            	<span class="col-xs-6 col-md-4">DOB :</span>
+                 <span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.dob}}</span>
+            </p>
+
+
+
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Marital Status :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.marital_status}}</span>
+            </p>
+
+			<p class="outer">
+           		<span class="col-xs-6 col-md-4"> Nationality :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.nationality}}</span>
+            </p>
+
+
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Current Location :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.country}}</span>
+            </p>
+
+
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">City :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.city}}</span>
+            </p>
+
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Mobile Number :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.mobile}}</span>
+            </p>
+
+			<p class="outer">
+           		<span class="col-xs-6 col-md-4"> Alternate E-mail Id :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.alt_mail}}</span>
+            </p>
 			
-
-
-			<p>Gender :{{user.jobseeker_set.all.0.gender}}</p> 
-
-
-			<p>DOB :{{user.jobseeker_set.all.0.dob}}</p>
-
-
-
-			<p>Marital Status :{{user.jobseeker_set.all.0.marital_status}}</p>
-
-			<p>Nationality :{{user.jobseeker_set.all.0.nationality}}</p>
-
-
-			<p>Current Location :{{user.jobseeker_set.all.0.country}}</p>
-
-
-			<p>City :{{user.jobseeker_set.all.0.city}}</p>
-
-			<p>Mobile Number :{{user.jobseeker_set.all.0.mobile}}</p>
-
-			<p>Alternate E-mail Id :{{user.jobseeker_set.all.0.alt_mail}}</p>
-			
-			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_personal_details()"></p>
 		</div>
+        </div>
+        </div>
+        
+       <div class="clear"></div>
 
+		<div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_educational_details">
+        <div class="form-group">
 			<h3>Education Details</h3>
-			<p>Basic Education :{{user.jobseeker_set.all.0.education.basic_edu}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Basic Education :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.basic_edu}}</span>
+            </p>
 
-			<p>Specialization :{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Specialization :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.basic_edu_specialization}}</span>
+            </p>
 
 
-			<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_basic}}</p>
+			<p class="outer">
+           	<span class="col-xs-6 col-md-4"> Year of Passing :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.pass_year_basic}}</span>
+            </p>
 
-			<p>Masters Education :{{user.jobseeker_set.all.0.education.masters}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Masters Education :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.masters}}</span>
+            </p>
 
-			<p>Specialization :{{user.jobseeker_set.all.0.education.masters_specialization}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Specialization :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.masters_specialization}}</span>
+            </p>
 
-			<p>Year of Passing :{{user.jobseeker_set.all.0.education.pass_year_masters}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Year of Passing :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.pass_year_masters}}</span>
+            </p>
 
-			<p>Doctrate :</p>
-			{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
-				{{doctrate}}</br>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Doctrate :</span>
+				<span class="col-xs-12 col-md-8">{% for doctrate in user.jobseeker_set.all.0.education.doctrate.all %}
+				{{doctrate}}</span></p></br>
 			{% endfor %}
-			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_educational_details()"></p>
 		</div>
+        </div>
+        </div>
+        
+       <div class="clear"></div>
+       
+		<div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_employment_details">
+        <div class="form-group">
 			<h3>Employment Details</h3>
-			<p>Total Experience :{{user.jobseeker_set.all.0.employment.exp_yrs}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Total Experience :</span>
+           		<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.exp_yrs}}</span>
+            </p>
 
-			<p>Monthly Salary :{{user.jobseeker_set.all.0.employment.salary}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Monthly Salary :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.salary}}</span>
+            </p>
 
-			<p>Current Designation :{{user.jobseeker_set.all.0.employment.designation}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Current Designation :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.designation}}</span>
+            </p>
 
-			<p>Current Industry :{{user.jobseeker_set.all.0.employment.curr_industry}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Current Industry :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.curr_industry}}</span>
+            </p>
 
-			<p>Functional Area :{{user.jobseeker_set.all.0.employment.function}}</p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Functional Area :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.function}}</span>
+            </p>
 
-			<p>Previous Employer :</p>
-			{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
-				{{employer}}</br>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Previous Employer :</span>
+				<span class="col-xs-12 col-md-8">{% for employer in user.jobseeker_set.all.0.employment.previous_employer.all %}
+				{{employer}}</span>
+            </p></br>
 			{% endfor %}
 
-			<p>Key Skills :{{user.jobseeker_set.all.0.employment.skills}}</p>
-			<p>Prefered Locations :</p>
-			{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
-				{{location}}</br>
+			<p class="outer">
+           		<span class="col-xs-6 col-md-4"> Key Skills :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.employment.skills}}</span>
+            </p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Prefered Locations :</span>
+				<span class="col-xs-12 col-md-8">{% for location in user.jobseeker_set.all.0.prefered_locations.all %}
+				{{location}}</span></p></br>
 			{% endfor %}
-			<p>Prefered Companies :</p>
-			{% for company in user.jobseeker_set.all.0.prefered_companies.all %}
-				{{company}}</br>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Prefered Companies :</span>
+				<span class="col-xs-12 col-md-8">{% for company in user.jobseeker_set.all.0.prefered_companies.all %}</span>
+				{{company}}</p></br>
 			{% endfor %}
-			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_current_employer_details()"></p>
 		</div>
+        </div>
+        </div>
+        
+       <div class="clear"></div>
+       
+		<div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_resume_details">
+        <div class="form-group">
 			<h3>Resume Details</h3>
-			<p>Resume Title :{{user.jobseeker_set.all.0.education.resume_title}}</p>
-			<p>Resume visible to recruiters:
-			{% if user.jobseeker_set.all.0.education.is_resume_show %}
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Resume Title :</span>
+            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.resume_title}}</span>
+            </p>
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Resume visible to recruiters:</span>
+				<span class="col-xs-12 col-md-8">{% if user.jobseeker_set.all.0.education.is_resume_show %}
 				Yes
 			{% else %}
 				No
-			{% endif %}
+			{% endif %}</span>
 			</p>
 			{% if user.jobseeker_set.all.0.education.resume %}
 				<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
 			{% endif %}
-			<p class="btn"><input class="button" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
 		</div>
+        </div>
+        </div>
+        
+       <div class="clear"></div>
+       
+		<div class="col-xs-12 col-md-8">
 		<div class="separation" ng-show="view_resume_details">
 			<h3>Photo</h3>
 			{% if user.jobseeker_set.all.0.photo %}
 				<a href="/site_media/{{user.jobseeker_set.all.0.photo.name}}" target="_blank">View Photo</a>
 			{% endif %}
-			<p class="btn"><input class="button" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
+			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 
 		</div>
+        </div>
+        
+       <div class="clear"></div>
+       
 		<form name="registration" method="post" action="">
 			{% csrf_token %}
-			<div class="separation" ng-show="user_login_detail">
-				<p class="mandatory">* Mandatory Fields</p>
-				<label>Email Id<span class="red">*</span></label>
-				<input type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
-			
-				<label>First Name<span class="red">*</span></label>
-				<input type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
-				<label>Last Name<span class="red">*</span></label>
-				<input type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
-				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
-				<p class="error_message error_p">[[user_login_validation]]</p>
-			</div>
+            
+            <div class="col-xs-12 col-md-8">
+                <div class="separation" ng-show="user_login_detail">
+                    <p class="mandatory">* Mandatory Fields</p>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Email Id<span class="red">*</span></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="email" ng-model="user_login_details.email" value="{{user_login_details.email}}">
+                            </div>
+                	</div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">First Name<span class="red">*</span></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="first_name" ng-model="user_login_details.first_name" value="{{email.first_name}}">
+                            </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Last Name<span class="red">*</span></label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" name="last_name" ng-model="user_login_details.last_name"  value="{{user_login_details.last_name}}">
+                            </div>
+                    </div>
+                    
+                    <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
+                    <p class="error_message error_p">[[user_login_validation]]</p>
+                </div>
+            </div>
+            
+            <div class="col-xs-12 col-md-8">
 			<div class="separation" ng-show="personal_details">
 				<p class="mandatory">* Mandatory Fields</p>
 				<h3>Personal Details</h3>
-				
-				<label>Gender<span class="red">*</span></label> 
-				<input type="radio" name="gender" ng-model="personal.gender" value="male">
-				<span class="span_label">Male</span>
-				<input type="radio" name="gender" ng-model="personal.gender" value="female">
-				<span class="span_label">Female</span>
+				<div class="form-group">
+                
+                    <label class="col-sm-2 control-label">Gender<span class="red">*</span></label> 
+                    <div class="col-sm-10">
+                    <input type="radio" name="gender" ng-model="personal.gender" value="male">
+                    <span class="span_label">Male</span>
+                    <input type="radio" name="gender" ng-model="personal.gender" value="female">
+                    <span class="span_label">Female</span>
+                    </div>
+                
+                </div>
 				<div class="clear"></div>
-				<label>DOB<span class="red">*</span></label>
-
-				<input type="text" name="dob" id="dob" ng-model="personal.dob">
-
-				<label>Marital Status<span class="red">*</span></label>
-				<select name="marital_status" ng-model="personal.marital_status">
+                
+				<div class="form-group">
+				<label class="col-sm-2 control-label">DOB<span class="red">*</span></label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="dob" id="dob" ng-model="personal.dob">
+                </div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Marital Status<span class="red">*</span></label>
+                <div class="col-sm-10">              
+				<select class="form-control" name="marital_status" ng-model="personal.marital_status">
 					<option value="{{personal.marital_status}}"></option>
 					<option value="Single">Single</option>
 					<option value="Married">Married</option>
 					<option value="Divorced">Divorced</option>
 					<option value="Widowed">Widowed</option>
 				</select>
-
-				<label>Nationality<span class="red">*</span></label>
-				<select name="nationality" ng-model="personal.nationality"> 
+                </div>
+                </div>
+				<div class="clear"></div>
+				
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Nationality<span class="red">*</span></label>
+                <div class="col-sm-10">
+				<select class="form-control" name="nationality" ng-model="personal.nationality"> 
 					<option value="{{personal.nationality}}"></option>
 					<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality== personal.nationality">[[nationality]]</option>
 				</select>
-			
-				<label>Current Location<span class="red">*</span></label> 
-				<select name="country" ng-model="personal.country">
+				</div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Current Location<span class="red">*</span></label> 
+                <div class="col-sm-10">
+				<select class="form-control" name="country" ng-model="personal.country">
 					<option value="{{personal.country}}"></option>
 					<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== personal.country">[[country]]</option>
 					<option>Other</option>
 				</select>
-
-				<label>City<span class="red">*</span></label>
-				<input type="text" name="city" ng-model="personal.city" value="{{personal.city}}">
-				<label>Mobile Number<span class="red">*</span></label>
-				<input type="text" name="mobile" ng-model="personal.mobile" value="{{personal.mobile}}">
-
-				<label>Alternate E-mail Id</label>
-				<input type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
-
-				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
+				</div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">City<span class="red">*</span></label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="city" ng-model="personal.city" value="{{personal.city}}">
+                </div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Mobile Number<span class="red">*</span></label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="mobile" ng-model="personal.mobile" value="{{personal.mobile}}">
+				</div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Alternate E-mail Id</label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="alt_email" ng-model="personal.alt_email"  value="{{personal.alt_email}}">
+				</div>
+                </div>
+				<div class="clear"></div>
+                
+                <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+				<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
 				<p class="error_message error_p">[[personal_validation]]</p>
+                </div>
+                </div>
+				<div class="clear"></div>
 			</div>
+            </div>
 
 
 			<div class="clear"></div>
 
+			<div class="col-xs-12 col-md-8">            
 			<div class="separation" ng-show="current_employment_details ">
 				<p class="mandatory">* Mandatory Fields</p>
 				<h3>Current Employment Details</h3>
-				<label>Total Experience</label>
-				<select name="years" ng-model="current_employer.years" class="years_select">
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Total Experience</label>
+                <div class="col-sm-10">
+				<select name="years" ng-model="current_employer.years" class="years_select form-control">
 					<option value="">years</option>
 					<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
 				</select>
-				<select name="months" ng-model="current_employer.months" class="month_select">
+				<select name="months" ng-model="current_employer.months" class="month_select form-control">
 					<option value="">months</option>
 					<option value="0">0</option>
 					<option value="1">1</option>
@@ -214,46 +396,75 @@
 					<option value="10">10</option>
 					<option value="11">11</option>
 				</select> 
-				<label>Monthly Salary</label>
-				<input type="text" name="salary" ng-model="current_employer.salary">
-				<label> Currency </label>
-				<select name="currency" ng-model="current_employer.currency">
+                </div>
+                </div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Monthly Salary</label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="salary" ng-model="current_employer.salary">
+                </div>
+                </div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label"> Currency </label>
+                <div class="col-sm-10">
+				<select class="form-control" name="currency" ng-model="current_employer.currency">
 					<option value="">Select Currency</option>
 					<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == current_employer.currency">[[currency]]</option>
 				</select>
-				<label>Current Designation</label>
-				<input type="text" name="designation" ng-model="current_employer.designation">
-				<label>Current Industry</label>
-				<select name="industry" ng-model="current_employer.industry"> 
+                </div>
+                </div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Current Designation</label>
+                <div class="col-sm-10">
+				<input class="form-control" type="text" name="designation" ng-model="current_employer.designation">
+                </div>
+                </div>
+                
+                <div class="form-group">
+				<label class="col-sm-2 control-label">Current Industry</label>
+                <div class="col-sm-10">
+				<select class="form-control" name="industry" ng-model="current_employer.industry"> 
 					<option value="">Select</option>
 					<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == current_employer.industry">[[industry]]</option>				
 				</select>
+                </div>
+                </div>
+                
 				<label>Functional Area</label>
 				<select name ="functions" ng-model="current_employer.functions">
 					<option value="">Select</option>
 					<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == current_employer.functions">[[function]]</option>
 				</select>
+                
 				<label>Previous Employer</label>
 				<div class="add_employers">
 					<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
 					<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
 				</div>
+                
 				<label>Key Skills<span class="red">*</span></label>
 				<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
+                
 				<label> Prefered Location </label>
 				<select name="locations" ng-model="current_employer.locations" multiple>
 					<option value="">Select location</option>
 					<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
 				</select>
+                
 				<label> Prefered Company </label>
 				<select name="companies" ng-model="current_employer.companies" multiple>
 					<option value="">Select company</option>
 					<option ng-repeat="company in companies" value="[[company.id]]" ng-selected="company.selected" ng-click="get_prefered_companies(company)">[[company.name]]</option>
 				</select>
+                
 				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
 				
 				<p class="error_message error_p">[[current_employer_validation_msg]]</p>
 			</div>
+            </div>
 
 			<div class="separation" ng-show="educational_detail">
 				<p class="mandatory">* Mandatory Fields</p>
