@@ -42,9 +42,9 @@ class Login(View):
     def post(self, request, *args, **kwargs):
 
         login_details  = ast.literal_eval(request.POST['login_details'])
-        print login_details
+    
         user = authenticate(username=login_details['username'], password=login_details['password'])
-        print user
+       
         status = 200
         if user and user.is_active:
             login(request, user)
