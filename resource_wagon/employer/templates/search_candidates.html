@@ -58,7 +58,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	</div>
 	<div>
 
-{% if candidates_data %}
+
 	<table ng-show="candidates_data_table">
 			<tr >
 				<th>Name</th>
@@ -77,7 +77,6 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 
 			</tr>
 	</table>
-{% else %}
-	<p>No candidates found matching the search</p>
-{% endif %}
+
+
 {% endblock %}

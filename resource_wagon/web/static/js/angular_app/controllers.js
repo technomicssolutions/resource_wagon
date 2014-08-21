@@ -2927,15 +2927,15 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         if(!($scope.search_flag)){
           if(search_location != '' || search_location != undefined){
             $scope.job_location = search_location;
-            console.log($scope.job_location);
+            
           }
           if (search_keyword != '' || search_keyword != undefined) {
             $scope.skill = search_keyword;
-            console.log($scope.skill);
+            
           }
           if (search_industry != '' || search_industry != undefined) {
           $scope.search.industry = search_industry;
-          console.log($scope.search.industry );
+          
           }
         
         }
