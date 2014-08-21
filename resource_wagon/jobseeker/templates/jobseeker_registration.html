@@ -7,216 +7,425 @@
 
 {% block content %}
 
-	<form name="registration" method="post" action="">
+	<form class="form-horizontal" name="registration" method="post" action="">
 		{% csrf_token %}
 
 			<p class="mandatory">* Mandatory Fields</p>
-		<div class="separation" ng-show="user_login_detail">
-			<label>Email Id<span class="red">*</span></label>
-			<input type="text" name="email" ng-model="user_login_details.email">
-			{% if not is_profile_edit %}
-					<label>Password<span class="red">*</span></label> 
-					<input type="password" name="password" ng-model="user_login_details.password">
-					<label>Confirm Password<span class="red">*</span></label> 
-					<input type="password" name="password1" ng-model="user_login_details.password1">
-			{% endif %}
-			<label>First Name<span class="red">*</span></label>
-			<input type="text" name="first_name" ng-model="user_login_details.first_name">
-			<label>Last Name<span class="red">*</span></label>
-			<input type="text" name="last_name" ng-model="user_login_details.last_name">
-			
-			<input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_user_login_details()"></p>
-			<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
-			<p class="error_message error_p">[[user_login_validation]]</p>
-		</div>
+            
+            <div class="col-xs-12 col-md-8">
+            <div class="separation" ng-show="user_login_detail">
+            
+            	<div class="form-group">
+                    <label class="col-sm-2 control-label">Email Id<span class="red">*</span></label>
+                    <div class="col-sm-10">
+                    	<input class="form-control" type="text" name="email" ng-model="user_login_details.email">
+                    </div>
+                </div>
+                
+                {% if not is_profile_edit %}
+                		<div class="form-group">
+                        	<label class="col-sm-2 control-label">Password<span class="red">*</span></label> 
+                            <div class="col-sm-10">
+                            	<input class="form-control" type="password" name="password" ng-model="user_login_details.password">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" >Confirm Password<span class="red">*</span></label> 
+                            <div class="col-sm-10">
+                            <input class="form-control" type="password" name="password1" ng-model="user_login_details.password1">
+                        </div>
+                        </div>
+                {% endif %}
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">First Name<span class="red">*</span></label>
+                    <div class="col-sm-10">
+                    	<input class="form-control" type="text" name="first_name" ng-model="user_login_details.first_name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Last Name<span class="red">*</span></label>
+                    <div class="col-sm-10">
+                    	<input class="form-control" type="text" name="last_name" ng-model="user_login_details.last_name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <div class="checkbox">
+                                <input type="checkbox" name="checkbox" ng-model="checkbox">I have read and agree to the privacy statement and terms of use
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_user_login_details()"></p>
+                    </div>
+                     <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> 
+                    <p class="error_message error_p">[[user_login_validation]]</p>
+                </div>
+            </div>
+            </div>
 		<div class="clear"></div>
-		<div class="separation" ng-show="personal_details">
+         <div class="col-xs-12 col-md-8">
+		<div class="separation">
 			<h3>Personal Details</h3>
-			<label>Gender<span class="red">*</span></label> 
-			<input type="radio" name="gender" ng-model="personal.gender" value="male">
-			<span class="span_label">Male</span>
-			<input type="radio" name="gender" ng-model="personal.gender" value="female">
-			<span class="span_label">Female</span>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Gender<span class="red">*</span></label> 
+                <div class="col-sm-10">
+                <input type="radio" name="gender" ng-model="personal.gender" value="male">
+                <span class="span_label">Male</span>
+                <input type="radio" name="gender" ng-model="personal.gender" value="female">
+                <span class="span_label">Female</span>
+                </div>
+            </div>
 			<div class="clear"></div>
-			<label>DOB<span class="red">*</span></label>
-
-			<input type="text" name="dob" id="dob" >
-
-			<label>Marital Status<span class="red">*</span></label>
-			<select name="marital_status" ng-model="personal.marital_status">
+            <div class="form-group">
+			<label class="col-sm-2 control-label">DOB<span class="red">*</span></label>
+			<div class="col-sm-10">
+			<input class="form-control"  type="text" name="dob" id="dob" >
+            </div>
+			</div>
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Marital Status<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<select class="form-control" name="marital_status" ng-model="personal.marital_status">
 				<option value="">------------------Select------------------</option>
 				<option value="Single">Single</option>
 				<option value="Married">Married</option>
 				<option value="Divorced">Divorced</option>
 				<option value="Widowed">Widowed</option>
 			</select>
-
-			<label>Nationality<span class="red">*</span></label>
-			<select name="nationality" ng-model="personal.nationality"> 
+            </div>
+            </div>
+            
+			<div class="form-group">
+			<label class="col-sm-2 control-label">Nationality<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<select class="form-control" name="nationality" ng-model="personal.nationality"> 
 				<option value="">------------------Select------------------</option>
 				<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality== personal.nationality">[[nationality]]</option>
 			</select>
+            </div>
+            </div>
 		
-			<label>Current Location<span class="red">*</span></label> 
-			<select name="country" ng-model="personal.country">
+        	<div class="form-group">
+			<label class="col-sm-2 control-label">Current Location<span class="red">*</span></label> 
+            <div class="col-sm-10">
+			<select class="form-control" name="country" ng-model="personal.country">
 				<option value="">------------------Select------------------</option>
 				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== personal.country">[[country]]</option>
 				<option>Other</option>
 			</select>
-
-			<label>City<span class="red">*</span></label>
-			<input type="text" name="city" ng-model="personal.city">
-			<label>Mobile Number<span class="red">*</span></label>
-			<input type="text" name="mobile" ng-model="personal.mobile">
-
-			<label>Alternate E-mail Id</label>
-			<input type="text" name="alt_email" ng-model="personal.alt_email">
-
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_personal_details()"></p>
+            </div>
+			</div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">City<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="city" ng-model="personal.city">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Mobile Number<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="mobile" ng-model="personal.mobile">
+            </div>
+			</div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Alternate E-mail Id</label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="alt_email" ng-model="personal.alt_email">
+            </div>
+            </div>
+			
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+			<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_personal_details()"></p>
+            </div>
+            </div>
 			<!-- <input ng-show="user_id" class="button" type="submit" name="next" value="Next" ng-click="reg_next()"> -->
 			<p class="error_message error_p">[[personal_validation]]</p>
 		</div>
+        </div>
 		<div class="clear"></div>
 
-		<div class="separation" ng-show="current_employment_details ">
-			<h3>Employment Details</h3>
-			<label>Total Experience</label>
-			<select name="years" ng-model="current_employer.years" class="years_select">
-				<option value="">Years</option>
-				<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
-			</select>
-			<select name="months" ng-model="current_employer.months" class="month_select">
-				<!-- <option value="">Months</option> -->
-				<option value="0">0</option>
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-				<option value="6">6</option>
-				<option value="7">7</option>
-				<option value="8">8</option>
-				<option value="9">9</option>
-				<option value="10">10</option>
-				<option value="11">11</option>
-			</select> 
-			<label>Monthly Salary</label>
-			<input type="text" name="salary" ng-model="current_employer.salary">
-			<label> Currency </label>
-			<select name="currency" ng-model="current_employer.currency">
+		<div class="col-xs-12 col-md-8">
+		<div class="separation" >
+			<h3>Employment Details</h3>            
+
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Total Experience</label>
+             <div class="form-inline" style="border:1px solid #FF0000;">
+            <div class="col-sm-10">
+                 <select name="years" ng-model="current_employer.years" class="years_select form-control">
+                    <option value="">Years</option>
+                    <option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
+				 </select>
+                 <select name="months" ng-model="current_employer.months" class="month_select form-control">
+                    <!-- <option value="">Months</option> -->
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                </select> 
+             </div>
+             </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Monthly Salary</label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="salary" ng-model="current_employer.salary">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label"> Currency </label>
+            <div class="col-sm-10">
+			<select class="form-control" name="currency" ng-model="current_employer.currency">
 				<option value="">Select Currency</option>
 				<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == current_employer.currency">[[currency]]</option>
 			</select>
-			<label>Current Designation</label>
-			<input type="text" name="designation" ng-model="current_employer.designation">
-			<label>Current Industry</label>
-			<select name="industry" ng-model="current_employer.industry"> 
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Current Designation</label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="designation" ng-model="current_employer.designation">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Current Industry</label>
+            <div class="col-sm-10">
+			<select class="form-control" name="industry" ng-model="current_employer.industry"> 
 				<option value="">--------------Select------------</option>
 				<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == current_employer.industry">[[industry]]</option>				
 			</select>
-			<label>Functional Area</label>
-			<select name ="functions" ng-model="current_employer.functions">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Functional Area</label>
+            <div class="col-sm-10">
+			<select class="form-control" name ="functions" ng-model="current_employer.functions">
 				<option value="">---------------Select-------------</option>
 				<option ng-repeat="function in functions" value="[[function]]" ng-selected="function == current_employer.functions">[[function]]</option>
 			</select>
-			<label>Previous Employer</label>
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Previous Employer</label>
+            <div class="col-sm-10">
 			<div class="add_employers">
-				<input type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
+				<input class="form-control" type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
 				<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
 			</div>
-			<label>Key Skills<span class="red">*</span></label>
-			<textarea rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
-			<label> Prefered Location </label>
-			<select name="locations" ng-model="current_employer.locations" multiple>
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Key Skills<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<textarea class="form-control" rows="4" cols="20" name="skills" ng-model="current_employer.skills"></textarea>
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label"> Prefered Location </label>
+            <div class="col-sm-10">
+			<select class="form-control" name="locations" ng-model="current_employer.locations" multiple>
 				<option value="">Select location</option>
 				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country.selected" ng-click="get_prefered_locations(country)">[[country]]</option>
 			</select>
-			<label> Prefered Companies </label>
-			<select name="companies" ng-model="current_employer.companies" multiple>
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label"> Prefered Companies </label>
+            <div class="col-sm-10">
+			<select class="form-control" name="companies" ng-model="current_employer.companies" multiple>
 				<option value="">Select Company</option>
 				<option ng-repeat="company in companies" value="[[company.id]]" ng-click="get_prefered_companies(company)">[[company.name]]</option>
 			</select>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_current_employer_details()"></p>
-			
+            </div>
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+			<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_current_employer_details()"></p>
+            </div>
+			</div>
+            
 			<p class="error_message error_p">[[current_employer_validation_msg]]</p>
 		</div>
-
-		<div class="separation" ng-show="educational_detail">
+        </div>
+        
+		<div class="clear"></div>
+        
+        <div class="col-xs-12 col-md-8">
+		<div class="separation">
 			<h3>Education Details</h3>
-			<label>Basic Education<span class="red">*</span></label>
-			<select name="basic_edu" ng-model="educational_details.basic_edu" >
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Basic Education<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<select class="form-control" name="basic_edu" ng-model="educational_details.basic_edu" >
 				<option value="">-----------Select---------</option>
 				<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
 			</select>
-			<label>Specialization<span class="red">*</span></label>
-			<select name="basic_specialization" ng-model="educational_details.basic_specialization">
+            </div>
+            </div>
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Specialization<span class="red">*</span></label>
+             <div class="col-sm-10">
+			<select class="form-control" name="basic_specialization" ng-model="educational_details.basic_specialization">
 				<option value="">-----------Select---------</option>
 				<option ng-repeat="specialization in basic_specializations" value="[[specialization]]" ng-selected="specialization == educational_details.basic_specialization">[[specialization]]</option>
 			</select>
-
-			<label>Year of Passing<span class="red">*</span></label>
-			<select name="pass_year_basic" ng-model="educational_details.pass_year_basic">
+            </div>
+            </div>
+			
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Year of Passing<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<select class="form-control" name="pass_year_basic" ng-model="educational_details.pass_year_basic">
 				<option value="">--------Select-------</option>
 				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_basic ">[[yr]]</option>
 			</select>
-			<label>Masters Education</label>
-			<select name="masters_edu" ng-model="educational_details.masters_edu" ng-change="get_master_stream()">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Masters Education</label>
+            <div class="col-sm-10">
+			<select class="form-control" name="masters_edu" ng-model="educational_details.masters_edu" ng-change="get_master_stream()">
 				<option value="">---------Select---------</option>
 				<option ng-repeat="edu in masters_education" value="[[edu]]" ng-selected="edu == educational_details.masters_edu" ng-click="get_master_stream()">[[edu]]</option>
 			</select>
-			<label>Specialization</label>
-			<select name="master_specialization" ng-model="educational_details.master_specialization">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Specialization</label>
+            <div class="col-sm-10">
+			<select class="form-control" name="master_specialization" ng-model="educational_details.master_specialization">
 				<option value="">-----------Select---------</option>
 				<option ng-repeat="specialization in specializations" value="[[specialization]]" ng-selected="specialization == educational_details.master_specialization">[[specialization]]</option>
 			</select>
-			<label>Year of Passing</label>
-			<select name="pass_year_masters" ng-model="educational_details.pass_year_masters" >
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Year of Passing</label>
+            <div class="col-sm-10">
+			<select class="form-control" name="pass_year_masters" ng-model="educational_details.pass_year_masters" >
 				<option value="">--------Select-------</option>
 				<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_masters">[[yr]]</option>
 			</select>
-			<label>Doctrate</label>
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Doctrate</label>
+            <div class="col-sm-10">
 			<div class="add_employers">
-				<input type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
+				<input class="form-control" type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
 				<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
-			</div>		
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_educational_details()"></p>
-			
+			</div>	
+            </div>	
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+			<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_educational_details()"></p>
+			</div>
+            </div>
+            
 			<p class="error_message error_p">[[educational_validation_msg]]</p>
 		</div>
-		<div class="separation" ng-show="resume_detail">
+        </div>
+        
+		<div class="clear"></div>
+        
+        <div class="col-xs-12 col-md-8">
+		<div class="separation" >
 			<h3>Attach Your Resume</h3>
-			<label>Resume Title<span class="red">*</span></label>
-			<input type="text" name="resume_title" ng-model="resume_details.resume_title">
-			<label>Attach CV<span class="red">*</span></label>
-			<input type="file" fileread="resume_doc.src"/>
-			<input type="hidden" ng-model="resume_doc.src">
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Resume Title<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<input class="form-control" type="text" name="resume_title" ng-model="resume_details.resume_title">
+            </div>
+            </div>
+            
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Attach CV<span class="red">*</span></label>
+            <div class="col-sm-10">
+			<input class="form-control" type="file" fileread="resume_doc.src"/>
+			<input class="form-control" type="hidden" ng-model="resume_doc.src">
 			<a href="/media/[[resume_details.resume]]" ng-show="resume_details.resume" target="_blank">Resume</a>
-			<label>Copy and Paste Resume Here</label>
-			<textarea rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
-			<label>Allow recruiters to view resume</label><input type="checkbox" true ng-model="resume_details.is_resume_show">
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_resume_details()"></p>
+            </div>
+            </div>
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Copy and Paste Resume Here</label>
+            <div class="col-sm-10">
+			<textarea class="form-control" rows="4" cols="20" name="resume_text" ng-model="resume_details.resume_text" ></textarea>
+            </div>
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+            <div class="checkbox">
+			<label >Allow recruiters to view resume</label>
+            <input type="checkbox" true ng-model="resume_details.is_resume_show">
+            </div>
+            </div>
+            </div>
+            
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+			<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_resume_details()"></p>
 			<p class="error_message error_p">[[resume_validation_message]]</p>
+            </div>
+            </div>
+            
 		</div>
+        
+        </div>
+        
+		<div class="clear"></div>
 
-		<div class="separation" ng-show="photo_detail">
+        <div class="col-xs-12 col-md-8">
+		<div class="separation">
 			<h3>Attach Your Photo </h3>
 			<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
 	            <img src="/media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
 	        </div>
-			<label>Attach Photo</label>
-			<input type="file" fileread="photo_img.src"/>
-			<input type="hidden" ng-model="photo_img.src">
-			<br>
-			<br>
-			<br>
+            <div class="form-group">
+			<label class="col-sm-2 control-label">Attach Photo</label>
+            <div class="col-sm-10">
+			<input class="form-control" type="file" fileread="photo_img.src"/>
+			<input class="form-control" type="hidden" ng-model="photo_img.src">
+            </div>
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
 	        <div class="btn">
 				
-				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_photo_details()"></p>
+				<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_photo_details()"></p>
 				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
 				
 			</div>
 			<p class="error_message error_p">[[photo_validation_message]]</p>
+            </div>
+            </div>
 		</div>
 
 		</div>
