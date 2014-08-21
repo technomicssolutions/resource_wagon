@@ -3008,16 +3008,16 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
   
     }
     $scope.show_login_popup = function() {
-     show_login_popup($scope,'');
+        show_login_popup($scope,'');
     }
     $scope.user_login = function() {
-     user_login($scope,$http);
+        user_login($scope,$http);
     }
     $scope.show_registration_popup = function() {
-     show_registration_popup($scope,'');
+        show_registration_popup($scope,'');
     }
     $scope.hide_popup = function() {
-     hide_popup($scope,'');
+        hide_popup($scope,'');
     }
     
 }
