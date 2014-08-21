@@ -356,3 +356,18 @@ header
 
 
 /********************* Login poup styles end *******/
+
+
+/*********** dashboard styles *************/
+
+.dashboard_menu {
+	width: 30%;
+	height: 100%;
+	float: left;
+}
+.dashboard_content {
+	width: 65%;
+	height: 100%;
+	float: left;
+}
+/**************** end dashboard styles ************/

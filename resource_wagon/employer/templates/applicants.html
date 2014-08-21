@@ -1,12 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'employer_dashboard.html' %}
 {% block title %}Applicant Details{% endblock title %}
 {% block body_id %}applicant_details{% endblock body_id %}
 
-{% block content %}
-{% if jobseekers %}
-
-	<table >
-			<tr >
+{% block dashboard_content %}
+	{% if jobseekers %}
+		<table>
+			<tr>
 				<th>Name</th>
 				<th>Skills</th>
 				<th>Experience</th>
@@ -14,49 +13,46 @@
 				<th>Functional Area</th>
 				<th>Current Industry</th>
 				<th></th>
-				<th></th>
-				
+				<th></th>			
 			</tr>
-		{% for jobseeker in jobseekers %}
-		<form method="post" action="{% url 'request' jobseeker.id %}">{% csrf_token %}
-			<tr>
-				<td>{{jobseeker.user.first_name}}</td>
-				<td> {{jobseeker.employment.skills}}</td>
-				<td>{{jobseeker.employment.exp_yrs}}yr {{jobseeker.employment.exp_mnths}}months</td>
-				<td>{{jobseeker.education.basic_edu}}</td>
-				<td>{{jobseeker.employment.function}}</td>
-				<td>{{jobseeker.employment.curr_industry}}</td>
-				{% if jobseeker.education.is_resume_show %}
-					<td><a href="{% url 'applicant_resume' jobseeker_id=jobseeker.id %}">Download Resume</a></td>
-				{% else %}
-					<p>Cannot View the Resume </p>
-				{% endif %}
-				{% if not user.is_superuser %}
-					<td><input type="submit" name="request" value="Send Request To Admin For Contact Details"></td>
-				{% endif %}
-			</tr>
-		</form>
-		{% endfor %}
-		<div >
-	   		<span >
-		        {% if jobseekers.has_previous %}
-		            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
-		        {% endif %}
+			{% for jobseeker in jobseekers %}
+			<form method="post" action="{% url 'request' jobseeker.id %}">{% csrf_token %}
+				<tr>
+					<td>{{jobseeker.user.first_name}}</td>
+					<td> {{jobseeker.employment.skills}}</td>
+					<td>{{jobseeker.employment.exp_yrs}}yr {{jobseeker.employment.exp_mnths}}months</td>
+					<td>{{jobseeker.education.basic_edu}}</td>
+					<td>{{jobseeker.employment.function}}</td>
+					<td>{{jobseeker.employment.curr_industry}}</td>
+					{% if jobseeker.education.is_resume_show %}
+						<td><a href="{% url 'applicant_resume' jobseeker_id=jobseeker.id %}">Download Resume</a></td>
+					{% else %}
+						<p>Cannot View the Resume </p>
+					{% endif %}
+					{% if not user.is_superuser %}
+						<td><input type="submit" name="request" value="Send Request To Admin For Contact Details"></td>
+					{% endif %}
+				</tr>
+			</form>
+			{% endfor %}
+			<div>
+		   		<span>
+			        {% if jobseekers.has_previous %}
+			            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
+			        {% endif %}
 
-		        <span >
-		            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
-		        </span>
+			        <span >
+			            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
+			        </span>
 
-		        {% if jobseekers.has_next %}
-		            <a href="?page={{ jobseekers.next_page_number }}">next</a>
-		        {% endif %}
-	    	</span>
-		</div>
+			        {% if jobseekers.has_next %}
+			            <a href="?page={{ jobseekers.next_page_number }}">next</a>
+			        {% endif %}
+		    	</span>
+			</div>
 
-	</table>
-{% else %}
-	<p>No applicants</p>
-</form>
-{% endif %}
-
-{% endblock content %}
+		</table>
+	{% else %}
+		<p>No applicants</p>
+	{% endif %}
+{% endblock dashboard_content %}
