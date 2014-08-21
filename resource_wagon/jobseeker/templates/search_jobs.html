@@ -38,25 +38,30 @@
 {% block content %}
 	{% if jobs|length %}
 		{% for job in jobs %}
-			
+			{% if not user.recruiter_set.all %}
 				<h2><a href="{% url 'view_job_details' job_id=job.id %}">{{job.job_title}} </a></h2>
-				<p> Industry Type: {{job.industry}} </p>
-				<p> Functional Area: {{job.function}} </p>
-                <p> Qualification : {{job.education_req}} </p>
-				<p> Experience: {{job.exp_req_min}} - {{job.exp_req_max}} Yrs </p>
-				<br>
-                {% if  user.is_authenticated %}
-                    {% if not user.is_superuser %}
+            {% else %}
+                <h2>{{job.job_title}} </h2>
+            {% endif %}
+            <p>Company: {{job.company.company_name}}</p>
+			<p> Industry Type: {{job.industry}} </p>
+			<p> Functional Area: {{job.function}} </p>
+            <p> Qualification : {{job.education_req}} </p>
+			<p> Experience: {{job.exp_req_min}} - {{job.exp_req_max}} Yrs </p>
+			<br>
+            {% if  user.is_authenticated %}
+                {% if not user.is_superuser %}
+                    {% if user.jobseeker_set.all %}
                         {% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
                             <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
                         {% else %}
                             <p>You have already applied for this job</p>
                         {% endif %}
                     {% endif %}
-                {% else %}
-                    <input type="button" ng-click="show_login_popup()" class="login_button"value="Login to apply" />
                 {% endif %}
-                
+            {% else %}
+                <input type="button" ng-click="show_login_popup()" class="login_button"value="Login to apply" />
+            {% endif %}
            
             <br>
 		{% endfor %}
