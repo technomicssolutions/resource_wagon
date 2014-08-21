@@ -52,7 +52,7 @@
                     {% block dialogue_popup %}
                         <input type="text" name="username" class="username" ng-model="username" />
                         <input type="password" name="password" class="password" ng-model="password" />
-                        <input type="button" class="login_button" />
+                       <input type="button" ng-click="login()" class="login_button" />
                         <a href="{% url 'forgot_password' %}"> Forgot Password ? </a>
                     {% endblock %}
                     <p class="message"></p>
