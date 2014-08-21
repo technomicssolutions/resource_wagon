@@ -2468,6 +2468,8 @@ function get_job_seeker_details($scope, $http) {
         console.log($scope.educational_details);
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
+        get_stream($scope);
+        get_master_stream($scope);
         if ($scope.educational_details.pass_year_masters == null) {
             $scope.educational_details.pass_year_masters = '';
         }
@@ -3275,9 +3277,6 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         hide_jobseeker_details_block($scope);
         get_job_seeker_details($scope, $http);
         $scope.educational_detail = true;
-        get_stream($scope);
-        get_master_stream($scope);
-       
         if ($scope.educational_details.pass_year_masters == '' || $scope.educational_details.pass_year_masters == undefined) {
             $scope.educational_details.pass_year_masters = '';
         }

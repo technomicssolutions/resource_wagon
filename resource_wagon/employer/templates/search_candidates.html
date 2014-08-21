@@ -20,9 +20,9 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 			<option ng-repeat="function in functions" value="[[function]]" >[[function]]</option>
 		</select>
 	<label>Please choose the educational qualification required for this job:* </label>
-			<select name="basic_edu" ng-model="educational_details.basic_edu" >
+			<select name="basic_edu" ng-model="educational_details.basic_edu" ng-change="get_stream()">
 			<option value="">-----------Select---------</option>
-			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
+			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" >[[education]]</option>
 		</select>
 	<label>Specialization</label>
 		<select name="basic_specialization" ng-model="educational_details.basic_specialization">

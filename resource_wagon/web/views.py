@@ -25,6 +25,12 @@ class Home(View):
         }
         return render(request, 'home.html', context)
 
+class Dashboard(View):
+    
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'dashboard.html', {})
+
 class Login(View):
     
     def get(self, request, *args, **kwargs):
@@ -34,6 +40,7 @@ class Login(View):
     def post(self, request, *args, **kwargs):
 
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        print user
         if user and user.is_active:
             login(request, user)
         else:
@@ -41,16 +48,18 @@ class Login(View):
                 'message' : 'Username or password is incorrect'
             }
             return render(request, 'login.html', context)
-        # try:
-        #     if user.recruiter_set.all():
-                
-        #         return HttpResponseRedirect(reverse('employer_profile'))
-        #     elif user.jobseeker_set.all():
-                
-        #         return HttpResponseRedirect(reverse('jobseeker_details'))
-        # except :
-        #     return HttpResponseRedirect(reverse('home'))
+        
+        if user.recruiter_set.all():
+            
+            return HttpResponseRedirect(reverse('employer_dashboard'))
+        elif user.jobseeker_set.all():
+            
+            return HttpResponseRedirect(reverse('jobseeker_dashboard'))
+        elif user.is_superuser :
+            return HttpResponseRedirect(reverse('admin_dashboard'))
+        
         return HttpResponseRedirect(reverse('home'))
+    
 
 class Logout(View):
 

@@ -3,11 +3,12 @@ from django.contrib.auth.decorators import login_required
 
 from jobseeker.views import JobseekerRegistration, SavePersonalDetails, SaveCurrentEmployerDetails,\
   SaveEducationalDetails, SaveResumeDetails, SavePhotoDetails, JobSeekerView, EditDetails,\
-SearchJobsView, SearchView, ApplyJobs,Companies, ActivityLog, JobDetails, SaveUserLoginDetails
+SearchJobsView, SearchView, ApplyJobs,Companies, ActivityLog, JobDetails, SaveUserLoginDetails, JobseekerDashboard
 
 urlpatterns = patterns('',
     url(r'^registration/$', JobseekerRegistration.as_view(), name="jobseeker_registration"),
 
+    url(r'^jobseeker_dashboard/$', JobseekerDashboard.as_view(), name="jobseeker_dashboard"),
     url(r'^save_user_login_details/$', SaveUserLoginDetails.as_view(), name="save_user_login_details"),
     url(r'^save_personal_details/$', SavePersonalDetails.as_view(), name="save_personal_details"),
     url(r'^save_current_employer_details/$', SaveCurrentEmployerDetails.as_view(), name="save_current_employer_details"),
