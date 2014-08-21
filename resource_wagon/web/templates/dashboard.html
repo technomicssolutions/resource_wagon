@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
 {% block content %}
-<li>{{user.username}}  </li>
- <a href="{% url 'jobseeker_registration' %}"> Jobseeker Registration </a>
-<a href="{% url 'employer_registration' %}"> Employer Registration </a>
-<li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
-<li><a href="{% url 'request' %}">Requests</a></li>
-<a href="{% url 'advanced_job_search' %}">Search Jobs </a>
-<a onclick="search_by_location('location')" href="" title="">Jobs By Location</a>
-<a onclick="search_by_location('skills')" href="" title="">Jobs By Skills</a>
-<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
-<li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
-
-<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-<li><a href="{% url 'reports' %}">Reports</a>
-</li>
+<div class="dashboard_menu">
+	<ul>
+		<li>{{user.username}}  </li>
+		<li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
+		<li><a href="{% url 'request' %}">Requests</a></li>
+		<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
+		<li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
+		<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+		<li><a href="{% url 'reports' %}">Reports</a>
+		</li>
+	</ul>
+</div>
+<div class="dashboard_content">
+	{% block dashboard_content %}
+	{% endblock dashboard_content %}
+</div>
       
            
 {% endblock %}
