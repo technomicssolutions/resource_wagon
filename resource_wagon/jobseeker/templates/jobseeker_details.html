@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'jobseeker_dashboard.html' %}
 {% block title %}Recruiter 
 {% endblock title %}
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
 
-{% block content %}
+{% block dashboard_content %}
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
 			<div>
@@ -387,4 +387,4 @@
 {% else %}
 	<p>{{message}}</p>
 {% endif %}	
-{% endblock content %}
+{% endblock dashboard_content %}

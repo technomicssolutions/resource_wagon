@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'dashboard.html' %}
 {% block title %}Request Details{% endblock title %}
 {% block body_id %}request_details{% endblock body_id %}
 
-{% block content %}
+{% block dashboard_content %}
 {% if requests %}
 
 	<table >
@@ -43,4 +43,4 @@
 
 {% endif %}
 
-{% endblock content %}
+{% endblock dashboard_content %}
