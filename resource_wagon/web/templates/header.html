@@ -61,42 +61,7 @@
                 <a href=""> Create Account </a>
             </div>
             <div class="clear"></div>
-        </div>
-        <div class="banner_top"></div>
-        <div class="banner">
-            <img src="/static/images/slide1.jpg" />
-            <div class="quick_search_overlay"></div>
-            <div class="quick_search">
-                <h3> Quick search </h3>
-                <div class="search_controls">
-
-                    <input type="text" name="search" placeholder="skills" ng-model="skill">
-                    <p ng-show="is_keyword"></p>
-
-                    <select name="industry" ng-model="search.industry"> 
-                        <option value="">Industry</option>
-                        <option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == search.industry">[[industry]]</option>               
-                    </select>
-                     <p ng-show="get_industries()"></p> 
-                   
-                    <select name="country" ng-model="job_location">
-                        <option value="">Country</option>
-                        <option ng-repeat="country in countries" value="[[country]]" ng-selected="country== job_location">[[country]]</option>
-                        <option>Other</option>
-                    </select>
-                    <p ng-show="get_countries()" ></p>
-                    
-                    <a href=""  ng-click="job_search()"><button class="search_button"></button></a>
-
-                    <div class="clear"></div>
-                    <div class="button_links">
-                        <a href="" class="login_link"> </a>
-                        <a href="" class="registration"> </a>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>        
         <div class="menu">
             <ul>
                 <li> 
