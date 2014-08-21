@@ -1,20 +1,22 @@
 
 import simplejson
-import re
 import ast
-from datetime import datetime
+from random import randint
+
+
 from django.conf import settings
 from django.shortcuts import render
 from django.views.generic.base import View
-from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+
+
 from models import RequestSend, Reply, Job
-from django.contrib.sites.models import Site
-from django.template.loader import render_to_string
-from random import randint
+from employer.models import CompanyProfile
+
 
 class Home(View):
     
@@ -195,6 +197,13 @@ class ReplyEmployer(View):
 
 class Aboutus(View):
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
             return render(request, 'aboutus.html', {})
+
+class Companies(View):
+    def get(self, request, *args, **kwargs):
+        companies = CompanyProfile.objects.all()
+        return render(request, 'companies.html', {
+            'companies': companies
+        })
 

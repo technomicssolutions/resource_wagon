@@ -5,11 +5,11 @@
 
 function search_by_location(search_type){
   if (search_type == 'location') {
-    var url = '/jobseeker/search/?location=location';
+    var url = '/jobseeker/search_job/?location=location';
     document.location.href = url;
   }
   if (search_type == 'skills') {
-    var url = '/jobseeker/search/?skills=skills';
+    var url = '/jobseeker/search_job/?skills=skills';
     document.location.href = url;
   }
   
@@ -17,21 +17,21 @@ function search_by_location(search_type){
 
 function search_by_skills(search_type){
   if (search_type == 'skills') {
-    var url = '/jobseeker/search/?skills=skills';
+    var url = '/jobseeker/search_job/?skills=skills';
     document.skills.href = url;
   }
 }
 
 function search_by_function(search_type){
   if (search_type == 'function') {
-    var url = '/jobseeker/search/?function=function';
+    var url = '/jobseeker/search_job/?function=function';
     document.function.href = url;
   }
 }
 
 function search_by_industry(search_type){
   if (search_type == 'industry') {
-    var url = '/jobseeker/search/?industry=industry';
+    var url = '/jobseeker/search_job/?industry=industry';
     document.industry.href = url;
   }
 }
@@ -87,7 +87,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/search_jobs/?location='+$scope.search.location;
+                var url = '/jobseeker/advanced_job_search/?location='+$scope.search.location;
                 document.location.href = url;
             }
         } else if (search_option == 'skills') {
@@ -98,7 +98,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/search_jobs/?skills='+$scope.search.keyword;
+                var url = '/jobseeker/advanced_job_search/?skills='+$scope.search.keyword;
                 document.location.href = url;
             }
         } else {
@@ -111,7 +111,7 @@ function search_job($scope, search_option) {
                 $scope.alert_style = {};
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/search_jobs/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
+                var url = '/jobseeker/advanced_job_search/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
                 document.location.href = url;
             }
         }
@@ -123,7 +123,7 @@ function search_job($scope, search_option) {
           $scope.is_location = false;
           $scope.is_exp = false;
           $scope.is_function = false;
-          var url = '/jobseeker/search_jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
+          var url = '/jobseeker/advanced_job_search/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
           document.location.href = url;
       }
     }
@@ -2941,15 +2941,13 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         }
     }
     
-    $scope.job_search  = function() {
-      
-          $scope.is_keyword = false;
-          $scope.is_location = false;
-          $scope.is_exp = false;
-          $scope.is_function = false;
-          var url = '/jobseeker/search_jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&industry='+$scope.search.industry;
-          document.location.href = url;
-  
+    $scope.job_search  = function() {      
+        $scope.is_keyword = false;
+        $scope.is_location = false;
+        $scope.is_exp = false;
+        $scope.is_function = false;
+        var url = '/jobseeker/advanced_job_search/?location='+$scope.job_location+'&skills='+$scope.skill+'&industry='+$scope.search.industry;
+        document.location.href = url;
     }
 
     $scope.show_login_popup = function() {
@@ -2972,7 +2970,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
             return false;
         }return true;
     }
-    $scope.login = function(){
+    $scope.user_login = function(){
       if($scope.login_validation()){
         $scope.login_details.username = $scope.username;
         $scope.login_details.password = $scope.password;
@@ -3176,6 +3174,16 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         // if ($scope.photo_validation()){
             save_photo_details($scope, $http);
         // }
+    }
+    $scope.show_login_popup = function() {
+      show_popup();
+      $scope.login = true;
+      $scope.registration = false;
+    }
+    $scope.show_registration_popup = function() {
+      show_popup();
+      $scope.login = false;
+      $scope.registration = true;
     }
 }
 function EditJobSeekerController($scope, $element, $http, $timeout) {
@@ -3523,6 +3531,16 @@ function RecruiterController($scope, $element, $http, $timeout) {
                 return false;
             });
         }
+    }
+    $scope.show_login_popup = function() {
+      show_popup();
+      $scope.login = true;
+      $scope.registration = false;
+    }
+    $scope.show_registration_popup = function() {
+      show_popup();
+      $scope.login = false;
+      $scope.registration = true;
     }
 }
 function EditRecruiterController($scope, $element, $http, $timeout) {

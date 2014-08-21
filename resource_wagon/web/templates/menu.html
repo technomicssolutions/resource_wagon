@@ -6,12 +6,28 @@
         </li>
         <li> 
             <span></span>
-            <a href=""> COMAPNIES </a> 
+            <a href="{% url 'companies' %}"> COMAPNIES </a> 
         </li>
         <li> 
             <span></span>
-            <a href=""> CANDIDATES </a> 
+            <a href="{% url 'advanced_job_search' %}"> JOB SEARCH </a> 
         </li>
+        {% if user.is_authenticated %}
+            <li>
+                <span></span>
+                {% if user_type == 'admin' %}
+                    <a href="{% url 'admin_dashboard' %}"> Dashboard </a>
+                {% else %}
+                    {% if user_type == 'recruiter' %}
+                        <a href="{% url 'employer_dashboard' %}"> Dashboard </a>
+                    {% else %}
+                        {% if user_type == 'jobseeker' %}
+                            <a href="{% url 'jobseeker_dashboard' %}"> Dashboard </a>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            </li>
+        {% endif %}
         <li> 
             <span></span>
             <a href="{% url 'aboutus' %}"> ABOUT US </a> 
