@@ -2,7 +2,8 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
-from web.views import Login, Logout, Home, ResetPassword, RequestView, ReplyEmployer, DeleteRequest, ForgotPassword
+from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmployer, \
+	DeleteRequest, ForgotPassword, Aboutus)
 
 urlpatterns = patterns('',
     url(r'login/$', Login.as_view(), name="login"),
@@ -13,4 +14,5 @@ urlpatterns = patterns('',
     url(r'^request/$', login_required(RequestView.as_view()), name="request"),
     url(r'^reply/(?P<request_id>\d+)/$', login_required(ReplyEmployer.as_view()), name="reply"),
     url(r'^delete_request/(?P<request_id>\d+)/$', DeleteRequest.as_view(), name='delete_request'),
+    url(r'^aboutus/$', Aboutus.as_view(), name='aboutus'),
 )

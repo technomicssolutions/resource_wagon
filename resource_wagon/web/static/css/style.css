@@ -265,6 +265,11 @@ header
     width: 20px;
     clear: both;
 }
+.registration_link {
+	display: inline-block;
+    font-weight: bold;
+    margin-top: 20%;
+}
 /***************** popup box styles end *************/
 
 /***************** Home styles  *************/

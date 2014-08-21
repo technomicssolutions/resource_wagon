@@ -50,10 +50,16 @@
                 <div id="dialogue_popup">
                     <div class="clear"></div>
                     {% block dialogue_popup %}
+                    <div ng-show="login" ng-hide="registration">
                         <input type="text" name="username" class="username" ng-model="username" />
                         <input type="password" name="password" class="password" ng-model="password" />
                         <input type="button" class="login_button" />
                         <a href="{% url 'forgot_password' %}"> Forgot Password ? </a>
+                    </div>
+                    <div ng-hide="login" ng-show="registration">
+                        <a href="{% url 'employer_registration' %}" class="registration_link"> Employer </a>
+                        <a href="{% url 'jobseeker_registration' %}" class="registration_link"> Jobseeker </a>
+                    </div>
                     {% endblock %}
                     <p class="message"></p>
                     <div class="clear"></div>

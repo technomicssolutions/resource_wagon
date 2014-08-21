@@ -41,15 +41,6 @@ class Login(View):
                 'message' : 'Username or password is incorrect'
             }
             return render(request, 'login.html', context)
-        # try:
-        #     if user.recruiter_set.all():
-                
-        #         return HttpResponseRedirect(reverse('employer_profile'))
-        #     elif user.jobseeker_set.all():
-                
-        #         return HttpResponseRedirect(reverse('jobseeker_details'))
-        # except :
-        #     return HttpResponseRedirect(reverse('home'))
         return HttpResponseRedirect(reverse('home'))
 
 class Logout(View):
@@ -77,24 +68,12 @@ class ForgotPassword(View):
             subject = 'Reset Your Password'
             text_content = 'Your New Password is'+ str(randum_num)
             from_email = settings.DEFAULT_FROM_EMAIL
-            # try:
-            #     site_url = Site.objects.get_current().domain
-            # except:
-            #     site_url = Site.objects.all()[0]
-            # print site_url
-            # url = 'http://%s%s'%(site_url,'/reset_password/'+str(user.id)+'/') 
-            # ctx = {
-            #     'url': url,
-            #     'user': user,
-            # }
-            # html_content = render_to_string('login.html', ctx)
             to = []
             if subject  and from_email:
                 
                 to.append(user.email)
                 for i in range(len(to)):
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to[i]])
-                    # msg.attach_alternative(html_content, "text/html")
                     msg.send()
                     context = {
                         'message': 'An email has been sent to your registered email account. Please Check  your new password and login.',
@@ -171,11 +150,14 @@ class ReplyEmployer(View):
         reply = Reply()
         reply.request = request
         reply.request.is_replied = True
-        
         request.save()
-        
         reply.save()
-        print from_email
         send_mail(subject, message, from_email,[email_to])
-        
         return HttpResponseRedirect(reverse('request')) 
+
+
+class Aboutus(View):
+
+    def post(self, request, *args, **kwargs):
+            return render(request, 'aboutus.html', {})
+

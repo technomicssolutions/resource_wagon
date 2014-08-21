@@ -2945,8 +2945,15 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           document.location.href = url;
   
     }
-    $scope.show_popup = function() {
+    $scope.show_login_popup = function() {
       show_popup();
+      $scope.login = true;
+      $scope.registration = false;
+    }
+    $scope.show_registration_popup = function() {
+      show_popup();
+      $scope.login = false;
+      $scope.registration = true;
     }
     $scope.hide_popup = function() {
       hide_popup();
