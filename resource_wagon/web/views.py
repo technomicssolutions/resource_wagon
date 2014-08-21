@@ -1,20 +1,22 @@
 
 import simplejson
-import re
 import ast
-from datetime import datetime
+from random import randint
+
+
 from django.conf import settings
 from django.shortcuts import render
 from django.views.generic.base import View
-from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from models import RequestSend, Reply, Job
-from django.contrib.sites.models import Site
-from django.template.loader import render_to_string
-from random import randint
+from employer.models import CompanyProfile
+
 
 class Home(View):
     
@@ -25,32 +27,60 @@ class Home(View):
         }
         return render(request, 'home.html', context)
 
-class Login(View):
+class Dashboard(View):
     
     def get(self, request, *args, **kwargs):
-        context = {}
-        return render(request, 'login.html', context)
+
+        return render(request, 'dashboard.html', {})
+
+class Login(View):
+    
+    # def get(self, request, *args, **kwargs):
+    #     context = {}
+    #     return render(request, 'login.html', context)
 
     def post(self, request, *args, **kwargs):
 
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
+        login_details  = ast.literal_eval(request.POST['login_details'])
+    
+        user = authenticate(username=login_details['username'], password=login_details['password'])
+       
+        status = 200
         if user and user.is_active:
             login(request, user)
         else:
-            context = {
-                'message' : 'Username or password is incorrect'
-            }
-            return render(request, 'login.html', context)
-        # try:
-        #     if user.recruiter_set.all():
-                
-        #         return HttpResponseRedirect(reverse('employer_profile'))
-        #     elif user.jobseeker_set.all():
-                
-        #         return HttpResponseRedirect(reverse('jobseeker_details'))
-        # except :
-        #     return HttpResponseRedirect(reverse('home'))
+            res = {
+                    'result': 'error',
+                    'message': 'Username or password is incorrect',
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+        
+        if user.recruiter_set.all():
+            res = {
+                    'result': 'recruiter',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+            
+        elif user.jobseeker_set.all():
+            res = {
+                    'result': 'jobseeker',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
+            
+        elif user.is_superuser :
+            res = {
+                    'result': 'admin',
+
+                }
+            response = simplejson.dumps(res)
+            return HttpResponse(response, status=status, mimetype='application/json')
         return HttpResponseRedirect(reverse('home'))
+    
 
 class Logout(View):
 
@@ -77,24 +107,12 @@ class ForgotPassword(View):
             subject = 'Reset Your Password'
             text_content = 'Your New Password is'+ str(randum_num)
             from_email = settings.DEFAULT_FROM_EMAIL
-            # try:
-            #     site_url = Site.objects.get_current().domain
-            # except:
-            #     site_url = Site.objects.all()[0]
-            # print site_url
-            # url = 'http://%s%s'%(site_url,'/reset_password/'+str(user.id)+'/') 
-            # ctx = {
-            #     'url': url,
-            #     'user': user,
-            # }
-            # html_content = render_to_string('login.html', ctx)
             to = []
             if subject  and from_email:
                 
                 to.append(user.email)
                 for i in range(len(to)):
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to[i]])
-                    # msg.attach_alternative(html_content, "text/html")
                     msg.send()
                     context = {
                         'message': 'An email has been sent to your registered email account. Please Check  your new password and login.',
@@ -171,11 +189,32 @@ class ReplyEmployer(View):
         reply = Reply()
         reply.request = request
         reply.request.is_replied = True
-        
         request.save()
-        
         reply.save()
-        print from_email
         send_mail(subject, message, from_email,[email_to])
-        
         return HttpResponseRedirect(reverse('request')) 
+
+
+class Aboutus(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'aboutus.html', {})
+
+class Companies(View):
+    def get(self, request, *args, **kwargs):
+        companies = CompanyProfile.objects.all()
+        paginator = Paginator(companies, 20) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+            companies = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            companies = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            companies = paginator.page(paginator.num_pages)
+        return render(request, 'companies.html', {
+            'companies': companies
+        })
+

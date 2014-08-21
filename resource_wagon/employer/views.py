@@ -99,6 +99,12 @@ class SaveEmployer(View):
 
         return HttpResponse(response, status=status, mimetype='application/json')
 
+class DashBoardEmployer(View):
+     
+     def get(self, request, *args, **kwargs):
+
+        return render(request,'employer_dashboard.html', {})  
+
 class EmployerView(View):
 
     def get(self, request, *args, **kwargs):
@@ -119,6 +125,7 @@ class EmployerView(View):
                 'recruiters':recruiters,
                 
             }
+            return render(request,'employer_profile.html', context)  
         else:
             if request.user.is_authenticated():
                 employer_id = request.user.recruiter_set.all()[0].id

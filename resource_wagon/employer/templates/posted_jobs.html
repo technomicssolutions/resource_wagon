@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'employer_dashboard.html' %}
 {% block title %}Posted Jobs
 {% endblock title %}
 {% block body_id %}posted_jobs{% endblock body_id %}
 
 {% block controller %}ng-controller="JobPostingController" ng-init="init('{{csrf_token}}','{{job_id}}')"{% endblock controller %}
 
-{% block content %}
+{% block dashboard_content %}
 {% if user.is_superuser %}
 	{% if alljobs %}
 		{% for job in alljobs %}

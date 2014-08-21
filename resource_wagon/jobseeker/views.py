@@ -256,6 +256,12 @@ class SavePhotoDetails(View):
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status, mimetype='application/json')
 
+class JobseekerDashboard(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request,'jobseeker_dashboard.html', {}) 
+
 class JobSeekerView(View):
     def get(self, request, *args, **kwargs):
         if request.user.is_superuser:
@@ -275,6 +281,7 @@ class JobSeekerView(View):
             context={
                 'jobseekers':jobseekers,
             }
+            return render(request,'jobseeker_profile.html', context)     
         else:
             print request.user
             if request.user.is_authenticated():

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+	{% for company in companies %}
+		<p><h3>{{company.company_name}}</h3></p>
+		<p>Industry: {{company.industry_type}}</p>
+		<p>{{company.description}}</p>
+		<p><a href="/site_media/{{company.company_profile.name}}">Download Company Profile</a></p>
+	{% endfor %}
+	<div >
+   		<span >
+        {% if companies.has_previous %}
+            <a href="?page={{ companies.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span >
+            Page {{ companies.number }} of {{ companies.paginator.num_pages }}.
+        </span>
+
+        {% if companies.has_next %}
+            <a href="?page={{ companies.next_page_number }}">next</a>
+        {% endif %}
+	    </span>
+	</div>
+<div>
+{% endblock content %}

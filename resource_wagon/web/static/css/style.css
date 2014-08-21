@@ -6,38 +6,6 @@ html, body {
 	background:#f4f4f6;
 }
 
-/*form {
-	width: 50%;
-	margin: auto;
-	border:1px solid #FF0000;
-}*/
-form label {
-	/*width: 30%;*/
-/*	width: 36%;
-	float: left;
-	height: 40px;
-	border:1px solid #FF0000;*/
-}
-
-/*form .span_label {
-	width: 30%;
-	float: left;
-}*/
-/*form input[type="text"], input[type="password"], textarea, select {
-	width: 65%;
-	float: left;
-	height: 40px;
-}*/
-
-/*form input[type="checkbox"], input[type="radio"] {
-	float: left;
-}
-
-form .years_select, .month_select {
-	width: 33%;
-	height: 40px;
-}*/
-
 .clear {
 	clear: both;
 }
@@ -241,15 +209,67 @@ header
 #dialogue_popup_container {
 	position: absolute;
 	display: none;
-	display: block;
 	margin: auto;
 	padding: 5px;
+	width: 25%;
+	height: 200px;
+	top: 50%;
+	left: 36%;
+	background-color: #121317;
+	padding: 20px;
+	z-index: 6;
 }
-/*footer {
-	position: absolute;
-	top: 100%;
-	clear:both;
-}*/
+
+#overlay {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	background-color: #000000;
+	opacity: 0.5;
+	display: none;
+	z-index: 5;
+}
+.username {
+	background: url('../images/user-icon.png') no-repeat;
+}
+.password {
+	background: url('../images/password-icon.png') no-repeat;
+}
+#dialogue_popup_container input[type="text"], #dialogue_popup_container input[type="password"] {
+	background-color: #1E1F24;
+	border: none;
+	color: #999999;
+	padding: 5px 5px 5px 25px;
+	margin: 10px 0px 0px 0px;
+	background-position: 6px 6px;
+	width: 100%;
+	display: block;
+}
+#dialogue_popup_container input[type="button"] {
+	width: 69px;
+	height: 33px;
+	background: url('../images/login-btn.png');
+	border: none;
+	margin-top: 25px;
+}
+
+#dialogue_popup_container a {
+	color: #999999;
+	margin-left: 60px;
+}
+.close_pop {
+	float: right;
+	background: url('../images/close-btn.png');
+	display: block;
+    height: 20px;
+    width: 20px;
+    clear: both;
+}
+.registration_link {
+	display: inline-block;
+    font-weight: bold;
+    margin-top: 20%;
+}
 /***************** popup box styles end *************/
 
 /***************** Home styles  *************/
@@ -330,3 +350,24 @@ header
 	padding: 5px;
 }
 /******************** Home styles end **********/
+
+/****************** Login popup styles *********/
+
+
+
+/********************* Login poup styles end *******/
+
+
+/*********** dashboard styles *************/
+
+.dashboard_menu {
+	width: 30%;
+	height: 100%;
+	float: left;
+}
+.dashboard_content {
+	width: 65%;
+	height: 100%;
+	float: left;
+}
+/**************** end dashboard styles ************/

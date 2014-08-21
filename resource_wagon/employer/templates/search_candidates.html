@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'employer_dashboard.html' %}
 {% block title %}Search Candidates
 {% endblock title %}
 {% block body_id %}search_candidates{% endblock body_id %}
@@ -7,7 +7,7 @@
 ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 {% endblock controller %}
 
-{% block content %}
+{% block dashboard_content %}
 
 <h2> Search Candidates </h2>
 
@@ -20,9 +20,9 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 			<option ng-repeat="function in functions" value="[[function]]" >[[function]]</option>
 		</select>
 	<label>Please choose the educational qualification required for this job:* </label>
-			<select name="basic_edu" ng-model="educational_details.basic_edu" >
+			<select name="basic_edu" ng-model="educational_details.basic_edu" ng-change="get_stream()">
 			<option value="">-----------Select---------</option>
-			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" ng-click="get_stream()">[[education]]</option>
+			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" >[[education]]</option>
 		</select>
 	<label>Specialization</label>
 		<select name="basic_specialization" ng-model="educational_details.basic_specialization">
@@ -58,7 +58,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	</div>
 	<div>
 
-{% if candidates_data %}
+
 	<table ng-show="candidates_data_table">
 			<tr >
 				<th>Name</th>
@@ -77,7 +77,6 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 
 			</tr>
 	</table>
-{% else %}
-	<p>No candidates found matching the search</p>
-{% endif %}
+
+
 {% endblock %}

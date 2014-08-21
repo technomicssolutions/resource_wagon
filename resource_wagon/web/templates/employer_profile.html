@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+{% block dashboard_content %}
+	{% if recruiters %}
+		<table >
+			<tr >
+				<th>Company Name</th>
+				<th>Industry Type</th>
+				<th>Country</th>
+				<th>City</th>
+				<th>Email Id</th>
+				<th>Mobile</th>
+				<th>Land Number</th>
+				<th>Company Profile</th>
+				
+			</tr>
+		{% for recruiter in recruiters %}
+			<tr>
+				<td>{{recruiter.company.company_name}}</td>
+				<td>{{recruiter.company.industry_type}}</td>
+				<td>{{recruiter.country}}</td>
+				<td>{{recruiter.city}}</td>
+				<td>{{recruiter.user.email}}</td>
+				<td>{{recruiter.mobile}}</td>
+				<td>{{recruiter.land_num}}</td>
+				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
+			</tr>	
+		{% endfor %}
+		<div >
+	   		<span >
+	        {% if recruiters.has_previous %}
+	            <a href="?page={{ recruiters.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span >
+	            Page {{ recruiters.number }} of {{ recruiters.paginator.num_pages }}.
+	        </span>
+
+	        {% if recruiters.has_next %}
+	            <a href="?page={{ recruiters.next_page_number }}">next</a>
+	        {% endif %}
+		    </span>
+		</div>
+	{% endif %}
+{% endblock dashboard_content %}

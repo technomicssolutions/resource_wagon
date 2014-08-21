@@ -1,9 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'employer_dashboard.html' %}
 {% block title %}Post Job{% endblock title %}
 {% block body_id %}jobpost{% endblock body_id %}
 
 {% block controller %}ng-controller="JobPostingController" ng-init="init('{{csrf_token}}','{{job_id}}')"{% endblock controller %}
-{% block content %}
+
+{% block dashboard_content %}
 
 
 	<form class="" name="" method="post" action="">
@@ -170,4 +171,4 @@
 	</form>
 </div>
 			
-{% endblock content %}
+{% endblock dashboard_content %}
