@@ -364,13 +364,34 @@ header
 /*********** dashboard styles *************/
 
 .dashboard_menu {
-	width: 30%;
-	height: 100%;
-	float: left;
+    background-color: #DFDFDF;
+    float: left;
+    height: 100%;
+    width: 20%;
 }
 .dashboard_content {
-	width: 65%;
-	height: 100%;
 	float: left;
+    height: 100%;
+    padding: 2%;
+    width: 80%;
 }
+.dashboard_menu  ul {
+	list-style: none;
+	padding: 0px;
+	width: 100%;
+	display: block;
+}
+
+.dashboard_menu ul li{
+	background-color: #FFFFFF;
+	border-radius: 3px;
+	width: 80%;
+	margin: 10px auto auto auto;
+	display: block;
+	padding: 5px 5px 5px 10px;
+}
+.dashboard_menu ul li a {
+	color: #454545;
+}
+
 /**************** end dashboard styles ************/

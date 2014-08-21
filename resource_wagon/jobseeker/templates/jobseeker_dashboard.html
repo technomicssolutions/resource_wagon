@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% block content %}
 	<div class="dashboard_menu">
-		<li>{{user.username}}  </li>
-		<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
-		<li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
-		<li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
+		<ul>
+			<li>{{user.username}}  </li>
+			<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
+			<li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
+			<li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
+		</ul>
 	</div>
 	<div class="dashboard_content">
 		{% block dashboard_content %}

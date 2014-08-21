@@ -1,23 +1,19 @@
 {% extends 'base.html' %}
 {% block content %}
-
-
-<div class="dashboard_menu">
-	<ul>
-		<li>{{user.username}}  </li>
-		<li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
-		<li><a href="{% url 'request' %}">Requests</a></li>
-		<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
-		<li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
-		<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-		<li><a href="{% url 'reports' %}">Reports</a>
-		</li>
-	</ul>
-</div>
-<div class="dashboard_content">
-	{% block dashboard_content %}
-	{% endblock dashboard_content %}
-</div>
-      
-
+	<div class="dashboard_menu">
+		<ul>
+			<li>{{user.username}}  </li>
+			<li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
+			<li><a href="{% url 'request' %}">Requests</a></li>
+			<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
+			<li><a href="{% url 'employer_profile' %}">View Employer Profile</a></li>
+			<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+			<li><a href="{% url 'reports' %}">Reports</a></li>
+			<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
+		</ul>
+	</div>
+	<div class="dashboard_content">
+		{% block dashboard_content %}
+		{% endblock dashboard_content %}
+	</div>
 {% endblock %}
