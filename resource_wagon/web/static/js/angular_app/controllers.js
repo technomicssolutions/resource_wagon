@@ -2951,6 +2951,18 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           document.location.href = url;
   
     }
+
+    $scope.show_login_popup = function() {
+      show_popup();
+      $scope.login = true;
+      $scope.registration = false;
+    }
+    $scope.show_registration_popup = function() {
+      show_popup();
+      $scope.login = false;
+      $scope.registration = true;
+    }
+
     $scope.login_validation = function(){
       if ($scope.username == '' || $scope.username == undefined) {
             $scope.login_validation_message = 'Please enter username';
@@ -2976,23 +2988,19 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
                 'Content-Type' : 'application/x-www-form-urlencoded'
             }
         }).success(function(data, status) {
-          if (data.result == 'recruiter') {
-            document.location.href = '/employer/employer_dashboard/';
-          }else if(data.result == 'jobseeker'){
-            document.location.href = '/jobseeker/jobseeker_dashboard/';
-          }else if(data.result == 'admin'){
-            document.location.href = '/admin_dashboard/';
-          }else if(data.result == 'error'){
-            $scope.login_validation_message = data.message;
-          }
-          });
+            if (data.result == 'recruiter') {
+              document.location.href = '/employer/employer_dashboard/';
+            }else if(data.result == 'jobseeker'){
+              document.location.href = '/jobseeker/jobseeker_dashboard/';
+            }else if(data.result == 'admin'){
+              document.location.href = '/admin_dashboard/';
+            }else if(data.result == 'error'){
+              $scope.login_validation_message = data.message;
+            }
+        });
+      }
     }
 
-    }
-    $scope.show_popup = function() {
-      show_popup();
-
-    }
     $scope.hide_popup = function() {
       hide_popup();
       $scope.username = '';
