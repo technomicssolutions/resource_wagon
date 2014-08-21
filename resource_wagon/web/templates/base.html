@@ -46,12 +46,17 @@
         {% block body %}
             <div id="overlay"></div>
             <div id="dialogue_popup_container">
+                <a href="" class="close_pop" ng-click="hide_popup()"></a>
                 <div id="dialogue_popup">
-                    <a href="" class="close_pop" ng-click="hide_popup()"></a>
+                    <div class="clear"></div>
                     {% block dialogue_popup %}
-                        
+                        <input type="text" name="username" class="username" ng-model="username" />
+                        <input type="password" name="password" class="password" ng-model="password" />
+                        <input type="button" class="login_button" />
+                        <a href="{% url 'forgot_password' %}"> Forgot Password ? </a>
                     {% endblock %}
                     <p class="message"></p>
+                    <div class="clear"></div>
                 </div>
             </div>                 
              {% block header %}

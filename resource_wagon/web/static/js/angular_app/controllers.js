@@ -36,6 +36,15 @@ function search_by_industry(search_type){
   }
 }
 
+function show_popup(){
+  $('#overlay').css('display', 'block');
+  $('#dialogue_popup_container').css('display', 'block');
+}
+function hide_popup(){
+  $('#overlay').css('display', 'none');
+  $('#dialogue_popup_container').css('display', 'none');
+}
+
 function validation($scope) {
 
     if ($scope.skill == '' || $scope.skill == undefined) {
@@ -2343,7 +2352,6 @@ function get_nationalities($scope){
     ]
 }
 
-
 function get_industries($scope){
     $scope.industries = [
         'Automotive/ Ancillaries',
@@ -2412,7 +2420,6 @@ function get_industries($scope){
         
     ]
 }
-
 
 function get_functions($scope){
     $scope.functions = [
@@ -2906,7 +2913,6 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         'location' : '',
         'industry' : '',
     }
-
     $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name,search_industry, search_flag) {
         $scope.csrf_token = csrf_token;
         get_industries($scope);
@@ -2938,7 +2944,14 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           var url = '/jobseeker/search_jobs/?location='+$scope.job_location+'&skills='+$scope.skill+'&industry='+$scope.search.industry;
           document.location.href = url;
   
-  
+    }
+    $scope.show_popup = function() {
+      show_popup();
+    }
+    $scope.hide_popup = function() {
+      hide_popup();
+      $scope.username = '';
+      $scope.password = '';
     }
 }
 
