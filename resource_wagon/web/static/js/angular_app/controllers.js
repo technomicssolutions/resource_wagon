@@ -2951,32 +2951,42 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           document.location.href = url;
   
     }
+    $scope.login_validation = function(){
+      if ($scope.username == '' || $scope.username == undefined) {
+            $scope.login_validation_message = 'Please enter username';
+            return false;
+        }else if ($scope.password == '' || $scope.password == undefined) {
+            $scope.login_validation_message = 'Please enter password';
+            return false;
+        }return true;
+    }
     $scope.login = function(){
-      $scope.login_details.username = $scope.username;
-      $scope.login_details.password = $scope.password;
-      params = {
-          'login_details': angular.toJson($scope.login_details),
-          'csrfmiddlewaretoken': $scope.csrf_token,
-      }
-      $http({
-          method : 'post',
-          url : "/web/login/",
-          data : $.param(params),
-          headers : {
-              'Content-Type' : 'application/x-www-form-urlencoded'
-          }
-      }).success(function(data, status) {
-        if (data.result == 'recruiter') {
-          document.location.href = '/employer/employer_dashboard/';
-        }else if(data.result == 'jobseeker'){
-          document.location.href = '/jobseeker/jobseeker_dashboard/';
-        }else if(data.result == 'admin'){
-          document.location.href = '/admin_dashboard/';
+      if($scope.login_validation()){
+        $scope.login_details.username = $scope.username;
+        $scope.login_details.password = $scope.password;
+        params = {
+            'login_details': angular.toJson($scope.login_details),
+            'csrfmiddlewaretoken': $scope.csrf_token,
         }
-        }).error(function(data){
-
-        });
-    
+        $http({
+            method : 'post',
+            url : "/web/login/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        }).success(function(data, status) {
+          if (data.result == 'recruiter') {
+            document.location.href = '/employer/employer_dashboard/';
+          }else if(data.result == 'jobseeker'){
+            document.location.href = '/jobseeker/jobseeker_dashboard/';
+          }else if(data.result == 'admin'){
+            document.location.href = '/admin_dashboard/';
+          }else if(data.result == 'error'){
+            $scope.login_validation_message = data.message;
+          }
+          });
+    }
 
     }
     $scope.show_popup = function() {
