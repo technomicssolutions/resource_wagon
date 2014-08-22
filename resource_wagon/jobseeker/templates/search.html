@@ -38,47 +38,71 @@
 
 	{% else %}
 
-		
+		<div class="separation">
+        
 				<label > Search by : <span > [[search.keyword]] - [[search.location]] - [[search.experience]] - [[search.function_name]] - [[search.industry]]</span></label>					
 			
 			<div class="formrow">
-				<label>Keyword</label>
-				<input type="text" ng-style="alert_style" name="keyword" ng-model="search.keyword" id="keyword">
+            <div class="form-group-outer">
+				<label class="col-sm-4 control-label">Keyword</label>
+                <div class="col-sm-8">      
+				<input class="form-control" type="text" ng-style="alert_style" name="keyword" ng-model="search.keyword" id="keyword">
+                </div>
+                </div>
 			</div>
+            
 			<div class="formrow">
-				<label>Location</label>
-				<input type="text" ng-style="alert_style" name="location" ng-model="search.location" id="location">
+            <div class="form-group-outer">
+				<label class="col-sm-4 control-label">Location</label>
+                <div class="col-sm-8">      
+				<input class="form-control" type="text" ng-style="alert_style" name="location" ng-model="search.location" id="location">
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
+            <div class="form-group-outer">
 
 <option ng-repeat="country in countries" value="[[country]]" ng-selected="country== seeker.country">[[country]]</option>
 
-				<label>Experience</label>
-				<select name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
+				<label class="col-sm-4 control-label">Experience</label>
+                <div class="col-sm-8">   
+				<select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
 					<option value="">Years</option>
 					<option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
-				</select>						
+				</select>	
+                </div>
+                </div>					
 			</div>
+            
 			<div class="formrow">
-				<label>Functional Area</label>
-				<select name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
+            <div class="form-group-outer">
+				<label class="col-sm-4 control-label">Functional Area</label>
+                <div class="col-sm-8">   
+				<select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
 					<option value="">------Select-----</option>
 					<option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
 				</select>
 			</div>
+            </div>
+            </div>
 
 			<div class="formrow">
-				<label>Industry Type</label>
-				<select name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
+            <div class="form-group-outer">
+				<label class="col-sm-4 control-label">Industry Type</label>
+                <div class="col-sm-8">   
+				<select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
 				</select>
 			</div>
-			<br><br><br>
+            </div>
+            </div>
 			<div class="btn">
-				<input class="button" type="submit" name="submit" value="Search Jobs" ng-click="search('search_jobs')">
+				<input class="button btn btn-warning" type="submit" name="submit" value="Search Jobs" ng-click="search('search_jobs')">
 				<br>
 				<p ng-show="error_flag" class="error_message">[[error_message]]</p>
 				
 			</div>
+            </div>
 			{% if jobs_not_exist %}
 				
 	            <p class="error_message">No Jobs found for this criteria. </p>

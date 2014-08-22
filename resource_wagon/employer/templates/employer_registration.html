@@ -7,43 +7,112 @@
 
 {% block content %}
 
+<div class="separation">
 	<form name="registration" method="post" action="">
 		{% csrf_token %}
 
 			<p class="mandatory">* Mandatory Fields</p>
-			<label>Company Name<span class="red">*</span></label>
-			<input type="text" name="name" ng-model="recruiter.name">
-			<label>Email Id<span class="red">*</span></label>
-			<input type="text" name="email" ng-model="recruiter.email">
-			<label>Industry Type<span class="red">*</span></label>
-			<select name="industry" ng-model="recruiter.industry" ng-options="industry as industry for industry in industries">
+            
+            <div class="form-group-outer">            
+			<label class="col-sm-4 control-label">Company Name<span class="red">*</span></label>
+            <div class="col-sm-8">   
+			<input class="form-control" type="text" name="name" ng-model="recruiter.name">
+            </div>
+            </div>            
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">Email Id<span class="red">*</span></label>
+            <div class="col-sm-8">   
+			<input class="form-control" type="text" name="email" ng-model="recruiter.email">
+            </div>
+            </div>
+            
+            <div class="form-group-outer">              
+			<label class="col-sm-4 control-label">Industry Type<span class="red">*</span></label>
+            <div class="col-sm-8">   
+			<select class="form-control" name="industry" ng-model="recruiter.industry" ng-options="industry as industry for industry in industries">
 			</select>
+            </div>
+            </div>
+            
 			{% if not is_profile_edit %}
-					<label>Password<span class="red">*</span></label> 
-					<input type="password" name="password" ng-model="recruiter.password">
-					<label>Confirm Password<span class="red">*</span></label> 
-					<input type="password" name="confirm_password" ng-model="recruiter.confirm_password">
+            
+            
+            <div class="form-group-outer">  
+					<label class="col-sm-4 control-label">Password<span class="red">*</span></label> 
+            		<div class="col-sm-8">   
+					<input class="form-control" type="password" name="password" ng-model="recruiter.password">
+                    </div>
+                    </div>
+                    
+            
+            <div class="form-group-outer">  
+					<label class="col-sm-4 control-label">Confirm Password<span class="red">*</span></label> 
+            		<div class="col-sm-8">   
+					<input class="form-control" type="password" name="confirm_password" ng-model="recruiter.confirm_password">
+                    </div>
+                    </div>
+                    
 			{% endif %}
 			
-			<label>Mobile Number<span class="red">*</span></label>
-			<input type="text" name="mobile" ng-model="recruiter.mobile">
-			<label>Land Line Number</label>
-			<input type="text" name="mobile" ng-model="recruiter.phone">
-			<label>Country<span class="red">*</span></label> 
-			<select name="country" ng-model="recruiter.country">
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">Mobile Number<span class="red">*</span></label>
+            <div class="col-sm-8">   
+			<input class="form-control" type="text" name="mobile" ng-model="recruiter.mobile">
+            </div>
+            </div>
+            
+            <div class="form-group-outer">              
+			<label class="col-sm-4 control-label">Land Line Number</label>
+            <div class="col-sm-8">   
+			<input class="form-control" type="text" name="mobile" ng-model="recruiter.phone">
+            </div>
+            </div>
+            
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">Country<span class="red">*</span></label> 
+            <div class="col-sm-8">   
+			<select class="form-control" name="country" ng-model="recruiter.country">
 				<option value="">------------------Select------------------</option>
 				<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
 				<option>Other</option>
 			</select>
-			<label>City</label>
-			<input type="text" name="city" ng-model="recruiter.city">
-			<label>Company description</label>
-			<textarea rows="4" cols="20" name="description" ng-model="recruiter.description"></textarea>
+            </div>
+            </div>
+            
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">City</label>
+            <div class="col-sm-8">   
+			<input class="form-control" type="text" name="city" ng-model="recruiter.city">
+            </div>
+            </div>
+            
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">Company description</label>
+            <div class="col-sm-8">   
+			<textarea class="form-control" rows="4" cols="20" name="description" ng-model="recruiter.description"></textarea>
+            </div>
+            </div>
+            
 			<h3>Attach Your Company Profile</h3>
-			<label>Company Profile<span class="red">*</span></label>
+            
+            
+            <div class="form-group-outer">  
+			<label class="col-sm-4 control-label">Company Profile<span class="red">*</span></label>
+            <div class="col-sm-8">   
 			<input type="file" fileread="profile_doc.src"/>
 			<input type="hidden" ng-model="profile_doc.src">
+            </div>
+            <div class="form-group-outer">  
 			<a href="/media/[[recruiter.profile]]" ng-show="recruiter.profile" target="_blank">Company Profile</a>
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_profile()"></p>
+			<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_profile()"></p>
 			<p class="error_message error_p">[[error_message]]</p>
+            </div>
+            </div>
+</form>            
 {% endblock content %}
+</div>

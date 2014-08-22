@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
+
+<div class="col-xs-6 col-md-4"> 
 <div class="dashboard_menu">
 	<ul>
 		<li>{{user.username}}  </li>
@@ -12,10 +14,13 @@
 
 	</ul>
 </div>
+</div>
+<div class="col-xs-12 col-md-8"> 
 <div class="dashboard_content">
 	{% block dashboard_content %}
 		
 	{% endblock dashboard_content %}
+</div>
 </div>
 
 {% endblock %}

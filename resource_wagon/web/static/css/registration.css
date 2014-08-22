@@ -3,7 +3,7 @@
 
 .mandatory
 {
-	border:1px solid #FF0000;
+	/*border:1px solid #FF0000;*/
 }
 .separation
 {
@@ -32,15 +32,12 @@ right: -30px;
 	float:left;
 	width:100%;
 	padding:0px;
-	border:1px solid #FF0000;
 }
 .col-sm-10
 {
-	border:1px solid #FF0000;
 }
 
 /***************** Footer styles *************/
 footer
 {
-	border:1px solid #FF0000;
 }

@@ -940,7 +940,7 @@ label textarea{
 }
 #job_description_text {
     /*border-bottom: 2px solid #FFB812;*/
-    border-bottom: 2px solid #89BBE5;
+  /*  border-bottom: 2px solid #89BBE5;*/
 }
 
 #job_title {

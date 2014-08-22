@@ -1,17 +1,23 @@
 
 <header>
     <div class="social_div">
-        <div class="social_links">
-            <a href="" class="fb"></a>
-            <a href="" class="twitter"></a>
-            <a href="" class="linked_in"></a>            
+         <div class="container">
+            <div class="social_links">
+            	<ul>
+                    <li><a href="" class="fb"></a></li>
+                    <li><a href="" class="twitter"></a></li>
+                    <li><a href="" class="linked_in"></a></li>
+                </ul>        
+            </div>
         </div>
     </div>
     <div class="header_content">
+         <div class="container">
         <div class="logo_div">
             <div class="logo">
                 <a href="{% url 'home' %}"><img src="/static/images/logo.png" id="logo"></a>
             </div>
+        </div> 
             <div class="create_account_link">
                 {% if user.is_authenticated %}
                     <a href="{% url 'logout' %}"> Logout </a>
@@ -20,8 +26,8 @@
                     <a href="#" ng-click="show_registration_popup()"> Create Account </a>
                 {% endif %}
             </div>
-            <div class="clear"></div>
-        </div>        
+            <div class="clear"></div>  
+        </div>     
         {% include 'menu.html' %}
     </div>
     <div class="clear"></div>
