@@ -1,4 +1,5 @@
-{% extends 'employer_dashboard.html' %}
+
+{% extends base_template %}
 {% block title %}Posted Jobs
 {% endblock title %}
 {% block body_id %}posted_jobs{% endblock body_id %}
@@ -11,7 +12,7 @@
 		{% for job in alljobs %}
 
 			<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
-		<label>From : {{job.company.company_name}}</label>
+			<label>From : {{job.company.company_name}}</label>
 		
 				<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}}</p>
 				
@@ -27,11 +28,11 @@
 			{% if not user.is_superuser %}
 				<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
 			{% endif %}
-			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
-			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
+			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="delete" value="Delete"></a>
+			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="view_applicants" value="View Applicants"></a></a>
 			{% if not user.is_superuser %}
 				{% if not job.is_publish %}
-					<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
+					<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="publish_job" value="Publish"></a>
 				{% endif %}
 			{% endif %}
 			{{message}}
@@ -43,23 +44,12 @@
 {% else %}
 	{% if jobs %}
 		{% for job in jobs %}
-
-
-
 		<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
-	<label>From : {{job.company.company_name}}</label>
-	
+			<label>From : {{job.company.company_name}}</label>
 			<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}} yrs</p>
-		
-
 			<p>Specialization : {{job.specialization}}</p>
-			<p>Date Posted : {{job.posting_date}}</p>
-
-			
-				<p>Education : {{job.education_req}}</p>
-
-				
-								
+			<p>Date Posted : {{job.posting_date}}</p>			
+			<p>Education : {{job.education_req}}</p>						
 			<br>
 			<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
 			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
@@ -74,6 +64,5 @@
 	{% endif %}
 
 {% endif %}
-
 
 {% endblock %}

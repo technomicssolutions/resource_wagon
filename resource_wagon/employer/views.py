@@ -266,6 +266,7 @@ class PostedJobsView(View):
         context = {
           'jobs': jobs,
           'alljobs': alljobs,
+          'base_template': 'dashboard.html' if request.user.is_superuser else 'employer_dashboard.html'
         }
         return render(request, 'posted_jobs.html', context)
 
@@ -452,7 +453,9 @@ class SearchCandidatesView(View):
             status_code = 200
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status_code, mimetype='application/json')
-        return render(request, 'search_candidates.html', {}) 
+        return render(request, 'search_candidates.html', {
+            'base_template': 'dashboard.html' if request.user.is_superuser else 'employer_dashboard.html'
+        }) 
 
 
 class ViewApplicants(View):
