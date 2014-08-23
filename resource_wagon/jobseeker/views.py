@@ -448,26 +448,26 @@ class JobSearch(View):
                             Q(industry__icontains=keyword)|\
                             Q(function__icontains=keyword)|\
                             Q(job_location__icontains=keyword))
-        print q_list[0]
-        jobs = Job.objects.filter(reduce(operator.or_, q_list), is_publish=True).order_by('-id').order_by('order')
+        if len(q_list) > 0:
+            jobs = Job.objects.filter(reduce(operator.or_, q_list), is_publish=True).order_by('-id').order_by('order')
+        else:
+            jobs = []
         
         job_list = []
-        if not jobs.exists():
-            searched_for = str('"'+skills+ '-'+industry+'-'+location+'"')
-        else:
-            for job in jobs:                
-                job.search_count = job.search_count+1
-                job.save()
-                job_list.append({
-                    'job_title': job.job_title,
-                    'id': job.id,
-                    'company_name': job.company.company_name,
-                    'industry': job.industry,
-                    'function': job.function,
-                    'education_req': job.education_req,
-                    'exp_req_min': job.exp_req_min,
-                    'exp_req_max': job.exp_req_max,
-                })
+       
+        for job in jobs:                
+            job.search_count = job.search_count+1
+            job.save()
+            job_list.append({
+                'job_title': job.job_title,
+                'id': job.id,
+                'company_name': job.company.company_name,
+                'industry': job.industry,
+                'function': job.function,
+                'education_req': job.education_req,
+                'exp_req_min': job.exp_req_min,
+                'exp_req_max': job.exp_req_max,
+            })
         context = {
             'jobs': jobs,
         }
