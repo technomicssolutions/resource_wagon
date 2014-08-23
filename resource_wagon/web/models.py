@@ -1948,6 +1948,7 @@ EDUCATION_REQUIRED = (
 
 class Job(models.Model):
     from employer.models import CompanyProfile
+    User._meta.get_field("username").max_length = 100
     recruiter = models.ForeignKey(User)
     company = models.ForeignKey(CompanyProfile, null=True, blank=True)
     job_title = models.CharField('Job Title', max_length=200)

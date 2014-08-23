@@ -2993,7 +2993,7 @@ function save_user_login_details($scope, $http, type) {
                 document.location.href = '/jobseeker/jobseeker_details/';
             }
         } else {
-            $scope.user_login_details_validation = data.message;
+            $scope.user_login_validation = data.message;
         }
     });
 }

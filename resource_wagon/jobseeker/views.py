@@ -56,7 +56,7 @@ class SaveUserLoginDetails(View):
             user = job_seeker.user
         else:
             try:
-                user = User.objects.get(username=user_login_details['email'])
+                user = User.objects.get(email=user_login_details['email'])
                 res = {
                     'result': 'error',
                     'message': 'Email already exists',
@@ -64,11 +64,16 @@ class SaveUserLoginDetails(View):
                 response = simplejson.dumps(res)
                 return HttpResponse(response, status=status, mimetype='application/json')
             except Exception as ex:
-                user = User.objects.create(username=user_login_details['email'])
+                if len(user_login_details['email']) > 30:
+                    username = user_login_details['email'][:30]
+                else:
+                    username = user_login_details['email']
+                user = User.objects.create(email=user_login_details['email'], username=username)
+                print "user", user
                 user.set_password(user_login_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
-                user = authenticate(username=user_login_details['email'], password=user_login_details['password'])
+                user = authenticate(username=username, password=user_login_details['password'])
                 if user and user.is_active:
                     login(request, user)
                     message = 'Logged in'
