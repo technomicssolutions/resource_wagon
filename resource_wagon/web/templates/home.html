@@ -39,7 +39,8 @@
 				{% for job in jobs %}
 					<tr class="table-row {% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
 						<td>{{job.posting_date}}</td>
-						<td>{{job.job_title}}</td>
+						<td></td>
+						<td><a href="{% url 'view_job_details' job.id %}">{{job.job_title}} </a></td>
 						<td>{{job.company.company_name}}</td>
 						<td>{{job.education_req}}</td>
 					</tr>

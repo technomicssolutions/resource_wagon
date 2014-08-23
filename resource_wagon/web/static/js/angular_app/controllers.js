@@ -2999,7 +2999,7 @@ function save_user_login_details($scope, $http, type) {
                 document.location.href = '/jobseeker/jobseeker_details/';
             }
         } else {
-            $scope.user_login_details_validation = data.message;
+            $scope.user_login_validation = data.message;
         }
     });
 }
@@ -3491,6 +3491,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = 0;
     $scope.profile_doc = {};
     $scope.profile_doc.src = "";
+    
     $scope.login_details = {
       'username': '',
       'password': '',
@@ -3500,7 +3501,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
         $scope.user_id = user_id;
         get_industries($scope);
     	   get_countries($scope);
-
+       
+        
         $scope.recruiter = {
             'id' : $scope.employer_id,
             'name' : '',
@@ -3512,7 +3514,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
-
+            
         } 
         if (user_id) {
             $scope.user_already_exists = true;
@@ -3528,17 +3530,18 @@ function RecruiterController($scope, $element, $http, $timeout) {
             });
         }
     }
+    
     $scope.show_login_popup = function() {
-     show_login_popup($scope,'');
+        show_login_popup($scope,'');
     }
     $scope.user_login = function() {
-     user_login($scope,$http);
+        user_login($scope,$http);
     }
     $scope.show_registration_popup = function() {
-     show_registration_popup($scope,'');
+        show_registration_popup($scope,'');
     }
     $scope.hide_popup = function() {
-     hide_popup($scope,'');
+        hide_popup($scope,'');
     }
     $scope.recruiter_validation = function(){
         $scope.error_message = '';
@@ -3640,6 +3643,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = employer_id;
     get_industries($scope);
     get_countries($scope);
+    $scope.premium_employer = {
+            'premium': '',
+            'id': '',
+        }
     $scope.recruiter = {
             'id' : '',
             'name' : '',
@@ -3653,6 +3660,22 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'company_profile':''
 
         } 
+    }
+    $scope.save_premium_employer = function(recruiter_id){
+        $scope.premium_employer.id = recruiter_id;
+        $scope.premium_employer.premium = "True";
+        params = {
+        'premium_employer': angular.toJson($scope.premium_employer),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+        }
+        $http({
+            method : 'post',
+            url : "/save_premium_employer/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        })
     }
     $scope.edit_employer_details = function(){
       get_employer_details($scope, $http);

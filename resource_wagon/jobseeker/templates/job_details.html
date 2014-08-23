@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
 {% block title %}Job Details{% endblock title %}
 {% block body_id %}job_details{% endblock body_id %}
 
@@ -47,13 +48,19 @@
 	</div>
 	
 	<p >{{ message }}</p>
-	{% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
-        <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
+	{% if  user.is_authenticated %}
+		{% if user.jobseeker_set.all %}
+			{% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
+		        <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
+		    {% else %}
+		        <p>You have applied for this Job</p>
+		    {% endif %}
+		{% else %}
+			<p></p>
+		{% endif %}
     {% else %}
-        <p>You have applied for this Job</p>
-    {% endif %}
-
-
+    	<input class="button " type="button" ng-click="show_login_popup()" class="login_button"value="Login to apply" />
+    {% endif %}	
    
     
 

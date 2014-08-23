@@ -170,3 +170,5 @@ try:
     from local_settings import *
 except:
     pass
+from django.contrib.auth.models import User
+User._meta.get_field("username").max_length = 200

@@ -15,8 +15,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from models import RequestSend, Reply, Job
-from employer.models import CompanyProfile
-
+from employer.models import CompanyProfile, Recruiter
 
 class Home(View):
     
@@ -217,4 +216,19 @@ class Companies(View):
         return render(request, 'companies.html', {
             'companies': companies
         })
+class PremiumEmployer(View):
+    def post(self, request, *args, **kwargs):
+        
+        premium_employer = ast.literal_eval(request.POST['premium_employer'])
+        status = 200
+        print premium_employer
+        recruiter = Recruiter.objects.get(id=premium_employer['id'])
+        recruiter.company.is_premium_company = premium_employer['premium']
+        print recruiter.company.is_premium_company
+        recruiter.company.save()
+        res = {
+                    'result': 'ok',
 
+                }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, status=status, mimetype='application/json')

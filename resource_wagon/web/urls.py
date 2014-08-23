@@ -3,7 +3,7 @@ from django.conf.urls import patterns, url
 from django.contrib.auth.decorators import login_required
 
 from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmployer, \
-	DeleteRequest, ForgotPassword, Aboutus, Dashboard, Companies)
+	DeleteRequest, ForgotPassword, Aboutus, Dashboard, Companies, PremiumEmployer)
 
 urlpatterns = patterns('',
     url(r'login/$', Login.as_view(), name="login"),
@@ -17,4 +17,5 @@ urlpatterns = patterns('',
     url(r'^delete_request/(?P<request_id>\d+)/$', DeleteRequest.as_view(), name='delete_request'),
     url(r'^aboutus/$', Aboutus.as_view(), name='aboutus'),
     url(r'^companies/$', Companies.as_view(), name='companies'),
+    url(r'^save_premium_employer/$', PremiumEmployer.as_view(), name='save_premium_employer'),
 )

@@ -13,7 +13,7 @@ class CompanyProfile(models.Model):
     industry_type = models.CharField('Industry Type', max_length=200, choices=INDUSTRY)
     description = models.TextField('Description', null=True, blank=True)
     company_profile  = models.FileField('Company Profile', upload_to = "uploads/company_profile/")
-
+    is_premium_company = models.BooleanField("Premium Company", default = False)
     def __unicode__(self):
         return self.company_name
 
