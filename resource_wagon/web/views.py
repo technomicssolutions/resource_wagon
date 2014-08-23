@@ -41,41 +41,41 @@ class Login(View):
     def post(self, request, *args, **kwargs):
 
         login_details  = ast.literal_eval(request.POST['login_details'])
-    
-        user = authenticate(username=login_details['username'], password=login_details['password'])
-       
-        status = 200
-        if user and user.is_active:
-            login(request, user)
+        user = User.objects.get(email=login_details['username'])
+        if user:
+            user = authenticate(username=user.username, password=login_details['password'])
+
+            status = 200
+            if user.is_active:
+                login(request, user)
+            else:
+                res = {
+                    'result': 'error',
+                    'message': 'Username or password is incorrect',
+                }
         else:
             res = {
                     'result': 'error',
                     'message': 'Username or password is incorrect',
                 }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
         
         if user.recruiter_set.all():
             res = {
                     'result': 'recruiter',
 
-                }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
-            
+                }            
         elif user.jobseeker_set.all():
             res = {
                     'result': 'jobseeker',
 
                 }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
-            
+             
         elif user.is_superuser :
             res = {
                     'result': 'admin',
 
                 }
+        if request.is_ajax():
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status, mimetype='application/json')
         return HttpResponseRedirect(reverse('home'))

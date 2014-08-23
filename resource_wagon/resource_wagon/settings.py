@@ -166,6 +166,8 @@ LOGGING = {
     }
 }
 
+MAIL_CHIMP_API_KEY = '71ce0b71dfc3961fb709eac4a17ff62d-us9'
+MAIL_CHIMP_LIST_ID = '406677'
 try:
     from local_settings import *
 except:
