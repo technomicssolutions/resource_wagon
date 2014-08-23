@@ -34,15 +34,9 @@
 					<th>Position</th>
 					<th>Company</th>					
 					<th>Qualification</th>
-				</tr>
-				<tr class="table-row">
-					<th>Poted Date</th>
-					<th>Position</th>
-					<th>Company</th>					
-					<th>Qualification</th>
-				</tr>				
+				</tr>							
 				{% for job in jobs %}
-					<tr class="{% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
+					<tr class="table-row {% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
 						<td>{{job.posting_date}}</td>
 						<td>{{job.job_title}}</td>
 						<td>{{job.company.company_name}}</td>
