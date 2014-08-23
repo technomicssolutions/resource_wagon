@@ -2711,6 +2711,7 @@ function hide_jobseeker_details_block($scope) {
     $scope.view_educational_details = false;
     $scope.view_employment_details = false;
     $scope.view_resume_details = false;
+    $scope.view_photo_details  =false;
 }
 function current_employer_validation($scope) {
     if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
@@ -2753,6 +2754,9 @@ function add_doctorate($scope){
     }
 }
 function save_resume_details($scope, $http, type) {
+    if (type == 'edit') {
+        $scope.resume_details.id = $scope.jobseeker_id;
+      }
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2791,6 +2795,9 @@ function save_resume_details($scope, $http, type) {
     });
 }
 function save_photo_details($scope, $http) {
+    if (type == 'edit') {
+        $scope.photo_details.id = $scope.jobseeker_id;
+      } 
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -3229,6 +3236,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.view_educational_details = true;
     $scope.view_employment_details = true;
     $scope.view_resume_details = true;
+    $scope.view_photo_details = true;
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
@@ -3411,7 +3419,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_resume_details = function(){
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
+
         $scope.resume_detail = true;
+        console.log($scope.resume_detail )
     }
     $scope.edit_resume_validation = function() {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
@@ -3431,6 +3441,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
         $scope.photo_detail = true;
+        console.log($scope.photo_detail)
     }
     $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
@@ -3440,7 +3451,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_photo_details = function() {
         if ($scope.edit_photo_validation()){
-            save_photo_details($scope, $http);
+            save_photo_details($scope, $http,'edit');
         }
     }
     $scope.remove_cv = function() {
