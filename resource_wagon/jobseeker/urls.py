@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 from jobseeker.views import JobseekerRegistration, SavePersonalDetails, SaveCurrentEmployerDetails,\
   SaveEducationalDetails, SaveResumeDetails, SavePhotoDetails, JobSeekerView, EditDetails,\
-SearchJobsView, SearchView, ApplyJobs,Companies, ActivityLog, JobDetails, SaveUserLoginDetails, JobseekerDashboard
+JobSearch, ApplyJobs,Companies, ActivityLog, JobDetails, SaveUserLoginDetails, JobseekerDashboard
 
 urlpatterns = patterns('',
     url(r'^registration/$', JobseekerRegistration.as_view(), name="jobseeker_registration"),
@@ -18,8 +18,7 @@ urlpatterns = patterns('',
     url(r'^jobseeker_details/$', JobSeekerView.as_view(), name="jobseeker_details"),
     url(r'^edit_details/(?P<jobseeker_id>\d+)/$', EditDetails.as_view(), name="edit_details"),
     url(r'^get_companies/$', Companies.as_view(), name="get_companies"),
-  	url(r'^advanced_job_search/$',SearchJobsView.as_view(), name='advanced_job_search'),
-  	url(r'^search_job/$', SearchView.as_view(), name='search_job'),
+  	url(r'^job_search/$', JobSearch.as_view(), name='job_search'),
     url(r'^jobseeker_log/$', ActivityLog.as_view(), name='jobseeker_log'),  	
     url(r'^apply/(?P<job_id>\d+)/$', login_required(ApplyJobs.as_view()), name='apply_jobs'),
     url(r'^view_job_details/(?P<job_id>\d+)/$', login_required(JobDetails.as_view()), name='view_job_details'),
