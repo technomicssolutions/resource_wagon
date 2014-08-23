@@ -2790,9 +2790,7 @@ function delete_doctorate(index, $scope){
  
 }
 function save_resume_details($scope, $http, type) {
-    if (type == 'edit') {
-        $scope.resume_details.id = $scope.jobseeker_id;
-      }
+   
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2831,9 +2829,7 @@ function save_resume_details($scope, $http, type) {
     });
 }
 function save_photo_details($scope, $http) {
-    if (type == 'edit') {
-        $scope.photo_details.id = $scope.jobseeker_id;
-      } 
+   
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
