@@ -2771,12 +2771,22 @@ function add_employer($scope){
       $scope.hide_emp = false;
     }
 }
+function delete_employer($scope){
+    // if($scope.employers.length == 1){
+        $scope.employers.splice({'employer':''});
+    // }
+}
 function add_doctorate($scope){
     if($scope.doctorate.length <3) {
         $scope.doctorate.push({'name':''});
     }
     if($scope.doctorate.length == 3){
       $scope.hide_doc = false;
+    }
+}
+function delete_doctorate($scope){
+    if($scope.doctorate.length == 1){
+        $scope.doctorate.splice({'name':''});
     }
 }
 function save_resume_details($scope, $http, type) {
@@ -3082,8 +3092,14 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+     $scope.delete_doctorate = function(){
+        delete_doctorate($scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function(){
+        delete_employer($scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
@@ -3272,6 +3288,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function() {
+        delete_employer($scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
