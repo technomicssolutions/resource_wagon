@@ -2876,10 +2876,12 @@ function save_current_employer_details($scope, $http, type) {
         }).success(function(data, status) {
             if (data.result == 'ok') {
                 if (type == 'save') {
+
                     $scope.job_seeker_id = data.job_seeker_id;
                     $scope.personal_details = false;
                     $scope.current_employment_details = false;
                     $scope.educational_detail = true;
+                    console.log($scope.educational_detail)
                 } else {
                     $scope.job_seeker_id = data.job_seeker_id;
                     document.location.href = '/jobseeker/jobseeker_details/';
@@ -3159,7 +3161,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         }
     }
     $scope.save_current_employer_details = function() {
-      if($scope.current_employer_validation())
+      if(current_employer_validation($scope))
         save_current_employer_details($scope, $http, 'save');
     }
     $scope.educational_details_validation = function() {
@@ -3354,7 +3356,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         } 
     }
     $scope.edit_current_employer_details = function() {
-      if($scope.current_employer_validation ()){
+      if(current_employer_validation ($scope)){
         save_current_employer_details($scope, $http, 'edit');
       }
     }

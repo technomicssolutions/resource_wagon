@@ -66,7 +66,7 @@
             </div>
 		<div class="clear"></div>
          <div class="col-xs-12 col-md-8">
-		<div class="separation">
+		<div class="separation" ng-show="personal_details">
 			<h3>Personal Details</h3>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Gender<span class="red">*</span></label> 
@@ -151,7 +151,7 @@
 		<div class="clear"></div>
 
 		<div class="col-xs-12 col-md-8">
-		<div class="separation" >
+		<div class="separation" ng-show="current_employment_details ">
 			<h3>Employment Details</h3>            
 
             <div class="form-group">
@@ -274,7 +274,7 @@
 		<div class="clear"></div>
         
         <div class="col-xs-12 col-md-8">
-		<div class="separation">
+		<div class="separation" ng-show="educational_detail">
 			<h3>Education Details</h3>
             <div class="form-group">
 			<label class="col-sm-2 control-label">Basic Education<span class="red">*</span></label>
@@ -357,7 +357,7 @@
 		<div class="clear"></div>
         
         <div class="col-xs-12 col-md-8">
-		<div class="separation" >
+		<div class="separation" ng-show="resume_detail">
 			<h3>Attach Your Resume</h3>
             <div class="form-group">
 			<label class="col-sm-2 control-label">Resume Title<span class="red">*</span></label>
@@ -403,7 +403,7 @@
 		<div class="clear"></div>
 
         <div class="col-xs-12 col-md-8">
-		<div class="separation">
+		<div class="separation" ng-show="photo_detail">
 			<h3>Attach Your Photo </h3>
 			<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
 	            <img src="/media/[[photo_details.profile_photo]]" alt="" class="img-circle" style="border: 10px solid rgba(50, 50, 50, 0.1);" id="profile_picture">
@@ -420,7 +420,7 @@
 	        <div class="btn">
 				
 				<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_photo_details()"></p>
-				<a href="" target="_blank" ng-click="view_profile()">View Profile</a>
+				
 				
 			</div>
 			<p class="error_message error_p">[[photo_validation_message]]</p>
