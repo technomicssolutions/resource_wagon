@@ -20,5 +20,5 @@ def site_variables(request):
 	else:
 		return {
 		 	'user_type': '',
-		 	'base_template': ''
+		 	'base_template': 'base.html'
 		}

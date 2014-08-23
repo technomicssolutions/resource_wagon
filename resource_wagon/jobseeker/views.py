@@ -322,29 +322,31 @@ class EditDetails(View):
         ctx_photo = []
         ctx_locations = []
         ctx_companies = []
-        if jobseeker.employment.previous_employer.all().count() > 0:
-            for employer in jobseeker.employment.previous_employer.all().order_by('-id'):
-                ctx_previous_company.append({
-                    'employer': employer.previous_employer_name,
-                })
-            print ctx_previous_company
-        if jobseeker.education.doctrate.all().count() > 0: 
-            for doctrate in jobseeker.education.doctrate.all().order_by('-id'):
-                ctx_doctorate.append({
-                    'doctorate': doctrate.doctorate_name,
-                })
-            print ctx_doctorate
-        if jobseeker.prefered_locations.all().count() > 0:
-            for location in jobseeker.prefered_locations.all().order_by('-id'):
-                ctx_locations.append(location.location)
-        if jobseeker.prefered_companies.all().count() > 0:
-            for company in jobseeker.prefered_companies.all().order_by('-id'):
-                ctx_companies.append({
-                    'id': company.id,
-                    'name': company.company_name,
+
+        if employment:            
+            if employment.previous_employer.all().count() > 0:
+                for employer in employment.previous_employer.all().order_by('-id'):
+                    ctx_previous_company.append({
+                        'employer': employer.previous_employer_name,
                     })
-        if request.is_ajax():
-            
+        if education:
+            if education.doctrate.all().count() > 0: 
+                for doctrate in education.doctrate.all().order_by('-id'):
+                    ctx_doctorate.append({
+                        'doctorate': doctrate.doctorate_name,
+                    })
+        if jobseeker.prefered_locations:
+            if jobseeker.prefered_locations.all().count() > 0:
+                for location in jobseeker.prefered_locations.all().order_by('-id'):
+                    ctx_locations.append(location.location)
+        if jobseeker.prefered_companies:
+            if jobseeker.prefered_companies.all().count() > 0:
+                for company in jobseeker.prefered_companies.all().order_by('-id'):
+                    ctx_companies.append({
+                        'id': company.id,
+                        'name': company.company_name,
+                        })
+        if request.is_ajax():            
             ctx_user_login_data.append({
                 'id': jobseeker_id if jobseeker else '',
                 'email': user.email if user else '',
@@ -354,18 +356,18 @@ class EditDetails(View):
 
             ctx_jobseeker_data.append ({
                 
-                'gender':jobseeker.gender if jobseeker else '',
-                'dob': jobseeker.dob.strftime('%d/%m/%Y') if jobseeker else '',
-                'marital_status':jobseeker.marital_status if jobseeker else '',
-                'nationality':jobseeker.nationality if jobseeker else '',
-                'country':jobseeker.country if jobseeker else '',
-                'city':jobseeker.city if jobseeker else '',
-                'mobile':jobseeker.mobile if jobseeker else '',
-                'alt_email': jobseeker.alt_mail if jobseeker else '',
+                'gender':jobseeker.gender,
+                'dob': jobseeker.dob.strftime('%d/%m/%Y') if jobseeker.dob else '',
+                'marital_status':jobseeker.marital_status ,
+                'nationality':jobseeker.nationality,
+                'country':jobseeker.country,
+                'city':jobseeker.city,
+                'mobile':jobseeker.mobile,
+                'alt_email': jobseeker.alt_mail,
 
             })
             ctx_employment_data.append ({
-                'id': jobseeker_id if jobseeker else '',
+                'id': jobseeker_id,
                 'years': employment.exp_yrs if employment else '',
                 'months': employment.exp_mnths if employment else '',
                 'salary': employment.salary if employment else '',
@@ -390,15 +392,15 @@ class EditDetails(View):
             })
             ctx_resume.append({
                 'id': jobseeker_id if jobseeker else '',
-                'resume_title': jobseeker.education.resume_title if jobseeker.education else '' ,
-                'resume_text': jobseeker.education.resume_text if jobseeker.education else '' ,
-                'resume': jobseeker.education.resume.name if jobseeker.education else '' ,
+                'resume_title': education.resume_title if education else '' ,
+                'resume_text': education.resume_text if education else '' ,
+                'resume': education.resume.name if education else '' ,
                 'remove_resume': 'false',
-                'is_resume_show': True if jobseeker.education.is_resume_show else False,  
+                'is_resume_show': education.is_resume_show if education else False,  
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',
-                'profile_photo': jobseeker.photo.name if jobseeker else '',
+                'profile_photo': jobseeker.photo.name if jobseeker.photo else '',
             })
             res ={
                 'user_login_details': ctx_user_login_data,
@@ -412,119 +414,77 @@ class EditDetails(View):
             return HttpResponse(response, status=200, mimetype='application/json')
         return render(request, 'jobseeker_details.html', context)
 
-class SearchJobsView(View):
+class JobSearch(View):
 
     def get(self, request, *args, **kwargs):
 
         search = False
-        jobs_not_exist = False
+        searched_for = ''
+
         location = request.GET.get('location', '')
         function = request.GET.get('function', '')
         skills = request.GET.get('skills', '')
         exp = request.GET.get('experience', '')
         industry = request.GET.get('industry', '')
-        search_flag = request.GET.get('search', '')
-        if search_flag == 'true':
-            search = True
         jobs = []
-        if location and industry and skills  and not search:
-            jobs = Job.objects.filter(Q(job_location__icontains=location) , Q(industry=industry), Q(skills__icontains=skills), is_publish=True).order_by('-id').order_by('order')
-
-            if not jobs.exists():
-                searched_for = str('"'+skills+ '-'+industry+'-'+location+'"')
-        
-        elif location  and not skills  and not industry and not search: 
-            jobs = Job.objects.filter(job_location__icontains=location, is_publish=True).order_by('-id').order_by('order')    
-            if not jobs.exists():
-                searched_for = str('"'+location+'"')       
-        elif industry and not location and not skills and not search:
-            jobs = Job.objects.filter(industry=industry, is_publish=True).order_by('-id').order_by('order')
-            print jobs
-            if not jobs.exists():
-                searched_for = str('"'+industry+'"')
-        elif skills and not location  and not industry and not search:
-            jobs = Job.objects.filter(skills__icontains=skills, is_publish=True).order_by('-id').order_by('order')
-            if not jobs.exists():
-                searched_for = str('"'+skills+'"')  
-        else: 
-            if location == 'undefined':
-                location = ''
-            if function == 'undefined':
-                function = ''
-            if skills == 'undefined':
-                skills = ''
-            if industry == 'undefined':
-                industry = ''
-            print exp
-            if exp == 'undefined' or exp == '':
-                jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, is_publish=True)).order_by('-id').order_by('order')
-            else:
-                jobs = Job.objects.filter(Q(Q(job_title__icontains=skills) | Q(skills__icontains=skills)), Q(job_location__contains=location, function__contains=function, exp_req_min__lte=int(exp), exp_req_max__gte=int(exp), is_publish=True)).order_by('-id').order_by('order')
-            try:
-                for job in jobs:                
-                    job.search_count = job.search_count+1
-                    job.save()
-            except:
-                pass
-            if not jobs.exists():
-                searched_for = '' 
-        
+        if exp:
+            jobs = Job.objects.filter(Q(Q(job_location__icontains=location) | \
+                                    Q(industry__icontains=industry) | \
+                                    Q(skills__icontains=skills) | \
+                                    Q(function__icontains=function) | \
+                                    Q(exp_req_min__lte=int(exp), exp_req_max__gte=int(exp))
+                                    ), is_publish=True).order_by('-id').order_by('order')
+        else:
+            jobs = Job.objects.filter(Q(Q(job_location__icontains=location) | \
+                                        Q(industry__icontains=industry) | \
+                                        Q(skills__icontains=skills) | \
+                                        Q(function__icontains=function)
+                                        ), is_publish=True).order_by('-id').order_by('order')
+        job_list = []
+        if not jobs.exists():
+            searched_for = str('"'+skills+ '-'+industry+'-'+location+'"')
+        else:
+            for job in jobs:                
+                job.search_count = job.search_count+1
+                job.save()
+                job_list.append({
+                    'job_title': job.job_title,
+                    'id': job.id,
+                    'company_name': job.company.company_name,
+                    'industry': job.industry,
+                    'function': job.function,
+                    'education_req': job.education_req,
+                    'exp_req_min': job.exp_req_min,
+                    'exp_req_max': job.exp_req_max,
+                })
         context = {
             'jobs': jobs,
         }
-        searched_for = ''
-
-        if len(jobs) == 0:
-            context.update({
-                'searched_for': searched_for,
-                'jobs_not_exist' : True,
-                'search_location' : location if location else '',
-                'search_keyword' : skills if skills else '',
-                'search_experience' : exp if exp else '',
-                'search_function_name' : function if function else '',
-                'search_industry' : industry if industry else '',
-            })
-            return render(request, 'search.html', context)
+        if request.is_ajax():
+            response = simplejson.dumps({
+                'jobs': job_list
+            })    
+            return HttpResponse(response, status=200, mimetype='application/json')
         else:
-            context.update({
-                'search_location' : location if location else '',
-                'search_keyword' : skills if skills else '',
-                'search_experience': exp if exp else '',
-                'search_function_name' : function if function else '',
-                'search_industry' : industry if industry else '',
-                'search_flag': search,
-            })
-            return render(request, 'search_jobs.html', context) 
-
-class SearchView(View):
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        location = request.GET.get('location', '')
-        skills = request.GET.get('skills', '')
-        function = request.GET.get('function', '')
-        industry = request.GET.get('industry', '')
-        if location:
-            context = {
-                'location': True,
-            }          
-
-        elif skills:
-            context = {
-                'skills': True,
-            }        
-
-        elif function:
-            context = {
-                'function': True,
-            }        
-
-        elif industry:
-            context = {
-                'industry': True,
-            }
-
-        return render(request, 'search.html', context) 
+            if len(jobs) == 0:
+                context.update({
+                    'searched_for': searched_for,
+                    'jobs_not_exist' : True,
+                    'location' : location if location else '',
+                    'keyword' : skills if skills else '',
+                    'experience' : exp if exp else '',
+                    'function_name' : function if function else '',
+                    'industry' : industry if industry else '',
+                })
+            else:
+                context.update({
+                    'location' : location if location else '',
+                    'keyword' : skills if skills else '',
+                    'experience': exp if exp else '',
+                    'function_name' : function if function else '',
+                    'industry' : industry if industry else '',
+                })
+        return render(request, 'job_search.html', context) 
 
 class ApplyJobs(View):
 
@@ -534,8 +494,6 @@ class ApplyJobs(View):
         current_date = dt.datetime.now().date()
         context = {}
         job = Job.objects.get(id = kwargs['job_id'])
-
-        
         jobseeker, created = Jobseeker.objects.get_or_create(user = current_user)
         if job.last_date:
             if job.last_date < current_date:
