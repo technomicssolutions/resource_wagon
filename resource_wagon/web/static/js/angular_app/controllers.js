@@ -2771,10 +2771,10 @@ function add_employer($scope){
       $scope.hide_emp = false;
     }
 }
-function delete_employer($scope){
-    // if($scope.employers.length == 1){
-        $scope.employers.splice({'employer':''});
-    // }
+function delete_employer(index, $scope){
+    
+    $scope.employers.splice(index, 1);
+    
 }
 function add_doctorate($scope){
     if($scope.doctorate.length <3) {
@@ -2784,10 +2784,10 @@ function add_doctorate($scope){
       $scope.hide_doc = false;
     }
 }
-function delete_doctorate($scope){
-    if($scope.doctorate.length == 1){
-        $scope.doctorate.splice({'name':''});
-    }
+function delete_doctorate(index, $scope){
+    
+    $scope.doctorate.splice(index, 1);
+ 
 }
 function save_resume_details($scope, $http, type) {
     if (type == 'edit') {
@@ -3092,14 +3092,15 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
-     $scope.delete_doctorate = function(){
-        delete_doctorate($scope);
+     $scope.delete_doctorate = function(index){
+        delete_doctorate(index,$scope);
     }
     $scope.add_employer = function() {
         add_employer($scope);
     }
-    $scope.delete_employer = function(){
-        delete_employer($scope);
+    $scope.delete_employer = function(index){
+        
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
@@ -3250,7 +3251,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
       $scope.registration = true;
     }
 }
-function EditJobSeekerController($scope, $element, $http, $timeout) {
+function EditJobSeekerController($scope, $element, $http,  $timeout) {
     job_seeker_initialization_details($scope);
     $scope.view_user_login_details = true;
     $scope.view_personal_details = true;
@@ -3286,11 +3287,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+    $scope.delete_doctorate = function(index){
+        delete_doctorate(index, $scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
     }
-    $scope.delete_employer = function() {
-        delete_employer($scope);
+    $scope.delete_employer = function(index) {
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
