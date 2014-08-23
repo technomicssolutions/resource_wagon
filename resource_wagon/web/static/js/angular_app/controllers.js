@@ -3945,7 +3945,9 @@ function SearchController($scope,$element,$http,$timeout){
         $scope.job_search();   
     }
     $scope.job_search  = function() {      
-        var url = '/jobseeker/job_search/?location='+$scope.search.job_location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name;
+        console.log($scope.search.location, $scope.search.keyword, $scope.search.industry, $scope.search.function_name);
+        var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword;
+        console.log(url);
         $http.get(url).success(function(data)
         {
             $scope.jobs = data.jobs; 
