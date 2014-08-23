@@ -324,6 +324,7 @@ class EditDetails(View):
         ctx_photo = []
         ctx_locations = []
         ctx_companies = []
+
         if employment:            
             if employment.previous_employer.all().count() > 0:
                 for employer in employment.previous_employer.all().order_by('-id'):

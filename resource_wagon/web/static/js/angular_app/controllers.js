@@ -2539,6 +2539,32 @@ function get_job_seeker_details($scope, $http) {
         if ($scope.current_employer.years == null) {
             $scope.current_employer.years = '';
         }
+        if ($scope.educational_details.doctorate) {
+            if($scope.educational_details.doctorate.length > 1 && $scope.educational_details.doctorate.length <= 3){
+                for(var i=1; i < $scope.educational_details.doctorate.length; i++){
+                    $scope.doctorate.push({'name': ''});
+                }
+            }
+            for(var i=0; i< $scope.educational_details.doctorate.length; i++) {
+                $scope.doctorate[i].name = $scope.educational_details.doctorate[i].doctorate;
+            }
+            if ($scope.educational_details.doctorate.length == 3){
+                $scope.hide_doc = false;
+            }
+        }
+        if ($scope.current_employer.employers) {
+            if($scope.current_employer.employers.length > 1 && $scope.current_employer.employers.length <= 3){
+                for(var i=1; i < $scope.current_employer.employers.length; i++){
+                    $scope.employers.push({'employer': ''});
+                }
+            }
+            for(var i=0; i< $scope.current_employer.employers.length; i++) {
+                $scope.employers[i].employer = $scope.current_employer.employers[i].employer;
+            }
+            if ($scope.current_employer.employers.length == 3) {
+                $scope.hide_emp = false;
+            }
+        } 
         if ($scope.current_employer.locations.length > 0) {
             for (var j=0; j<$scope.countries.length; j++) {
                 for (var i=0;i<$scope.current_employer.locations.length; i++) {
@@ -2825,6 +2851,7 @@ function save_educational_details($scope, $http, type) {
     if (type == 'edit') {
         $scope.educational_details.id = $scope.jobseeker_id;
       } 
+    $scope.educational_details.doctrate = $scope.doctorate.name;
     $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
     params = {
         'educational_details': angular.toJson($scope.educational_details),
@@ -2867,7 +2894,7 @@ function save_current_employer_details($scope, $http, type) {
         }
         else
            $scope.current_employer.selected_companies = $scope.current_employer.companies;
-
+        $scope.current_employer.employers = $scope.employers.employer;
         $scope.current_employer.employers = JSON.stringify($scope.employers);
         params = {
             'current_employer_details': angular.toJson($scope.current_employer),
