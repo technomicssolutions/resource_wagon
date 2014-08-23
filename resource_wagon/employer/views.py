@@ -177,16 +177,16 @@ class EditEmployer(View):
         if request.is_ajax():
             ctx_employer_data.append ({
                 'id' : recruiter_id,
-                'user': recruiter.user.username,
-                'email':recruiter.user.email if recruiter.user.email else '',
-                'country':recruiter.country if recruiter.country else '',
-                'city': recruiter.city if recruiter.city else '',
-                'mobile': recruiter.mobile if recruiter.mobile else '',
-                'phone':recruiter.land_num if recruiter.land_num else '',
-                'name': recruiter.company.company_name if recruiter.company.company_name else '',
-                'industry': recruiter.company.industry_type if recruiter.company.industry_type else '',
-                'description': recruiter.company.description if recruiter.company.description else '',
-                'company_profile': recruiter.company.company_profile.name if recruiter.company else '',
+                'user': user.username,
+                'email': user.email if user.email else '',
+                'country':recruiter.country if recruiter else '',
+                'city': recruiter.city if recruiter else '',
+                'mobile': recruiter.mobile if recruiter else '',
+                'phone':recruiter.land_num if recruiter else '',
+                'name': company.company_name if company else '',
+                'industry': company.industry_type if company else '',
+                'description': company.description if company else '',
+                'company_profile': company.company_profile.name if company.company_profile else '',
             })
             res ={
                 'recruiter': ctx_employer_data,

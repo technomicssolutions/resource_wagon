@@ -6,22 +6,26 @@
 {% block dashboard_content %}
 	
 	<h3>Applied Jobs</h3>
-	<table>
-		<tr>
-			<th>Job Title</th>
-			<th>Job Description</th>
-			<th>Recruiter</th>
-			<th>Job Location</th>
-			<th>Last Date</th>
-		</tr>
-		{% for job in applied_jobs %}
-		<tr>
-			<td>{{job.job_title}}</td>
-			<td>{{job.description}}</td>
-			<td>{{job.recruiter}}</td>
-			<td>{{job.job_location}}</td>
-			<td>{{job.last_date}}</td>
-		</tr>
-		{% endfor %}
-	</table>
+	{% if applied_jobs %}
+		<table>
+			<tr>
+				<th>Job Title</th>
+				<th>Job Description</th>
+				<th>Recruiter</th>
+				<th>Job Location</th>
+				<th>Last Date</th>
+			</tr>
+			{% for job in applied_jobs %}
+			<tr>
+				<td>{{job.job_title}}</td>
+				<td>{{job.description}}</td>
+				<td>{{job.recruiter}}</td>
+				<td>{{job.job_location}}</td>
+				<td>{{job.last_date}}</td>
+			</tr>
+			{% endfor %}
+		</table>
+	{% else %}
+		<p>No jobs applied</p>
+	{% endif %}
 {% endblock dashboard_content %}
