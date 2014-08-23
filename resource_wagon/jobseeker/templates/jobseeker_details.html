@@ -428,7 +428,7 @@
 					<label class="col-sm-4 control-label">Previous Employer</label>
 					<div class="add_employers">
 			            <div class="col-sm-8"> 
-							<input class="form-control" type="text" name="previous_employer" ng-repeat="employer in employers" ng-model="employer.employer">
+							<input class="form-control" type="text" name="previous_employer" ng-model="employer.employer" ng-repeat="employer in employers" >
 							<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
 						</div>
 		            </div>

@@ -327,11 +327,13 @@ class EditDetails(View):
                 ctx_previous_company.append({
                     'employer': employer.previous_employer_name,
                 })
+            print ctx_previous_company
         if jobseeker.education.doctrate.all().count() > 0: 
             for doctrate in jobseeker.education.doctrate.all().order_by('-id'):
                 ctx_doctorate.append({
                     'doctorate': doctrate.doctorate_name,
                 })
+            print ctx_doctorate
         if jobseeker.prefered_locations.all().count() > 0:
             for location in jobseeker.prefered_locations.all().order_by('-id'):
                 ctx_locations.append(location.location)
