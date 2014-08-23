@@ -2771,6 +2771,11 @@ function add_employer($scope){
       $scope.hide_emp = false;
     }
 }
+function delete_employer(index, $scope){
+    
+    $scope.employers.splice(index, 1);
+    
+}
 function add_doctorate($scope){
     if($scope.doctorate.length <3) {
         $scope.doctorate.push({'name':''});
@@ -2779,10 +2784,13 @@ function add_doctorate($scope){
       $scope.hide_doc = false;
     }
 }
+function delete_doctorate(index, $scope){
+    
+    $scope.doctorate.splice(index, 1);
+ 
+}
 function save_resume_details($scope, $http, type) {
-    if (type == 'edit') {
-        $scope.resume_details.id = $scope.jobseeker_id;
-      }
+   
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2821,9 +2829,7 @@ function save_resume_details($scope, $http, type) {
     });
 }
 function save_photo_details($scope, $http) {
-    if (type == 'edit') {
-        $scope.photo_details.id = $scope.jobseeker_id;
-      } 
+   
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -3082,8 +3088,15 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+     $scope.delete_doctorate = function(index){
+        delete_doctorate(index,$scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function(index){
+        
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
@@ -3234,7 +3247,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
       $scope.registration = true;
     }
 }
-function EditJobSeekerController($scope, $element, $http, $timeout) {
+function EditJobSeekerController($scope, $element, $http,  $timeout) {
     job_seeker_initialization_details($scope);
     $scope.view_user_login_details = true;
     $scope.view_personal_details = true;
@@ -3270,8 +3283,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+    $scope.delete_doctorate = function(index){
+        delete_doctorate(index, $scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function(index) {
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {

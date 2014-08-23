@@ -428,8 +428,13 @@
 					<label class="col-sm-4 control-label">Previous Employer</label>
 					<div class="add_employers">
 			            <div class="col-sm-8"> 
-							<input class="form-control" type="text" name="previous_employer" ng-model="employer.employer" ng-repeat="employer in employers" >
+			            	<div ng-repeat="employer in employers">
+			            		<input class="form-control" type="text" name="previous_employer" ng-model="employer.employer"  >
+			            		<button ng-click="delete_employer([[$index]])">X</button>
+			            	</div>
+							
 							<a ng-show="hide_emp" href="" ng-click="add_employer()"><button>+</button></a>
+							
 						</div>
 		            </div>
 	            </div>
@@ -534,7 +539,10 @@
 					<label class="col-sm-4 control-label"> Doctrate</label>
 					<div class="add_employers">
 		                <div class="col-sm-8"> 
-							<input class="form-control" type="text" ng-repeat="doctrate in doctorate" name="doctrate" ng-model="doctrate.name">	
+		                	<div ng-repeat="doctrate in doctorate" >
+							<input class="form-control" type="text" name="doctrate" ng-model="doctrate.name">	
+							<button ng-click="delete_doctorate([[$index]])">X</button>	<br/>
+							</div>
 							<a ng-show="hide_doc" href="" ng-click="add_doctorate()"><button>+</button></a>	<br/>
 						</div>
 	                </div>

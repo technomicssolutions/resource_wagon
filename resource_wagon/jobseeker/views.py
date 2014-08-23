@@ -453,10 +453,12 @@ class JobSearch(View):
                             Q(industry__icontains=keyword)|\
                             Q(function__icontains=keyword)|\
                             Q(job_location__icontains=keyword))
+
         if len(q_list) > 0:
             jobs = Job.objects.filter(reduce(operator.or_, q_list), is_publish=True).order_by('-id').order_by('order')
         else:
             jobs = []
+
         
         job_list = []
        
