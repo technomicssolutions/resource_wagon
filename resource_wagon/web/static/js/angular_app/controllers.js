@@ -2757,6 +2757,8 @@ function save_resume_details($scope, $http, type) {
         $scope.resume_details.is_resume_show = "true";
     else
         $scope.resume_details.is_resume_show = "false";
+    if($scope.resume_details.resume_text == null)
+        $scope.resume_details.resume_text = '';
     params = {
         'resume_details': angular.toJson($scope.resume_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
