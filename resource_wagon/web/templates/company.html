@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
-{% block header %} 
-	{% include 'home_header.html' %}
-{% endblock header %}
+
 {% block content %}
 <p><h3>{{company.company_name}}</h3></p>
 {% if company.photo.name %}
