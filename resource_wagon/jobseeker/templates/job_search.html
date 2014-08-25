@@ -37,34 +37,34 @@
                     </select>
                     <label class="col-sm-4 control-label">Experience</label>
                 <div class="col-sm-8">   
-                <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
-                    <option value="">Years</option>
-                    <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
-                </select>   
+                    <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
+                        <option value="">Years</option>
+                        <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
+                    </select>   
                 </div>
                 </div>                  
             </div>
             
             <div class="formrow">
-            <div class="form-group-outer">
-                <label class="col-sm-4 control-label">Functional Area</label>
-                <div class="col-sm-8">   
-                <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
-                    <option value="">------Select-----</option>
-                    <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
-                </select>
-            </div>
-            </div>
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Functional Area</label>
+                    <div class="col-sm-8">   
+                        <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
+                            <option value="">------Select-----</option>
+                            <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="formrow">
-            <div class="form-group-outer">
-                <label class="col-sm-4 control-label">Industry Type</label>
-                <div class="col-sm-8">   
-                <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
-                </select>
-            </div>
-            </div>
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Industry Type</label>
+                    <div class="col-sm-8">   
+                        <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="btn">
                 <input class="button btn btn-warning" type="submit" name="submit" value="Search Jobs" ng-click="job_search()">
@@ -77,7 +77,7 @@
             <div class="job_list">
                 <div class="job" ng-repeat="job in jobs">
                     {% if not user.recruiter_set.all %}
-                        <h2><a href="/view_job_details/[[job.id]]/">[[job.job_title]] </a></h2>
+                        <h2><a href="/jobseeker/view_job_details/[[job.id]]/">[[job.job_title]] </a></h2>
                     {% else %}
                         <h2>[[job.job_title]] </h2>
                     {% endif %}
@@ -103,7 +103,9 @@
                     <br>        
                 </div>
             </div>
-            <div class="not_found" ng-show="jobs.length > 0">
+   
+            <div class="not_found" ng-show="jobs.length <= 0">
+
                 <p class="error_message">No Jobs found for this criteria. </p>
                 <p>Your search [[search.keyword]]- [[search.location]] - [[search.industry]] did not match any documents.</p>
                 <p>Suggestions:</p>
