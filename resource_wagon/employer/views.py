@@ -541,3 +541,16 @@ class DeleteInbox(View):
 
         return render(request, 'inbox.html', {})
 
+class ActivityLog(View):
+
+    def get(self, request, *args, **kwargs):
+        
+        
+        recruiter = request.user
+        last_login = User.objects.get(email=recruiter).last_login
+        posted_jobs = Job.objects.filter(recruiter=recruiter)
+        context={
+            'posted_jobs':posted_jobs,
+            'last_login':last_login,
+        }
+        return render(request, 'activity_log.html',context)
