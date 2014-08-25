@@ -6,7 +6,7 @@
 {% block content %}
 <div>
 	{% for company in companies %}
-		<p><h3>{{company.company_name}}</h3></p>
+		<p><h3><a herf="{% url 'company' company_id=company.id %}">{{company.company_name}}</a></h3></p>
 		<p>Industry: {{company.industry_type}}</p>
 		<p>{{company.description}}</p>
 		<p><a href="/site_media/{{company.company_profile.name}}">Download Company Profile</a></p>
