@@ -10,8 +10,7 @@
 	<form class="" name="" method="post" action="">
 				{% csrf_token %}
 
-		<div class="separation">
-			<br>
+		<div class="separation_outer">
 			{% if job_id %}
 				<h2 >Posted Job</h2>
 			{% else %}
@@ -19,58 +18,90 @@
 			{% endif %}
 			
 			<p class="mandatory">* Mandatory Fields</p>
-			<br>
-			
-			<br><br>
+                <div class="formrow">
+                 	<div class="form-group-outer">          
+                        <label class="col-sm-4 control-label">Job Title<span class="red">*</span></label> 
+                        <div class="col-sm-8">    
+                        <input class="form-control" type ="text" name="title" ng-model="jobpost.title" value="">
+                    	</div>
+                    </div>
+                </div>
+            
 			<div class="formrow">
-				<label>Job Title<span class="red">*</span></label>
-				<input type ="text" name="title" ng-model="jobpost.title" value="">
-			</div>
-			<div class="formrow">					
-				<label>Ref Code<span class="red">*</span></label>
-				<input type ="text" name="code" ng-model="jobpost.code">
-			</div>	
-			<div class="formrow">
-				<label>Company Name<span class="red">*</span></label>
-					<input type ="text" name="title" ng-model="jobpost.company_name" readonly id="company_name">
-			</div>
+            	<div class="form-group-outer">	      			
+                    <label class="col-sm-4 control-label">Ref Code<span class="red">*</span></label>
+                    <div class="col-sm-8">    
+                    <input class="form-control" type ="text" name="code" ng-model="jobpost.code">
+                    </div>
+            	</div>
+            </div>
+            	
+			<div class="formrow">  
+            	<div class="form-group-outer1">	               
+				 <label class="col-sm-4 control-label">Company Name<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+                 	<input class="form-control" type ="text" name="title" ng-model="jobpost.company_name" readonly id="company_name">
+                 </div>
+                 </div>
+            </div>
 			
 		</div>
 
-		<div class="separation">
+		<div class="separation_outer">
 			<h3>Job Description</h3>
 			<br />
 			<div class="formrow">
-				<label>Job Summary<span class="red">*</span></label>
-				<textarea ng-model="jobpost.summary" cols="50"> </textarea>
+            	<div class="form-group-outer">	 
+                    <label class="col-sm-4 control-label">Job Summary<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+                    <textarea class="form-control" ng-model="jobpost.summary" cols="50"> </textarea>
+                    </div>
+                </div>
 			</div>
 			<div class="formrow">
-				<label>Job Details</label>
-				<input type="file" fileread="job_details_pdf.src"/>
-			    <input type="hidden" ng-model="job_details_pdf.src"/>
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Job Details</label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type="file" fileread="job_details_pdf.src"/>
+			    <input class="form-control" type="hidden" ng-model="job_details_pdf.src"/>
 			    <a href="/site_media/[[jobpost.details]]" ng-show="jobpost.details" target="_blank">Details</a>
 			</div>
+            </div>
+            </div>
+            
 			<div class="formrow">
-				<label>Salary(per annum)</label>
-				<input style="width: 18%" type ="text" name="salary" ng-model="jobpost.salary">
-				<select style="width: 16%" name="currency" ng-model="jobpost.currency">
+            	<div class="form-group-outer1">	
+				<label class="col-sm-4 control-label">Salary(per annum)</label>
+                 <div class="col-sm-8">    
+				<input  style="width: 18%" type ="text" name="salary" ng-model="jobpost.salary">
+				<select  style="width: 16%" name="currency" ng-model="jobpost.currency">
 					<option value="">-Select Currency-</option>
 					<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == jobpost.currency">[[currency]]</option>
 				</select>
+                </div>
 			</div>
+            </div>
 			<br>
 		</div>
-		<div class="separation">
+        
+		<div class="separation_outer">
 			<br>
 			<h3>Matching Criteria</h3>
 			<br />
 			<div class="formrow">
-				<label>Keyword/Skills<span class="red">*</span></label>
-				<input type ="text" name="skills" ng-model="jobpost.skills">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Keyword/Skills<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type ="text" name="skills" ng-model="jobpost.skills">
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
-				<label>Experience(years)<span class="red">*</span></label>
-				<select style="width: 14%" name="min" ng-model="jobpost.min">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Experience(years)<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select  style="width: 14%" name="min" ng-model="jobpost.min">
 					<option>-min-</option>
 					<option ng-repeat="min in Min" value="[[min]]" ng-selected="min == jobpost.min">[[min]]</option>
 				</select>
@@ -78,87 +109,139 @@
 					<option>-max-</option>
 					<option ng-repeat="max in Max" value="[[max]]" ng-selected="max == jobpost.max">[[max]]</option>
 				</select>
+                </div>
 			</div>
+            </div>
 			
 			<div class="formrow">
-				<label>Job Location<span class="red">*</span></label>
-				<select name="location" ng-model="jobpost.location">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Job Location<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="location" ng-model="jobpost.location">
 					<option>-select-</option>
 					<option ng-repeat="country in countries" value="[[country]]" ng-selected="country == jobpost.location">[[country]]</option>
 				</select>
+                </div>
+                </div>
 			</div>
 			
 			<div class="formrow">
-				<label>Industry<span class="red">*</span></label>
-				<select name="industry" ng-model="jobpost.industry" ng-options="industry as industry for industry in industries">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Industry<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="industry" ng-model="jobpost.industry" ng-options="industry as industry for industry in industries">
 				</select>
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
-				<label>Category/Function<span class="red">*</span></label>
-				<select name="category" ng-model="jobpost.category" ng-change="get_req_role()">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Category/Function<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="category" ng-model="jobpost.category" ng-change="get_req_role()">
 					<option>-select-</option>
 					<option ng-repeat="category in functions" value="[[category]]" ng-selected="category == jobpost.category">[[category]]</option>
 				</select>
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
-				<label>Select Role<span class="red">*</span></label>
-				<select name="role" ng-model="jobpost.role">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Select Role<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="role" ng-model="jobpost.role">
 					<option>-select-</option>
 					<option ng-repeat="post in func_roles" value="[[post]]" ng-selected="post == jobpost.role">[[post]]</option>
 				</select>
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
-				<label>Education Requirement<span class="red">*</span></label>
-				<select name="requirement" ng-model="jobpost.requirement">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Education Requirement<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="requirement" ng-model="jobpost.requirement">
 					<option>-select-</option>
 					<option ng-repeat="education in education_required" value="[[education]]" ng-selected="education == jobpost.requirement">[[education]]</option>
 				</select>
+                </div>
 			</div>
+            </div>
+            
 			<div class="formrow">
-				<label>Specialization</label>
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Specialization</label>
+                 <div class="col-sm-8">  
 				<!-- <select name="specialization" ng-model="jobpost.specialization" ng-change="get_req_stream()">
 					<option>-select-</option>
 					<option ng-repeat="specialization in specializations" value="[[specialization]]" ng-selected="specialization == jobpost.specialization">[[specialization]]</option>
-				</select> -->
-				<input type="text" name="specialization" ng-model="jobpost.specialisation">
-						
+				</select> -->  
+				<input class="form-control" type="text" name="specialization" ng-model="jobpost.specialisation">
+				</div>
+                </div>
+                		
 			</div>
-			<div class="formrow">
-				<label>Nationality<span class="red">*</span></label>
-				<select name="nationality" ng-model="jobpost.nationality">
+            
+			<div class="formrow">            
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Nationality<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<select class="form-control" name="nationality" ng-model="jobpost.nationality">
 					<option value="">-select-</option>
 					<option>Any</option>
 					<option ng-repeat="nationality in nationalities" value="[[nationality]]" ng-selected="nationality == jobpost.nationality">[[nationality]]</option>
 
 				</select>
+                </div>
+                </div>
 			</div>
 			<div class="formrow">
-				<label>Last Date to Apply</label>
-				<input type="text" name="last_date" id="last_dob" placeholder="DD-MM-YYY">
-						
+            	<div class="form-group-outer1">	
+				<label class="col-sm-4 control-label">Last Date to Apply</label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type="text" name="last_date" id="last_dob" placeholder="DD-MM-YYY">
+				</div>	
+                </div>
 			</div>
+            
 		</div>
-		<div class="separation">
+        
+		<div class="separation_outer">
 			<h3>Job Owner Details</h3>
 			<br />
 			<div class="formrow">
-				<label>Name<span class="red">*</span></label>
-				<input type ="text" name="name" ng-model="jobpost.name">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Name<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type ="text" name="name" ng-model="jobpost.name">
 			</div>
+            </div>
+            </div>
+            
 			<div class="formrow">
-				<label>Phone<span class="red">*</span></label>
-				<input type ="text" name="phone" ng-model="jobpost.phone">
+            	<div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Phone<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type ="text" name="phone" ng-model="jobpost.phone">
 			</div>
+            </div>
+            </div>
+            
 			<div class="formrow">
-				<label>Email<span class="red">*</span></label>
-				<input type ="text" name="email" ng-model="jobpost.email">
+            	<div class="form-group-outer1">	
+				<label class="col-sm-4 control-label">Email<span class="red">*</span></label>
+                 <div class="col-sm-8">    
+				<input class="form-control" type ="text" name="email" ng-model="jobpost.email">
 			</div>
+            </div>
+            </div>
 		</div>
-				
-		<div class="separation">
 			
 			<div class="btn" align="center" id="job_submit">
-				<input type="button" value="submit" ng-click="save_job()">
+				<input class="button btn btn-warning" type="button" value="submit" ng-click="save_job()">
 				
 			</div>
 
@@ -166,8 +249,7 @@
 				<p ng-show="error_flag">[[error_message]]</p>
 			</div>
 
-
-		</div>
+        
 	</form>
 </div>
 			
