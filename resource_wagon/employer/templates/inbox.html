@@ -6,8 +6,8 @@
 
 {% if replies %}
 
-	<table >
-			<tr >
+	<table>
+			<tr>
 				<th>Date</th>
 				<th>Job Seeker Name</th>
 				<th>Job</th>
@@ -16,7 +16,6 @@
 				<th>Land line</th>
 				<th></th>
 				<th></th>
-				
 			</tr>
 		{% for reply in replies %}
 			<form method="post" action="">{% csrf_token %}
@@ -24,11 +23,10 @@
 					<tr>
 						<td>{{reply.reply_date}}</td>
 						<td>{{reply.request.jobseeker.user.first_name}} {{reply.request.jobseeker.user.last_name}}</td>
-						<td></td>
 						<td>{{reply.request.jobseeker.applied_jobs.all.0.job_title}}</td>
 						<td>{{reply.request.jobseeker.user.email}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>
-						<td>{{reply.request.jobseeker.mobile}}</td>
+						<td>{{reply.request.jobseeker.land_num}}</td>
 						{% if reply.request.jobseeker.education.is_resume_show %}
 							{% if reply.request.jobseeker.education.resume %}
 								<td><a href="/site_media/{{reply.request.jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
