@@ -3491,6 +3491,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = 0;
     $scope.profile_doc = {};
     $scope.profile_doc.src = "";
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
     
     $scope.login_details = {
       'username': '',
@@ -3514,6 +3516,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
+            'profile_photo': '',
             
         } 
         if (user_id) {
@@ -3600,6 +3603,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
+            fd.append('photo_img', $scope.photo_img.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -3636,6 +3640,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
 function EditRecruiterController($scope, $element, $http, $timeout) {
   $scope.profile_doc = {};
   $scope.profile_doc.src = "";
+  $scope.photo_img = {};
+  $scope.photo_img.src = "";
   $scope.employer_id = 0;
   $scope.view_employer_details = true;
   $scope.init = function(csrf_token, employer_id) {
@@ -3657,7 +3663,8 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
-            'company_profile':''
+            'company_profile':'',
+            'profile_photo': '',
 
         } 
     }
@@ -3728,6 +3735,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
+            fd.append('photo_img', $scope.photo_img.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }

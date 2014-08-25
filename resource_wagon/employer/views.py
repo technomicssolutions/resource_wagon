@@ -67,16 +67,19 @@ class SaveEmployer(View):
         company.company_name = recruiter_details['name']
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
+        print request.FILES
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
+        if request.FILES.get('photo_img', ''):
+            photo = request.FILES['photo_img']
+            company.photo = photo
         company.save()
         recruiter.company = company
         recruiter.save()
         user.save()
-        if request.user.is_authenticated():
-            logout(request)
-        user = authenticate(username=user.username, password=recruiter_details['password'])
+        if not request.user.is_authenticated():
+            user = authenticate(username=user.username, password=recruiter_details['password'])
         if user and user.is_active:
             login(request, user)
             message = 'Logged in'
@@ -178,6 +181,7 @@ class EditEmployer(View):
                 'industry': company.industry_type if company else '',
                 'description': company.description if company else '',
                 'company_profile': company.company_profile.name if company.company_profile else '',
+                'photo': company.photo.name if company.company_profile else '',
             })
             res ={
                 'recruiter': ctx_employer_data,

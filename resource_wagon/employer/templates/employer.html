@@ -80,13 +80,6 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 			<option value="">--------------Select------------</option>
 			<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>				
 		</select>
-<!-- 			{% if not is_profile_edit %}
-				<label>Password<span class="red">*</span></label> 
-				<input type="password" name="password" ng-model="recruiter.password" value="{{ recruiter.password }}">
-				<label>Confirm Password<span class="red">*</span></label> 
-				<input type="password" name="confirm_password" ng-model="recruiter.confirm_password" value="{{ recruiter.confirm_password }}">
-		{% endif %}
-		 -->
 		<label>Mobile Number<span class="red">*</span></label>
 		<input type="text" name="mobile" ng-model="recruiter.mobile" value="{{ recruiter.mobile }}">
 		<label>Land Line Number</label>
@@ -101,6 +94,10 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 		<input type="text" name="city" ng-model="recruiter.city" value="{{ recruiter.city }}"> 
 		<label>Company description</label>
 		<textarea rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>
+		 <label >Attach Company Logo</label>
+        <input  type="file" fileread="photo_img.src"/>
+        <input  type="hidden" ng-model="photo_img.src">
+        <img src="/site_media/[[recruiter.photo]]" >
 		<h3>Attach Your Company Profile</h3>
 		<label>Company Profile<span class="red">*</span></label>
 		<input type="file" fileread="profile_doc.src"/>
