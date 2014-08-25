@@ -52,8 +52,17 @@ class Login(View):
         if user:
             user = authenticate(username=user.username, password=login_details['password'])
             status = 200
-            if user.is_active:
+            if user:
                 login(request, user)
+                if user.recruiter_set.all():
+                    user_type = 'recruiter',
+                elif user.jobseeker_set.all():
+                    user_type = 'jobseeker',                
+                elif user.is_superuser :
+                    user_type = 'admin',   
+                res = {
+                    'result': user_type,
+                }
             else:
                 res = {
                     'result': 'error',
@@ -61,23 +70,9 @@ class Login(View):
                 }
         else:
             res = {
-                    'result': 'error',
-                    'message': 'Username or password is incorrect',
-                }
-        
-        if user.recruiter_set.all():
-            res = {
-                    'result': 'recruiter',
-                }            
-        elif user.jobseeker_set.all():
-            res = {
-                    'result': 'jobseeker',
-                }
-             
-        elif user.is_superuser :
-            res = {
-                    'result': 'admin',
-                }
+                'result': 'error',
+                'message': 'Username or password is incorrect',
+            }        
         if request.is_ajax():
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status, mimetype='application/json')
