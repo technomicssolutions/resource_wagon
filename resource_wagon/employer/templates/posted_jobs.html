@@ -44,18 +44,54 @@
 {% else %}
 	{% if jobs %}
 		{% for job in jobs %}
-		<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
-			<label>From : {{job.company.company_name}}</label>
-			<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}} yrs</p>
-			<p>Specialization : {{job.specialization}}</p>
-			<p>Date Posted : {{job.posting_date}}</p>			
-			<p>Education : {{job.education_req}}</p>						
+        <div class="separation_outer">
+        	<div class="form-group-outer">	
+        	<p class="outer">
+            	<span class="col-xs-6 col-md-4">{{job.job_title}}</span>
+            	<span class="col-xs-12 col-md-8">{{job.job_location}} </span>
+            </p>
+            </div>
+        	<div class="form-group-outer">	
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">From : </span>
+            	<span class="col-xs-12 col-md-8">{{job.company.company_name}}</span>
+            </p>
+            </div>
+            
+        	<div class="form-group-outer">	
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Experience : </span>
+                <span class="col-xs-12 col-md-8">{{job.exp_req_min}} - {{job.exp_req_max}} yrs</span>
+            </p>
+            </div>
+            
+        	<div class="form-group-outer">	
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Specialization : </span>
+            	<span class="col-xs-12 col-md-8">{{job.specialization}}</span>
+            </p>
+            </div>
+                        
+        	<div class="form-group-outer">	
+			<p>
+            	<span class="col-xs-6 col-md-4">Date Posted : </span>
+            	<span class="col-xs-12 col-md-8">{{job.posting_date}}</span>
+            </p>	
+            </div>
+            
+        	<div class="form-group-outer1">			
+			<p>
+            	<span class="col-xs-6 col-md-4">Education : </span>
+            	<span class="col-xs-12 col-md-8">{{job.education_req}}</span>
+            </p>	
+            </div>
+            </div>					
 			<br>
-			<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
-			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="edit" value="Delete"></a>
-			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="edit" value="View Applicants"></a></a>
+			<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input class="btn btn-primary" type="submit" name="edit" value="Edit"></a>
+			<a href="{% url 'delete_job' job_id=job.id %}"><input class="btn btn-danger" type="submit" name="edit" value="Delete"></a>
+			<a href="{% url 'applicants' job_id=job.id %}"><input class="btn btn-info" type="submit" name="edit" value="View Applicants"></a></a>
 			{% if not job.is_publish %}
-				<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="edit" value="Publish"></a>
+				<a href="{% url 'publish_job' job_id=job.id %}"><input class="btn btn-warning" type="submit" name="edit" value="Publish"></a>
 			{% endif %}
 			{{message}}
 		{% endfor %}

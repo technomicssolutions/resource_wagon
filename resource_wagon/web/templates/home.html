@@ -1,4 +1,10 @@
 {% extends 'base.html' %}
+{% block extrahead %}
+    <script type="text/javascript" src="/static/js/jquery.themepunch.plugins.min.js"></script>	
+    <link rel="stylesheet" href="/static/css/slider.css" />
+   
+{% endblock extrahead %}
+
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
 {% block header %} 
 	{% include 'home_header.html' %}
@@ -34,8 +40,7 @@
 					<th>Position</th>
 					<th>Company</th>					
 					<th>Qualification</th>
-				</tr>
-							
+				</tr>			
 				{% for job in jobs %}
 					<tr class="table-row {% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
 						<td>{{job.posting_date}}</td>
@@ -43,8 +48,6 @@
 						<td><a href="{% url 'company' company_id=job.company.id %}">{{job.company.id}}</a></td>
 						<td>{{job.education_req}}</td>
 					</tr>
-                    
-                    
 				{% endfor %}
 			</table>
 			<div class="clear"></div>

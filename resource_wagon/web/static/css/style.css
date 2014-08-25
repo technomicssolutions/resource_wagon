@@ -384,7 +384,8 @@ float:left;
 	padding: 5px;
 }
 
-.form-group-outer{ float:left; clear:both; width:100%; margin:0 0 15px 0;}
+.form-group-outer{ float:left; clear:both; width:100%; margin:0 0 0px 0; background:#FFFFFF; padding:10px 0 10px 0; border-bottom:1px solid #f4f4f6;}
+.form-group-outer1{  float:left; clear:both; width:100%; padding: 0px 0 20px 0; margin:0 0 15px 0; background:#FFFFFF; padding:10px 0 10px 0; border-bottom:1px solid #f4f4f6;}
 
 /******************** Home styles end **********/
 
