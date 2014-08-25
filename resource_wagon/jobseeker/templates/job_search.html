@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block title %}Search
+{% endblock title %}
+{% block body_id %}search{% endblock body_id %}
+
+{% block controller %}ng-controller="SearchController" ng-init="init('{{csrf_token}}','{{location}}','{{keyword}}','{{experience}}','{{function_name}}','{{industry}}', '{{skills}}')"{% endblock controller %}
+
+{% block search %}
+{% endblock search %}
+{% block content %}
+<h2> Search Jobs </h2>
+
+        <div class="separation">
+            <label > Search by : <span > [[search.keyword]] - [[search.location]] - [[search.experience]] - [[search.function_name]] - [[search.industry]]</span></label> 
+            <div class="formrow">
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Keyword</label>
+                    <div class="col-sm-8">      
+                        <input class="form-control" type="text" ng-style="alert_style" name="keyword" ng-model="search.keyword" id="keyword">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="formrow">
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Location</label>
+                    <div class="col-sm-8">      
+                        <input class="form-control" type="text" ng-style="alert_style" name="location" ng-model="search.location" id="location">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="formrow">
+                <div class="form-group-outer">
+                    <select>
+                        <option ng-repeat="country in countries" value="[[country]]" ng-selected="country== seeker.country">[[country]]</option>
+                    </select>
+                    <label class="col-sm-4 control-label">Experience</label>
+                <div class="col-sm-8">   
+                <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
+                    <option value="">Years</option>
+                    <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
+                </select>   
+                </div>
+                </div>                  
+            </div>
+            
+            <div class="formrow">
+            <div class="form-group-outer">
+                <label class="col-sm-4 control-label">Functional Area</label>
+                <div class="col-sm-8">   
+                <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
+                    <option value="">------Select-----</option>
+                    <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
+                </select>
+            </div>
+            </div>
+            </div>
+
+            <div class="formrow">
+            <div class="form-group-outer">
+                <label class="col-sm-4 control-label">Industry Type</label>
+                <div class="col-sm-8">   
+                <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
+                </select>
+            </div>
+            </div>
+            </div>
+            <div class="btn">
+                <input class="button btn btn-warning" type="submit" name="submit" value="Search Jobs" ng-click="job_search()">
+                <br>
+                <p ng-show="error_flag" class="error_message">[[error_message]]</p>
+                
+            </div>
+            </div>
+
+            <div class="job_list">
+                <div class="job" ng-repeat="job in jobs">
+                    {% if not user.recruiter_set.all %}
+                        <h2><a href="/view_job_details/[[job.id]]/">[[job.job_title]] </a></h2>
+                    {% else %}
+                        <h2>[[job.job_title]] </h2>
+                    {% endif %}
+                    <p>Company: [[job.company_name]]</p>
+                    <p> Industry Type: [[job.industry]] </p>
+                    <p> Functional Area: [[job.function]] </p>
+                    <p> Qualification : [[job.education_req]] </p>
+                    <p> Experience: [[job.exp_req_min]] - [[job.exp_req_max]] Yrs </p>
+                    <br>
+                    {% if  user.is_authenticated %}
+                        {% if not user.is_superuser %}
+                            {% if user.jobseeker_set.all %}
+                                {% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
+                                    <a href="/apply/[[job.id]]/"><input type="submit" name="apply" value="Apply Job"></a>
+                                {% else %}
+                                    <p>You have already applied for this job</p>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <input class="button " type="button" ng-click="show_login_popup()" class="login_button"value="Login to apply" />
+                    {% endif %}                   
+                    <br>        
+                </div>
+            </div>
+            {% if jobs_not_exist %}                
+                <p class="error_message">No Jobs found for this criteria. </p>
+                <p>Your search {{searched_for}} did not match any documents.</p>
+                <p>Suggestions:</p>
+                <ul>
+                    <li>Please check your spelling and try some different Keywords.</li>
+                </ul>               
+                
+            {% endif %}
+
+            <br>    
+{% endblock content %}

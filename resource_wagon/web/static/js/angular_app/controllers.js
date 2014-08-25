@@ -143,7 +143,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/advanced_job_search/?location='+$scope.search.location;
+                var url = '/jobseeker/job_search/?location='+$scope.search.location;
                 document.location.href = url;
             }
         } else if (search_option == 'skills') {
@@ -154,7 +154,7 @@ function search_job($scope, search_option) {
             }  else {
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/advanced_job_search/?skills='+$scope.search.keyword;
+                var url = '/jobseeker/job_search/?skills='+$scope.search.keyword;
                 document.location.href = url;
             }
         } else {
@@ -167,7 +167,7 @@ function search_job($scope, search_option) {
                 $scope.alert_style = {};
                 $scope.error_flag = false;
                 $scope.error_message = '';
-                var url = '/jobseeker/advanced_job_search/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
+                var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.keyword+'&experience='+$scope.search.experience+'&function='+$scope.search.function_name+'&industry='+$scope.search.industry+'&search=true';
                 document.location.href = url;
             }
         }
@@ -179,7 +179,7 @@ function search_job($scope, search_option) {
           $scope.is_location = false;
           $scope.is_exp = false;
           $scope.is_function = false;
-          var url = '/jobseeker/advanced_job_search/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
+          var url = '/jobseeker/job_search/?location='+$scope.job_location+'&skills='+$scope.skill+'&experience='+$scope.experience+'&function='+$scope.functional_area;
           document.location.href = url;
       }
     }
@@ -2539,6 +2539,32 @@ function get_job_seeker_details($scope, $http) {
         if ($scope.current_employer.years == null) {
             $scope.current_employer.years = '';
         }
+        if ($scope.educational_details.doctorate) {
+            if($scope.educational_details.doctorate.length > 1 && $scope.educational_details.doctorate.length <= 3){
+                for(var i=1; i < $scope.educational_details.doctorate.length; i++){
+                    $scope.doctorate.push({'name': ''});
+                }
+            }
+            for(var i=0; i< $scope.educational_details.doctorate.length; i++) {
+                $scope.doctorate[i].name = $scope.educational_details.doctorate[i].doctorate;
+            }
+            if ($scope.educational_details.doctorate.length == 3){
+                $scope.hide_doc = false;
+            }
+        }
+        if ($scope.current_employer.employers) {
+            if($scope.current_employer.employers.length > 1 && $scope.current_employer.employers.length <= 3){
+                for(var i=1; i < $scope.current_employer.employers.length; i++){
+                    $scope.employers.push({'employer': ''});
+                }
+            }
+            for(var i=0; i< $scope.current_employer.employers.length; i++) {
+                $scope.employers[i].employer = $scope.current_employer.employers[i].employer;
+            }
+            if ($scope.current_employer.employers.length == 3) {
+                $scope.hide_emp = false;
+            }
+        } 
         if ($scope.current_employer.locations.length > 0) {
             for (var j=0; j<$scope.countries.length; j++) {
                 for (var i=0;i<$scope.current_employer.locations.length; i++) {
@@ -2711,6 +2737,7 @@ function hide_jobseeker_details_block($scope) {
     $scope.view_educational_details = false;
     $scope.view_employment_details = false;
     $scope.view_resume_details = false;
+    $scope.view_photo_details  =false;
 }
 function current_employer_validation($scope) {
     if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
@@ -2753,6 +2780,9 @@ function add_doctorate($scope){
     }
 }
 function save_resume_details($scope, $http, type) {
+    if (type == 'edit') {
+        $scope.resume_details.id = $scope.jobseeker_id;
+      }
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2791,6 +2821,9 @@ function save_resume_details($scope, $http, type) {
     });
 }
 function save_photo_details($scope, $http) {
+    if (type == 'edit') {
+        $scope.photo_details.id = $scope.jobseeker_id;
+      } 
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2818,6 +2851,7 @@ function save_educational_details($scope, $http, type) {
     if (type == 'edit') {
         $scope.educational_details.id = $scope.jobseeker_id;
       } 
+    $scope.educational_details.doctrate = $scope.doctorate.name;
     $scope.educational_details.doctrate = JSON.stringify($scope.doctorate);
     params = {
         'educational_details': angular.toJson($scope.educational_details),
@@ -2860,7 +2894,7 @@ function save_current_employer_details($scope, $http, type) {
         }
         else
            $scope.current_employer.selected_companies = $scope.current_employer.companies;
-
+        $scope.current_employer.employers = $scope.employers.employer;
         $scope.current_employer.employers = JSON.stringify($scope.employers);
         params = {
             'current_employer_details': angular.toJson($scope.current_employer),
@@ -2973,40 +3007,21 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
     $scope.login_details = {
       'username': '',
       'password': '',
-    }
-    $scope.search = {
-        'keyword' : '',
-        'location' : '',
-        'industry' : '',
-    }
-    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name,search_industry, search_flag) {
+    }    
+    $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
+        $scope.skills = '';
+        $scope.job_location = '';
+        $scope.industry = '';
         get_industries($scope);
         get_countries($scope);
-        $scope.search_flag = search_flag;
-        if(!($scope.search_flag)){
-          if(search_location != '' || search_location != undefined){
-            $scope.job_location = search_location;
-            
-          }
-          if (search_keyword != '' || search_keyword != undefined) {
-            $scope.skill = search_keyword;
-            
-          }
-          if (search_industry != '' || search_industry != undefined) {
-          $scope.search.industry = search_industry;
-          
-          }
-        
-        }
     }
-    
     $scope.job_search  = function() {      
         $scope.is_keyword = false;
         $scope.is_location = false;
         $scope.is_exp = false;
         $scope.is_function = false;
-        var url = '/jobseeker/advanced_job_search/?location='+$scope.job_location+'&skills='+$scope.skill+'&industry='+$scope.search.industry;
+        var url = '/jobseeker/job_search/?location='+$scope.job_location+'&skills='+$scope.skills+'&industry='+$scope.industry;
         document.location.href = url;
     }
     $scope.show_login_popup = function() {
@@ -3020,10 +3035,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
     }
     $scope.hide_popup = function() {
         hide_popup($scope,'');
-
     }
-    
-
 }
 
 function JobSeekerController($scope, $element, $http, $timeout) {
@@ -3229,6 +3241,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.view_educational_details = true;
     $scope.view_employment_details = true;
     $scope.view_resume_details = true;
+    $scope.view_photo_details = true;
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
@@ -3411,7 +3424,9 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.show_resume_details = function(){
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
+
         $scope.resume_detail = true;
+        console.log($scope.resume_detail )
     }
     $scope.edit_resume_validation = function() {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
@@ -3431,6 +3446,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
         $scope.photo_detail = true;
+        console.log($scope.photo_detail)
     }
     $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
@@ -3440,7 +3456,7 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     }
     $scope.edit_photo_details = function() {
         if ($scope.edit_photo_validation()){
-            save_photo_details($scope, $http);
+            save_photo_details($scope, $http,'edit');
         }
     }
     $scope.remove_cv = function() {
@@ -3931,61 +3947,40 @@ function SearchController($scope,$element,$http,$timeout){
         'experience' : '',
         'function_name' : '',
         'industry' : '',
+        'skills': ''
     }
     $scope.login_details = {
       'username': '',
       'password': '',
     }
-    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry,search_flag) {
+    $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, skills) {
         $scope.csrf_token = csrf_token;
-       
+        $scope.search = {
+            'keyword' : search_keyword,
+            'location' : search_location,
+            'experience' : search_experience,
+            'function_name' : search_function_name,
+            'industry' : search_industry,
+            'skills': skills
+        }
+        $scope.skill = search_keyword;
         for(var i=0; i<=30; i++) {
             $scope.experiences.push(i);
         }
         get_functions($scope);
-        get_industries($scope);
-        //get_countries($scope);
-        $scope.search_flag = search_flag;
-        if(!($scope.search_flag)){
-          if(search_location != '' || search_location != undefined){
-            $scope.job_location = search_location;
-            console.log($scope.job_location);
-          }
-          if (search_keyword != '' || search_keyword != undefined) {
-            $scope.skill = search_keyword;
-            console.log($scope.skill);
-          }
-          if (search_experience != '' || search_experience != undefined) {
-            $scope.experience = search_experience;
-            console.log($scope.experience);
-          }
-          if (search_function_name != '' || search_function_name != undefined) {
-            $scope.functional_area = search_function_name;
-            console.log($scope.functional_area);
-          }
-        
-        }
-        if(search_location != '' || search_location != undefined){
-          $scope.search.location = search_location;
-        }
-        if (search_keyword != '' || search_keyword != undefined) {
-          $scope.search.keyword = search_keyword;
-        }
-        if (search_function_name != '' || search_function_name != undefined) {
-          $scope.search.function_name = search_function_name;
-        }
-        if (search_industry != '' || search_industry != undefined) {
-          $scope.search.industry = search_industry;
-        }
-
-        
+        get_industries($scope);    
+        $scope.job_search();   
     }
-    $scope.job_search  = function() {
-        search_job($scope, '');
+    $scope.job_search  = function() {      
+        var url = '/jobseeker/job_search/?location='+$scope.search.job_location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name;
+        $http.get(url).success(function(data)
+        {
+            $scope.jobs = data.jobs; 
+        }).error(function(data, status)
+        {
+            console.log(data || "Request failed");
+        });
     }
-    $scope.search = function(search_type){
-        search_job($scope, search_type);
-    } 
     $scope.show_login_popup = function() {
      show_login_popup($scope,'');
     }

@@ -88,16 +88,16 @@
       
       	<div class="container" style="border:1px solid #0066FF;">
             <div class="quick_search_overlay"></div>
-            <div class="quick_search">
+            <div class="quick_search" style="border:1px solid #0066FF;">
                 <h3> Quick search </h3>
                 <div class="search_controls">
 
-                    <input type="text" name="search" placeholder="skills" ng-model="skill">
+                    <input type="text" name="search" placeholder="skills" ng-model="skills">
                     <p ng-show="is_keyword"></p>
 
-                    <select name="industry" ng-model="search.industry"> 
+                    <select name="industry" ng-model="industry"> 
                         <option value="">Industry</option>
-                        <option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == search.industry">[[industry]]</option>               
+                        <option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == industry">[[industry]]</option>               
                     </select>
                      <p ng-show="get_industries()"></p> 
                    

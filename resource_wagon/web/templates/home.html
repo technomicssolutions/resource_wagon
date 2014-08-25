@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="/static/css/slider.css" />
    
 {% endblock extrahead %}
-{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{search_location}}', '{{search_keyword}}', '{{search_experience}}', '{{search_function_name}}','{{search_industry}}', '{{search_flag}}')" {% endblock controller %}
+
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
 {% block header %} 
 	{% include 'home_header.html' %}
 {% endblock header %}
@@ -41,14 +42,12 @@
 					<th>Qualification</th>
 				</tr>			
 				{% for job in jobs %}
-					<tr class="{% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
+					<tr class="table-row {% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
 						<td>{{job.posting_date}}</td>
 						<td>{{job.job_title}}</td>
 						<td>{{job.company.company_name}}</td>
 						<td>{{job.education_req}}</td>
 					</tr>
-                    
-                    
 				{% endfor %}
 			</table>
 			<div class="clear"></div>

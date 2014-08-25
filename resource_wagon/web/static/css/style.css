@@ -308,7 +308,6 @@ header
 .gray_content {
 	width: 100%;
 	background-color: #F4F4F6;
-	/*padding: 5% 14% 5% 14%;*/
 }
 .heading {
 	float:left;
@@ -318,22 +317,16 @@ header
 }
 .heading h3, .heading h4 {
 	margin-top: 0px;
-	/*background-color:  #F4F4F6;*/
 }
 .heading h3, .heading h4 {
-	/*width: 38%;*/
 	float: left;
 	background-color:  #F4F4F6;
 	padding: 0 10px 0 10px;	
 }
 
-/*.heading h4 {
-	width: 55%;
-}*/
 .latest_job_posting {
 	width: 100%;
-	float: left;/*
-	margin-right: 5%;*/
+	float: left;
 }
 .find_your_perfect_job {
 	width: 100%;
@@ -351,32 +344,25 @@ float:left;
 	background-image:url('../images/arrow-img.png');
     background-repeat: no-repeat;
     background-position: 20px 5px; 
-	/*background:url(../images/arrow-img.png);*/
 	padding:0 0 10px 34px;
 }
 .find_your_perfect_job ul li a { text-decoration:none;}
 .box-area{margin: 30px 0px 0px;}
 .job_listing table th{
-	/*background-color: #E8691A;*/
-	/*color: #FFFFFF;*/
-	width:28%;
+	width: 25%;
 	font-weight: normal;
 }
 .table-hd{
 	background-color: #E8691A;
-	float:left;
 	width:100%;
 	color: #FFFFFF;
 	font-weight: normal;
 }
 .table-row{
-	/*background-color: #E8691A;*/
-	float:left;
 	width:100%;
 	clear:both;
 	color: #000000;
 	font-weight: normal;
-	/*border-bottom: 1px solid;*/
 }
 .color{
 	background-color: #f4f4f6;
@@ -395,7 +381,7 @@ float:left;
 }
 
 .form-group-outer{ float:left; clear:both; width:100%; margin:0 0 0px 0; background:#FFFFFF; padding:10px 0 10px 0; border-bottom:1px solid #f4f4f6;}
-.form-group-outer1{  clear:both; width:100%; padding: 0px 0 20px 0; margin:0 0 15px 0;/* border:1px solid #FF0000;*/}
+.form-group-outer1{  float:left; clear:both; width:100%; padding: 0px 0 20px 0; margin:0 0 15px 0; background:#FFFFFF; padding:10px 0 10px 0; border-bottom:1px solid #f4f4f6;}
 
 /******************** Home styles end **********/
 
