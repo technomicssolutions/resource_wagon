@@ -10,6 +10,9 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
 		<div ng-show="view_employer_details">
+			{% if user.recruiter_set.all.0.company.photo %}
+				<img src="/site_media/{{user.recruiter_set.all.0.company.photo.name}}" alt=""   >
+			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
 			<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
 			<p>Location :{{user.recruiter_set.all.0.country}}</p>
@@ -104,7 +107,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 		<input type="hidden" ng-model="profile_doc.src">
 		<a href="/site_media/[[recruiter.company_profile]]" ng-show="recruiter.company_profile" target="_blank">Company Profile</a>		
 		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
-		<p class="error_message error_p">[[error_message]]</p>
+		<p class="error_message ">[[error_message]]</p>
 	</div>
 {% else %}
 	<p>{{message}}</p>

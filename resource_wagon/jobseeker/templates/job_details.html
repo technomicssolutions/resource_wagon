@@ -40,12 +40,14 @@
 		Nationality : {{job.nationality}} <br/>
 	</span>
 	</div>
-	<div>
-		<h2>Company Profile</h2>
-	</div><br>
-	<div>
-		<p>{{ job.description}}</p>
-	</div>
+	{% if job.description %}
+		<div>
+			<h2>Company Profile</h2>
+		</div><br>
+		<div>
+			<p>{{ job.description}}</p>
+		</div>
+	{% endif %}
 	
 	<p >{{ message }}</p>
 	{% if  user.is_authenticated %}
