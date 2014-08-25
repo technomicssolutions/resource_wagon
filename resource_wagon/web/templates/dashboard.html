@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="col-xs-6 col-md-4"> 
 	<div class="dashboard_menu">
 		<ul>
 			<li><a href="{% url 'jobseeker_details' %}">View Jobseeker Profile</a></li>
@@ -11,8 +12,13 @@
 			<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
 		</ul>
 	</div>
+</div>
+<div class="col-xs-12 col-md-8" style="border:1px solid #FF0000;"> 
+<div class="separation">
 	<div class="dashboard_content">
 		{% block dashboard_content %}
 		{% endblock dashboard_content %}
 	</div>
+</div>
+</div>
 {% endblock %}
