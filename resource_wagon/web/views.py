@@ -158,7 +158,7 @@ class RequestView(View):
 
     def get(self, request, *args, **kwargs):
         re = RequestSend.objects.filter(is_new=True).update(is_new=False)
-        requests = RequestSend.objects.all().order_by('id')
+        requests = RequestSend.objects.all().order_by('-id')
         context = {
             'requests':requests,
         }

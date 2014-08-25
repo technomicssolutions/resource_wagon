@@ -32,15 +32,13 @@
             
             <div class="formrow">
                 <div class="form-group-outer">
-                    <select>
-                        <option ng-repeat="country in countries" value="[[country]]" ng-selected="country== seeker.country">[[country]]</option>
-                    </select>
+                    
                     <label class="col-sm-4 control-label">Experience</label>
                 <div class="col-sm-8">   
                     <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
                         <option value="">Years</option>
                         <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
-                    </select>   
+                    </select>                     
                 </div>
                 </div>                  
             </div>

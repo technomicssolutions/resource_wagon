@@ -1,23 +1,26 @@
 
 import simplejson
-import re
 import ast
 from datetime import datetime
+import operator
+
 
 from django.conf import settings
-from django.db import IntegrityError
-from django.core.mail import send_mail, BadHeaderError, EmailMessage, EmailMultiAlternatives, mail_admins
+from django.core.mail import send_mail
 from django.shortcuts import render
 from django.views.generic.base import View
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
+
 from models import CompanyProfile,Recruiter
 from jobseeker.models import Jobseeker
 from web.models import Job, RequestSend, Reply
-from jobseeker.models import Jobseeker
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
 
 class EmployerRegistration(View):
 
@@ -357,7 +360,6 @@ class EditPostJobsView(View):
             jobPosting.last_date  = datetime.strptime(jobpost['last_date'], '%d/%m/%Y')
             print jobPosting.last_date
         jobPosting.save()
-        context = {}
         res = {
             'id' : jobPosting.id,
         } 
@@ -429,7 +431,22 @@ class SearchCandidatesView(View):
                 months = 0
             if years == "":
                 years = 0
-            jobseekers = Jobseeker.objects.filter(employment__curr_industry__icontains = industry, employment__function__icontains = functions, employment__skills__icontains = skills, employment__exp_yrs=int(years), employment__exp_mnths=int(months), education__basic_edu = basic_edu, education__basic_edu_specialization__icontains = basic_specialization)
+            q_list = []
+            if industry:
+                q_list.append(Q(employment__curr_industry__icontains = industry))
+            if functions:
+                q_list.append(Q(employment__function__icontains = functions))
+            if skills:
+                q_list.append(Q(employment__skills__icontains = skills))
+            if years:
+                q_list.append(Q(employment__exp_yrs=int(years)))
+            if months:
+                q_list.append(Q(employment__exp_mnths=int(months)))
+            if basic_edu:
+                q_list.append(Q(education__basic_edu = basic_edu))
+            if basic_specialization:
+                q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
+            jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
             for jobseeker in jobseekers:
                 jobseekers_list.append({
                     'id': jobseeker.id,
@@ -493,11 +510,7 @@ class AdminRequest(View):
         request_send.jobseeker = jobseeker
         request_send.recruiter = recruiter
         request_send.save()
-       
-
-       
         email_to = user.email
-        
         subject = "Requesting Contact details "
         message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
         from_email = settings.DEFAULT_FROM_EMAIL 

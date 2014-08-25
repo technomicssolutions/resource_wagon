@@ -96,7 +96,6 @@ class SavePersonalDetails(View):
 
         personal_details = ast.literal_eval(request.POST['personal_details'])
         status = 200
-        print personal_details['id']
         if personal_details['id']:
             job_seeker = Jobseeker.objects.get(id=personal_details['id'])   
             current_year = datetime.now().year
@@ -425,9 +424,7 @@ class JobSearch(View):
 
     def get(self, request, *args, **kwargs):
 
-        search = False
         searched_for = ''
-
         location = request.GET.get('location', '')
         function = request.GET.get('function', '')
         skills = request.GET.get('skills', '')
@@ -436,7 +433,6 @@ class JobSearch(View):
         keyword = request.GET.get('keyword', '')
         jobs = []
         q_list = []
-        print location, function, skills, exp, industry
         if location:
             q_list.append(Q(job_location__icontains=location))
         if function:
