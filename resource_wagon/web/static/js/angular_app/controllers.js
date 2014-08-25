@@ -4010,6 +4010,7 @@ function SearchController($scope,$element,$http,$timeout){
       'username': '',
       'password': '',
     }
+    
     $scope.init = function(csrf_token, search_location, search_keyword, search_experience, search_function_name, search_industry, skills) {
         $scope.csrf_token = csrf_token;
         $scope.search = {
@@ -4024,17 +4025,22 @@ function SearchController($scope,$element,$http,$timeout){
         for(var i=0; i<=30; i++) {
             $scope.experiences.push(i);
         }
+        $scope.no_jobs = false;
+
         get_functions($scope);
         get_industries($scope);    
         $scope.job_search();   
     }
     $scope.job_search  = function() {      
-        console.log($scope.search.location, $scope.search.keyword, $scope.search.industry, $scope.search.function_name);
         var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword;
-        console.log(url);
         $http.get(url).success(function(data)
         {
             $scope.jobs = data.jobs; 
+            if(data.jobs.length <= 0){
+              $scope.no_jobs = true;
+            } else {
+              $scope.no_jobs = false;
+            }
         }).error(function(data, status)
         {
             console.log(data || "Request failed");
