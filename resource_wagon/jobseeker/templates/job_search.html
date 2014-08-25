@@ -37,34 +37,34 @@
                     </select>
                     <label class="col-sm-4 control-label">Experience</label>
                 <div class="col-sm-8">   
-                <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
-                    <option value="">Years</option>
-                    <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
-                </select>   
+                    <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
+                        <option value="">Years</option>
+                        <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
+                    </select>   
                 </div>
                 </div>                  
             </div>
             
             <div class="formrow">
-            <div class="form-group-outer">
-                <label class="col-sm-4 control-label">Functional Area</label>
-                <div class="col-sm-8">   
-                <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
-                    <option value="">------Select-----</option>
-                    <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
-                </select>
-            </div>
-            </div>
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Functional Area</label>
+                    <div class="col-sm-8">   
+                        <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
+                            <option value="">------Select-----</option>
+                            <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
             <div class="formrow">
-            <div class="form-group-outer">
-                <label class="col-sm-4 control-label">Industry Type</label>
-                <div class="col-sm-8">   
-                <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
-                </select>
-            </div>
-            </div>
+                <div class="form-group-outer">
+                    <label class="col-sm-4 control-label">Industry Type</label>
+                    <div class="col-sm-8">   
+                        <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="btn">
                 <input class="button btn btn-warning" type="submit" name="submit" value="Search Jobs" ng-click="job_search()">
