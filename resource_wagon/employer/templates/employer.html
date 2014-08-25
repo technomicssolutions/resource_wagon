@@ -10,6 +10,9 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
 		<div ng-show="view_employer_details">
+			{% if user.recruiter_set.all.0.company.photo %}
+				<img src="/site_media/{{user.recruiter_set.all.0.company.photo.name}}" alt=""   >
+			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
         	<div class="separation_outer">
                 <p class="outer">
@@ -114,13 +117,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 			<option value="">--------------Select------------</option>
 			<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>				
 		</select>
-<!-- 			{% if not is_profile_edit %}
-				<label>Password<span class="red">*</span></label> 
-				<input type="password" name="password" ng-model="recruiter.password" value="{{ recruiter.password }}">
-				<label>Confirm Password<span class="red">*</span></label> 
-				<input type="password" name="confirm_password" ng-model="recruiter.confirm_password" value="{{ recruiter.confirm_password }}">
-		{% endif %}
-		 -->
+
          </div>
          </div>
          
@@ -162,18 +159,22 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 		<textarea class="form-control" rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>        
         </div>
         </div>
+
 		<h3>Attach Your Company Profile</h3>
         <div class="form-group-outer">	
 		<label class="col-sm-4 control-label">Company Profile<span class="red">*</span></label>
         <div class="col-sm-8">
 		<input class="form-control" type="file" fileread="profile_doc.src"/>
 		<input type="hidden" ng-model="profile_doc.src">
+                <img src="/site_media/[[recruiter.photo]]" >
+
         </div>
 		</div>
 		<a href="/site_media/[[recruiter.company_profile]]" ng-show="recruiter.company_profile" target="_blank">Company Profile</a>		
-		<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
-		<p class="error_message error_p">[[error_message]]</p>
-        </div>
+
+		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
+		<p class="error_message ">[[error_message]]</p>
+	</div>
 {% else %}
 	<p>{{message}}</p>
 {% endif %}

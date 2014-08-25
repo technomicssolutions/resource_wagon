@@ -1,4 +1,10 @@
 {% extends 'dashboard.html' %}
+
+{% block controller %}
+ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{employer_id}}')"
+{% endblock controller %}
+
+
 {% block dashboard_content %}
 	{% if recruiters %}
 		<table >
@@ -11,7 +17,7 @@
 				<th>Mobile</th>
 				<th>Land Number</th>
 				<th>Company Profile</th>
-				
+				<th>Premium Employer</th>
 			</tr>
 		{% for recruiter in recruiters %}
 			<tr>
@@ -23,7 +29,9 @@
 				<td>{{recruiter.mobile}}</td>
 				<td>{{recruiter.land_num}}</td>
 				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
+				<td> <input type="checkbox" name="checkbox"  ng-click= "save_premium_employer('{{recruiter.id}}')" ></td>
 			</tr>	
+		</div>
 		{% endfor %}
 		<div >
 	   		<span >

@@ -1,19 +1,21 @@
 
+import ast
+import simplejson
+import operator
+from datetime import datetime
+import datetime as dt
+
+
 from django.shortcuts import render
 from django.views.generic.base import View
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.db.models import Q
 
 from web.models import Job
-import datetime as dt
-from datetime import datetime
 
-import ast
-import simplejson
-from datetime import datetime
+
 
 from employer.models import CompanyProfile
 from models import (Employment, Education, Jobseeker, PreviousEmployer, Doctorate, Location)
@@ -54,7 +56,7 @@ class SaveUserLoginDetails(View):
             user = job_seeker.user
         else:
             try:
-                user = User.objects.get(username=user_login_details['email'])
+                user = User.objects.get(email=user_login_details['email'])
                 res = {
                     'result': 'error',
                     'message': 'Email already exists',
@@ -62,11 +64,16 @@ class SaveUserLoginDetails(View):
                 response = simplejson.dumps(res)
                 return HttpResponse(response, status=status, mimetype='application/json')
             except Exception as ex:
-                user = User.objects.create(username=user_login_details['email'])
+                if len(user_login_details['email']) > 30:
+                    username = user_login_details['email'][:30]
+                else:
+                    username = user_login_details['email']
+                user = User.objects.create(email=user_login_details['email'], username=username)
+                print "user", user
                 user.set_password(user_login_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
-                user = authenticate(username=user_login_details['email'], password=user_login_details['password'])
+                user = authenticate(username=username, password=user_login_details['password'])
                 if user and user.is_active:
                     login(request, user)
                     message = 'Logged in'
@@ -426,37 +433,48 @@ class JobSearch(View):
         skills = request.GET.get('skills', '')
         exp = request.GET.get('experience', '')
         industry = request.GET.get('industry', '')
+        keyword = request.GET.get('keyword', '')
         jobs = []
+        q_list = []
+        print location, function, skills, exp, industry
+        if location:
+            q_list.append(Q(job_location__icontains=location))
+        if function:
+            q_list.append(Q(function__icontains=function))
+        if skills:
+            q_list.append(Q(skills__icontains=skills))
         if exp:
-            jobs = Job.objects.filter(Q(Q(job_location__icontains=location) | \
-                                    Q(industry__icontains=industry) | \
-                                    Q(skills__icontains=skills) | \
-                                    Q(function__icontains=function) | \
-                                    Q(exp_req_min__lte=int(exp), exp_req_max__gte=int(exp))
-                                    ), is_publish=True).order_by('-id').order_by('order')
+            q_list.append(Q(exp_req_min__lte=int(exp), exp_req_max__gte=int(exp)))
+        if industry:
+            q_list.append(Q(industry__icontains=industry))
+        if keyword:
+            q_list.append(Q(job_title__icontains=keyword)|\
+                            Q(skills__icontains=keyword)|\
+                            Q(industry__icontains=keyword)|\
+                            Q(function__icontains=keyword)|\
+                            Q(job_location__icontains=keyword))
+
+        if len(q_list) > 0:
+            jobs = Job.objects.filter(reduce(operator.or_, q_list), is_publish=True).order_by('-id').order_by('order')
         else:
-            jobs = Job.objects.filter(Q(Q(job_location__icontains=location) | \
-                                        Q(industry__icontains=industry) | \
-                                        Q(skills__icontains=skills) | \
-                                        Q(function__icontains=function)
-                                        ), is_publish=True).order_by('-id').order_by('order')
+            jobs = []
+
+        
         job_list = []
-        if not jobs.exists():
-            searched_for = str('"'+skills+ '-'+industry+'-'+location+'"')
-        else:
-            for job in jobs:                
-                job.search_count = job.search_count+1
-                job.save()
-                job_list.append({
-                    'job_title': job.job_title,
-                    'id': job.id,
-                    'company_name': job.company.company_name,
-                    'industry': job.industry,
-                    'function': job.function,
-                    'education_req': job.education_req,
-                    'exp_req_min': job.exp_req_min,
-                    'exp_req_max': job.exp_req_max,
-                })
+       
+        for job in jobs:                
+            job.search_count = job.search_count+1
+            job.save()
+            job_list.append({
+                'job_title': job.job_title,
+                'id': job.id,
+                'company_name': job.company.company_name,
+                'industry': job.industry,
+                'function': job.function,
+                'education_req': job.education_req,
+                'exp_req_min': job.exp_req_min,
+                'exp_req_max': job.exp_req_max,
+            })
         context = {
             'jobs': jobs,
         }

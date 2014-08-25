@@ -2771,6 +2771,11 @@ function add_employer($scope){
       $scope.hide_emp = false;
     }
 }
+function delete_employer(index, $scope){
+    
+    $scope.employers.splice(index, 1);
+    
+}
 function add_doctorate($scope){
     if($scope.doctorate.length <3) {
         $scope.doctorate.push({'name':''});
@@ -2779,10 +2784,13 @@ function add_doctorate($scope){
       $scope.hide_doc = false;
     }
 }
+function delete_doctorate(index, $scope){
+    
+    $scope.doctorate.splice(index, 1);
+ 
+}
 function save_resume_details($scope, $http, type) {
-    if (type == 'edit') {
-        $scope.resume_details.id = $scope.jobseeker_id;
-      }
+   
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2821,9 +2829,7 @@ function save_resume_details($scope, $http, type) {
     });
 }
 function save_photo_details($scope, $http) {
-    if (type == 'edit') {
-        $scope.photo_details.id = $scope.jobseeker_id;
-      } 
+   
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2993,7 +2999,7 @@ function save_user_login_details($scope, $http, type) {
                 document.location.href = '/jobseeker/jobseeker_details/';
             }
         } else {
-            $scope.user_login_details_validation = data.message;
+            $scope.user_login_validation = data.message;
         }
     });
 }
@@ -3082,8 +3088,15 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+     $scope.delete_doctorate = function(index){
+        delete_doctorate(index,$scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function(index){
+        
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
@@ -3234,7 +3247,7 @@ function JobSeekerController($scope, $element, $http, $timeout) {
       $scope.registration = true;
     }
 }
-function EditJobSeekerController($scope, $element, $http, $timeout) {
+function EditJobSeekerController($scope, $element, $http,  $timeout) {
     job_seeker_initialization_details($scope);
     $scope.view_user_login_details = true;
     $scope.view_personal_details = true;
@@ -3270,8 +3283,14 @@ function EditJobSeekerController($scope, $element, $http, $timeout) {
     $scope.add_doctorate = function(){
         add_doctorate($scope);
     }
+    $scope.delete_doctorate = function(index){
+        delete_doctorate(index, $scope);
+    }
     $scope.add_employer = function() {
         add_employer($scope);
+    }
+    $scope.delete_employer = function(index) {
+        delete_employer(index, $scope);
     }
     $scope.get_prefered_locations = function(country) {
         if ($scope.current_employer.locations.length < 5) {
@@ -3472,6 +3491,9 @@ function RecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = 0;
     $scope.profile_doc = {};
     $scope.profile_doc.src = "";
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
+    
     $scope.login_details = {
       'username': '',
       'password': '',
@@ -3481,7 +3503,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
         $scope.user_id = user_id;
         get_industries($scope);
     	   get_countries($scope);
-
+       
+        
         $scope.recruiter = {
             'id' : $scope.employer_id,
             'name' : '',
@@ -3493,7 +3516,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
-
+            'profile_photo': '',
+            
         } 
         if (user_id) {
             $scope.user_already_exists = true;
@@ -3509,17 +3533,18 @@ function RecruiterController($scope, $element, $http, $timeout) {
             });
         }
     }
+    
     $scope.show_login_popup = function() {
-     show_login_popup($scope,'');
+        show_login_popup($scope,'');
     }
     $scope.user_login = function() {
-     user_login($scope,$http);
+        user_login($scope,$http);
     }
     $scope.show_registration_popup = function() {
-     show_registration_popup($scope,'');
+        show_registration_popup($scope,'');
     }
     $scope.hide_popup = function() {
-     hide_popup($scope,'');
+        hide_popup($scope,'');
     }
     $scope.recruiter_validation = function(){
         $scope.error_message = '';
@@ -3578,6 +3603,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
+            fd.append('photo_img', $scope.photo_img.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -3614,6 +3640,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
 function EditRecruiterController($scope, $element, $http, $timeout) {
   $scope.profile_doc = {};
   $scope.profile_doc.src = "";
+  $scope.photo_img = {};
+  $scope.photo_img.src = "";
   $scope.employer_id = 0;
   $scope.view_employer_details = true;
   $scope.init = function(csrf_token, employer_id) {
@@ -3621,6 +3649,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = employer_id;
     get_industries($scope);
     get_countries($scope);
+    $scope.premium_employer = {
+            'premium': '',
+            'id': '',
+        }
     $scope.recruiter = {
             'id' : '',
             'name' : '',
@@ -3631,9 +3663,26 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
-            'company_profile':''
+            'company_profile':'',
+            'profile_photo': '',
 
         } 
+    }
+    $scope.save_premium_employer = function(recruiter_id){
+        $scope.premium_employer.id = recruiter_id;
+        $scope.premium_employer.premium = "True";
+        params = {
+        'premium_employer': angular.toJson($scope.premium_employer),
+        'csrfmiddlewaretoken': $scope.csrf_token,
+        }
+        $http({
+            method : 'post',
+            url : "/save_premium_employer/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+        })
     }
     $scope.edit_employer_details = function(){
       get_employer_details($scope, $http);
@@ -3679,6 +3728,9 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
+            if ($scope.recruiter.photo == null){
+                $scope.recruiter.photo = '';
+            }
             var url = '/employer/save_recruiter_details/';
             params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
@@ -3686,6 +3738,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
+            fd.append('photo_img', $scope.photo_img.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -3972,7 +4025,9 @@ function SearchController($scope,$element,$http,$timeout){
         $scope.job_search();   
     }
     $scope.job_search  = function() {      
-        var url = '/jobseeker/job_search/?location='+$scope.search.job_location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name;
+        console.log($scope.search.location, $scope.search.keyword, $scope.search.industry, $scope.search.function_name);
+        var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword;
+        console.log(url);
         $http.get(url).success(function(data)
         {
             $scope.jobs = data.jobs; 

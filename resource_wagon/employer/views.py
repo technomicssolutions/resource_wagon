@@ -25,20 +25,7 @@ class EmployerRegistration(View):
         context = {}
         return render(request, 'employer_registration.html', context)
 
-    def post(self, request, *args, **kwargs):
-
-        user = authenticate(username=request.POST['username'], password=request.POST['password'])
-        if user and user.is_active:
-            login(request, user)
-        else:
-            context = {
-                'message' : 'Username or password is incorrect'
-            }
-            return render(request, 'employer_registration.html', context)
-        return HttpResponseRedirect(reverse('home'))
-
 class SaveEmployer(View):
-    
     
     def post(self, request, *args, **kwargs):
         recruiter_details = ast.literal_eval(request.POST['recruiter_details'])
@@ -49,7 +36,7 @@ class SaveEmployer(View):
             
         else:           
             try:
-                user = User.objects.get(username=recruiter_details['email'])
+                user = User.objects.get(email=recruiter_details['email'])
                 res = {
                     'result': 'error',
                     'message': 'Email already exists',
@@ -57,11 +44,16 @@ class SaveEmployer(View):
                 response = simplejson.dumps(res)
                 return HttpResponse(response, status=status, mimetype='application/json')
             except:
-                user = User.objects.create(username=recruiter_details['email'])
+                if len(recruiter_details['email']) > 30:
+                    username = recruiter_details['email'][:30]
+                else:
+                    username = recruiter_details['email']
+                user = User.objects.create(email=recruiter_details['email'], username=username)
                 user.set_password(recruiter_details['password'])
                 user.email = recruiter_details['email']
                 user.save()
                 recruiter = Recruiter.objects.create(user=user)
+        print "recruiter=", recruiter
         recruiter.country = recruiter_details['country']
         recruiter.city = recruiter_details['city']
         recruiter.mobile = int(recruiter_details['mobile'])
@@ -75,21 +67,24 @@ class SaveEmployer(View):
         company.company_name = recruiter_details['name']
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
+        print request.FILES
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
+        if request.FILES.get('photo_img', ''):
+            photo = request.FILES['photo_img']
+            company.photo = photo
         company.save()
         recruiter.company = company
         recruiter.save()
         user.save()
-        if request.user.is_authenticated() == False:
-            user = authenticate(username=recruiter_details['email'], password=recruiter_details['password'])
-            if user and user.is_active:
-                login(request, user)
-                message = 'Logged in'
-                is_logged_in = True
-            else:
-                message = 'Not logged in' 
+        if not request.user.is_authenticated():
+            user = authenticate(username=user.username, password=recruiter_details['password'])
+        if user and user.is_active:
+            login(request, user)
+            message = 'Logged in'
+        else:
+            message = 'Not logged in' 
 
         res = {
             'result': 'ok',
@@ -111,7 +106,6 @@ class EmployerView(View):
         if  request.user.is_superuser:
             recruiters = Recruiter.objects.all()
             paginator = Paginator(recruiters, 20) # Show 25 contacts per page
-
             page = request.GET.get('page')
             try:
                 recruiters = paginator.page(page)
@@ -187,6 +181,7 @@ class EditEmployer(View):
                 'industry': company.industry_type if company else '',
                 'description': company.description if company else '',
                 'company_profile': company.company_profile.name if company.company_profile else '',
+                'photo': company.photo.name if company.company_profile else '',
             })
             res ={
                 'recruiter': ctx_employer_data,

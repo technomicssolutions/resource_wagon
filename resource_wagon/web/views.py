@@ -15,8 +15,7 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from models import RequestSend, Reply, Job
-from employer.models import CompanyProfile
-
+from employer.models import CompanyProfile, Recruiter
 
 class Home(View):
     
@@ -35,48 +34,51 @@ class Dashboard(View):
 
 class Login(View):
     
-    # def get(self, request, *args, **kwargs):
-    #     context = {}
-    #     return render(request, 'login.html', context)
-
     def post(self, request, *args, **kwargs):
 
         login_details  = ast.literal_eval(request.POST['login_details'])
-    
-        user = authenticate(username=login_details['username'], password=login_details['password'])
-       
-        status = 200
-        if user and user.is_active:
-            login(request, user)
+        try:
+            user = User.objects.get(email=login_details['username'])
+        except:
+            try:
+                user = User.objects.get(username=login_details['username'])
+            except:
+                res = {
+                    'result': 'error',
+                    'message': 'Username or password is incorrect',
+                }
+                response = simplejson.dumps(res)
+                return HttpResponse(response, status=200, mimetype='application/json')
+        if user:
+            user = authenticate(username=user.username, password=login_details['password'])
+            status = 200
+            if user.is_active:
+                login(request, user)
+            else:
+                res = {
+                    'result': 'error',
+                    'message': 'Username or password is incorrect',
+                }
         else:
             res = {
                     'result': 'error',
                     'message': 'Username or password is incorrect',
                 }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
         
         if user.recruiter_set.all():
             res = {
                     'result': 'recruiter',
-
-                }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
-            
+                }            
         elif user.jobseeker_set.all():
             res = {
                     'result': 'jobseeker',
-
                 }
-            response = simplejson.dumps(res)
-            return HttpResponse(response, status=status, mimetype='application/json')
-            
+             
         elif user.is_superuser :
             res = {
                     'result': 'admin',
-
                 }
+        if request.is_ajax():
             response = simplejson.dumps(res)
             return HttpResponse(response, status=status, mimetype='application/json')
         return HttpResponseRedirect(reverse('home'))
@@ -217,4 +219,28 @@ class Companies(View):
         return render(request, 'companies.html', {
             'companies': companies
         })
+class Company(View):
+    def get(self, request, *args, **kwargs):
+        company_name = kwargs['company_name']
+        company = CompanyProfile.objects.get(company_name=company_name)
+        print company
+        print company.industry_type
+        return render(request, 'company.html', {
+            'company': company
+        })
+class PremiumEmployer(View):
+    def post(self, request, *args, **kwargs):
+        
+        premium_employer = ast.literal_eval(request.POST['premium_employer'])
+        status = 200
+        print premium_employer
+        recruiter = Recruiter.objects.get(id=premium_employer['id'])
+        recruiter.company.is_premium_company = premium_employer['premium']
+        print recruiter.company.is_premium_company
+        recruiter.company.save()
+        res = {
+                    'result': 'ok',
 
+                }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, status=status, mimetype='application/json')

@@ -21,5 +21,5 @@ urlpatterns = patterns('',
   	url(r'^job_search/$', JobSearch.as_view(), name='job_search'),
     url(r'^jobseeker_log/$', ActivityLog.as_view(), name='jobseeker_log'),  	
     url(r'^apply/(?P<job_id>\d+)/$', login_required(ApplyJobs.as_view()), name='apply_jobs'),
-    url(r'^view_job_details/(?P<job_id>\d+)/$', login_required(JobDetails.as_view()), name='view_job_details'),
+    url(r'^view_job_details/(?P<job_id>\d+)/$', JobDetails.as_view(), name='view_job_details'),
 )

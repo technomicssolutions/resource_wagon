@@ -32,7 +32,13 @@
 			<input type="text" name="city" ng-model="recruiter.city" value="{{recruiter.city}}">
 			<label>Company description</label>
 			<textarea rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{recruiter.description}}"></textarea>
-			<h3>Attach Your Company Profile</h3>
+			
+	        <label >Attach Company Logo</label>
+	        <input  type="file" fileread="photo_img.src"/>
+	        <input  type="hidden" ng-model="photo_img.src">
+            <img src="/site_media/[[recruiter.photo]]" >Company Logo
+
+			<h3>Attach Your Company Profile </h3>
 			<label>Company Profile<span class="red">*</span></label>
 			<input type="file" fileread="profile_doc.src"/>
 			<input type="hidden" ng-model="profile_doc.src">
