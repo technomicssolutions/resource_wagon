@@ -510,8 +510,8 @@ class Inbox(View):
 
     def get(self, request, *args, **kwargs):
 
-        replies = Reply.objects.filter(request__recruiter__user = request.user )
-
+        replies = Reply.objects.filter(request__recruiter__user = request.user)
+        re = Reply.objects.filter(request__recruiter__user = request.user, is_new=True).update(is_new=False)
         paginator = Paginator(replies, 20) # Show 25 contacts per page
         print replies
         page = request.GET.get('page')
@@ -526,7 +526,6 @@ class Inbox(View):
         context = {
             'replies':replies,
         }
-
         return render(request, 'inbox.html', context)
 
 
