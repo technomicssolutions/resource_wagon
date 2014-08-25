@@ -35,8 +35,7 @@ class SaveEmployer(View):
         status = 200
         if recruiter_details['id'] !=0 :
             recruiter = Recruiter.objects.get(id=recruiter_details['id'])
-            user = recruiter.user
-            
+            user = recruiter.user            
         else:           
             try:
                 user = User.objects.get(email=recruiter_details['email'])
@@ -55,6 +54,13 @@ class SaveEmployer(View):
                 user.set_password(recruiter_details['password'])
                 user.email = recruiter_details['email']
                 user.save()
+                if not request.user.is_authenticated():
+                    user = authenticate(username=user.username, password=recruiter_details['password'])
+                if user and user.is_active:
+                    login(request, user)
+                    message = 'Logged in'
+                else:
+                    message = 'Not logged in' 
                 recruiter = Recruiter.objects.create(user=user)
         print "recruiter=", recruiter
         recruiter.country = recruiter_details['country']
@@ -81,14 +87,7 @@ class SaveEmployer(View):
         recruiter.company = company
         recruiter.save()
         user.save()
-        if not request.user.is_authenticated():
-            user = authenticate(username=user.username, password=recruiter_details['password'])
-        if user and user.is_active:
-            login(request, user)
-            message = 'Logged in'
-        else:
-            message = 'Not logged in' 
-
+        
         res = {
             'result': 'ok',
             'recruiter_id': recruiter.id,
