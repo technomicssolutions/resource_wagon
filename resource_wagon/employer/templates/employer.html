@@ -11,7 +11,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 	{% if not user.is_superuser %}
 		<div ng-show="view_employer_details">
 			{% if user.recruiter_set.all.0.company.photo %}
-				<img src="/site_media/{{user.recruiter_set.all.0.company.photo.name}}" alt=""   >
+				<img src="/site_media/{{user.recruiter_set.all.0.company.logo.name}}" alt=""   >
 			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
         	<div class="separation_outer">
@@ -143,6 +143,10 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 			<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
 			<option>Other</option>
 		</select>
+		<label >Attach Company Logo</label>
+        <input  type="file" fileread="logo.src"/>
+        <input  type="hidden" ng-model="logo.src">
+        <img src="/site_media/[[recruiter.logo]]" >
         </div>
         </div>
         
@@ -166,7 +170,6 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
         <div class="col-sm-8">
 		<input class="form-control" type="file" fileread="profile_doc.src"/>
 		<input type="hidden" ng-model="profile_doc.src">
-                <img src="/site_media/[[recruiter.photo]]" >
 
         </div>
 		</div>

@@ -29,7 +29,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 				<td>{{recruiter.mobile}}</td>
 				<td>{{recruiter.land_num}}</td>
 				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
-				<td> <input type="checkbox" name="checkbox"  ng-click= "save_premium_employer('{{recruiter.id}}')" ></td>
+				<td> <input id="recruiter_{{recruiter.id}}" type="checkbox" value="{{recruiter.company.is_premium_company}}" name="checkbox" {% if recruiter.company.is_premium_company %} checked {% endif %} ng-click= "save_premium_employer('{{recruiter.id}}', '{{recruiter.company.is_premium_company}}')"></td>
 			</tr>	
 		</div>
 		{% endfor %}
