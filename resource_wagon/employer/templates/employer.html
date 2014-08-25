@@ -10,6 +10,9 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
 		<div ng-show="view_employer_details">
+			{% if user.recruiter_set.all.0.company.photo %}
+				<img src="/site_media/{{user.recruiter_set.all.0.company.photo.name}}" alt=""   >
+			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
 			<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
 			<p>Location :{{user.recruiter_set.all.0.country}}</p>

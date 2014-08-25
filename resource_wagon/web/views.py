@@ -216,6 +216,15 @@ class Companies(View):
         return render(request, 'companies.html', {
             'companies': companies
         })
+class Company(View):
+    def get(self, request, *args, **kwargs):
+        company_name = kwargs['company_name']
+        company = CompanyProfile.objects.get(company_name=company_name)
+        print company
+        print company.industry_type
+        return render(request, 'company.html', {
+            'company': company
+        })
 class PremiumEmployer(View):
     def post(self, request, *args, **kwargs):
         

@@ -3728,6 +3728,9 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
+            if ($scope.recruiter.photo == null){
+                $scope.recruiter.photo = '';
+            }
             var url = '/employer/save_recruiter_details/';
             params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
