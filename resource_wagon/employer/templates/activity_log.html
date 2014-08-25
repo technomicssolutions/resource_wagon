@@ -1,32 +1,30 @@
-
-{% extends 'jobseeker_dashboard.html' %}
-{% block title %}Jobseeker 
+{% extends 'employer_dashboard.html' %}
+{% block title %}Recruiter 
 {% endblock title %}
 
 {% block dashboard_content %}
 	
-	<h3>Applied Jobs</h3>
-	{% if applied_jobs %}
+	<h3>Posted Jobs</h3>
+	{% if posted_jobs %}
 		<table>
 			<tr>
 				<th>Job Title</th>
-				<th>Job Description</th>
-				<th>Recruiter</th>
+				<th>Job Qualification</th>
 				<th>Job Location</th>
 				<th>Last Date</th>
 			</tr>
-			{% for job in applied_jobs %}
+			{% for job in posted_jobs %}
 			<tr>
 				<td>{{job.job_title}}</td>
-				<td>{{job.description}}</td>
-				<td>{{job.recruiter}}</td>
+				<td>{{job.education_req}}</td>
 				<td>{{job.job_location}}</td>
 				<td>{{job.last_date}}</td>
 			</tr>
 			{% endfor %}
 		</table>
-		<h3>Last Login</h3>{{last_login}}
+		
 	{% else %}
-		<p>No jobs applied</p>
+		<p>No jobs posted</p>
 	{% endif %}
+	<h3>Last Login</h3>{{last_login}}
 {% endblock dashboard_content %}

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from employer.views import EmployerRegistration, SaveEmployer\
 ,EmployerView, EditEmployer, PostJobsView,PostedJobsView,DeleteJob,PublishJob,EditPostJobsView\
-,JobDetailsView,ViewApplicants, SearchCandidatesView, AdminRequest, Inbox, DeleteInbox, GetJobs, DashBoardEmployer
+,JobDetailsView,ViewApplicants, SearchCandidatesView, AdminRequest, Inbox, DeleteInbox, GetJobs, DashBoardEmployer, ActivityLog
 
 
 urlpatterns = patterns('',
@@ -25,7 +25,7 @@ urlpatterns = patterns('',
     url(r'^admin_reply/$',Inbox.as_view(), name='admin_reply'),
     url(r'^dashboard/$', DashBoardEmployer.as_view(), name="employer_dashboard"),
     url(r'^delete_reply/(?P<reply_id>\d+)/$', DeleteInbox.as_view(), name='delete_reply'),
-
+    url(r'^recruiter_log/$', ActivityLog.as_view(), name='recruiter_log'), 
     url(r'^get_jobs/$',GetJobs.as_view(), name='get_jobs'),
 
 

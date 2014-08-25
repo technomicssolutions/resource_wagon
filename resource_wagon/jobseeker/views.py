@@ -551,6 +551,7 @@ class ActivityLog(View):
     def get(self, request, *args, **kwargs):
         jobseeker_id =  request.user.jobseeker_set.all()[0].id
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
+        last_login = User.objects.get(email=request.user).last_login
         applied_jobs = jobseeker.applied_jobs.all()
         applied_jobs_list = []
 
@@ -565,6 +566,7 @@ class ActivityLog(View):
         
         context = {
         'applied_jobs': applied_jobs_list,
+        'last_login': last_login,
         }
              
         return render(request, 'activity_log.html',context)
