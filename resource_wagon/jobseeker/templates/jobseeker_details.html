@@ -252,7 +252,7 @@
                             </div>
                         </div> 
                     <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()"></p>
-                    <p class="error_message error_p">[[user_login_validation]]</p>                 		
+                    <p class="error_message">[[user_login_validation]]</p>                 		
                 </div>    
             	<div class="clear"></div>
 
@@ -342,7 +342,7 @@
 	                <div class="form-group-outer">
 		                <div class="col-sm-offset-2 col-sm-10">
 							<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_personal_details ()"></p>
-							<p class="error_message error_p">[[personal_validation]]</p>
+							<p class="error_message ">[[personal_validation]]</p>
 		                </div>
 	                </div>
 					<div class="clear"></div>
@@ -468,7 +468,7 @@
 	            
 				<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_current_employer_details(jobseeker_id)"></p>
 				
-				<p class="error_message error_p">[[current_employer_validation_msg]]</p>
+				<p class="error_message">[[current_employer_validation_msg]]</p>
                 
 			</div>
 
@@ -550,7 +550,7 @@
                 <div class="form-group-outer">
 					<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
 					
-					<p class="error_message error_p">[[educational_validation_msg]]</p>
+					<p class="error_message">[[educational_validation_msg]]</p>
 	            </div>
 			</div>
             
@@ -569,7 +569,7 @@
 				<label>Allow recruiters to view resume<input type="checkbox" ng-model="resume_details.is_resume_show"></label>
 				<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="edit_resume_details()"></p>
 				<a href=""  ng-click="remove_cv()" ng-show="resume_details.resume">Delete CV</a>
-				<p class="error_message error_p">[[resume_validation_message]]</p>
+				<p class="error_message">[[resume_validation_message]]</p>
 			</div>
 			<div class="separation" ng-show="photo_detail">
 				<h3>Update Photo </h3>
@@ -583,7 +583,7 @@
 				<br>
 				<br>
 				<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_photo_details()"></p>
-				<p class="error_message error_p">[[photo_validation_message]]</p>
+				<p class="error_message">[[photo_validation_message]]</p>
 			</div>
 		</form>
 	{% else %}
