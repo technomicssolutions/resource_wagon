@@ -1,4 +1,8 @@
 {% extends 'base.html' %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
+{% block header %} 
+    {% include 'home_header.html' %}
+{% endblock header %}
 {% block content %}
 <div>
 	{% for company in companies %}

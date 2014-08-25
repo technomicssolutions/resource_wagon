@@ -1,7 +1,22 @@
 {% extends 'base.html' %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
+{% block header %} 
+	{% include 'home_header.html' %}
+{% endblock header %}
 {% block content %}
 <p><h3>{{company.company_name}}</h3></p>
+{% if company.photo.name %}
+		<img src="/site_media/{{company.photo.name}}" alt=""   >
+{% endif %}
 <p>Industry: {{company.industry_type}}</p>
-<p>{{company.description}}</p>
+<p>Country: {{company.recruiter_set.all.0.country}}</p>
+{% if company.recruiter_set.all.0.city %}
+	<p>City: {{company.recruiter_set.all.0.city}}</p>
+{% endif %}
+<p>Mobile: {{company.recruiter_set.all.0.mobile}}</p>
+{% if company.recruiter_set.all.0.land_num %}
+	<p>Land Line: {{company.recruiter_set.all.0.land_num}}</p>
+{% endif %}
+<p>Description: {{company.description}}</p>
 <p><a href="/site_media/{{company.company_profile.name}}">Download Company Profile</a></p>
 {% endblock %}

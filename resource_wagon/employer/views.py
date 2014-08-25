@@ -71,9 +71,9 @@ class SaveEmployer(View):
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
-        if request.FILES.get('photo_img', ''):
-            photo = request.FILES['photo_img']
-            company.photo = photo
+        if request.FILES.get('logo', ''):
+            logo = request.FILES['logo']
+            company.photo = logo
         company.save()
         recruiter.company = company
         recruiter.save()

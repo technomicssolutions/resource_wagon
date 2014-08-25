@@ -3491,8 +3491,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
     $scope.employer_id = 0;
     $scope.profile_doc = {};
     $scope.profile_doc.src = "";
-    $scope.photo_img = {};
-    $scope.photo_img.src = "";
+    $scope.logo = {};
+    $scope.logo.src = "";
     
     $scope.login_details = {
       'username': '',
@@ -3516,7 +3516,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             'phone' : '',
             'city': '',
             'description': '',
-            'profile_photo': '',
+            'logo': '',
             
         } 
         if (user_id) {
@@ -3603,7 +3603,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('photo_img', $scope.photo_img.src);
+            fd.append('logo', $scope.logo.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -3668,12 +3668,16 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
 
         } 
     }
-    $scope.save_premium_employer = function(recruiter_id){
+    $scope.save_premium_employer = function(recruiter_id, premium_flag){
         $scope.premium_employer.id = recruiter_id;
-        $scope.premium_employer.premium = "True";
+        if (premium_flag == 'True') {
+            $scope.premium_employer.premium = "False";
+        } else {
+            $scope.premium_employer.premium = "True";
+        }
         params = {
-        'premium_employer': angular.toJson($scope.premium_employer),
-        'csrfmiddlewaretoken': $scope.csrf_token,
+            'premium_employer': angular.toJson($scope.premium_employer),
+            'csrfmiddlewaretoken': $scope.csrf_token,
         }
         $http({
             method : 'post',

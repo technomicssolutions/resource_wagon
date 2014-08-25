@@ -8,11 +8,23 @@
 	<div class="premium_employer_content">
 		<div class="slide_left"></div>
 		<div class="slide_content">
-			<!--<img src="/static/images/premium-btn.png" />
-			<img src="/static/images/img1.jpg" class="employer" />
-			<img src="/static/images/img1.jpg" class="employer" />
-			<img src="/static/images/img1.jpg" class="employer" />-->
-           Thumbnails  Slider
+			{% if recruiters %}
+				{% for recruiter in recruiters %}
+					
+					{% if recruiter.company.photo.name %}
+						<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/site_media/{{recruiter.company.photo.name}}" alt=""   ></a>
+					{% else %}
+						<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/static/images/premium-btn.png" /></a>
+					{% endif %}
+					
+
+					<!-- <img src="/static/images/premium-btn.png" /> -->
+					<!-- <img src="/static/images/img1.jpg" class="employer" />
+					<img src="/static/images/img1.jpg" class="employer" />
+					<img src="/static/images/img1.jpg" class="employer" /> -->
+				{% endfor %}
+			{% endif %}
+           
 		</div>
 		<div class="slide_right"></div>
 		<div class="clear"></div>
@@ -40,7 +52,7 @@
 					<tr class="table-row {% if forloop.counter0|divisibleby:2 %}even{% else %} odd {% endif %}">
 						<td>{{job.posting_date}}</td>
 						<td><a href="{% url 'view_job_details' job.id %}">{{job.job_title}} </a></td>
-						<td><a href="{% url 'company' company_name=job.company.company_name %}">{{job.company.company_name}}</a></td>
+						<td><a href="{% url 'company' company_id=job.company.id %}">{{job.company.company_name}}</a></td>
 						<td>{{job.education_req}}</td>
 					</tr>
                     

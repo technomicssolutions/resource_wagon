@@ -21,8 +21,10 @@ class Home(View):
     
     def get(self, request, *args, **kwargs):
         jobs = Job.objects.all().order_by('-posting_date')[:10]
+        recruiters = Recruiter.objects.filter(company__is_premium_company=True)
         context = {
             'jobs': jobs,
+            'recruiters': recruiters,
         }
         return render(request, 'home.html', context)
 
@@ -221,25 +223,27 @@ class Companies(View):
         })
 class Company(View):
     def get(self, request, *args, **kwargs):
-        company_name = kwargs['company_name']
-        company = CompanyProfile.objects.get(company_name=company_name)
+        company_id = kwargs['company_id']
+        company = CompanyProfile.objects.get(id=company_id)
         print company
         print company.industry_type
         return render(request, 'company.html', {
             'company': company
         })
 class PremiumEmployer(View):
+    
     def post(self, request, *args, **kwargs):
         
         premium_employer = ast.literal_eval(request.POST['premium_employer'])
         status = 200
-        print premium_employer
         recruiter = Recruiter.objects.get(id=premium_employer['id'])
-        recruiter.company.is_premium_company = premium_employer['premium']
-        print recruiter.company.is_premium_company
+        if premium_employer['premium'] == "True":
+            recruiter.company.is_premium_company = True
+        else:
+            recruiter.company.is_premium_company = False
         recruiter.company.save()
         res = {
-                    'result': 'ok',
+                'result': 'ok',
 
                 }
         response = simplejson.dumps(res)

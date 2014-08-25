@@ -11,7 +11,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 	{% if not user.is_superuser %}
 		<div ng-show="view_employer_details">
 			{% if user.recruiter_set.all.0.company.photo %}
-				<img src="/site_media/{{user.recruiter_set.all.0.company.photo.name}}" alt=""   >
+				<img src="/site_media/{{user.recruiter_set.all.0.company.logo.name}}" alt=""   >
 			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
 			<p>Industry Type :{{user.recruiter_set.all.0.company.industry_type}}</p>
@@ -98,9 +98,9 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 		<label>Company description</label>
 		<textarea rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>
 		 <label >Attach Company Logo</label>
-        <input  type="file" fileread="photo_img.src"/>
-        <input  type="hidden" ng-model="photo_img.src">
-        <img src="/site_media/[[recruiter.photo]]" >
+        <input  type="file" fileread="logo.src"/>
+        <input  type="hidden" ng-model="logo.src">
+        <img src="/site_media/[[recruiter.logo]]" >
 		<h3>Attach Your Company Profile</h3>
 		<label>Company Profile<span class="red">*</span></label>
 		<input type="file" fileread="profile_doc.src"/>
