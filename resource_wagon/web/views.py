@@ -166,11 +166,24 @@ class RequestView(View):
     def get(self, request, *args, **kwargs):
         re = RequestSend.objects.filter(is_new=True).update(is_new=False)
         requests = RequestSend.objects.all().order_by('-id')
-        context = {
-            'requests':requests,
-        }
-        return render(request, 'requests.html', context)
+        # context = {
+        #     'requests':requests,
+        # }
+        # return render(request, 'requests.html', context)
+        paginator = Paginator(requests, 20) 
 
+        page = request.GET.get('page')
+        try:
+            requests = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            requests = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            requests = paginator.page(paginator.num_pages)
+        return render(request, 'requests.html', {
+            'requests': requests
+        })
 class DeleteRequest(View):
 
     def get(self, request, *args, **kwargs):

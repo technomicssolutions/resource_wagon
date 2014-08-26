@@ -547,8 +547,8 @@ class ActivityLog(View):
 
     def get(self, request, *args, **kwargs):
         
-        last_login = User.objects.get(username=request.user.username).last_login
-        posted_jobs = Job.objects.filter(recruiter=request.user.username)
+        last_login = request.user.last_login
+        posted_jobs = Job.objects.filter(recruiter=request.user)
         context={
             'posted_jobs':posted_jobs,
             'last_login':last_login,
