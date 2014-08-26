@@ -3755,7 +3755,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('photo_img', $scope.photo_img.src);
+            fd.append('logo', $scope.logo.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -4081,6 +4081,7 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     get_basic_education($scope);
     get_basic_education_specialization($scope);
     $scope.experience = [];
+    $scope.no_candidate = false;
     $scope.candidates_data_table = false;
     for(var i=0; i<=50; i++)
       $scope.experience.push(i);   
@@ -4126,8 +4127,12 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         $http.get(url).success(function(data) {
             $scope.candidates_data = data.candidates_data;
             console.log($scope.candidates_data);
-            if($scope.candidates_data.length > 0)
+            if($scope.candidates_data.length > 0){
               $scope.candidates_data_table = true;
+              $scope.no_candidate = false;
+            }              
+            else
+              $scope.no_candidate = true;
         })
       }
     }
