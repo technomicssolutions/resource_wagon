@@ -67,17 +67,22 @@ class SaveEmployer(View):
         try:
             company = CompanyProfile.objects.get(company_name = recruiter_details['name'])
             if company.recruiter_set.all()[0] != recruiter:
-                
-        except:
-            if recruiter.company:                
-                company = recruiter.company
-                company.company_name = recruiter_details['name']
+                res = {
+                    'result': 'error',
+                    'recruiter_id': recruiter.id,
+                    'message': 'This company already exists'
+                }
+                response = simplejson.dumps(res)
+                return HttpResponse(response, status=status, mimetype='application/json')
             else:
-                try:
-                    company, created = CompanyProfile.objects.get_or_create(company_name = recruiter_details['name'])
+                company.company_name = recruiter_details['name']
+                company.save()
+        except:
+            company = CompanyProfile.objects.create(company_name = recruiter_details['name'])                            
+            recruiter.company = company
+            recruiter.save()
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
-        print request.FILES
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
@@ -88,7 +93,6 @@ class SaveEmployer(View):
         recruiter.company = company
         recruiter.save()
         user.save()
-        
         res = {
             'result': 'ok',
             'recruiter_id': recruiter.id,
