@@ -73,8 +73,8 @@
             	<div class="form-group-outer1">	
 				<label class="col-sm-4 control-label">Salary(per annum)</label>
                  <div class="col-sm-8">    
-				<input  style="width: 18%" type ="text" name="salary" ng-model="jobpost.salary">
-				<select  style="width: 16%" name="currency" ng-model="jobpost.currency">
+				<input class="form-select-control" type ="text" name="salary" ng-model="jobpost.salary">
+				<select class="form-select-control" name="currency" ng-model="jobpost.currency">
 					<option value="">-Select Currency-</option>
 					<option ng-repeat="currency in currencies" value="[[currency]]" ng-selected="currency == jobpost.currency">[[currency]]</option>
 				</select>

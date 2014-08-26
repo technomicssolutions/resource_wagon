@@ -2,6 +2,10 @@
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
 
 {% block content %}
+
+<div class="col-sm-11">
+<div class="separation">
+<div class="separation_outer">
 <div>
 	{% for company in companies %}
 		<p><h3><a herf="{% url 'company' company_id=company.id %}">{{company.company_name}}</a></h3></p>
@@ -24,5 +28,9 @@
         {% endif %}
 	    </span>
 	</div>
-<div>
+</div>
+</div>
+</div>
+</div>
+
 {% endblock content %}

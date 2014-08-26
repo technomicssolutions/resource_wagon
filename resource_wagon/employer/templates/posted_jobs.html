@@ -11,28 +11,44 @@
 	{% if alljobs %}
 		{% for job in alljobs %}
 
-			<b> <label >{{job.job_title}}</label></b> - {{job.job_location}} 
-			<label>From : {{job.company.company_name}}</label>
+			<p class="outer">
+            <b> 
+            <span class="col-xs-6 col-md-4">{{job.job_title}}</span></b> 
+            <span class="col-xs-12 col-md-8">- {{job.job_location}} </span>
+            </p>
+            <p class="outer">
+                <span class="col-xs-6 col-md-4">From :</span>
+                 <span class="col-xs-12 col-md-8">{{job.company.company_name}}</span>
+            </p>
 		
-				<p>Experience : {{job.exp_req_min}} - {{job.exp_req_max}}</p>
+				<p class="outer">
+               	 	<span class="col-xs-6 col-md-4">Experience : </span>
+                	<span class="col-xs-12 col-md-8">{{job.exp_req_min}} - {{job.exp_req_max}}</span>
+                </p>
 				
 			
 			
-				<p>Education : {{job.education_req}}</p>
+				<p class="outer">
+                	<span class="col-xs-6 col-md-4">Education : </span>
+                <span class="col-xs-12 col-md-8">{{job.education_req}}</span>
+                </p>
 				
 			
-				<p>Specialization : {{job.specialization}}</p>
+				<p class="outer">
+                	<span class="col-xs-6 col-md-4">Specialization : </span>
+                	<span class="col-xs-12 col-md-8">{{job.specialization}}</span>
+                </p>
 				
 								
 			<br>
 			{% if not user.is_superuser %}
-				<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input type="submit" name="edit" value="Edit"></a>
+				<a href="{% url 'post_jobs_edit' job_id=job.id %}"><input class="btn btn-primary" type="submit" name="edit" value="Edit"></a>
 			{% endif %}
-			<a href="{% url 'delete_job' job_id=job.id %}"><input type="submit" name="delete" value="Delete"></a>
-			<a href="{% url 'applicants' job_id=job.id %}"><input type="submit" name="view_applicants" value="View Applicants"></a></a>
+			<a href="{% url 'delete_job' job_id=job.id %}"><input class="btn btn-danger" type="submit" name="delete" value="Delete"></a>
+			<a href="{% url 'applicants' job_id=job.id %}"><input class="btn btn-info" type="submit" name="view_applicants" value="View Applicants"></a></a>
 			{% if not user.is_superuser %}
 				{% if not job.is_publish %}
-					<a href="{% url 'publish_job' job_id=job.id %}"><input type="submit" name="publish_job" value="Publish"></a>
+					<a href="{% url 'publish_job' job_id=job.id %}"><input class="btn btn-warning" type="submit" name="publish_job" value="Publish"></a>
 				{% endif %}
 			{% endif %}
 			{{message}}
