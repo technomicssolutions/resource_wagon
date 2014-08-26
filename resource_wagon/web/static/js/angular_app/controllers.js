@@ -2528,7 +2528,7 @@ function get_job_seeker_details($scope, $http) {
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
         $scope.educational_details = data.educational_details[0];
-        console.log($scope.educational_details);
+        
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
         get_stream($scope);
@@ -2598,17 +2598,17 @@ function get_companies($scope, $http) {
 function get_jobs($scope, $http) {
     $http.get('/employer/get_jobs/').success(function(data){
         $scope.jobs = data.jobs_list;  
-        console.log($scope.jobs);
+        
      }).error(function(data){
         console.log(data || "Request failed");
     });    
 }
 function get_employer_details($scope, $http) {
-    console.log($scope.employer_id)
+    
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
         $scope.recruiter = data.recruiter[0]; 
-        console.log($scope.recruiter);
+        
        
     }).error(function(data, status)
     {
@@ -2924,7 +2924,7 @@ function save_current_employer_details($scope, $http, type) {
                     $scope.personal_details = false;
                     $scope.current_employment_details = false;
                     $scope.educational_detail = true;
-                    console.log($scope.educational_detail)
+                    
                 } else {
                     $scope.job_seeker_id = data.job_seeker_id;
                     document.location.href = '/jobseeker/jobseeker_details/';
@@ -2987,7 +2987,7 @@ function save_user_login_details($scope, $http, type) {
         if (data.result == 'ok') {
             if (type == 'save') {
                 $scope.job_seeker_id = data.job_seeker_id;
-                console.log($scope.job_seeker_id );
+                
                 $scope.personal.id = $scope.job_seeker_id;
                 $scope.current_employer.id = $scope.job_seeker_id;
                 $scope.educational_details.id = $scope.job_seeker_id;
@@ -3446,7 +3446,7 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         hide_jobseeker_details_block($scope);
 
         $scope.resume_detail = true;
-        console.log($scope.resume_detail )
+        
     }
     $scope.edit_resume_validation = function() {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
@@ -3466,7 +3466,7 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
         $scope.photo_detail = true;
-        console.log($scope.photo_detail)
+        
     }
     $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
@@ -3828,7 +3828,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     } 
     $http.get('/employer/post_job').success(function(data)
     {
-        console.log(data.company_name);
+        
         $scope.jobpost.company_name = data.company_name;
     }).error(function(data, status)
     {
@@ -3840,14 +3840,14 @@ function  JobPostingController($scope,$element,$http,$timeout){
             {
                 $scope.jobpost = data.jobpost[0]; 
                 $scope.func_roles = $scope.req_roles[$scope.jobpost.category];
-                console.log($scope.jobpost);
+                
                 $('#last_dob').val($scope.jobpost.last_date);
             }).error(function(data, status)
             {
                 console.log(data || "Request failed");
             });
     }		
-    console.log($scope.jobpost.category);
+    
     $scope.get_req_role = function(){
       var req_category = $scope.jobpost.category;
       $scope.func_roles = $scope.req_roles[req_category];
@@ -3861,7 +3861,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
-    console.log($scope.jobpost.role);
+    
     if ($scope.jobpost.title == ''|| $scope.jobpost.title == undefined){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide a Job Title';
@@ -4113,7 +4113,7 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         var url = '/employer/search_candidates/?functions='+$scope.search_candidate.functions+'&industry='+$scope.search_candidate.industry+'&months='+$scope.search_candidate.months+'&years='+$scope.search_candidate.years+'&skills='+$scope.search_candidate.skills+'&basic_edu='+$scope.educational_details.basic_edu+'&basic_specialization='+$scope.educational_details.basic_specialization;
         $http.get(url).success(function(data) {
             $scope.candidates_data = data.candidates_data;
-            console.log($scope.candidates_data);
+            
             if($scope.candidates_data.length > 0)
               $scope.candidates_data_table = true;
         })

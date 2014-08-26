@@ -49,7 +49,7 @@
 		</div>
 	{% endif %}
 	
-	<p >{{ message }}</p>
+	<p class="error_message">{{ message }}</p>
 	{% if not not_able_to_apply %}
 		{% if  user.is_authenticated %}
 			{% if user.jobseeker_set.all %}
