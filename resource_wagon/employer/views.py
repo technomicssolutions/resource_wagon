@@ -549,4 +549,4 @@ class ActivityLog(View):
             'posted_jobs':posted_jobs,
             'last_login':last_login,
         }
-        return render(request, 'activity_log.html',context)
+        return render(request, 'employer_activity_log.html',context)
