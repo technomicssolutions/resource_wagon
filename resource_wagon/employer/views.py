@@ -412,20 +412,26 @@ class SearchCandidatesView(View):
             if years == "":
                 years = 0
             q_list = []
-            if industry:
+            print functions, basic_edu,industry,skills,years,months,basic_specialization
+            if industry != "":
+                print 'curr_industry'
                 q_list.append(Q(employment__curr_industry__icontains = industry))
             if functions:
+                print 'functions'
                 q_list.append(Q(employment__function__icontains = functions))
             if skills:
+                print 'skills'
                 q_list.append(Q(employment__skills__icontains = skills))
-            if years:
-                q_list.append(Q(employment__exp_yrs=int(years)))
-            if months:
-                q_list.append(Q(employment__exp_mnths=int(months)))
-            if basic_edu:
-                q_list.append(Q(education__basic_edu = basic_edu))
+            
+            if basic_edu and years and months:
+                print 'basic_edu'
+                q_list.append(Q(Q(education__basic_edu = basic_edu), 
+                              Q(employment__exp_mnths=int(months)),
+                              Q(employment__exp_yrs=int(years))))
             if basic_specialization:
+                print 'basic_specialization'
                 q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
+            print q_list
             jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
             for jobseeker in jobseekers:
                 jobseekers_list.append({
@@ -433,10 +439,13 @@ class SearchCandidatesView(View):
                     'first_name': jobseeker.user.first_name,
                     'last_name': jobseeker.user.last_name,
                     'email': jobseeker.user.username,
+                    'education': jobseeker.education.basic_edu,
                     'specialization': jobseeker.education.basic_edu_specialization,
                     'exp_yrs': jobseeker.employment.exp_yrs,
                     'exp_mnths': jobseeker.employment.exp_mnths,
                     'skills': jobseeker.employment.skills,
+                    'functional_area': jobseeker.employment.function if jobseeker.employment.function else '',
+                    'industry': jobseeker.employment.curr_industry if jobseeker.employment.curr_industry else '',
                     })
             res = {
                 'result': 'ok',
