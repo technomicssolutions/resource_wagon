@@ -114,8 +114,11 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 				<td> [[candidate.industry]]</td>
 				<td><a href="/reports/applicant_resume/[[candidate.id]]/"><input type="submit" name="resume" value="Download Resume"></a></td>
 
-			</tr>
+			</tr>			
 	</table>
+	<div class="not_found" ng-show="no_candidate">
+			<p>No Candidates matching your criteria</p>
+	</div>
 
 
 {% endblock %}

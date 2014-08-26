@@ -2,40 +2,41 @@
 {% block dashboard_content %}
 {% if jobseekers %}
 			
-	<table >
-		<tr >
-			<th>Name</th>
-			<th>Email Id</th>
-			<th>Gender</th>
-			<th>Nationality</th>
-			<th>Mobile Number</th>
-			<th>Functional Area</th>
-			<th>Resume</th>
-			<th></th>
+	<table class="jobseeker-profil">
+		<tr>
+			<th class="col-md-2">Name</th>
+			<th class="col-md-2">Email Id</th>
+			<th class="col-md-2">Gender</th>
+			<th class="col-md-2">Nationality</th>
+			<th class="col-md-2">Mobile Number</th>
+			<th class="col-md-2">Functional Area</th>
+			<th class="col-md-2">Resume</th>
+			<!--<th></th>-->
 			
 		</tr>
 	{% for jobseeker in jobseekers %}
 		<tr>
-			<td>{{jobseeker.user.first_name}}</td>
+			<td class="col-md-2">{{jobseeker.user.first_name}}</td>
 			
-			<td>{{jobseeker.user.email}}</td>
+			<td class="col-md-2">{{jobseeker.user.email}}</td>
 
 
-			<td>{{jobseeker.gender}}</td> 
+			<td class="col-md-2">{{jobseeker.gender}}</td> 
 
-			<td>{{jobseeker.nationality}}</td>
+			<td class="col-md-2">{{jobseeker.nationality}}</td>
 
-			<td>{{jobseeker.mobile}}</td>
+			<td class="col-md-2">{{jobseeker.mobile}}</td>
 
 			
 
-			<td>{{jobseeker.employment.function}}</td>
+			<td class="col-md-2">{{jobseeker.employment.function}}</td>
 
-			<td>{{jobseeker.education.resume_title}}</td>
+			<td class="col-md-2">{{jobseeker.education.resume_title}}</td>
 			{% if jobseeker.education.resume %}
-				<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+				<td class="col-md-2"><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
 			{% endif %}
 		</tr>
+        </table>
 	{% endfor %}
 	<div >
    		<span >

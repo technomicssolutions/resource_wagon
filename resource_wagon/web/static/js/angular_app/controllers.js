@@ -3015,13 +3015,16 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       'username': '',
       'password': '',
     }    
-    $scope.init = function(csrf_token) {
-        $scope.csrf_token = csrf_token;
+    $scope.init = function(csrf_token, is_login_popup) {
+        $scope.csrf_token = csrf_token;        
         $scope.skills = '';
         $scope.job_location = '';
         $scope.industry = '';
         get_industries($scope);
         get_countries($scope);
+        if(is_login_popup == 'True'){
+          $scope.show_login_popup();
+        }
     }
     $scope.job_search  = function() {      
         $scope.is_keyword = false;
@@ -3146,6 +3149,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             return false;
         } else if ($scope.personal.mobile != Number($scope.personal.mobile) || $scope.personal.mobile.length > 15) {
             $scope.personal_validation = 'Please enter Valid Mobile Number';
+            return false;
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.personal.alt_email && !(validateEmail($scope.personal.alt_email))) {
             $scope.personal_validation = 'Please enter Valid Alternate Email';
@@ -3332,6 +3338,9 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
             return false;
         } else if ($scope.personal.mobile != Number($scope.personal.mobile) || $scope.personal.mobile.length > 15) {
             $scope.personal_validation = 'Please enter Valid Mobile Number';
+            return false;
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.personal.alt_email && !(validateEmail($scope.personal.alt_email))) {
             $scope.personal_validation = 'Please enter Valid Alternate Email';
@@ -3569,11 +3578,11 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Password Mismatch';
             return false;
-        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length != 10) {
+        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length > 15) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
-        } else if ($scope.recruiter.phone!='' && !Number($scope.recruiter.phone)) {
+        } else if ($scope.recruiter.phone!='' && !Number($scope.recruiter.phone) || $scope.recruiter.phone.length > 15) {
               $scope.error_flag = true;
               $scope.error_message = 'Please enter a Valid Land no.';
               return false;            
@@ -3707,10 +3716,13 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Type of Industry';
             return false;
-        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters)) {
+        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.personal.mobile.length > 15 ) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
+            return false;
         } else if ($scope.recruiter.phone != '' || $scope.recruiter.phone != undefined) {
             if ($scope.recruiter.phone.match(letters)) {
               $scope.error_flag = true;
@@ -3743,7 +3755,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('photo_img', $scope.photo_img.src);
+            fd.append('logo', $scope.logo.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -4069,6 +4081,7 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     get_basic_education($scope);
     get_basic_education_specialization($scope);
     $scope.experience = [];
+    $scope.no_candidate = false;
     $scope.candidates_data_table = false;
     for(var i=0; i<=50; i++)
       $scope.experience.push(i);   
@@ -4113,9 +4126,14 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         var url = '/employer/search_candidates/?functions='+$scope.search_candidate.functions+'&industry='+$scope.search_candidate.industry+'&months='+$scope.search_candidate.months+'&years='+$scope.search_candidate.years+'&skills='+$scope.search_candidate.skills+'&basic_edu='+$scope.educational_details.basic_edu+'&basic_specialization='+$scope.educational_details.basic_specialization;
         $http.get(url).success(function(data) {
             $scope.candidates_data = data.candidates_data;
-            
-            if($scope.candidates_data.length > 0)
+
+            if($scope.candidates_data.length > 0){
+
               $scope.candidates_data_table = true;
+              $scope.no_candidate = false;
+            }              
+            else
+              $scope.no_candidate = true;
         })
       }
     }
