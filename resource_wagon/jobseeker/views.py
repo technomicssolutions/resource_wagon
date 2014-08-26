@@ -471,6 +471,7 @@ class JobSearch(View):
                 'education_req': job.education_req,
                 'exp_req_min': job.exp_req_min,
                 'exp_req_max': job.exp_req_max,
+                'applied': 'false' if job not in request.user.jobseeker_set.all()[0].applied_jobs.all() else 'true'
             })
         context = {
             'jobs': jobs,
