@@ -3014,13 +3014,16 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       'username': '',
       'password': '',
     }    
-    $scope.init = function(csrf_token) {
-        $scope.csrf_token = csrf_token;
+    $scope.init = function(csrf_token, is_login_popup) {
+        $scope.csrf_token = csrf_token;        
         $scope.skills = '';
         $scope.job_location = '';
         $scope.industry = '';
         get_industries($scope);
         get_countries($scope);
+        if(is_login_popup == 'True'){
+          $scope.show_login_popup();
+        }
     }
     $scope.job_search  = function() {      
         $scope.is_keyword = false;
@@ -3145,6 +3148,9 @@ function JobSeekerController($scope, $element, $http, $timeout) {
             return false;
         } else if ($scope.personal.mobile != Number($scope.personal.mobile) || $scope.personal.mobile.length > 15) {
             $scope.personal_validation = 'Please enter Valid Mobile Number';
+            return false;
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.personal.alt_email && !(validateEmail($scope.personal.alt_email))) {
             $scope.personal_validation = 'Please enter Valid Alternate Email';
@@ -3331,6 +3337,9 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
             return false;
         } else if ($scope.personal.mobile != Number($scope.personal.mobile) || $scope.personal.mobile.length > 15) {
             $scope.personal_validation = 'Please enter Valid Mobile Number';
+            return false;
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.personal.alt_email && !(validateEmail($scope.personal.alt_email))) {
             $scope.personal_validation = 'Please enter Valid Alternate Email';
@@ -3706,10 +3715,13 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Type of Industry';
             return false;
-        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters)) {
+        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.personal.mobile.length > 15 ) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
+        } else if($scope.personal.phone.length > 15) {
+            $scope.personal_validation = 'Please enter Valid Land line number';
+            return false;
         } else if ($scope.recruiter.phone != '' || $scope.recruiter.phone != undefined) {
             if ($scope.recruiter.phone.match(letters)) {
               $scope.error_flag = true;

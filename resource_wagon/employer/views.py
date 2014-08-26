@@ -66,10 +66,9 @@ class SaveEmployer(View):
             recruiter.land_num = recruiter_details['phone']
         if recruiter.company:
             company = recruiter.company
+            company.company_name = recruiter_details['name']
         else:
-            company = CompanyProfile()
-        
-        company.company_name = recruiter_details['name']
+            company, created = CompanyProfile.objects.get_or_create(company_name = recruiter_details['name'])
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
         print request.FILES
@@ -194,10 +193,9 @@ class PostJobsView(View):
         
         jobPosting = Job.objects.create(recruiter = current_user)
         post_data = request.POST
-        jobpost = ast.literal_eval(post_data['jobpost'])
+        jobpost = ast.literal_eval(post_data['jobpost'])       
         
-        
-        company, created = CompanyProfile.objects.get_or_create(company_name = jobpost['company'])
+        company = CompanyProfile.objects.get(company_name = jobpost['company'])
         jobPosting.job_title = jobpost['title']
         jobPosting.ref_code = jobpost['code']
         jobPosting.company = company
