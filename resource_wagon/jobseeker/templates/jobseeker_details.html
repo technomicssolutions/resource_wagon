@@ -6,9 +6,18 @@
 {% block dashboard_content %}
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
+        
+        <div class="separation">
+        
+        <div class="separation_outer_hd">
+           <div class="col-md-8" style="border:1px solid #FF0000;">
+		   		<h2>Welcome {{user.first_name}}</h2>
+           </div>
+           
+        <div class="col-md-4" style="border:1px solid #FF0000; text-align:center;">
 			<div>
 				{% if user.jobseeker_set.all.0.photo %}
-					<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt=""   >
+					<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt="" width="200px" height="132px"   >
 				{% else %}
 
 			    	{% if user.jobseeker_set.all.0.gender == 'male' %}
@@ -19,9 +28,9 @@
 			    	{% endif %}
 			    {% endif %}
 	    	</div>
+            </div>
+            </div>
             
-		<h2>Welcome {{user.first_name}}</h2>
-        <div class="separation">
 		<div class="separation_outer" ng-show="view_user_login_details">
         	
 			<h3>User Details</h3>
@@ -33,7 +42,8 @@
             </div>
 			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_user_login_details()"></p>
            
-        </div>       
+        </div>  
+             
         <div class="clear"></div>
 
 		<div class="separation_outer" ng-show="view_personal_details">
@@ -224,6 +234,7 @@
 			<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Change" ng-click="show_photo_details()"></p>
 			</div>
 		</div>
+        
         
        	<div class="clear"></div>
        
@@ -549,7 +560,6 @@
 					<p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_educational_details()"></p>
 					<p class="error_message">[[educational_validation_msg]]</p>
 	            </div>
-			</div>
             
             
 			<div class="separation_outer" ng-show="resume_detail">
@@ -592,7 +602,9 @@
 			<div class="separation_outer" ng-show="photo_detail">
 				<h3>Update Photo </h3>
 				<div class="rounded_photo" ng-show="photo_details.profile_photo" id="profile_image">
-		            <img src="/site_media/[[photo_details.profile_photo]]" alt=""  id="profile_picture">
+                	<div class="update-photo">
+		            	<img src="/site_media/[[photo_details.profile_photo]]" alt=""  id="profile_picture">
+                    </div>
 		        </div>
                 <div class="form-group-outer">
 				<label class="col-sm-4 control-label">Attach Photo</label>
@@ -608,9 +620,12 @@
 				<p class="error_message">[[photo_validation_message]]</p>
 			</div>
             
+            
 		</form>
-        </div>
+        
 	{% else %}
+        </div>
+    
 		{% if jobseekers %}
 			
 			<table >
