@@ -142,6 +142,12 @@ class ResetPassword(View):
 
         context = {}
         user = request.user
+        if request.POST['password'] == '':
+            context = {
+                'user_id': user.id,
+                'message': 'Please provide a password',
+            }
+            return render(request, 'reset_password.html', context)
         if request.POST['password'] != request.POST['confirm_password']:
             context = {
                 'user_id': user.id,

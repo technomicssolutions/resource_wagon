@@ -2604,9 +2604,11 @@ function get_jobs($scope, $http) {
     });    
 }
 function get_employer_details($scope, $http) {
+    console.log($scope.employer_id)
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
-      $scope.recruiter = data.recruiter[0]; 
+        $scope.recruiter = data.recruiter[0]; 
+        console.log($scope.recruiter);
        
     }).error(function(data, status)
     {
@@ -2905,8 +2907,7 @@ function save_current_employer_details($scope, $http, type) {
         params = {
             'current_employer_details': angular.toJson($scope.current_employer),
             'csrfmiddlewaretoken': $scope.csrf_token,
-        }
-        console.log($scope.current_employer.employers); 
+        } 
      
         $http({
             method : 'post',
@@ -3647,22 +3648,22 @@ function RecruiterController($scope, $element, $http, $timeout) {
     }
 }
 function EditRecruiterController($scope, $element, $http, $timeout) {
-  $scope.profile_doc = {};
-  $scope.profile_doc.src = "";
-  $scope.photo_img = {};
-  $scope.photo_img.src = "";
-  $scope.employer_id = 0;
-  $scope.view_employer_details = true;
-  $scope.init = function(csrf_token, employer_id) {
-    $scope.csrf_token = csrf_token;
-    $scope.employer_id = employer_id;
-    get_industries($scope);
-    get_countries($scope);
-    $scope.premium_employer = {
+    $scope.profile_doc = {};
+    $scope.profile_doc.src = "";
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
+    $scope.employer_id = 0;
+    $scope.view_employer_details = true;
+    $scope.init = function(csrf_token, employer_id) {
+        $scope.csrf_token = csrf_token;
+        $scope.employer_id = employer_id;
+        get_industries($scope);
+        get_countries($scope);
+        $scope.premium_employer = {
             'premium': '',
             'id': '',
         }
-    $scope.recruiter = {
+        $scope.recruiter = {
             'id' : '',
             'name' : '',
             'industry' : '',
@@ -3698,8 +3699,8 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
         })
     }
     $scope.edit_employer_details = function(){
-      get_employer_details($scope, $http);
-      $scope.view_employer_details = false;
+        get_employer_details($scope, $http);
+        $scope.view_employer_details = false;
     }
     $scope.edit_recruiter_validation = function(){
         var letters = /^[A-Za-z]+$/;  

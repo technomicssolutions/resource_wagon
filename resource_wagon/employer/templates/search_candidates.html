@@ -95,17 +95,23 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	<table ng-show="candidates_data_table">
 			<tr >
 				<th>Name</th>
+				<th>Education</th>
 				<th>Specialization</th>
 				<th>Skills</th>
 				<th>Experience</th>
+				<th>Functional Area</th>
+				<th>Industry</th>
 				<th></th>
 				<th></th>
 			</tr>
 			<tr ng-repeat="candidate in candidates_data">
 				<td>[[candidate.first_name]] [[candidate.last_name]]</td>
+				<td> [[candidate.education]]</td>
 				<td> [[candidate.specialization]]</td>
 				<td> [[candidate.skills]]</td>
 				<td> [[candidate.exp_yrs]]y [[candidate.exp_mnths]]m</td>
+				<td> [[candidate.functional_area]]</td>
+				<td> [[candidate.industry]]</td>
 				<td><a href="/reports/applicant_resume/[[candidate.id]]/"><input type="submit" name="resume" value="Download Resume"></a></td>
 
 			</tr>
