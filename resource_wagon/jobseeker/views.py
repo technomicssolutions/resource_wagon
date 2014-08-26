@@ -358,6 +358,7 @@ class EditDetails(View):
                 'email': user.email if user else '',
                 'first_name': user.first_name if user else '',
                 'last_name': user.last_name if user else '',
+                'username': user.username if user else '',
                 })
 
             ctx_jobseeker_data.append ({
