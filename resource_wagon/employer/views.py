@@ -304,7 +304,6 @@ class EditPostJobsView(View):
         context = {
             'job_id':job_id,
         }
-        print job_id
         return render(request, 'job_post.html', context)
 
     def post(self, request, *args, **kwargs):
@@ -341,7 +340,6 @@ class EditPostJobsView(View):
         jobPosting.exp_req_max = jobpost['max']
         if jobpost['last_date']:
             jobPosting.last_date  = datetime.strptime(jobpost['last_date'], '%d/%m/%Y')
-            print jobPosting.last_date
         jobPosting.save()
         res = {
             'id' : jobPosting.id,
@@ -391,7 +389,6 @@ class JobDetailsView(View):
             res = {
                 'jobpost': ctx_jobpost,
             }
-            print ctx_jobpost
             status_code = 200
             response = simplejson.dumps(res)
             
@@ -415,26 +412,19 @@ class SearchCandidatesView(View):
             if years == "":
                 years = 0
             q_list = []
-            print functions, basic_edu,industry,skills,years,months,basic_specialization
             if industry != "":
-                print 'curr_industry'
                 q_list.append(Q(employment__curr_industry__icontains = industry))
             if functions:
-                print 'functions'
                 q_list.append(Q(employment__function__icontains = functions))
             if skills:
-                print 'skills'
                 q_list.append(Q(employment__skills__icontains = skills))
             
             if basic_edu and years and months:
-                print 'basic_edu'
                 q_list.append(Q(Q(education__basic_edu = basic_edu), 
                               Q(employment__exp_mnths=int(months)),
                               Q(employment__exp_yrs=int(years))))
             if basic_specialization:
-                print 'basic_specialization'
                 q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
-            print q_list
             jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
             for jobseeker in jobseekers:
                 jobseekers_list.append({
@@ -518,7 +508,6 @@ class Inbox(View):
         replies = Reply.objects.filter(request__recruiter__user = request.user)
         re = Reply.objects.filter(request__recruiter__user = request.user, is_new=True).update(is_new=False)
         paginator = Paginator(replies, 20) # Show 25 contacts per page
-        print replies
         page = request.GET.get('page')
         try:
             replies = paginator.page(page)
@@ -549,10 +538,8 @@ class ActivityLog(View):
 
     def get(self, request, *args, **kwargs):
         
-        
-        recruiter = request.user
-        last_login = User.objects.get(email=recruiter).last_login
-        posted_jobs = Job.objects.filter(recruiter=recruiter)
+        last_login = User.objects.get(username=request.user.username).last_login
+        posted_jobs = Job.objects.filter(recruiter=request.user.username)
         context={
             'posted_jobs':posted_jobs,
             'last_login':last_login,
