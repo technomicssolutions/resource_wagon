@@ -2604,6 +2604,7 @@ function get_jobs($scope, $http) {
     });    
 }
 function get_employer_details($scope, $http) {
+    console.log($scope.employer_id)
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
       $scope.recruiter = data.recruiter[0]; 
