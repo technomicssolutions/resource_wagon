@@ -10,7 +10,6 @@
 				<th>Company Name</th>
 				<th>Industry Type</th>
 				<th>Country</th>
-				<th>City</th>
 				<th>Email Id</th>
 				<th>Mobile</th>
 				<th>Land Number</th>
@@ -22,11 +21,10 @@
 				<td>{{recruiter.company.company_name}}</td>
 				<td>{{recruiter.company.industry_type}}</td>
 				<td>{{recruiter.country}}</td>
-				<td>{{recruiter.city}}</td>
 				<td>{{recruiter.user.email}}</td>
 				<td>{{recruiter.mobile}}</td>
 				<td>{{recruiter.land_num}}</td>
-				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
+				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View</a></td>
 				<td> <input id="recruiter_{{recruiter.id}}" type="checkbox" value="{{recruiter.company.is_premium_company}}" name="checkbox" {% if recruiter.company.is_premium_company %} checked {% endif %} ng-click= "save_premium_employer('{{recruiter.id}}', '{{recruiter.company.is_premium_company}}')"></td>
 			</tr>	
 		</div>
