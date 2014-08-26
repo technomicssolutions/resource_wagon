@@ -7,7 +7,7 @@
 {% endblock extrahead %}
 {% block title %}Home{% endblock title%}
 
-{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
 {% block header %} 
 	{% include 'home_header.html' %}
 {% endblock header %}

@@ -35,6 +35,12 @@ class Dashboard(View):
         return render(request, 'dashboard.html', {})
 
 class Login(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'home.html', {
+            'login': True
+        })
     
     def post(self, request, *args, **kwargs):
 

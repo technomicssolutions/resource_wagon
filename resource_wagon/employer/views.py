@@ -64,12 +64,23 @@ class SaveEmployer(View):
         recruiter.mobile = recruiter_details['mobile']
         if recruiter_details['phone']:
             recruiter.land_num = recruiter_details['phone']
-        if recruiter.company:
-            company = recruiter.company
-        else:
-            company = CompanyProfile()
-        
-        company.company_name = recruiter_details['name']
+        try:
+            company = CompanyProfile.objects.get(company_name = recruiter_details['name'])
+            if company.recruiter_set.all()[0] != recruiter:
+                res = {
+                    'result': 'error',
+                    'recruiter_id': recruiter.id,
+                    'message': 'This company already exists'
+                }
+                response = simplejson.dumps(res)
+                return HttpResponse(response, status=status, mimetype='application/json')
+            else:
+                company.company_name = recruiter_details['name']
+                company.save()
+        except:
+            company = CompanyProfile.objects.create(company_name = recruiter_details['name'])                            
+            recruiter.company = company
+            recruiter.save()
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
         if request.FILES.get('profile_doc', ''):
@@ -82,7 +93,6 @@ class SaveEmployer(View):
         recruiter.company = company
         recruiter.save()
         user.save()
-        
         res = {
             'result': 'ok',
             'recruiter_id': recruiter.id,
@@ -197,10 +207,9 @@ class PostJobsView(View):
         
         jobPosting = Job.objects.create(recruiter = current_user)
         post_data = request.POST
-        jobpost = ast.literal_eval(post_data['jobpost'])
+        jobpost = ast.literal_eval(post_data['jobpost'])       
         
-        
-        company, created = CompanyProfile.objects.get_or_create(company_name = jobpost['company'])
+        company = CompanyProfile.objects.get(company_name = jobpost['company'])
         jobPosting.job_title = jobpost['title']
         jobPosting.ref_code = jobpost['code']
         jobPosting.company = company

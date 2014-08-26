@@ -9,7 +9,7 @@ from web.models import (COUNTRY_CHOICES, BASIC_EDU, \
 
 class CompanyProfile(models.Model):
 
-    company_name = models.CharField('Company Name', max_length=200, null=True, blank=True)
+    company_name = models.CharField('Company Name', max_length=200, unique=True)
     industry_type = models.CharField('Industry Type', max_length=200, choices=INDUSTRY)
     description = models.TextField('Description', null=True, blank=True)
     company_profile  = models.FileField('Company Profile', upload_to = "uploads/company_profile/")
