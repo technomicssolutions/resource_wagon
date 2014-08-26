@@ -2,6 +2,7 @@
 {% block extrahead %}
     <script type="text/javascript" src="/static/js/jquery.themepunch.plugins.min.js"></script>	
     <link rel="stylesheet" href="/static/css/slider.css" />
+    
    
 {% endblock extrahead %}
 
@@ -23,9 +24,9 @@
 						<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/static/images/premium-btn.png" /></a>
 					{% endif %}
 					
-
-					<!-- <img src="/static/images/premium-btn.png" /> -->
-					<!-- <img src="/static/images/img1.jpg" class="employer" />
+					
+					<!-- <img src="/static/images/premium-btn.png" /> 
+					 <img src="/static/images/img1.jpg" class="employer" />
 					<img src="/static/images/img1.jpg" class="employer" />
 					<img src="/static/images/img1.jpg" class="employer" /> -->
 				{% endfor %}
@@ -90,26 +91,26 @@
 <div class="row">
 
 <div class="col-sm-3">
-<div class="col-box box">
-Test4
+<div class="col-box box box-clr1">
+<h3>Lorem Ipsum</h3>
 </div>
 </div>
 
 <div class="col-sm-3">
-<div class="col-box box">
-Test4
+<div class="col-box box box-clr2">
+<h3>Lorem Ipsum</h3>
 </div>
 </div>
 
 <div class="col-sm-3">
-<div class="col-box box">
-Test4
+<div class="col-box box box-clr3">
+<h3>Lorem Ipsum</h3>
 </div>
 </div>
 
 <div class="col-sm-3">
-<div class="col-box box">
-Test4
+<div class="col-box box box-clr4">
+<h3>Lorem Ipsum</h3>
 </div>
 </div>
 
@@ -117,5 +118,6 @@ Test4
 </div>
 </div>
 </div>
+
 
 {% endblock content %}

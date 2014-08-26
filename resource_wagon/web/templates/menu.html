@@ -1,34 +1,46 @@
 
+	<!-- CSS
+  ================================================== -->
+	
+
+<link rel="stylesheet" id="menumenu-css" href="/static/menu/meanmenu.css" type="text/css" media="all"><!--
+<link rel="stylesheet" id="menumenu-css" href="/static/menu/style_004.css" type="text/css" media="all">
+<link rel="stylesheet" id="menumenu-css" href="/static/menu/style.css" type="text/css" media="all">-->
 
 
-<nav class="navbar navbar-default" role="navigation">
+
+
+	<!-- JS
+  ================================================== --> 
+  <script type="text/javascript">
+	var mytheme_urls = {
+		 theme_base_url:'http://wac.BEE4.edgecastcdn.net/80BEE4/cdn-designthemes/themes/dt-guru/wp-content/themes/guru/'
+ 		,framework_base_url:'http://wac.BEE4.edgecastcdn.net/80BEE4/cdn-designthemes/themes/dt-guru/wp-content/themes/guru/framework/'
+ 		,ajaxurl:'http://wedesignthemes.com/themes/dt-guru/wp-admin/admin-ajax.php'
+ 		,url:'http://wedesignthemes.com/themes/dt-guru'
+ 		,stickynav:'disable'
+ 		,scroll:'disable'
+	};
+ </script>
+   <script type="text/javascript" src="/static/menu/jquery_016.js"></script>
+   
+<div class="menu-main-menu-container header1">  
+
+<nav>
+<div class="wrap-nav">	
+ <div class="navbar navbar-default" role="navigation">
 <div class="container">
-  <div class="container-fluid" style="border:1px solid #000000;">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <div type="" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-        <span class="sr-only">Toggle navigation</span>
-        Test
-      </div>
-    </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
-        <li> 
-            <span></span>
-            <a href="{% url 'home' %}"> HOME </a> 
-        </li>
-        <li> 
-            <span></span>
-            <a href="{% url 'companies' %}"> COMPANIES </a> 
-        </li>
-        <li> 
-            <span></span>
-            <a href="{% url 'job_search' %}"> JOB SEARCH </a> 
-        </li>
-        {% if user.is_authenticated %}
-            <li>
+                        
+<div id="primary-menu">                        
+<nav id="main-menu">
+<ul id="menu-main-menu" class="menu">
+
+<li class=" menu-item-depth-0 menu-item-simple-parent "><a href="{% url 'home' %}"><span> </span>HOME</a></li>
+<li class=" menu-item-depth-0 menu-item-simple-parent "><a href="{% url 'companies' %}"><span> </span>COMPANIES</a></li>
+<li class=" menu-item-depth-0 menu-item-simple-parent "><a href="{% url 'job_search' %}"><span> </span>JOB SEARCH</a></li>
+ {% if user.is_authenticated %}
+  <li>
                 <span></span>
                 {% if user_type == 'admin' %}
                     <a href="{% url 'admin_dashboard' %}"> Dashboard </a>
@@ -42,19 +54,27 @@
                     {% endif %}
                 {% endif %}
             </li>
-        {% endif %}
-        <li> 
-            <span></span>
-            <a href="{% url 'aboutus' %}"> ABOUT US </a> 
-        </li>
-    </ul>
-       
-      </ul>
-      
-      
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-  </div>
+            {% endif %}
+<li class=" menu-item-depth-0 menu-item-simple-parent "><a href="#"><span class="menu-icon fa fa-gift"> </span>Pages</a>
+<ul class="sub-menu">
+	<li class="menu-item-has-children menu-item-depth-1"><a href="#">Events</a>
+	<ul class="sub-menu">
+		<li class=" menu-item-depth-2"><a href="#">Event Listing</a></li>
+	</ul>
+</li>
+</ul>
+</li>
+</ul>                            
 </nav>
+</div>        
 
+</div>
+</div>
+</div>
+</nav>
+</div>
+
+      <script type="text/javascript" src="/static/menu/jquery_007.js"></script>
+   <script type="text/javascript" src="/static/menu/jquery.js"></script>
+    <script type="text/javascript" src="/static/menu/custom.js"></script>
 

@@ -1,0 +1,219 @@
+
+/*! #######################################################################
+
+	MeanMenu 2.0.6
+	--------
+	
+	To be used with jquery.meanmenu.js by Chris Wharton (http://www.meanthemes.com/plugins/meanmenu/)
+
+####################################################################### */
+
+/* hide the link until viewport size is reached */
+a.meanmenu-reveal {
+	display: none;
+}
+
+/* when under viewport size, .mean-container is added to body */
+.mean-container .mean-bar {
+	/*float: left;
+	width: 100%;
+	background: #0c1923;
+	padding: 2px 0;*/
+	min-height: 42px;
+	position: relative;
+	z-index: 999999;
+}
+
+.mean-container a.meanmenu-reveal {
+	width: 25px;
+	height: 25px;
+	padding:23px;
+	position: absolute;	
+	cursor: pointer;
+	color: #fff;
+	text-decoration: none;
+	font-size: 16px;
+	text-indent: -9999em;
+	line-height: 22px;
+	font-size: 1px;
+	display: block;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: 700;
+	z-index: 999;
+	/*top: -106px;*/
+}
+
+.mean-container a.meanmenu-reveal span {
+	display: block;
+	background: #fff;
+	height: 3px;
+	margin-top: 3px;
+}
+
+.mean-container .mean-nav {
+	float: left;
+	width: 100%;
+	/*background: #0c1923;*/
+	margin-top: 70px;
+	position:absolute;
+	left:0px;
+}
+
+.mean-container .mean-nav ul {
+	padding: 0;
+	margin: 0;
+	width: 100%;
+	list-style-type: none;
+}
+
+.mean-container .mean-nav ul li {
+	position: relative;
+	float: left;
+	width: 100%;
+	padding:0px;
+}
+
+.mean-container .mean-nav ul li a {
+	display: block;
+	float: left;
+	width: 90%;
+	padding: 1em 5%;
+	margin: 0;
+	text-align: left;
+	color: #fff;
+	border-top: 1px solid #383838;
+	border-top: 1px solid rgba(255,255,255,0.5);
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.mean-container .mean-nav ul li li a {
+	width: 80%;
+	padding: 1em 10%;
+	border-top: 1px solid #f1f1f1;
+	border-top: 1px solid rgba(255,255,255,0.25);
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+	text-shadow: none !important;
+	visibility: visible;
+}
+
+.mean-container .mean-nav ul li.mean-last a {
+	border-bottom: none;
+	margin-bottom: 0;
+}
+
+.mean-container .mean-nav ul li li li a {
+	width: 70%;
+	padding: 1em 15%;
+}
+
+.mean-container .mean-nav ul li li li li a {
+	width: 60%;
+	padding: 1em 20%;
+}
+
+.mean-container .mean-nav ul li li li li li a {
+	width: 50%;
+	padding: 1em 25%;
+}
+
+.mean-container .mean-nav ul li a:hover {
+	background: #252525;
+	background: rgba(255,255,255,0.1);
+}
+
+.mean-container .mean-nav ul li a.mean-expand {
+	margin-top: 1px;
+	width: 26px;
+	height: 28px;
+	padding: 12px !important;
+	text-align: center;
+	position: absolute;
+	right: 0;
+	top: 0;
+	z-index: 2;
+	font-weight: 700;
+	background: rgba(255,255,255,0.1);
+	border: none !important;
+	border-left: 1px solid rgba(255,255,255,0.4) !important;
+	border-bottom: 1px solid rgba(255,255,255,0.2) !important;
+}
+
+/*.mean-container .mean-nav ul li a.mean-expand:hover {
+	background: rgba(0,0,0,0.9);
+}*/
+
+.mean-container .mean-push {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	clear: both;
+}
+
+.mean-nav .wrapper {
+	width: 100%;
+	padding: 0;
+	margin: 0;
+}
+
+/* Fix for box sizing on Foundation Framework etc. */
+.mean-container .mean-bar, .mean-container .mean-bar * {
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+
+.mean-remove {
+	display: none !important;
+}
+
+/* Custom */
+
+.mean-container .mean-nav ul li li span {
+	width: 80%;
+	padding: 1em 10%;
+	border-top: 1px solid #f1f1f1;
+	border-top: 1px solid rgba(255,255,255,0.25);
+	opacity: 0.75;
+	filter: alpha(opacity=75);
+	text-shadow: none !important;
+	visibility: visible;
+	text-transform: uppercase;
+	display: block;
+	float: left;
+	color:#ffffff;
+}
+/*.mean-container .mean-nav ul li li li span { padding:1em 15%; }*/
+
+/*----*****---- << menu >> ----*****----*/
+	#main-menu > ul.menu { float:right; margin:0px; padding:0px; font-size:14px; position: relative; z-index: 100; }
+	#main-menu > ul.menu > li { float:left; display:inline; padding-bottom:0; line-height:97px; position:relative; }
+	#main-menu > ul.menu > li > a { padding:9px 20px; text-transform:uppercase; font-weight:normal; color:#FFFFFF; text-decoration:none; }
+	
+	#menu-main-menu li.menu-item-simple-parent ul { position:absolute; left:0; display:none; width:220px; padding-left:0; margin-top:0; z-index:10001; }
+	#menu-main-menu li.menu-item-simple-parent ul, .megamenu-child-container { top:80px; }
+	
+	#main-menu ul li.menu-item-simple-parent ul li { font-size:14px; display: block; padding: 0px; position: relative; line-height:normal; background:#e8691a; border-bottom:3px solid #a84101; }
+	#main-menu ul li.menu-item-simple-parent ul li:last-child { border-bottom:none; }
+	#main-menu ul li.menu-item-simple-parent ul li a { display: block; font-size: 13px; padding: 10px 15px; position: relative; width:100%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; }
+	
+	.nolink-menu { display:none; }
+	
+	.dt-megamenu-custom-content img, .mean-nav img { height: auto; max-width: 100%; }
+	
+	#main-menu #menu-main-menu > li.current_page_item > a, #main-menu #menu-main-menu > li.current_page_ancestor > a { border-radius:10px; }
+	
+	#menu-main-menu li ul li a, #menu-main-menu li.current_page_item ul li a, #menu-main-menu > li.current-menu-ancestor li.current_page_ancestor li a, #menu-main-menu > li.current-menu-ancestor li.current-menu-item li a,  #menu-main-menu > li.current_page_item > ul > li > a { color:#656565; }
+	#main-menu #menu-main-menu > li.current_page_item > a, #main-menu #menu-main-menu > li.current_page_ancestor > a { border-radius:10px; }
+	
+	#menu-main-menu li ul li a, #menu-main-menu li.current_page_item ul li a, #menu-main-menu > li.current-menu-ancestor li.current_page_ancestor li a, #menu-main-menu > li.current-menu-ancestor li.current-menu-item li a,  #menu-main-menu > li.current_page_item > ul > li > a { color:#656565; }
+	
+	#main-menu ul li .sub-menu li .dt-megamenu-custom-content a:hover {	padding-left: 0; }	
+	#main-menu ul li.menu-item-simple-parent ul li ul { left:220px; top:0px; }
+	#main-menu ul li.menu-item-simple-parent:last-child ul li ul {  right: inherit; left: 220px;}
+	#main-menu ul li.menu-item-simple-parent:last-child ul { right: inherit; right: 0; }
+	
+	.mobile-menu { display:none; height:50px; background-position:center right; background-repeat: no-repeat; border:1px solid; width:100%; margin:6px 0px 16px; padding:15px 14px 15px 5px; -webkit-appearance:none; -moz-appearance:none; appearance:none; cursor:pointer; }

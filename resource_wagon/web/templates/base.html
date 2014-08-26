@@ -89,6 +89,8 @@
                     {% include 'footer.html' %}
                 {% endblock footer %}
         {% endblock body%}
+        
+        
          <script type="text/javascript" src="/static/js/jquery.iosslider.min.js"></script>
 	<script type="text/javascript" src="/static/js/jquery.iosslider.kalypso.js"></script>
     <script type="text/javascript">	
@@ -194,67 +196,7 @@
                                 });
                                 // *** end partners carousel
                                 });
-                            (function($){ 
-                                $(window).load(function(){
-                                    var doc = $(document), 
-                                        win = $(window), chaser, forch,
-                                        forchBottom, visible;
-                                    function shown() { visible = true; }
-                                    function hidden() { visible = false; }
-                                    chaser = $('#main_menu ul.sf-menu').clone().hide()
-                                        .appendTo(document.body)
-                                        .wrap("<div class='chaser'><div class='container'><div class='row'><div class='span12'></div></div></div></div>");
-                                    if ( $('#content').length > 0 ) {	
-                                        forch = $('#content').first();
-                                        forchBottom = forch.offset().top + 2;
-                                        hidden();
-                                        win.on('scroll', function () {
-    
-                                            var top = doc.scrollTop();
-                                            if (!visible && top > forchBottom) {
-                                                //chaser.slideDown(300, shown);
-                                                chaser.fadeIn(300, shown);
-                                            } else if (visible && top < forchBottom) {
-                                                //chaser.slideUp(200, hidden);
-                                                chaser.fadeOut(200, hidden);
-                                            }
-                                        });
-                                    }
-                                    /* Activate Superfish Menu for Chaser */
-                                    $('.chaser ul.sf-menu').supersubs({ minWidth: 12, maxWidth: 27, extraWidth: 1}).superfish({delay:250, dropShadows:false, autoArrows:true, speed:300});
-                                });
-                            })(jQuery);
                             
-                            (function($){ 
-                                $(document).ready(function(){
-                                    /* Activate Superfish Menu */
-                                    var sfDelay = 600;
-                                    if($('html').hasClass('isie'))
-                                        sfDelay = 300;
-                                    $('#main_menu > ul')
-                                    .supersubs({ 
-                                        minWidth:    12,   // minimum width of sub-menus in em units 
-                                        maxWidth:    27,   // maximum width of sub-menus in em units 
-                                        extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
-                                    }).superfish({
-                                        delay:sfDelay,
-                                        dropShadows:false,
-                                        autoArrows:true,
-                                        speed:300
-                                    });
-                                });
-                                
-                                
-                                $(window).resize(function() {
-                                    $('#main_menu > ul')
-                                    .supersubs({ 
-                                        minWidth:    12,   // minimum width of sub-menus in em units 
-                                        maxWidth:    27,   // maximum width of sub-menus in em units 
-                                        extraWidth:  1     // extra width can ensure lines don't sometimes turn over 
-                                    });
-                                });
-                                
-                            })(jQuery);
                             
                                 (function($) {
                                     $(window).load(function(){
