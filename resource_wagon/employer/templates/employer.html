@@ -3,7 +3,7 @@
 {% endblock title %}
 
 {% block controller %}
-ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{employer_id}}')"
+ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recruiter.id}}')"
 {% endblock controller %}
 
 {% block dashboard_content %}
@@ -97,7 +97,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 					<label >Attach Company Logo</label>
 			        <input  type="file" fileread="logo.src"/>
 			        <input  type="hidden" ng-model="logo.src">
-			        <img src="/site_media/[[recruiter.logo]]" >
+			        <img src="/site_media/[[recruiter.photo]]">
 		        </div>
 	        </div>
 	        

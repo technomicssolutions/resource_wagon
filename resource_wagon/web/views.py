@@ -35,6 +35,12 @@ class Dashboard(View):
         return render(request, 'dashboard.html', {})
 
 class Login(View):
+
+    def get(self, request, *args, **kwargs):
+
+        return render(request, 'home.html', {
+            'login': True
+        })
     
     def post(self, request, *args, **kwargs):
 
@@ -136,6 +142,12 @@ class ResetPassword(View):
 
         context = {}
         user = request.user
+        if request.POST['password'] == '':
+            context = {
+                'user_id': user.id,
+                'message': 'Please provide a password',
+            }
+            return render(request, 'reset_password.html', context)
         if request.POST['password'] != request.POST['confirm_password']:
             context = {
                 'user_id': user.id,

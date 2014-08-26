@@ -64,15 +64,25 @@ class SaveEmployer(View):
         recruiter.mobile = recruiter_details['mobile']
         if recruiter_details['phone']:
             recruiter.land_num = recruiter_details['phone']
-        if recruiter.company:
-            company = recruiter.company
-        else:
-            company = CompanyProfile()
-        
-        company.company_name = recruiter_details['name']
+        try:
+            company = CompanyProfile.objects.get(company_name = recruiter_details['name'])
+            if company.recruiter_set.all()[0] != recruiter:
+                res = {
+                    'result': 'error',
+                    'recruiter_id': recruiter.id,
+                    'message': 'This company already exists'
+                }
+                response = simplejson.dumps(res)
+                return HttpResponse(response, status=status, mimetype='application/json')
+            else:
+                company.company_name = recruiter_details['name']
+                company.save()
+        except:
+            company = CompanyProfile.objects.create(company_name = recruiter_details['name'])                            
+            recruiter.company = company
+            recruiter.save()
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
-        print request.FILES
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
@@ -83,7 +93,6 @@ class SaveEmployer(View):
         recruiter.company = company
         recruiter.save()
         user.save()
-        
         res = {
             'result': 'ok',
             'recruiter_id': recruiter.id,
@@ -115,7 +124,12 @@ class EmployerView(View):
                 'recruiters':recruiters,                
             }
             return render(request,'employer_profile.html', context)
-        return render(request,'employer.html', {})   
+        else:
+            recruiter = Recruiter.objects.get(user=request.user)
+            context = {
+                'recruiter': recruiter,
+            }
+        return render(request,'employer.html', context)   
 
 
 class GetJobs(View):
@@ -141,7 +155,6 @@ class EditEmployer(View):
     def get(self,request,*args,**kwargs):
         recruiter_id = kwargs['employer_id']
         recruiter = Recruiter.objects.get(id=recruiter_id)
-        print recruiter_id
         user = recruiter.user
         company = recruiter.company
         context = {
@@ -194,10 +207,9 @@ class PostJobsView(View):
         
         jobPosting = Job.objects.create(recruiter = current_user)
         post_data = request.POST
-        jobpost = ast.literal_eval(post_data['jobpost'])
+        jobpost = ast.literal_eval(post_data['jobpost'])       
         
-        
-        company, created = CompanyProfile.objects.get_or_create(company_name = jobpost['company'])
+        company = CompanyProfile.objects.get(company_name = jobpost['company'])
         jobPosting.job_title = jobpost['title']
         jobPosting.ref_code = jobpost['code']
         jobPosting.company = company
@@ -412,20 +424,26 @@ class SearchCandidatesView(View):
             if years == "":
                 years = 0
             q_list = []
-            if industry:
+            print functions, basic_edu,industry,skills,years,months,basic_specialization
+            if industry != "":
+                print 'curr_industry'
                 q_list.append(Q(employment__curr_industry__icontains = industry))
             if functions:
+                print 'functions'
                 q_list.append(Q(employment__function__icontains = functions))
             if skills:
+                print 'skills'
                 q_list.append(Q(employment__skills__icontains = skills))
-            if years:
-                q_list.append(Q(employment__exp_yrs=int(years)))
-            if months:
-                q_list.append(Q(employment__exp_mnths=int(months)))
-            if basic_edu:
-                q_list.append(Q(education__basic_edu = basic_edu))
+            
+            if basic_edu and years and months:
+                print 'basic_edu'
+                q_list.append(Q(Q(education__basic_edu = basic_edu), 
+                              Q(employment__exp_mnths=int(months)),
+                              Q(employment__exp_yrs=int(years))))
             if basic_specialization:
+                print 'basic_specialization'
                 q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
+            print q_list
             jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
             for jobseeker in jobseekers:
                 jobseekers_list.append({
@@ -433,10 +451,13 @@ class SearchCandidatesView(View):
                     'first_name': jobseeker.user.first_name,
                     'last_name': jobseeker.user.last_name,
                     'email': jobseeker.user.username,
+                    'education': jobseeker.education.basic_edu,
                     'specialization': jobseeker.education.basic_edu_specialization,
                     'exp_yrs': jobseeker.employment.exp_yrs,
                     'exp_mnths': jobseeker.employment.exp_mnths,
                     'skills': jobseeker.employment.skills,
+                    'functional_area': jobseeker.employment.function if jobseeker.employment.function else '',
+                    'industry': jobseeker.employment.curr_industry if jobseeker.employment.curr_industry else '',
                     })
             res = {
                 'result': 'ok',
@@ -545,4 +566,4 @@ class ActivityLog(View):
             'posted_jobs':posted_jobs,
             'last_login':last_login,
         }
-        return render(request, 'activity_log.html',context)
+        return render(request, 'employer_activity_log.html',context)
