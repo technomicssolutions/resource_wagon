@@ -565,5 +565,5 @@ class ActivityLog(View):
         'last_login': last_login,
         }
              
-        return render(request, 'activity_log.html',context)
+        return render(request, 'jobseeker_activity_log.html',context)
 
