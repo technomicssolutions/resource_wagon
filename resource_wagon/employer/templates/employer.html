@@ -3,7 +3,7 @@
 {% endblock title %}
 
 {% block controller %}
-ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{employer_id}}')"
+ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recruiter.id}}')"
 {% endblock controller %}
 
 {% block dashboard_content %}

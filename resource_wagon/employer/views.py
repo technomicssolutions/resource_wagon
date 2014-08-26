@@ -115,7 +115,12 @@ class EmployerView(View):
                 'recruiters':recruiters,                
             }
             return render(request,'employer_profile.html', context)
-        return render(request,'employer.html', {})   
+        else:
+            recruiter = Recruiter.objects.get(user=request.user)
+            context = {
+                'recruiter': recruiter,
+            }
+        return render(request,'employer.html', context)   
 
 
 class GetJobs(View):
@@ -141,7 +146,6 @@ class EditEmployer(View):
     def get(self,request,*args,**kwargs):
         recruiter_id = kwargs['employer_id']
         recruiter = Recruiter.objects.get(id=recruiter_id)
-        print recruiter_id
         user = recruiter.user
         company = recruiter.company
         context = {
