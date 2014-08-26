@@ -8,10 +8,12 @@
 {% block search %}
 {% endblock search %}
 {% block content %}
-<h2> Search Jobs </h2>
 
-        <div class="separation">
-            <label > Search by : <span > [[search.keyword]] - [[search.location]] - [[search.experience]] - [[search.function_name]] - [[search.industry]]</span></label> 
+<div class="col-sm-11">
+	<div class="separation">
+<h2> Search Jobs </h2>
+        <div class="separation_outer">
+            <label > <strong>Search by :</strong> <span style="color:#a84101;" > [[search.keyword]] - [[search.location]] - [[search.experience]] - [[search.function_name]] - [[search.industry]]</span></label> 
             <div class="formrow">
                 <div class="form-group-outer">
                     <label class="col-sm-4 control-label">Keyword</label>
@@ -70,8 +72,8 @@
                 <p ng-show="error_flag" class="error_message">[[error_message]]</p>
                 
             </div>
-            </div>
 
+			
             <div class="job_list">
                 <div class="job" ng-repeat="job in jobs">
                     {% if not user.recruiter_set.all %}
@@ -113,5 +115,8 @@
             </div>    
             
 
+            </div>
+    </div>
             <br>    
+</div>
 {% endblock content %}
