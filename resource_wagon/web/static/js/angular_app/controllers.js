@@ -3743,7 +3743,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('photo_img', $scope.photo_img.src);
+            fd.append('logo', $scope.logo.src);
             for(var key in params){
                 fd.append(key, params[key]);          
             }

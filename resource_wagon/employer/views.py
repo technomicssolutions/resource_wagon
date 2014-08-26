@@ -72,7 +72,6 @@ class SaveEmployer(View):
         company.company_name = recruiter_details['name']
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
-        print request.FILES
         if request.FILES.get('profile_doc', ''):
             company_profile = request.FILES['profile_doc']       
             company.company_profile = company_profile
