@@ -3577,11 +3577,11 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Password Mismatch';
             return false;
-        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length != 10) {
+        } else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || !Number($scope.recruiter.mobile) || $scope.recruiter.mobile.length > 15) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
-        } else if ($scope.recruiter.phone!='' && !Number($scope.recruiter.phone)) {
+        } else if ($scope.recruiter.phone!='' && !Number($scope.recruiter.phone) || $scope.recruiter.phone.length > 15) {
               $scope.error_flag = true;
               $scope.error_message = 'Please enter a Valid Land no.';
               return false;            

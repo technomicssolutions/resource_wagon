@@ -64,11 +64,17 @@ class SaveEmployer(View):
         recruiter.mobile = recruiter_details['mobile']
         if recruiter_details['phone']:
             recruiter.land_num = recruiter_details['phone']
-        if recruiter.company:
-            company = recruiter.company
-            company.company_name = recruiter_details['name']
-        else:
-            company, created = CompanyProfile.objects.get_or_create(company_name = recruiter_details['name'])
+        try:
+            company = CompanyProfile.objects.get(company_name = recruiter_details['name'])
+            if company.recruiter_set.all()[0] != recruiter:
+                
+        except:
+            if recruiter.company:                
+                company = recruiter.company
+                company.company_name = recruiter_details['name']
+            else:
+                try:
+                    company, created = CompanyProfile.objects.get_or_create(company_name = recruiter_details['name'])
         company.industry_type = recruiter_details['industry']
         company.description = recruiter_details['description']
         print request.FILES
