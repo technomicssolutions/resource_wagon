@@ -33,9 +33,12 @@ class SaveEmployer(View):
     def post(self, request, *args, **kwargs):
         recruiter_details = ast.literal_eval(request.POST['recruiter_details'])
         status = 200
-        if recruiter_details['id'] !=0 :
-            recruiter = Recruiter.objects.get(id=recruiter_details['id'])
-            user = recruiter.user            
+        if request.user.is_authenticated() :
+            user = request.user
+            if user.recruiter_set.all().count() > 0:
+                recruiter = user.recruiter_set.all()[0]
+            else:
+                recruiter = Recruiter.objects.create(user=user)
         else:           
             try:
                 user = User.objects.get(email=recruiter_details['email'])

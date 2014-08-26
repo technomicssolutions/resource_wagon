@@ -3716,11 +3716,11 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Type of Industry';
             return false;
-        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.personal.mobile.length > 15 ) {
+        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.recruiter.mobile.length > 15 ) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
-        } else if($scope.personal.phone.length > 15) {
+        } else if($scope.recruiter.phone.length > 15) {
             $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.recruiter.phone != '' || $scope.recruiter.phone != undefined) {
@@ -3755,7 +3755,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('logo', $scope.logo.src);
+            console.log($scope.logo);
+            if ($scope.logo != undefined)
+              fd.append('logo', $scope.logo.src);
+            
             for(var key in params){
                 fd.append(key, params[key]);          
             }
