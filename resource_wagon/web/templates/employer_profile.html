@@ -1,10 +1,8 @@
 {% extends 'dashboard.html' %}
-
+{% block title %}Employer Profile{% endblock title%}
 {% block controller %}
-ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{employer_id}}')"
+	ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}')"
 {% endblock controller %}
-
-
 {% block dashboard_content %}
 	{% if recruiters %}
 		<table >

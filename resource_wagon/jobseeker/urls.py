@@ -8,7 +8,7 @@ JobSearch, ApplyJobs,Companies, ActivityLog, JobDetails, SaveUserLoginDetails, J
 urlpatterns = patterns('',
     url(r'^registration/$', JobseekerRegistration.as_view(), name="jobseeker_registration"),
 
-    url(r'^dashboard/$', JobseekerDashboard.as_view(), name="jobseeker_dashboard"),
+    url(r'^dashboard/$', login_required(JobseekerDashboard.as_view()), name="jobseeker_dashboard"),
     url(r'^save_user_login_details/$', SaveUserLoginDetails.as_view(), name="save_user_login_details"),
     url(r'^save_personal_details/$', SavePersonalDetails.as_view(), name="save_personal_details"),
     url(r'^save_current_employer_details/$', SaveCurrentEmployerDetails.as_view(), name="save_current_employer_details"),
@@ -19,7 +19,7 @@ urlpatterns = patterns('',
     url(r'^edit_details/(?P<jobseeker_id>\d+)/$', EditDetails.as_view(), name="edit_details"),
     url(r'^get_companies/$', Companies.as_view(), name="get_companies"),
   	url(r'^job_search/$', JobSearch.as_view(), name='job_search'),
-    url(r'^jobseeker_log/$', ActivityLog.as_view(), name='jobseeker_log'),  	
+    url(r'^jobseeker_log/$', login_required(ActivityLog.as_view()), name='jobseeker_log'),  	
     url(r'^apply/(?P<job_id>\d+)/$', login_required(ApplyJobs.as_view()), name='apply_jobs'),
     url(r'^view_job_details/(?P<job_id>\d+)/$', JobDetails.as_view(), name='view_job_details'),
 )

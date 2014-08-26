@@ -99,7 +99,6 @@ class ForgotPassword(View):
         user = User.objects.filter(email = request.POST['email_id'])
         if user.exists():
             user = user[0]
-            print randint(1000,9999)
             randum_num = randint(1000,9999)
             user.set_password(str(randum_num))
             user.save()
@@ -107,8 +106,7 @@ class ForgotPassword(View):
             text_content = 'Your New Password is'+ str(randum_num)
             from_email = settings.DEFAULT_FROM_EMAIL
             to = []
-            if subject  and from_email:
-                
+            if subject and from_email:                
                 to.append(user.email)
                 for i in range(len(to)):
                     msg = EmailMultiAlternatives(subject, text_content, from_email, [to[i]])
@@ -129,16 +127,15 @@ class ResetPassword(View):
 
     def get(self, request, *args, **kwargs):
 
-        user = User.objects.get(id=kwargs['user_id'])
         context = {
-            'user_id': user.id
+            'user_id': request.user.id
         }
         return render(request, 'reset_password.html', context)
 
     def post(self, request, *args, **kwargs):
 
         context = {}
-        user = User.objects.get(id=kwargs['user_id'])
+        user = request.user
         if request.POST['password'] != request.POST['confirm_password']:
             context = {
                 'user_id': user.id,
@@ -148,11 +145,9 @@ class ResetPassword(View):
         if len(request.POST['password']) > 0 and not request.POST['password'].isspace():
             user.set_password(request.POST['password'])
         user.save()
-        if user == request.user:
-            logout(request)
-            return HttpResponseRedirect(reverse('home'))  
-        elif request.user.is_superuser:
-            return HttpResponseRedirect(reverse('home'))
+        logout(request)
+        return HttpResponseRedirect(reverse('home'))  
+        
 
 class RequestView(View):
 
@@ -198,6 +193,21 @@ class Aboutus(View):
 
     def get(self, request, *args, **kwargs):
             return render(request, 'aboutus.html', {})
+
+class MissionStatement(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'mission_statement.html', {})
+
+class ResourcesWagon(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'resources_wagon.html', {})
+
+class WagonDrivers(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'wagon_drivers.html', {})
 
 class Companies(View):
     def get(self, request, *args, **kwargs):

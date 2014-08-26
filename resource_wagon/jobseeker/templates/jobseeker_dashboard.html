@@ -1,21 +1,20 @@
 {% extends 'base.html' %}
+{% block title %}Jobseeker Dashboard {% endblock title%}
+{% block body_id %}jobseeker_dashboard{% endblock %}
 {% block content %}
-
-<div class="col-xs-6 col-md-4">   
-	<div class="dashboard_menu">
-		<ul>
-			<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
-			<li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
-			<li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
-		</ul>
+	<div class="col-xs-6 col-md-4">   
+		<div class="dashboard_menu">
+			<ul>
+				<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
+				<li><a href="{% url 'jobseeker_details' %}">View Profile</a></li>
+				<li><a href="{% url 'jobseeker_log' %}">Activity Log</a></li>
+			</ul>
+		</div>
 	</div>
-</div>    
-
-<div class="col-xs-12 col-md-8">   
-	<div class="dashboard_content">
-		{% block dashboard_content %}
-		{% endblock dashboard_content %}
+	<div class="col-xs-12 col-md-8">   
+		<div class="dashboard_content">
+			{% block dashboard_content %}
+			{% endblock dashboard_content %}
+		</div>
 	</div>
-</div>
-
 {% endblock %}
