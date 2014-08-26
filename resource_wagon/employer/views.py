@@ -58,16 +58,12 @@ class SaveEmployer(View):
                     user = authenticate(username=user.username, password=recruiter_details['password'])
                 if user and user.is_active:
                     login(request, user)
-                    message = 'Logged in'
-                else:
-                    message = 'Not logged in' 
                 recruiter = Recruiter.objects.create(user=user)
-        print "recruiter=", recruiter
         recruiter.country = recruiter_details['country']
         recruiter.city = recruiter_details['city']
-        recruiter.mobile = int(recruiter_details['mobile'])
+        recruiter.mobile = recruiter_details['mobile']
         if recruiter_details['phone']:
-            recruiter.land_num = int(recruiter_details['phone'])
+            recruiter.land_num = recruiter_details['phone']
         if recruiter.company:
             company = recruiter.company
         else:
@@ -107,34 +103,19 @@ class EmployerView(View):
     def get(self, request, *args, **kwargs):
         if  request.user.is_superuser:
             recruiters = Recruiter.objects.all()
-            paginator = Paginator(recruiters, 20) # Show 25 contacts per page
+            paginator = Paginator(recruiters, 20) 
             page = request.GET.get('page')
             try:
                 recruiters = paginator.page(page)
             except PageNotAnInteger:
-                # If page is not an integer, deliver first page.
                 recruiters = paginator.page(1)
             except EmptyPage:
-                # If page is out of range (e.g. 9999), deliver last page of results.
                 recruiters = paginator.page(paginator.num_pages)
             context = {
-                'recruiters':recruiters,
-                
+                'recruiters':recruiters,                
             }
-            return render(request,'employer_profile.html', context)  
-        else:
-            if request.user.is_authenticated():
-                employer_id = request.user.recruiter_set.all()[0].id
-                context = {
-                
-                'employer_id':employer_id,
-                }
-            else:
-                context = {
-                    'message':'You are not permitted to view this page',
-                }
-
-        return render(request,'employer.html', context)   
+            return render(request,'employer_profile.html', context)
+        return render(request,'employer.html', {})   
 
 
 class GetJobs(View):

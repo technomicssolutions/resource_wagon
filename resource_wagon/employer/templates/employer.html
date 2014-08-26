@@ -7,181 +7,127 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{emplo
 {% endblock controller %}
 
 {% block dashboard_content %}
-{% if  user.is_authenticated %}
-	{% if not user.is_superuser %}
+	{% if user_type == 'recruiter' %}
 		<div ng-show="view_employer_details">
 			{% if user.recruiter_set.all.0.company.photo %}
 				<img src="/site_media/{{user.recruiter_set.all.0.company.logo.name}}" alt=""   >
 			{% endif %}
 			<h1>{{user.recruiter_set.all.0.company.company_name}}</h1>
-        	<div class="separation_outer">
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">Industry Type :</span>
-                	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.company.industry_type}}</span>
-                </p>
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">Location :</span>
-                	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.country}}</span>
-                </p>
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">City :</span>
-                	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.city}}</span>
-                </p>
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">Email ID:</span>
-                	<span class="col-xs-12 col-md-8">{{user.email}}</span>
-                </p>
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">Mobile :</span>
-                	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.mobile}}</span>
-                </p>
-                <p class="outer">
-                	<span class="col-xs-6 col-md-4">Land Number :</span>
-                	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.land_num}}</span>
-                </p>
-                
-                <a href="/site_media/{{user.recruiter_set.all.0.company.company_profile.name}}" target="_blank">View Company Profile</a>
-                <div class ="employer_button">
-                	<input class="button btn btn-warning" type="submit" name="submit" value="Update" ng-click="edit_employer_details()">
-                    </a>
-                </div>
-                </div>
-            </div>
-        </div>
-	{% else %}
-		{% if recruiters %}
-			<table >
-				<tr >
-					<th>Company Name</th>
-					<th>Industry Type</th>
-					<th>Country</th>
-					<th>City</th>
-					<th>Email Id</th>
-					<th>Mobile</th>
-					<th>Land Number</th>
-					<th>Company Profile</th>
-					
-				</tr>
-			{% for recruiter in recruiters %}
-				<tr>
-					<td>{{recruiter.company.company_name}}</td>
-					<td>{{recruiter.company.industry_type}}</td>
-					<td>{{recruiter.country}}</td>
-					<td>{{recruiter.city}}</td>
-					<td>{{recruiter.user.email}}</td>
-					<td>{{recruiter.mobile}}</td>
-					<td>{{recruiter.land_num}}</td>
-					<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View Company Profile</a></td>
-				</tr>	
-			{% endfor %}
-			<div >
-		   		<span >
-		        {% if recruiters.has_previous %}
-		            <a href="?page={{ recruiters.previous_page_number }}">previous</a>
-		        {% endif %}
+	    	<div class="separation_outer">
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">Industry Type :</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.company.industry_type}}</span>
+	            </p>
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">Location :</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.country}}</span>
+	            </p>
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">City :</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.city}}</span>
+	            </p>
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">Email ID:</span>
+	            	<span class="col-xs-12 col-md-8">{{user.email}}</span>
+	            </p>
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">Mobile :</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.mobile}}</span>
+	            </p>
+	            <p class="outer">
+	            	<span class="col-xs-6 col-md-4">Land Number :</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.land_num}}</span>
+	            </p>
+	            
+	            <a href="/site_media/{{user.recruiter_set.all.0.company.company_profile.name}}" target="_blank">View Company Profile</a>
+	            <div class ="employer_button">
+	            	<input class="button btn btn-warning" type="submit" name="submit" value="Update" ng-click="edit_employer_details()">
+	                </a>
+	            </div>
+	            </div>
+	        </div>
+	    </div>			
 
-		        <span >
-		            Page {{ recruiters.number }} of {{ recruiters.paginator.num_pages }}.
-		        </span>
+		<div class="separation_outer" ng-hide="view_employer_details">
+			<p class="mandatory">* Mandatory Fields</p>
+	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Company Name<span class="red">*</span></label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="text" name="name" ng-model="recruiter.name" value="{{ recruiter.name }}">
+		        </div>
+	        </div>	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Email Id<span class="red">*</span></label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="text" name="email" ng-model="recruiter.email" value="{{ recruiter.email }}">
+		        </div>
+	        </div>	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Industry Type<span class="red">*</span></label>
+		        <div class="col-sm-8">
+					<select class="form-control" name="industry" ng-model="recruiter.industry"> 
+						<option value="">--------------Select------------</option>
+						<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>
+					</select>
+		        </div>
+	        </div>	         
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Mobile Number<span class="red">*</span></label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="text" name="mobile" ng-model="recruiter.mobile" value="{{ recruiter.mobile }}">
+		        </div>
+	        </div>
+	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Land Line Number</label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="text" name="mobile" ng-model="recruiter.phone" value="{{ recruiter.phone }}">
+		        </div>
+	        </div>
+	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Country<span class="red">*</span></label> 
+		        <div class="col-sm-8">
+					<select class="form-control" name="country" ng-model="recruiter.country">
+						<option value="">------------------Select------------------</option>
+						<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
+						<option>Other</option>
+					</select>
+					<label >Attach Company Logo</label>
+			        <input  type="file" fileread="logo.src"/>
+			        <input  type="hidden" ng-model="logo.src">
+			        <img src="/site_media/[[recruiter.logo]]" >
+		        </div>
+	        </div>
+	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">City</label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="text" name="city" ng-model="recruiter.city" value="{{ recruiter.city }}"> 
+		        </div>
+	        </div>
+	        
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Company description</label>
+		        <div class="col-sm-8">
+					<textarea class="form-control" rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>        
+		        </div>
+	        </div>
 
-		        {% if recruiters.has_next %}
-		            <a href="?page={{ recruiters.next_page_number }}">next</a>
-		        {% endif %}
-			    </span>
+			<h3>Attach Your Company Profile</h3>
+	        <div class="form-group-outer">	
+				<label class="col-sm-4 control-label">Company Profile<span class="red">*</span></label>
+		        <div class="col-sm-8">
+					<input class="form-control" type="file" fileread="profile_doc.src"/>
+					<input type="hidden" ng-model="profile_doc.src">
+		        </div>
 			</div>
-		{% endif %}
-			
-	{% endif %}
+			<a href="/site_media/[[recruiter.company_profile]]" ng-show="recruiter.company_profile" target="_blank">Company Profile</a>		
 
-	<div class="separation_outer" ng-hide="view_employer_details">
-		<p class="mandatory">* Mandatory Fields</p>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Company Name<span class="red">*</span></label>
-        <div class="col-sm-8">
-		<input class="form-control" type="text" name="name" ng-model="recruiter.name" value="{{ recruiter.name }}">
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Email Id<span class="red">*</span></label>
-        <div class="col-sm-8">
-		<input class="form-control" type="text" name="email" ng-model="recruiter.email" value="{{ recruiter.email }}">
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Industry Type<span class="red">*</span></label>
-        <div class="col-sm-8">
-		<select class="form-control" name="industry" ng-model="recruiter.industry"> 
-			<option value="">--------------Select------------</option>
-			<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == recruiter.industry">[[industry]]</option>				
-		</select>
-
-         </div>
-         </div>
-         
-         <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Mobile Number<span class="red">*</span></label>
-        <div class="col-sm-8">
-		<input class="form-control" type="text" name="mobile" ng-model="recruiter.mobile" value="{{ recruiter.mobile }}">
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Land Line Number</label>
-        <div class="col-sm-8">
-		<input class="form-control" type="text" name="mobile" ng-model="recruiter.phone" value="{{ recruiter.phone }}">
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Country<span class="red">*</span></label> 
-        <div class="col-sm-8">
-		<select class="form-control" name="country" ng-model="recruiter.country">
-			<option value="">------------------Select------------------</option>
-			<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
-			<option>Other</option>
-		</select>
-		<label >Attach Company Logo</label>
-        <input  type="file" fileread="logo.src"/>
-        <input  type="hidden" ng-model="logo.src">
-        <img src="/site_media/[[recruiter.logo]]" >
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">City</label>
-        <div class="col-sm-8">
-		<input class="form-control" type="text" name="city" ng-model="recruiter.city" value="{{ recruiter.city }}"> 
-        </div>
-        </div>
-        
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Company description</label>
-        <div class="col-sm-8">
-		<textarea class="form-control" rows="4" cols="20" name="description" ng-model="recruiter.description" value="{{ recruiter.description }}"></textarea>        
-        </div>
-        </div>
-
-		<h3>Attach Your Company Profile</h3>
-        <div class="form-group-outer">	
-		<label class="col-sm-4 control-label">Company Profile<span class="red">*</span></label>
-        <div class="col-sm-8">
-		<input class="form-control" type="file" fileread="profile_doc.src"/>
-		<input type="hidden" ng-model="profile_doc.src">
-
-        </div>
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
+			<p class="error_message ">[[error_message]]</p>
 		</div>
-		<a href="/site_media/[[recruiter.company_profile]]" ng-show="recruiter.company_profile" target="_blank">Company Profile</a>		
-
-		<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
-		<p class="error_message ">[[error_message]]</p>
-	</div>
-{% else %}
+	{% endif %}
 	<p>{{message}}</p>
-{% endif %}
-
-
-
 {% endblock dashboard_content %}
