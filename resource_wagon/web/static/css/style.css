@@ -80,12 +80,19 @@ header
 	color: #827873;
 	padding-top: 30px;*/
 	margin:0px 0 0 0;
+	margin: 65px 0 0 0;
 	vertical-align:bottom;
 }
 .create_account_link a {
 	color: #827873;
-	text-decoration:none;
+	text-decoration: none;
 }
+
+.create_account_link a:hover {
+	color: #fa853f;
+	text-decoration: none;
+}
+@media only screen and (max-width: 479px) { .create_account_link {margin: 10px 0 0 0;}}
 .banner_top {
 	width: 100%;
 	height: 11px;
@@ -103,7 +110,7 @@ header
 	left: 60%;
 	bottom: 0%;
 	height: 44.5%;
-	top:270px;
+	top:253px;
 }
 .quick_search_overlay {
 	width: 28%;
@@ -113,8 +120,9 @@ header
 	z-index: 2;
 	left: 60%;
 	bottom: 0%;
-	height: 44.5%;
-	top:270px;
+	height: 55%;/*
+	top:251px;*/
+	bottom:50px;
 }
 .button_links {
 	margin-top:0px;
@@ -313,7 +321,7 @@ right: 0px !important;
 	padding: 5px;
 }
 .premium_employer_content {
-	width: 75%;
+	width: 100%;
 	margin: auto;
 }
 .slide_left {
@@ -331,7 +339,7 @@ right: 0px !important;
 .slide_content img {
 	display: block;
     float: left;
-    margin-left: 10px;
+    margin: 10px 0 0 10px;;
 }
 .slide_content .employer {
 	margin: 5px 0px 0px 5%;
@@ -627,3 +635,79 @@ fileread{ color:#fff;background-color:#f0ad4e;border-color:#eea236}
 	border: 1px solid #00FF00;
 }
 */
+.employer-activity { border:1px solid #d4d4d4; width:100%;}
+.employer-activity th { border:1px solid #d4d4d4; width:20%; padding:5px 10px;}
+.employer-activity td{ border:1px solid #d4d4d4; width:20%; padding:5px 10px;}
+h3{ color:#a84101;}
+.four.columns{ width: 196px; /*border:1px solid #F00;*/ }
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+       
+        .four.columns{ width: 172px; }
+    }
+@media only screen and (max-width: 767px) {
+.four.columns{ width: 300px; }
+}
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+.four.columns { width: 420px; }
+}
+
+
+/******************* JCAROUSEL ****************/
+.premium{margin: 0 0 0 40px;}
+.jcarousel-skin-tango .jcarousel-container {   }
+.jcarousel-skin-tango .jcarousel-direction-rtl { direction: rtl; }
+.jcarousel-skin-tango .jcarousel-container-horizontal { width:  100%;  }
+.jcarousel-skin-tango .jcarousel-clip { overflow: hidden; }
+.jcarousel-skin-tango .jcarousel-clip-horizontal { width:  76%; float: left; margin:15px 0 0 50px; }
+.jcarousel-skin-tango .jcarousel-item { width: 196px; margin:0 10px 0 10px; }
+.jcarousel-skin-tango .jcarousel-item-horizontal { margin-left: 0; margin-right: 10px; }
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-item-horizontal { margin-left: 10px; margin-right: 0; }
+.jcarousel-skin-tango .jcarousel-item-placeholder { background: #fff; color: #000; }
+
+/* Horizontal Buttons */
+.jcarousel-skin-tango .jcarousel-next-horizontal {
+    position: absolute;
+    top: 21px;
+    right: 10px;
+    width: 17px;
+	height: 84px;
+    cursor: pointer;
+    background: transparent url('../images/slide-rt-arrow.png') no-repeat ;
+	
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-next-horizontal { }
+.jcarousel-skin-tango .jcarousel-next-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-next-horizontal:focus {  }
+.jcarousel-skin-tango .jcarousel-next-horizontal:active { }
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:focus,
+.jcarousel-skin-tango .jcarousel-next-disabled-horizontal:active { cursor: default; }
+.jcarousel-skin-tango .jcarousel-prev-horizontal {
+    position: absolute;
+	top: 21px;
+	/*left:-50px;*/
+    width: 17px;
+	height: 84px;
+    cursor: pointer;
+    background: transparent url('../images/slide-lt-arrow.png');
+}
+.jcarousel-skin-tango .jcarousel-direction-rtl .jcarousel-prev-horizontal { }
+.jcarousel-skin-tango .jcarousel-prev-horizontal:hover, 
+.jcarousel-skin-tango .jcarousel-prev-horizontal:focus {  }
+.jcarousel-skin-tango .jcarousel-prev-horizontal:active { }
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:hover,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:focus,
+.jcarousel-skin-tango .jcarousel-prev-disabled-horizontal:active { cursor: default; }
+
+#clients .block {  position: relative; width:218px; }
+#clients .block img { display:block; width:218px; border:4px solid #ebebeb; display:inline; }
+#clients .block {
+	-webkit-transition: background-color 0.3s ease;
+	-moz-transition: background-color 0.3s ease;
+	-ms-transition: background-color 0.3s ease;
+	-o-transition: background-color 0.3s ease;
+	transition: background-color 0.3s ease;
+}
+#clients .block:hover { background-color:#f5f5f5;; }

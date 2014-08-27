@@ -122,7 +122,7 @@ var $zcarousel = $('#projects-carousel, #posts-carousel, #clients-carousel');
 
         if( $(window).width() < 479 ) {
            		scrollCount = 1;
-            	itemWidth = 300;
+            	itemWidth = 200;
         	} else if( $(window).width() < 768 ) {
             	scrollCount = 2;
             	itemWidth = 200;

@@ -54,11 +54,11 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
     <div class="form-group-outer">
 	<label class="col-sm-4 control-label">How much work experience do you want?</label>
         <div class="col-sm-8">  
-		<select name="years" ng-model="search_candidate.years" class="years_select">
+		<select class="form-select-control" name="years" ng-model="search_candidate.years" class="years_select">
 			<option value="">Years</option>
 			<option ng-repeat="expr in experience" value="[[expr]]">[[expr]]</option>
 		</select>
-		<select name="months" ng-model="search_candidate.months" class="month_select">
+		<select class="form-select-control" name="months" ng-model="search_candidate.months" class="month_select">
 			<option value="">Months</option>
 			<option value="0">0</option>
 			<option value="1">1</option>
