@@ -8,10 +8,10 @@
 	{% if not user.is_superuser %}
         <div class="separation">        
 	        <div class="separation_outer_hd">
-	           <div class="col-md-8" style="border:1px solid #FF0000;">
+	           <div class="col-md-8" style="">
 			   		<h2>Welcome {{user.first_name}}</h2>
 	           </div>	           
-		        <div class="col-md-4" style="border:1px solid #FF0000; text-align:center;">
+		        <div class="col-md-4" style=" text-align:center;">
 					<div>
 						{% if user.jobseeker_set.all.0.photo %}
 							<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt="" width="200px" height="132px" />					  {% else %}

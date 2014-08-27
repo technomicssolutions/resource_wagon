@@ -34,11 +34,26 @@
                                     </li>
                                 {% endif %}
                                 <li class=" menu-item-depth-0 menu-item-simple-parent ">
-                                    <a href="{% url 'aboutus' %}"><span class="menu-icon fa fa-gift"> </span>ABOUT US</a>                                
+                                    <a href="#"><span class="menu-icon fa fa-gift"> </span>ABOUT US</a>                                
                                     <ul class="sub-menu">
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'mission_statement' %}">Mission Statement</a></li>
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'resources_wagon' %}">Resources Wagons</a></li>
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'wagon_drivers' %}">Wagon Drivers</a></li>
+                                    </ul>
+                                </li>
+                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                    <a href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>                                
+                                    <ul class="sub-menu">
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'recruitment_divisions' %}">Recruitment Divisions</a></li>
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'competency_analysis' %}">Competency Analysis</a></li>
+                                    </ul>
+                                </li>
+                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                    <a href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>                                
+                                    <ul class="sub-menu">
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="#">Apply Online</a></li>
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="#">Job Alerts</a></li>
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'candidate_preparation' %}">Candidate Preparation</a></li>
                                     </ul>
                                 </li>
                             </ul>                            

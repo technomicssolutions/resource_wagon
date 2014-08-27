@@ -9,12 +9,14 @@
 <div class="separation_outer">
 <div>
 	{% for company in companies %}
+    <div style="border-bottom:1px solid #d4d4d4; background:#FFFFFF; padding:10px; margin-bottom:10px;">
 		<p><h3><a herf="{% url 'company' company_id=company.id %}">{{company.company_name}}</a></h3></p>
 		<p>Industry: {{company.industry_type}}</p>
 		<p>{{company.description}}</p>
 		<p><a href="/site_media/{{company.company_profile.name}}" target="blank">Download Company Profile</a></p>
+        </div>
 	{% endfor %}
-	<div >
+    </div>
    		<span >
         {% if companies.has_previous %}
             <a href="?page={{ companies.previous_page_number }}">previous</a>
@@ -29,6 +31,7 @@
         {% endif %}
 	    </span>
 	</div>
+    </div>
 </div>
 </div>
 </div>

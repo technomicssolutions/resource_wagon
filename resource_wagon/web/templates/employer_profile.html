@@ -5,31 +5,32 @@
 {% endblock controller %}
 {% block dashboard_content %}
 	{% if recruiters %}
-		<table >
-			<tr >
-				<th>Company Name</th>
-				<th>Industry Type</th>
-				<th>Country</th>
-				<th>Email Id</th>
-				<th>Mobile</th>
-				<th>Land Number</th>
-				<th>Company Profile</th>
-				<th>Premium Employer</th>
+		<table class="employer_profile_box">
+			<tr style="border:1px solid #d4d4d4;;">
+				<th class="col-md-2">Name</th>
+				<th class="col-md-2">Industry</th>
+				<th class="col-md-2">Country</th>
+				<th class="col-md-2">Email</th>
+				<th class="col-md-2">Mobile</th>
+				<th class="col-md-2">Land</th>
+				<th class="col-md-2">Profile</th>
+				<th class="col-md-2">Premium</th>
 			</tr>
 		{% for recruiter in recruiters %}
-			<tr>
-				<td>{{recruiter.company.company_name}}</td>
-				<td>{{recruiter.company.industry_type}}</td>
-				<td>{{recruiter.country}}</td>
-				<td>{{recruiter.user.email}}</td>
-				<td>{{recruiter.mobile}}</td>
-				<td>{{recruiter.land_num}}</td>
-				<td><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View</a></td>
-				<td> <input id="recruiter_{{recruiter.id}}" type="checkbox" value="{{recruiter.company.is_premium_company}}" name="checkbox" {% if recruiter.company.is_premium_company %} checked {% endif %} ng-click= "save_premium_employer('{{recruiter.id}}', '{{recruiter.company.is_premium_company}}')"></td>
+			<tr style="border:1px solid #d4d4d4;">
+				<td class="col-md-2">{{recruiter.company.company_name}}</td>
+				<td class="col-md-2">{{recruiter.company.industry_type}}</td>
+				<td class="col-md-2">{{recruiter.country}}</td>
+				<td class="col-md-2">{{recruiter.user.email}}</td>
+				<td class="col-md-2">{{recruiter.mobile}}</td>
+				<td class="col-md-2">{{recruiter.land_num}}</td>
+				<td class="col-md-2"><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View</a></td>
+				<td class="col-md-2"> <input id="recruiter_{{recruiter.id}}" type="checkbox" value="{{recruiter.company.is_premium_company}}" name="checkbox" {% if recruiter.company.is_premium_company %} checked {% endif %} ng-click= "save_premium_employer('{{recruiter.id}}', '{{recruiter.company.is_premium_company}}')"></td>
 			</tr>	
 		</div>
 		{% endfor %}
-		<div >
+            </table>
+		<div style="margin:10px 0 0 0;" >
 	   		<span >
 	        {% if recruiters.has_previous %}
 	            <a href="?page={{ recruiters.previous_page_number }}">previous</a>
@@ -44,5 +45,5 @@
 	        {% endif %}
 		    </span>
 		</div>
-	{% endif %}
+{% endif %}
 {% endblock dashboard_content %}

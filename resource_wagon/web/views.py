@@ -233,6 +233,26 @@ class WagonDrivers(View):
 
     def get(self, request, *args, **kwargs):
             return render(request, 'wagon_drivers.html', {})
+			
+class CandidatePreparation(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'candidate_preparation.html', {})
+
+class RecruitmentDivisions(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'recruitment_divisions.html', {})
+
+class CompetencyAnalysis(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'competency_analysis.html', {})
+			
+class WagonDrivers(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'wagon_drivers.html', {})
 
 class Companies(View):
     def get(self, request, *args, **kwargs):
