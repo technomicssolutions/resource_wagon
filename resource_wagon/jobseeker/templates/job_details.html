@@ -92,7 +92,7 @@
 				{% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
 			        <a href="{% url 'apply_jobs' job_id=job.id %}"><input class="button btn btn-warning" type="submit" name="apply" value="Apply Job"></a>
 			    {% else %}
-			        <p>You have applied for this Job</p>
+			        <p class="error_message">You have applied for this Job</p>
 			    {% endif %}
 			{% else %}
 				<p></p>

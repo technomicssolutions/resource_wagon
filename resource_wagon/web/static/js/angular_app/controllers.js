@@ -4086,6 +4086,17 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     $scope.experience = [];
     $scope.no_candidate = false;
     $scope.candidates_data_table = false;
+    $scope.search_candidate = {
+      'functions': '',
+      'industry': '',
+      'skills': '',
+      'years': '',
+      'months': ''
+    }
+    $scope.educational_details = {
+      basic_specialization: '',
+      basic_edu: '',
+    }
     for(var i=0; i<=50; i++)
       $scope.experience.push(i);   
     }
@@ -4093,35 +4104,11 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         get_stream($scope);
     }
     $scope.validate_search_candidates = function(){
-      if($scope.educational_details == undefined || $scope.educational_details.basic_edu == "" || $scope.educational_details.basic_edu == undefined){
+      if($scope.educational_details.basic_edu == ""){
         $scope.error_message = "Please select the educational qualification required";
         return false;
       }
-      if($scope.educational_details.basic_specialization == "" || $scope.educational_details.basic_specialization == undefined)
-          $scope.educational_details.basic_specialization = "";
-      if(!angular.isUndefined($scope.search_candidate)){
-        if($scope.search_candidate.functions == "" || $scope.search_candidate.functions == undefined)
-          $scope.search_candidate.functions = "";
-        if($scope.search_candidate.industry == "" || $scope.search_candidate.industry == undefined)
-          $scope.search_candidate.industry = "";
-        if($scope.search_candidate.months == "" || $scope.search_candidate.months == undefined)
-          $scope.search_candidate.months = 0;
-        if($scope.search_candidate.skills == "" || $scope.search_candidate.skills == undefined)
-          $scope.search_candidate.skills = "";
-        if($scope.search_candidate.years == "" || $scope.search_candidate.years == undefined)
-          $scope.search_candidate.years = 0;
-      }  
-      else{
-          $scope.search_candidate = {
-            'functions': '',
-            'industry': '',
-            'months': '',
-            'years': '',
-            'skills': '',
-          }
-      }  
       return true;       
-       
     }
     $scope.search_candidates = function(){
       if ($scope.validate_search_candidates()) {

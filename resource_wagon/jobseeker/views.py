@@ -462,6 +462,10 @@ class JobSearch(View):
         for job in jobs:                
             job.search_count = job.search_count+1
             job.save()
+            applied = 'false'
+            if not request.user.is_anonymous() and request.user.jobseeker_set.all().count() > 0:
+                if request.user.jobseeker_set.all()[0].applied_jobs.all().count() > 0:
+                    applied = 'true'
             job_list.append({
                 'job_title': job.job_title,
                 'id': job.id,
@@ -471,7 +475,7 @@ class JobSearch(View):
                 'education_req': job.education_req,
                 'exp_req_min': job.exp_req_min,
                 'exp_req_max': job.exp_req_max,
-                'applied': 'false' if job not in request.user.jobseeker_set.all()[0].applied_jobs.all() else 'true'
+                'applied': applied
             })
         context = {
             'jobs': jobs,
