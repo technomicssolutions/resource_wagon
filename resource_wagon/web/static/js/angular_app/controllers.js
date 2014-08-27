@@ -41,9 +41,9 @@ function user_login ($scope,$http){
           }
       }).success(function(data, status) {
           if (data.result == 'recruiter') {
-            document.location.href = '/employer/dashboard/';
+            document.location.href = '/employer/employer_profile/';
           }else if(data.result == 'jobseeker'){
-            document.location.href = '/jobseeker/dashboard/';
+            document.location.href = '/jobseeker/jobseeker_details/';
           }else if(data.result == 'admin'){
             document.location.href = '/admin_dashboard/';
           }else if(data.result == 'error'){
