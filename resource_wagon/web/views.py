@@ -20,7 +20,7 @@ from employer.models import CompanyProfile, Recruiter
 class Home(View):
     
     def get(self, request, *args, **kwargs):
-        jobs = Job.objects.all().order_by('-posting_date')[:10]
+        jobs = Job.objects.filter(is_publish=True).order_by('-posting_date')[:10]
         recruiters = Recruiter.objects.filter(company__is_premium_company=True)
         context = {
             'jobs': jobs,
