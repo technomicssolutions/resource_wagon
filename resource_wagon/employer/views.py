@@ -418,23 +418,20 @@ class SearchCandidatesView(View):
             skills = request.GET.get('skills')
             basic_edu = request.GET.get('basic_edu')
             basic_specialization = request.GET.get('basic_specialization')
-            jobseekers_list = []
-            if months == "":
-                months = 0
-            if years == "":
-                years = 0
+            jobseekers_list = []            
             q_list = []
             if industry != "":
                 q_list.append(Q(employment__curr_industry__icontains = industry))
             if functions:
                 q_list.append(Q(employment__function__icontains = functions))
             if skills:
-                q_list.append(Q(employment__skills__icontains = skills))
-            
-            if basic_edu and years and months:
-                q_list.append(Q(Q(education__basic_edu = basic_edu), 
-                              Q(employment__exp_mnths=int(months)),
-                              Q(employment__exp_yrs=int(years))))
+                q_list.append(Q(employment__skills__icontains = skills))            
+            if basic_edu:
+                q_list.append(Q(education__basic_edu = basic_edu))
+            if months != '':
+                q_list.append(Q(employment__exp_mnths=int(months)))
+            if years != '':
+                q_list.append(Q(employment__exp_yrs=int(years)))
             if basic_specialization:
                 q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
             jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
