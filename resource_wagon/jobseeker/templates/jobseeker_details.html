@@ -1,4 +1,4 @@
-{% extends 'jobseeker_dashboard.html' %}
+{% extends base_template %}
 {% block title %}Jobseeker Dashboard {% endblock title%}
 {% block body_id %}jobseeker_details{% endblock %}
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
