@@ -28,10 +28,10 @@
 						{% if user.jobseeker_set.all.0.photo %}
 							<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt="" width="149px" height="132px" />					  {% else %}
 					    	{% if user.jobseeker_set.all.0.gender == 'male' %}
-					    		<img src="/static/images/user5.jpeg" alt=""  >
+					    		<img src="/static/images/user5.jpeg" alt="" width="149px" height="132px" >
 					    
 					    	{% else %}
-					    		<img src="/static/images/user6.jpeg" alt=""  >
+					    		<img src="/static/images/user6.jpeg" alt="" width="149px" height="132px" >
 					    	{% endif %}
 					    {% endif %}			    	</div>
 	            </div>
