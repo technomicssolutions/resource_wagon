@@ -101,11 +101,11 @@
             	<div class="form-group-outer">	
 				<label class="col-sm-4 control-label">Experience(years)<span class="red">*</span></label>
                  <div class="col-sm-8">    
-				<select  style="width: 14%" name="min" ng-model="jobpost.min">
+				<select class="form-select-control"  name="min" ng-model="jobpost.min">
 					<option>-min-</option>
 					<option ng-repeat="min in Min" value="[[min]]" ng-selected="min == jobpost.min">[[min]]</option>
 				</select>
-				<select style="width: 14%" name="max" ng-model="jobpost.max">
+				<select class="form-select-control" name="max" ng-model="jobpost.max">
 					<option>-max-</option>
 					<option ng-repeat="max in Max" value="[[max]]" ng-selected="max == jobpost.max">[[max]]</option>
 				</select>

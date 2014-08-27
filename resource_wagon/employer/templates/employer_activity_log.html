@@ -6,8 +6,9 @@
 	
 	<h3>Posted Jobs</h3>
 	{% if posted_jobs %}
-		<table>
-			<tr>
+    <div class="separation_outer">
+		<table class="employer-activity">
+<tr>
 				<th>Job Title</th>
 				<th>Job Qualification</th>
 				<th>Job Location</th>
@@ -22,9 +23,12 @@
 			</tr>
 			{% endfor %}
 		</table>
-		
+		</div>
 	{% else %}
 		<p>No jobs posted</p>
 	{% endif %}
-	<h3>Last Login</h3>{{last_login}}
+	<h3>Last Login</h3>
+    <div class="separation_outer">
+    {{last_login}}
+    </div>
 {% endblock dashboard_content %}

@@ -5,10 +5,10 @@
 
 {% block content %}
 
-
+<div class="separation">
 
 <h1> {{job.job_title}} </h1>
-
+<div class="separation_outer">
 <div> 
 	<div>
 		<h2>Job Description</h2>
@@ -18,26 +18,62 @@
 	<span>
 		
 		{% if job.salary %}
-			Salary : {{job.salary}} {{job.currency}} <br/>					
+			<p class="outer">
+            	<span class="col-xs-6 col-md-4">Salary : </span>
+            	<span class="col-xs-12 col-md-8">{{job.salary}} {{job.currency}} </span>
+            </p>				
 		{% else %}				
-			Salary : As per Company Norms <br/>
+			<p>
+            	<span class="col-xs-6 col-md-4">Salary : </span>
+            	<span class="col-xs-12 col-md-8">As per Company Norms </span>
+            </p>
 		{% endif %}
 
-		Industry : {{job.industry}} <br/>
-		Functional Area : {{job.function}}<br/>
-		Location : {{ job.job_location }} <br/>
-		Role : {{ job.job_title }} <br/>
-		Last Date : {{job.last_date}} <br/>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Industry : </span>
+        	<span class="col-xs-12 col-md-8">{{job.industry}} </span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Functional Area : </span>
+        	<span class="col-xs-12 col-md-8">{{job.function}}</span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Location : </span>
+        	<span class="col-xs-12 col-md-8">{{ job.job_location }} </span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Role : </span>
+        	<span class="col-xs-12 col-md-8">{{ job.job_title }} </span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Last Date : </span>
+        	<span class="col-xs-12 col-md-8">{{job.last_date}} </span>
+        </p>
 	</span>
 
-	<div><h2>Desired Candidate Profile</h2></div>
+	<div style="margin:20px 0 0 0; float:left; width:100%;"><h2>Desired Candidate Profile</h2></div>
 	<div><br>
 		<span>
-		Skills : {{job.skills}} <br/>
-		Experience : {{job.exp_req_min}} - {{job.exp_req_max}}<br/>
-		Education Required : {{job.education_req}}<br/>
-		Specialization : {{ job.specialization }} <br/>
-		Nationality : {{job.nationality}} <br/>
+		<p class="outer">
+        <span class="col-xs-6 col-md-4">Skills : </span>
+        	<span class="col-xs-12 col-md-8">{{job.skills}} </span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Experience :</span>
+         	<span class="col-xs-12 col-md-8">{{job.exp_req_min}} - {{job.exp_req_max}}</span>
+        </p>
+		<p class="outer">
+       	<span class="col-xs-6 col-md-4"> Education Required : </span>
+        	<span class="col-xs-12 col-md-8">{{job.education_req}}</span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Specialization : </span>
+        	<span class="col-xs-12 col-md-8">{{ job.specialization }} </span>
+        </p>
+		<p class="outer">
+        	<span class="col-xs-6 col-md-4">Nationality : </span>
+        	<span class="col-xs-12 col-md-8">{{job.nationality}} </span>
+        </p>
 	</span>
 	</div>
 	{% if job.description %}
@@ -54,7 +90,7 @@
 		{% if  user.is_authenticated %}
 			{% if user.jobseeker_set.all %}
 				{% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
-			        <a href="{% url 'apply_jobs' job_id=job.id %}"><input type="submit" name="apply" value="Apply Job"></a>
+			        <a href="{% url 'apply_jobs' job_id=job.id %}"><input class="button btn btn-warning" type="submit" name="apply" value="Apply Job"></a>
 			    {% else %}
 			        <p class="error_message">You have applied for this Job</p>
 			    {% endif %}
@@ -69,5 +105,6 @@
     
 
 </div>
-
+</div>
+</div>
 {% endblock content %}

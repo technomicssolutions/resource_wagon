@@ -2,19 +2,43 @@
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}')" {% endblock controller %}
 
 {% block content %}
+<div class="col-sm-11">
+<div class="separation">
 <p><h3>{{company.company_name}}</h3></p>
+<div class="separation_outer">
 {% if company.photo.name %}
-		<img src="/site_media/{{company.photo.name}}" alt=""   >
+		<img src="/site_media/{{company.photo.name}}" width="150" height="132" alt=""   >
 {% endif %}
-<p>Industry: {{company.industry_type}}</p>
-<p>Country: {{company.recruiter_set.all.0.country}}</p>
+    <p class="outer">
+    	<span class="col-xs-6 col-md-4">Industry: </span>
+    	<span class="col-xs-12 col-md-8">{{company.industry_type}}</span>
+    </p>
+    <p class="outer">
+    	<span class="col-xs-6 col-md-4">Country: </span>
+    	<span class="col-xs-12 col-md-8">{{company.recruiter_set.all.0.country}}</span>
+    </p>
 {% if company.recruiter_set.all.0.city %}
-	<p>City: {{company.recruiter_set.all.0.city}}</p>
+	<p class="outer">
+    	<span class="col-xs-6 col-md-4">City: </span>
+    	<span class="col-xs-12 col-md-8">{{company.recruiter_set.all.0.city}}</span>
+    </p>
 {% endif %}
-<p>Mobile: {{company.recruiter_set.all.0.mobile}}</p>
+    <p class="outer">
+    	<span class="col-xs-6 col-md-4">Mobile: </span>
+    	<span class="col-xs-12 col-md-8">{{company.recruiter_set.all.0.mobile}}</span>
+    </p>
 {% if company.recruiter_set.all.0.land_num %}
-	<p>Land Line: {{company.recruiter_set.all.0.land_num}}</p>
+	<p class="outer">
+   	<span class="col-xs-6 col-md-4"> Land Line: </span>
+    	<span class="col-xs-12 col-md-8">{{company.recruiter_set.all.0.land_num}}</span>
+    </p>
 {% endif %}
-<p>Description: {{company.description}}</p>
+    <p class="outer">
+    	<span class="col-xs-6 col-md-4">Description: </span>
+    	<span class="col-xs-12 col-md-8">{{company.description}}</span>
+    </p>
 <p><a href="/site_media/{{company.company_profile.name}}"target="blank">Download Company Profile</a></p>
+</div>
+</div>
+</div>
 {% endblock %}

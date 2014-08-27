@@ -55,6 +55,14 @@
 	float:left;
 	width:100%;
 }
+.separation_outer_hd h2
+{
+	clear:both;
+	float:left;
+	width:100%;
+	color:#000000;
+	border-bottom:1px solid #d4d4d4;
+}
 .red{ color:#fe0000;}
 .span_label 
 {
@@ -66,7 +74,7 @@ button
 	position: relative;
 	z-index: 999;
 	top: -30px;
-	right: -30px;
+	/*right: -30px;*/
 }
 .form-button
 {
