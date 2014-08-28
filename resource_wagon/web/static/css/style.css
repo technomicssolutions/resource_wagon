@@ -14,7 +14,7 @@ html, body {
 	background: url('../images/ajax-loader.gif') no-repeat;
 	width: 16px;
 	height: 16px;
-	z-index: 2;
+	z-index: 101;
 	margin: auto;
 	position: absolute;
 	left: 50%;

@@ -131,9 +131,18 @@ class SaveCurrentEmployerDetails(View):
                 employment = job_seeker.employment
             else:
                 employment = Employment()
-            employment.exp_yrs = current_employer_details['years']
-            employment.exp_mnths = current_employer_details['months']
-            employment.salary = current_employer_details['salary']
+            if current_employer_details['years'] != "":
+                employment.exp_yrs = current_employer_details['years']
+            else :
+                employment.exp_yrs = 0
+            if current_employer_details['months'] != "":
+                employment.exp_mnths = current_employer_details['months']
+            else :
+                employment.exp_mnths = 0
+            if current_employer_details['salary'] != "":
+                employment.salary = current_employer_details['salary']
+            else:
+                employment.salary = 0
             employment.designation = current_employer_details['designation']
             employment.skills = current_employer_details['skills']
             employment.currency = current_employer_details['currency']

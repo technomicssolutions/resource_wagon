@@ -2686,8 +2686,8 @@ function job_seeker_initialization_details($scope) {
     }
     $scope.current_employer = {
         'id': $scope.job_seeker_id,
-        'years': '0',
-        'months': '0',
+        'years': 0,
+        'months': 0,
         'salary': 0,
         'currency': '',
         'designation': '',
