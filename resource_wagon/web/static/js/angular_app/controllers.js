@@ -2667,6 +2667,7 @@ function job_seeker_initialization_details($scope) {
         'country': '',
         'city': '',
         'mobile': '',
+        'phone': '',
         'alt_email': '',
     }
     $scope.current_employer = {
