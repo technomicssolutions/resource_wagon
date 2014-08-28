@@ -38,6 +38,21 @@
 			{% endif %}
 		{% endfor %}
 	</table>
+	<div >
+   		<span >
+        {% if requests.has_previous %}
+            <a href="?page={{ requests.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span >
+            Page {{ requests.number }} of {{ requests.paginator.num_pages }}.
+        </span>
+
+        {% if requests.has_next %}
+            <a href="?page={{ requests.next_page_number }}">next</a>
+        {% endif %}
+	    </span>
+		</div>
 {% else %}
 	<p>No Requests</p>
 

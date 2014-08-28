@@ -3,7 +3,7 @@
 {% if jobseekers %}
 			
 	<table class="jobseeker-profil">
-		<tr>
+		<tr style="border:1px solid #d4d4d4;">
 			<th class="col-md-2">Name</th>
 			<th class="col-md-2">Email Id</th>
 			<th class="col-md-2">Gender</th>
@@ -15,7 +15,7 @@
 			
 		</tr>
 	{% for jobseeker in jobseekers %}
-		<tr>
+		<tr style="border:1px solid #d4d4d4;">
 			<td class="col-md-2">{{jobseeker.user.first_name}}</td>
 			
 			<td class="col-md-2">{{jobseeker.user.email}}</td>
@@ -29,22 +29,23 @@
 
 			
 
-			<td class="col-md-2">{{jobseeker.employment.function}}</td>
+			
 
 			<td class="col-md-2">{{jobseeker.education.resume_title}}</td>
 			{% if jobseeker.education.resume %}
 				<td class="col-md-2"><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
 			{% endif %}
 		</tr>
-        </table>
+        
 	{% endfor %}
-	<div >
-   		<span >
+    </table>
+	<div style="margin:10px 0 0 0;" >
+   		<span>
 	        {% if jobseekers.has_previous %}
 	            <a href="?page={{ jobseekers.previous_page_number }}">previous</a>
 	        {% endif %}
 
-	        <span >
+	        <span>
 	            Page {{ jobseekers.number }} of {{ jobseekers.paginator.num_pages }}.
 	        </span>
 

@@ -1,4 +1,4 @@
-{% extends 'employer_dashboard.html' %}
+{% extends base_template %}
 {% block title %}Recruiter 
 {% endblock title %}
 
@@ -43,7 +43,6 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recru
 	            <div class ="employer_button">
 	            	<input class="button btn btn-warning" type="submit" name="submit" value="Update" ng-click="edit_employer_details()">
 	                </a>
-	            </div>
 	            </div>
 	        </div>
 	    </div>			

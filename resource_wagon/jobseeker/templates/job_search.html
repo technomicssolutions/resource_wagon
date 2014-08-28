@@ -37,7 +37,7 @@
                     
                     <label class="col-sm-4 control-label">Experience</label>
                 <div class="col-sm-8">   
-                    <select class="form-control" name="experience" ng-style="alert_style" style="width: 14%" ng-model="search.experience" id="experience">
+                    <select class="form-control" name="experience" ng-style="alert_style" style="width: 20%" ng-model="search.experience" id="experience">
                         <option value="">Years</option>
                         <option ng-repeat="expr in experiences" value="[[expr]]" ng-selected="expr==search.experience">[[expr]]</option>
                     </select>                     
@@ -90,11 +90,8 @@
                     {% if  user.is_authenticated %}
                         {% if not user.is_superuser %}
                             {% if user.jobseeker_set.all %}
-                                {% if job not in user.jobseeker_set.all.0.applied_jobs.all %}
-                                    <a href="/jobseeker/apply/[[job.id]]/"><input type="submit" name="apply" value="Apply Job"></a>
-                                {% else %}
-                                    <p>You have already applied for this job</p>
-                                {% endif %}
+                                    <a href="/jobseeker/apply/[[job.id]]/" ng-hide="job.applied=='true'"><input type="submit" name="apply" value="Apply Job"></a>
+                                    <p class="error_message" ng-show="job.applied=='true'">You have already applied for this job</p>
                             {% endif %}
                         {% endif %}
                     {% else %}

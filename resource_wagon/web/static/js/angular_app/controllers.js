@@ -49,9 +49,9 @@ function user_login ($scope,$http){
           }
       }).success(function(data, status) {
           if (data.result == 'recruiter') {
-            document.location.href = '/employer/dashboard/';
+            document.location.href = '/employer/employer_profile/';
           }else if(data.result == 'jobseeker'){
-            document.location.href = '/jobseeker/dashboard/';
+            document.location.href = '/jobseeker/jobseeker_details/';
           }else if(data.result == 'admin'){
             document.location.href = '/admin_dashboard/';
           }else if(data.result == 'error'){
@@ -2539,7 +2539,7 @@ function get_job_seeker_details($scope, $http) {
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
         $scope.educational_details = data.educational_details[0];
-        console.log($scope.educational_details);
+        
         $scope.resume_details = data.resume_details[0];
         $scope.photo_details = data.photo_details[0];
         get_stream($scope);
@@ -2614,7 +2614,7 @@ function get_jobs($scope, $http) {
     $http.get('/employer/get_jobs/').success(function(data){
         $scope.jobs = data.jobs_list;  
         hide_loader();
-     }).error(function(data){
+    }).error(function(data){
         console.log(data || "Request failed");
     });    
 }
@@ -2681,6 +2681,7 @@ function job_seeker_initialization_details($scope) {
         'country': '',
         'city': '',
         'mobile': '',
+        'phone': '',
         'alt_email': '',
     }
     $scope.current_employer = {
@@ -2943,7 +2944,7 @@ function save_current_employer_details($scope, $http, type) {
                     $scope.personal_details = false;
                     $scope.current_employment_details = false;
                     $scope.educational_detail = true;
-                    console.log($scope.educational_detail)
+                    
                 } else {
                     $scope.job_seeker_id = data.job_seeker_id;
                     document.location.href = '/jobseeker/jobseeker_details/';
@@ -3010,7 +3011,7 @@ function save_user_login_details($scope, $http, type) {
         if (data.result == 'ok') {
             if (type == 'save') {
                 $scope.job_seeker_id = data.job_seeker_id;
-                console.log($scope.job_seeker_id );
+                
                 $scope.personal.id = $scope.job_seeker_id;
                 $scope.current_employer.id = $scope.job_seeker_id;
                 $scope.educational_details.id = $scope.job_seeker_id;
@@ -3481,7 +3482,7 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         hide_jobseeker_details_block($scope);
 
         $scope.resume_detail = true;
-        console.log($scope.resume_detail )
+        
     }
     $scope.edit_resume_validation = function() {
         if ($scope.resume_details.resume_title == '' || $scope.resume_details.resume_title == undefined){
@@ -3501,7 +3502,7 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
         $scope.photo_detail = true;
-        console.log($scope.photo_detail)
+        
     }
     $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
@@ -3747,11 +3748,11 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Type of Industry';
             return false;
-        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.personal.mobile.length > 15 ) {
+        }  else if ($scope.recruiter.mobile == '' || $scope.recruiter.mobile == undefined || $scope.recruiter.mobile.match(letters) || $scope.recruiter.mobile.length > 15 ) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Valid Mobile Number';
             return false;        
-        } else if($scope.personal.phone.length > 15) {
+        } else if($scope.recruiter.phone.length > 15) {
             $scope.personal_validation = 'Please enter Valid Land line number';
             return false;
         } else if ($scope.recruiter.phone != '' || $scope.recruiter.phone != undefined) {
@@ -3786,7 +3787,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            fd.append('logo', $scope.logo.src);
+            console.log($scope.logo);
+            if ($scope.logo != undefined)
+              fd.append('logo', $scope.logo.src);
+            
             for(var key in params){
                 fd.append(key, params[key]);          
             }
@@ -3871,7 +3875,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     } 
     $http.get('/employer/post_job').success(function(data)
     {
-        console.log(data.company_name);
+        
         $scope.jobpost.company_name = data.company_name;
     }).error(function(data, status)
     {
@@ -3883,14 +3887,14 @@ function  JobPostingController($scope,$element,$http,$timeout){
             {
                 $scope.jobpost = data.jobpost[0]; 
                 $scope.func_roles = $scope.req_roles[$scope.jobpost.category];
-                console.log($scope.jobpost);
+                
                 $('#last_dob').val($scope.jobpost.last_date);
             }).error(function(data, status)
             {
                 console.log(data || "Request failed");
             });
     }		
-    console.log($scope.jobpost.category);
+    
     $scope.get_req_role = function(){
       var req_category = $scope.jobpost.category;
       $scope.func_roles = $scope.req_roles[req_category];
@@ -3904,7 +3908,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
-    console.log($scope.jobpost.role);
+    
     if ($scope.jobpost.title == ''|| $scope.jobpost.title == undefined){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide a Job Title';
@@ -4114,6 +4118,17 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     $scope.experience = [];
     $scope.no_candidate = false;
     $scope.candidates_data_table = false;
+    $scope.search_candidate = {
+      'functions': '',
+      'industry': '',
+      'skills': '',
+      'years': '',
+      'months': ''
+    }
+    $scope.educational_details = {
+      basic_specialization: '',
+      basic_edu: '',
+    }
     for(var i=0; i<=50; i++)
       $scope.experience.push(i);   
     }
@@ -4121,35 +4136,11 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         get_stream($scope);
     }
     $scope.validate_search_candidates = function(){
-      if($scope.educational_details == undefined || $scope.educational_details.basic_edu == "" || $scope.educational_details.basic_edu == undefined){
+      if($scope.educational_details.basic_edu == ""){
         $scope.error_message = "Please select the educational qualification required";
         return false;
       }
-      if($scope.educational_details.basic_specialization == "" || $scope.educational_details.basic_specialization == undefined)
-          $scope.educational_details.basic_specialization = "";
-      if(!angular.isUndefined($scope.search_candidate)){
-        if($scope.search_candidate.functions == "" || $scope.search_candidate.functions == undefined)
-          $scope.search_candidate.functions = "";
-        if($scope.search_candidate.industry == "" || $scope.search_candidate.industry == undefined)
-          $scope.search_candidate.industry = "";
-        if($scope.search_candidate.months == "" || $scope.search_candidate.months == undefined)
-          $scope.search_candidate.months = 0;
-        if($scope.search_candidate.skills == "" || $scope.search_candidate.skills == undefined)
-          $scope.search_candidate.skills = "";
-        if($scope.search_candidate.years == "" || $scope.search_candidate.years == undefined)
-          $scope.search_candidate.years = 0;
-      }  
-      else{
-          $scope.search_candidate = {
-            'functions': '',
-            'industry': '',
-            'months': '',
-            'years': '',
-            'skills': '',
-          }
-      }  
       return true;       
-       
     }
     $scope.search_candidates = function(){
       if ($scope.validate_search_candidates()) {
@@ -4157,8 +4148,9 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         var url = '/employer/search_candidates/?functions='+$scope.search_candidate.functions+'&industry='+$scope.search_candidate.industry+'&months='+$scope.search_candidate.months+'&years='+$scope.search_candidate.years+'&skills='+$scope.search_candidate.skills+'&basic_edu='+$scope.educational_details.basic_edu+'&basic_specialization='+$scope.educational_details.basic_specialization;
         $http.get(url).success(function(data) {
             $scope.candidates_data = data.candidates_data;
-            console.log($scope.candidates_data);
+
             if($scope.candidates_data.length > 0){
+
               $scope.candidates_data_table = true;
               $scope.no_candidate = false;
             }              

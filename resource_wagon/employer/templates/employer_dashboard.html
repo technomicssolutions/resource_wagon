@@ -2,27 +2,27 @@
 {% block content %}
 
 <div class="col-xs-6 col-md-4"> 
-<div class="dashboard_menu">
-	<ul>
-		<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
-		<li><a href="{% url 'employer_profile' %}">View Profile</a></li>
-		<li><a href="{% url 'postjobs' %}">Post Job</a></li>
-		<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
-		<li><a href="{% url 'admin_reply' %}">Inbox ({{inbox_new}})</a></li>
-		<li><a href="{% url 'recruiter_log' %}">Activity Log</a></li>
-		<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
+	<div class="dashboard_menu">
+		<ul>
+			<li><a href="{% url 'search_candidates' %}">Search Candidates </a></li>
+			<li><a href="{% url 'employer_profile' %}">View Profile</a></li>
+			<li><a href="{% url 'postjobs' %}">Post Job</a></li>
+			<li><a href="{% url 'posted_jobs' %}">Posted Jobs</a></li>
+			<li><a href="{% url 'admin_reply' %}">Inbox ({{inbox_new}})</a></li>
+			<li><a href="{% url 'recruiter_log' %}">Activity Log</a></li>
+			<li><a href="{% url 'reset_password' user.id %}">Change Password</a></li>
 
-	</ul>
+		</ul>
+	</div>
 </div>
-</div>
-<div class="col-xs-12 col-md-8" style="border:1px solid #FF0000;"> 
-<div class="separation">
-<div class="dashboard_content">
-	{% block dashboard_content %}
-		
-	{% endblock dashboard_content %}
-</div>
-</div>
+<div class="col-xs-12 col-md-8"> 
+	<div class="dashboard_content">
+		<div class="separation">
+		{% block dashboard_content %}
+			
+		{% endblock dashboard_content %}
+		</div>
+	</div>
 </div>
 
 {% endblock %}

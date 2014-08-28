@@ -1,4 +1,4 @@
-{% extends 'jobseeker_dashboard.html' %}
+{% extends base_template %}
 {% block title %}Jobseeker Dashboard {% endblock title%}
 {% block body_id %}jobseeker_details{% endblock %}
 {% block controller %}ng-controller="EditJobSeekerController" ng-init="init('{{csrf_token}}', '{{jobseeker_id}}')"{% endblock controller %}
@@ -6,25 +6,10 @@
 {% block dashboard_content %}
 {% if  user.is_authenticated %}
 	{% if not user.is_superuser %}
-        <div class="separation">        
 	        <div class="separation_outer_hd">
-	           <div class="col-md-8" style="border:1px solid #FF0000;">
+	           <div class="col-md-8" style="">
 			   		<h2>Welcome {{user.first_name}}</h2>
-	           </div>	           
-		        <div class="col-md-4" style="border:1px solid #FF0000; text-align:center;">
-					<div>
-						{% if user.jobseeker_set.all.0.photo %}
-							<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt="" width="200px" height="132px" />					  {% else %}
-					    	{% if user.jobseeker_set.all.0.gender == 'male' %}
-					    		<img src="/static/images/user5.jpeg" alt=""  >
-					    
-					    	{% else %}
-					    		<img src="/static/images/user6.jpeg" alt=""  >
-					    	{% endif %}
-					    {% endif %}			    	</div>
-	            </div>
-            </div>            
-			<div class="separation_outer" ng-show="view_user_login_details">
+                    <div ng-show="view_user_login_details">
 				<h3>User Details</h3>
 	            <div class="form-group">
 	                <p class="outer">
@@ -35,7 +20,29 @@
 				<p class="btn">
 					<input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_user_login_details()">
 				</p>
-	        </div> 
+	        </div>
+                    
+	           </div>	           
+		        <div class="col-md-4" style=" text-align:center;">
+					<div style="border:1px solid #a84101; width:100%">
+						{% if user.jobseeker_set.all.0.photo %}
+							<img src="/site_media/{{user.jobseeker_set.all.0.photo.name}}" alt="" width="149px" height="132px" />					  {% else %}
+					    	{% if user.jobseeker_set.all.0.gender == 'male' %}
+					    		<img src="/static/images/user5.jpeg" alt="" width="149px" height="132px" >
+					    
+					    	{% else %}
+					    		<img src="/static/images/user6.jpeg" alt="" width="149px" height="132px" >
+					    	{% endif %}
+					    {% endif %}			    	
+					</div>
+	            </div>
+            </div>  
+            
+                      
+			 
+            
+            
+            
         	<div class="clear"></div>
 			<div class="separation_outer" ng-show="view_personal_details">
 		        <div class="form-group">
@@ -240,7 +247,7 @@
                 	<p class="btn">
                 		<input class="button btn btn-warning" type="submit" name="submit" value="Save & Edit" ng-click="edit_user_login_details ()">
                 	</p>
-                	<p class="error_message">[[user_login_validation]]</p> 
+                	<p class="error_message">[[edit_user_login_validation_message]]</p> 
                 </div>    
             	<div class="clear"></div>
 				<div class="separation_outer" ng-show="personal_details">
@@ -331,11 +338,11 @@
 		            <div class="form-group-outer">
 						<label class="col-sm-4 control-label">Total Experience</label>
 			            <div class="col-sm-8"> 
-							<select name="years" ng-model="current_employer.years" class="years_select form-control">
+							<select  name="years" ng-model="current_employer.years" class="years_select form-select-control">
 								<option value="">years</option>
 								<option ng-repeat="expr in experience" value="[[expr]]" ng-selected="expr == current_employer.years">[[expr]]</option>
 							</select>
-							<select name="months" ng-model="current_employer.months" class="month_select form-control">
+							<select  name="months" ng-model="current_employer.months" class="month_select form-select-control">
 								<option value="">months</option>
 								<option value="0">0</option>
 								<option value="1">1</option>
@@ -454,7 +461,7 @@
 	                <div class="form-group-outer">
 						<label class="col-sm-4 control-label"> Year of Passing<span class="red">*</span></label>
 		                <div class="col-sm-8"> 
-							<select name="pass_year_basic" ng-model="educational_details.pass_year_basic">
+							<select class="form-control" name="pass_year_basic" ng-model="educational_details.pass_year_basic">
 								<option value="">--------Select-------</option>
 								<option ng-repeat="yr in year" value="[[yr]]" ng-selected="yr == educational_details.pass_year_basic ">[[yr]]</option>
 							</select>
@@ -559,7 +566,6 @@
 					<p class="error_message">[[photo_validation_message]]</p>
 				</div>
 			</form>
-		</div>
 	{% else %}        
 		{% if jobseekers %}			
 			<table>

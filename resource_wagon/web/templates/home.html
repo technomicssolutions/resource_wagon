@@ -3,6 +3,10 @@
     <script type="text/javascript" src="/static/js/jquery.themepunch.plugins.min.js"></script>	
     <link rel="stylesheet" href="/static/css/slider.css" />
     
+    
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script type="text/javascript" src="/static/js/jquery.easing.1.3.js"></script>	
+	<script type="text/javascript" src="/static/js/jcarousel.min.js"></script>	
    
 {% endblock extrahead %}
 {% block title %}Home{% endblock title%}
@@ -10,36 +14,45 @@
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
 {% block header %} 
 	{% include 'home_header.html' %}
-{% endblock header %}
-{% block content %}
+<div class="container">
 <div class="premium_employer">
 	<div class="premium_employer_content">
-		<div class="slide_left"></div>
 		<div class="slide_content">
-			{% if recruiters %}
-				{% for recruiter in recruiters %}
-					
-					{% if recruiter.company.photo.name %}
-						<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/site_media/{{recruiter.company.photo.name}}" alt=""   ></a>
-					{% else %}
-						<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/static/images/premium-btn.png" /></a>
-					{% endif %}
-					
-					
-					<!-- <img src="/static/images/premium-btn.png" /> 
-					 <img src="/static/images/img1.jpg" class="employer" />
-					<img src="/static/images/img1.jpg" class="employer" />
-					<img src="/static/images/img1.jpg" class="employer" /> -->
-				{% endfor %}
-			{% endif %}
+        	<div class="premium">
+            	<div class="four columns"><img src="/static/images/premium-btn.png" /></div>
+            </div>
+            
+            <div id="clients" class="header-block">
+                <ul id="clients-carousel" class="jcarousel-skin-tango" >
+                     {% if recruiters %}
+                     {% for recruiter in recruiters %}
+                         <li>
+                             <div class="four columns">
+                                 <div class="block">
+                                     {% if recruiter.company.photo.name %}
+                                     	<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/site_media/{{recruiter.company.photo.name}}" width="196" height="72" alt=""   ></a>
+                                     {% else %}
+                                     	<a href="{% url 'company' company_id=recruiter.company.id %}"><img src="/static/images/premium-btn.png"  width="196" height="72" /></a>
+                                     {% endif %}
+                                 </div><!--block-->
+                             </div><!--four columns-->
+                         </li>
+                     {% endfor %}
+                     {% endif %}
+                 </ul><!--jcarousel-skin-tango-->
+        	</div><!--header-block-->
+                           
            
 		</div>
-		<div class="slide_right"></div>
         <div class="clear"></div>
 	</div>
 </div>
-
+</div>
 <div class="menu_border"></div>
+
+{% endblock header %}
+{% block content %}
+
 
 <div class="gray_content">
 
@@ -121,5 +134,8 @@
 </div>
 </div>
 
+
+
+<script type="text/javascript" src="/static/js/custom.js"></script>	
 
 {% endblock content %}

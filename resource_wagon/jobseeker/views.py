@@ -462,6 +462,10 @@ class JobSearch(View):
         for job in jobs:                
             job.search_count = job.search_count+1
             job.save()
+            applied = 'false'
+            if not request.user.is_anonymous() and request.user.jobseeker_set.all().count() > 0:
+                if request.user.jobseeker_set.all()[0].applied_jobs.all().count() > 0:
+                    applied = 'true'
             job_list.append({
                 'job_title': job.job_title,
                 'id': job.id,
@@ -471,6 +475,7 @@ class JobSearch(View):
                 'education_req': job.education_req,
                 'exp_req_min': job.exp_req_min,
                 'exp_req_max': job.exp_req_max,
+                'applied': applied
             })
         context = {
             'jobs': jobs,
@@ -548,7 +553,7 @@ class ActivityLog(View):
     def get(self, request, *args, **kwargs):
         jobseeker_id =  request.user.jobseeker_set.all()[0].id
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
-        last_login = User.objects.get(username=request.user.username).last_login
+        last_login = request.user.last_login
         applied_jobs = jobseeker.applied_jobs.all()
         applied_jobs_list = []
 

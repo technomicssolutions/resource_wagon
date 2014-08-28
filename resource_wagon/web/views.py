@@ -20,7 +20,7 @@ from employer.models import CompanyProfile, Recruiter
 class Home(View):
     
     def get(self, request, *args, **kwargs):
-        jobs = Job.objects.all().order_by('-posting_date')[:10]
+        jobs = Job.objects.filter(is_publish=True).order_by('-posting_date')[:10]
         recruiters = Recruiter.objects.filter(company__is_premium_company=True)
         context = {
             'jobs': jobs,
@@ -166,11 +166,24 @@ class RequestView(View):
     def get(self, request, *args, **kwargs):
         re = RequestSend.objects.filter(is_new=True).update(is_new=False)
         requests = RequestSend.objects.all().order_by('-id')
-        context = {
-            'requests':requests,
-        }
-        return render(request, 'requests.html', context)
+        # context = {
+        #     'requests':requests,
+        # }
+        # return render(request, 'requests.html', context)
+        paginator = Paginator(requests, 20) 
 
+        page = request.GET.get('page')
+        try:
+            requests = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            requests = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            requests = paginator.page(paginator.num_pages)
+        return render(request, 'requests.html', {
+            'requests': requests
+        })
 class DeleteRequest(View):
 
     def get(self, request, *args, **kwargs):
@@ -216,6 +229,26 @@ class ResourcesWagon(View):
     def get(self, request, *args, **kwargs):
             return render(request, 'resources_wagon.html', {})
 
+class WagonDrivers(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'wagon_drivers.html', {})
+			
+class CandidatePreparation(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'candidate_preparation.html', {})
+
+class RecruitmentDivisions(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'recruitment_divisions.html', {})
+
+class CompetencyAnalysis(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'competency_analysis.html', {})
+			
 class WagonDrivers(View):
 
     def get(self, request, *args, **kwargs):

@@ -1,13 +1,15 @@
 
-{% extends 'jobseeker_dashboard.html' %}
+{% extends base_template %}
 {% block title %}Jobseeker 
 {% endblock title %}
 
 {% block dashboard_content %}
 	
+    <div class="separation">
 	<h3>Applied Jobs</h3>
 	{% if applied_jobs %}
-		<table>
+    <div class="separation_outer">
+		<table class="employer-activity">
 			<tr>
 				<th>Job Title</th>
 				<th>Job Description</th>
@@ -25,7 +27,12 @@
 			</tr>
 			{% endfor %}
 		</table>
-		<h3>Last Login</h3>{{last_login}}
+    </div>
+    </div>
+		<h3>Last Login</h3>
+        <div class="separation_outer">
+        {{last_login}}
+        </div>
 	{% else %}
 		<p>No jobs applied</p>
 	{% endif %}
