@@ -3794,6 +3794,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             for(var key in params){
                 fd.append(key, params[key]);          
             }
+            show_loader(); 
             $http.post(url, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined
@@ -3801,7 +3802,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }).success(function(data, status){
                 
                 document.location.href = '/employer/employer_profile/?id='+data.recruiter_id;;
-                
+                hide_loader(); 
             }).error(function(data, status){
                 $scope.error_flag = true;
                 $scope.error_message = data.message;
@@ -3985,7 +3986,8 @@ function  JobPostingController($scope,$element,$http,$timeout){
     }
     $scope.save_job = function(){
         $scope.jobpost.last_date = $('#last_dob').val();       
-        $scope.is_valid = $scope.form_validation_postjob();   
+        $scope.is_valid = $scope.form_validation_postjob();  
+
         if ($scope.is_valid) {
             $scope.error_flag = false;
             $scope.error_message = '';
@@ -3999,6 +4001,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
               $scope.jobpost.specialisation = "Any";
             var file = $scope.job_details_pdf.src;
             var edit = $scope.edit;
+            show_loader();
             params = {
                 'jobpost':angular.toJson($scope.jobpost),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
@@ -4015,6 +4018,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
                     var url = "/employer/post_job/";               
                 }              
             } 
+             
             $http.post(url, fd, {
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined
@@ -4026,7 +4030,7 @@ function  JobPostingController($scope,$element,$http,$timeout){
                 
                 var url = '/employer/posted_jobs/';
                 document.location.href = url;
-
+                hide_loader(); 
             }).error(function(data, status){
                  console.log(data);
             });
