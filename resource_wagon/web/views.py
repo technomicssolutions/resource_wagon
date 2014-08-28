@@ -16,6 +16,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from models import RequestSend, Reply, Job
 from employer.models import CompanyProfile, Recruiter
+from jobseeker.models import Jobseeker
 
 class Home(View):
     
@@ -300,3 +301,20 @@ class PremiumEmployer(View):
                 }
         response = simplejson.dumps(res)
         return HttpResponse(response, status=status, mimetype='application/json')
+
+class DeleteEmployer(View):
+
+     def get(self,request,*args,**kwargs):
+        recruiter_id = kwargs['recruiter_id']
+        recruiter = Recruiter.objects.get(id=recruiter_id)
+        recruiter.delete()
+        return HttpResponseRedirect(reverse('employer_profile'))
+
+class DeleteJobseeker(View):
+
+     def get(self,request,*args,**kwargs):
+        jobseeker_id = kwargs['jobseeker_id']
+        jobseeker = Jobseeker.objects.get(id=jobseeker_id)
+        jobseeker.delete()
+        return HttpResponseRedirect(reverse('jobseeker_details'))
+

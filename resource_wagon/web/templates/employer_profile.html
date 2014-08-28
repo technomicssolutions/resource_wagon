@@ -26,6 +26,7 @@
 				<td class="col-md-2">{{recruiter.land_num}}</td>
 				<td class="col-md-2"><a href="/site_media/{{recruiter.company.company_profile.name}}" target="_blank">View</a></td>
 				<td class="col-md-2"> <input id="recruiter_{{recruiter.id}}" type="checkbox" value="{{recruiter.company.is_premium_company}}" name="checkbox" {% if recruiter.company.is_premium_company %} checked {% endif %} ng-click= "save_premium_employer('{{recruiter.id}}', '{{recruiter.company.is_premium_company}}')"></td>
+				<!-- <td class="col-md-2"><a href="{% url 'delete_employer' recruiter.id %}">Delete</a></td> -->
 			</tr>	
 		</div>
 		{% endfor %}

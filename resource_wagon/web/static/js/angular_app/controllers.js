@@ -3524,6 +3524,7 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
 function RecruiterController($scope, $element, $http, $timeout) {
     $scope.error_flag = false;
     $scope.error_message = '';
+    $scope.checkbox = false;
     $scope.user_already_exists = false;
     $scope.employer_id = 0;
     $scope.profile_doc = {};
@@ -3622,8 +3623,10 @@ function RecruiterController($scope, $element, $http, $timeout) {
         } else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
             $scope.error_message = 'Please upload  your profile  ';
             return false;
-        }
-        return true;
+        }else if (!$scope.checkbox) {
+            $scope.error_message = 'Please agree to the terms and conditions';
+            return false;
+        }return true;
     }
 
     $scope.save_profile = function(){

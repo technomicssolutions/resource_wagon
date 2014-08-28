@@ -35,6 +35,7 @@
 			{% if jobseeker.education.resume %}
 				<td class="col-md-2"><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
 			{% endif %}
+			<!-- <td class="col-md-2"><a href="{% url 'delete_jobseeker' jobseeker.id %}">Delete</a></td> -->
 		</tr>
         
 	{% endfor %}
