@@ -110,6 +110,7 @@ class SavePersonalDetails(View):
             job_seeker.country = personal_details['country']
             job_seeker.city = personal_details['city']
             job_seeker.mobile = personal_details['mobile']
+            job_seeker.land_num = personal_details['phone']
             job_seeker.save()       
             res = {
                 'result': 'ok',
