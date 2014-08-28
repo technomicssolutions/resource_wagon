@@ -379,6 +379,7 @@ class EditDetails(View):
                 'country':jobseeker.country,
                 'city':jobseeker.city,
                 'mobile':jobseeker.mobile,
+                'phone': jobseeker.land_num,
                 'alt_email': jobseeker.alt_mail,
 
             })
