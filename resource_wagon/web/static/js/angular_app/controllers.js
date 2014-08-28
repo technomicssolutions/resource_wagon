@@ -13,7 +13,14 @@ function show_registration_popup ($scope,$http) {
       $scope.registration = true;
 }
 
-
+function show_loader(){
+    $('#overlay').css('display', 'block');
+    $('.spinner').css('display', 'block');
+}
+function hide_loader(){
+    $('#overlay').css('display', 'none');
+    $('.spinner').css('display', 'none');
+}
 function user_login ($scope,$http){
 
     $scope.login_validation = function (){
@@ -26,6 +33,7 @@ function user_login ($scope,$http){
       }return true;
     }
     if($scope.login_validation()){
+      show_loader();
       $scope.login_details.username = $scope.username;
       $scope.login_details.password = $scope.password;
       params = {
@@ -49,6 +57,7 @@ function user_login ($scope,$http){
           }else if(data.result == 'error'){
             $scope.login_validation_message = data.message;
           }
+          hide_loader();
       });
     }
 
@@ -2522,8 +2531,10 @@ function get_currencies($scope){
     ]
 }
 function get_job_seeker_details($scope, $http) {
+    show_loader()
     $http.get('/jobseeker/edit_details/'+$scope.jobseeker_id+'/').success(function(data)
     { 
+
         $scope.user_login_details = data.user_login_details[0];
         $scope.personal = data.personal[0]; 
         $scope.current_employer = data.current_employer[0]; 
@@ -2583,33 +2594,36 @@ function get_job_seeker_details($scope, $http) {
                 }
             }
         }
+        hide_loader();
     }).error(function(data, status)
     {
         console.log(data || "Request failed");
     });
 }
 function get_companies($scope, $http) {
+    show_loader();
     $http.get('/jobseeker/get_companies/').success(function(data){
-        $scope.companies = data.companies;  
+        $scope.companies = data.companies;
+        hide_loader();
      }).error(function(data){
         console.log(data || "Request failed");
     });    
 }
 function get_jobs($scope, $http) {
+    show_loader();
     $http.get('/employer/get_jobs/').success(function(data){
         $scope.jobs = data.jobs_list;  
-        console.log($scope.jobs);
+        hide_loader();
      }).error(function(data){
         console.log(data || "Request failed");
     });    
 }
 function get_employer_details($scope, $http) {
-    console.log($scope.employer_id)
+    show_loader();
     $http.get('/employer/edit_recruiter_profile/'+$scope.employer_id+'/').success(function(data)
     {
         $scope.recruiter = data.recruiter[0]; 
-        console.log($scope.recruiter);
-       
+        hide_loader();       
     }).error(function(data, status)
     {
         console.log(data || "Request failed");
@@ -2792,7 +2806,7 @@ function delete_doctorate(index, $scope){
  
 }
 function save_resume_details($scope, $http, type) {
-   
+    show_loader();
     if($scope.resume_details.is_resume_show == true)
         $scope.resume_details.is_resume_show = "true";
     else
@@ -2828,10 +2842,11 @@ function save_resume_details($scope, $http, type) {
         } else {
             $scope.resume_validation_message = data.message;
         }
+        hide_loader();
     });
 }
 function save_photo_details($scope, $http) {
-   
+    show_loader();
     params = {
         'photo_details': angular.toJson($scope.photo_details),
         'csrfmiddlewaretoken': $scope.csrf_token,
@@ -2853,9 +2868,11 @@ function save_photo_details($scope, $http) {
         } else {
             // $scope.photo_validation_message = data.message;
         }
+        hide_loader();
     });
 }
 function save_educational_details($scope, $http, type) {
+    show_loader();
     if (type == 'edit') {
         $scope.educational_details.id = $scope.jobseeker_id;
       } 
@@ -2886,6 +2903,7 @@ function save_educational_details($scope, $http, type) {
         } else {
             $scope.educational_validation_msg = data.message;
         }
+        hide_loader();
     });
 }
 function save_current_employer_details($scope, $http, type) {
@@ -2894,6 +2912,7 @@ function save_current_employer_details($scope, $http, type) {
         $scope.current_employer.id = $scope.jobseeker_id;
       } 
     if (current_employer_validation($scope)) {
+        show_loader();
         $scope.current_employer.selected_companies = [];
         if(!angular.isUndefined($scope.current_employer.companies[0].id)){
               for(var i = 0; i < $scope.current_employer.companies.length; i++){
@@ -2932,10 +2951,12 @@ function save_current_employer_details($scope, $http, type) {
             } else {
                 $scope.current_employer_validation_msg = data.message;
             }
+            hide_loader();
         });
     }
 }
 function save_personal_details($scope, $http, type) {
+    show_loader();
     if (type == 'edit') {
         $scope.personal.id = $scope.jobseeker_id;
     }
@@ -2966,9 +2987,11 @@ function save_personal_details($scope, $http, type) {
         } else {
             $scope.personal_validation = data.message;
         }
+        hide_loader();
     });
 }
 function save_user_login_details($scope, $http, type) {
+    show_loader();
     if (type == 'edit') {
         $scope.user_login_details.id = $scope.jobseeker_id;
     }
@@ -3002,6 +3025,7 @@ function save_user_login_details($scope, $http, type) {
         } else {
             $scope.user_login_validation = data.message;
         }
+        hide_loader();
     });
 }
 /* End common js methods */
@@ -3077,11 +3101,13 @@ function JobSeekerController($scope, $element, $http, $timeout) {
      hide_popup($scope,'');
     }
     $scope.get_companies = function(){
-      $http.get('/jobseeker/get_companies/').success(function(data){
-        $scope.companies = data.companies;
-     }).error(function(data){
-        console.log(data || "Request failed");
-      });
+        show_loader();
+        $http.get('/jobseeker/get_companies/').success(function(data){
+            $scope.companies = data.companies;
+            hide_loader();
+        }).error(function(data){
+            console.log(data || "Request failed");
+         });
     }
     $scope.get_stream = function() {
         get_stream($scope);
@@ -3531,11 +3557,13 @@ function RecruiterController($scope, $element, $http, $timeout) {
         } 
         if (user_id) {
             $scope.user_already_exists = true;
+            show_loader();
             $http.get('/profile/details/'+$scope.user_id+'/').success(function(data)
             {
                 $scope.recruiter = data.recruiter[0]; 
                 $('#last_date').val($scope.recruiter.last_date);
                 $('#post_date').val($scope.recruiter.post_date);
+                hide_loader();
                 
             }).error(function(data, status)
             {
@@ -3606,8 +3634,8 @@ function RecruiterController($scope, $element, $http, $timeout) {
                 $scope.recruiter.description = '';
             }
             var url = '/employer/save_recruiter_details/';
-            
-             params = {
+            show_loader();
+            params = {
                 'recruiter_details':angular.toJson($scope.recruiter),
                 "csrfmiddlewaretoken" : $scope.csrf_token,
             }
@@ -3628,7 +3656,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
                 else{  
                   document.location.href = '/employer/employer_profile/?id='+data.recruiter_id;;
                 }
-                                                                
+                hide_loader();                                                
             }).error(function(data, status){
                 $scope.error_flag = true;
                 $scope.error_message = data.message;
@@ -3685,6 +3713,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
         } else {
             $scope.premium_employer.premium = "True";
         }
+        show_loader();
         params = {
             'premium_employer': angular.toJson($scope.premium_employer),
             'csrfmiddlewaretoken': $scope.csrf_token,
@@ -3696,6 +3725,8 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             headers : {
                 'Content-Type' : 'application/x-www-form-urlencoded'
             }
+        }).success(function(data, status){
+            hide_loader();                                                
         })
     }
     $scope.edit_employer_details = function(){
