@@ -35,94 +35,112 @@ class ApplicantReport(View):
         p = header(p, y)
 
         jobseeker_id =kwargs['jobseeker_id']
-        print jobseeker_id
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
-        print jobseeker
-        report_heading = jobseeker.user.first_name + jobseeker.user.last_name 
-        p.drawString(400, y , report_heading)
+        p.setFont('Times-Roman',35)  
+        report_heading = jobseeker.user.first_name +" "+ jobseeker.user.last_name 
+        p.drawCentredString(500, y , report_heading)
         p.setFontSize(15)
         # p = header(p, y)
 
-        p.drawString(60, y - 80, "Personal Details")
-        p.setFontSize(10)
-        p.drawString(80, y - 100, "Gender :")
-        p.drawString(200, y - 100, jobseeker.gender)
-        p.drawString(80, y - 130, "Date Of Birth :")
-        p.drawString(200, y - 130, jobseeker.dob.strftime('%d/%m/%y'))
-        p.drawString(80, y - 160, "Marital Status :")
-        p.drawString(200, y - 160, jobseeker.marital_status)
-        p.drawString(80, y - 190, "Nationality :")
-        p.drawString(200, y - 190, jobseeker.nationality)
-        p.drawString(80, y - 210, "Country :")
-        p.drawString(200, y - 210, jobseeker.country)
-        p.drawString(80, y - 240, "City :")
-        p.drawString(200, y - 240, jobseeker.city)
+        p.drawString(60, y - 70, "Personal Details")
+        p.setFont('Times-Roman',13)  
+        p.drawString(80, y - 100, "Gender")
+        p.drawString(280, y-100, ":")
+        p.drawString(300, y - 100, jobseeker.gender)
+        p.drawString(80, y - 120, "Date Of Birth")
+        p.drawString(280, y-120, ":")
+        p.drawString(300, y - 120, jobseeker.dob.strftime('%d/%m/%y'))
+        p.drawString(80, y - 140, "Marital Status")
+        p.drawString(280, y-140, ":")
+        p.drawString(300, y - 140, jobseeker.marital_status)
+        p.drawString(80, y - 160, "Nationality")
+        p.drawString(280, y-160, ":")
+        p.drawString(300, y - 160, jobseeker.nationality)
+        p.drawString(80, y - 180, "Country")
+        p.drawString(280, y-180, ":")
+        p.drawString(300, y - 180, jobseeker.country)
+        p.drawString(80, y - 200, "City")
+        p.drawString(280, y-200, ":")
+        p.drawString(300, y - 200, jobseeker.city)
         p.setFontSize(15)
         # p = header(p, y)
-        p.drawString(60, y - 280, "Educational Details")
-        p.setFontSize(10)
-        p.drawString(80, y - 300, "Basic Education :")
-        p.drawString(180, y - 300, jobseeker.education.basic_edu)
-        p.drawString(350,y-300,jobseeker.education.basic_edu_specialization)
-        p.drawString(80, y - 330, "Passed Out Year :")
-        p.drawString(180,y-330,str(jobseeker.education.pass_year_basic))
+        p.drawString(60, y - 250, "Educational Details")
+        p.setFont('Times-Roman',13)  
+        p.drawString(80, y - 280, "Basic Education")
+        p.drawString(280, y-280, ":")
+        p.drawString(300, y - 280, jobseeker.education.basic_edu)
+        p.drawString(80, y - 300, "Specialization")
+        p.drawString(280, y-300, ":")
+        p.drawString(300,y-300,jobseeker.education.basic_edu_specialization)
+        p.drawString(80, y - 320, "Passed Out Year")
+        p.drawString(280, y-320, ":")
+        p.drawString(300,y-320,str(jobseeker.education.pass_year_basic))
+        j = y - 320
         if jobseeker.education.masters:
-            p.drawString(550, y - 300, "Masters Education :")
-            p.drawString(650, y - 300, jobseeker.education.masters)
-            p.drawString(850,y-300,jobseeker.education.masters_specialization)
-            p.drawString(300, y - 330, "Passed Out Year :")
-            p.drawString(400,y-330,str(jobseeker.education.pass_year_masters))
-        y1 = y - 360
+            p.drawString(80, y - 340, "Masters Education")
+            p.drawString(280, y - 340, ":")
+            p.drawString(300, y - 340, jobseeker.education.masters)
+            p.drawString(80, y - 360, "Specialization")
+            p.drawString(280, y - 360, ":")
+            p.drawString(300,y - 360,jobseeker.education.masters_specialization)
+            p.drawString(80, y - 380, "Passed Out Year")
+            p.drawString(280, y - 380, ":")
+            p.drawString(300,y - 380,str(jobseeker.education.pass_year_masters))
+            j = y - 380
+        # y1 = y - 360
         if jobseeker.education.doctrate.all():
-            p.drawString(80,y1,"Doctrates:")
+            p.drawString(80, j - 20,"Doctrates")
+            p.drawString(280, j - 20, ":")
             for doctrate in jobseeker.education.doctrate.all():
-                y1 = y1 - 30
-                p.drawString(180,y1,doctrate)
+                #y1 = y1 - 30
+                p.drawString(300,j - 20,doctrate.doctorate_name)
+                j = j - 20
         p.setFontSize(15)
-        # p = header(p, y)
-        p.drawString(60,y-400, "Techinical Skills:")
-        p.setFontSize(10)
-        p.drawString(200,y-400,jobseeker.employment.skills)
+        p.drawString(60,j - 50, "Techinical Skills")
+        p.setFont('Times-Roman',13)
+        p.drawString(80, j - 80,jobseeker.employment.skills)
         p.setFontSize(15)
-        # p = header(p, y)
-        p.drawString(60,y-460,"Employment Details")
-        p.setFontSize(10)
-        p.drawString(80,y-480,"Total Experience:")
-        p.drawString(180,y-480 ,str(jobseeker.employment.exp_yrs)+"Year")
-        p.drawString(210,y-480, str(jobseeker.employment.exp_mnths)+"Month")
+        p.drawString(60, j - 130,"Employment Details")
+        p.setFont('Times-Roman',13)
+        p.drawString(80, j - 160,"Total Experience")
+        p.drawString(280, j - 160, ":")
+        p.drawString(300, j - 160,str(jobseeker.employment.exp_yrs)+" Year(s)")
+        p.drawString(360, j - 160, str(jobseeker.employment.exp_mnths)+" Month(s)")
+        j = j - 160
         if jobseeker.employment.curr_industry:
-            p.drawString(300,y-480,"Current Industry:")
-            p.drawString(400,y-480,jobseeker.employment.curr_industry)
+            p.drawString(80, j - 20 ,"Current Industry")
+            p.drawString(280, j - 20, ":")
+            p.drawString(300, j - 20 ,jobseeker.employment.curr_industry)
+            j = j - 20
         if jobseeker.employment.function:
-            p.drawString(80,y-500,"Funtional Area:")
-            p.drawString(180,y-500,jobseeker.employment.function)
+            p.drawString(80, j - 20,"Funtional Area")
+            p.drawString(280, j - 20, ":")
+            p.drawString(300, j - 20,jobseeker.employment.function)
+            j = j -20
         if jobseeker.employment.designation:
-            p.drawString(250,y-500,"Current Designation:")
-            p.drawString(350,y-500,jobseeker.employment.designation)
-        y1 = y - 520
+            p.drawString(80, j - 20,"Current Designation")
+            p.drawString(280, j - 20, ":")
+            p.drawString(300, j - 20,jobseeker.employment.designation)
+            j = j - 20
+        # y1 = y - 520
         if jobseeker.employment.previous_employer.all():
-            p.drawString(80,y1,"Previous Employers:")
+            p.drawString(80, j - 20,"Previous Employers")
+            p.drawString(280, j - 20, ":")
             for employer in jobseeker.employment.previous_employer.all():
-                y1 = y1 - 10
-                p.drawString(150,y1,str(employer))
-        p.setFontSize(15)
-        
-        y1 = y - 550
+                p.drawString(300, j - 20,str(employer.previous_employer_name))
+                j = j - 20
         if jobseeker.prefered_locations:
-            p.drawString(60,y1,"Preffered Location:")
+            p.drawString(80, j - 20, "Preffered Location")
+            p.drawString(280, j - 20, ":")
             for location in jobseeker.prefered_locations.all():
-                y1 = y1 - 30
-                p.setFontSize(10)
-                p.drawString(180,y1,str(location))
-        p.setFontSize(15)
-        
-        y1 = y - 600
+                p.drawString(300, j - 20 ,str(location.location))
+                j = j -20
         if jobseeker.prefered_companies:
-            p.drawString(60,y1,"Preffered Company:")
+            p.drawString(80, j - 20,"Preffered Company")
+            p.drawString(280, j - 20, ":")
             for company in jobseeker.prefered_companies.all():
-                y1 = y1 - 30
-                p.setFontSize(10)
-                p.drawString(180,y1,str(company))
+                p.drawString(300, j - 20 ,str(company.company_name))
+                j = j -20
         p.showPage()
         p.save()
         return response

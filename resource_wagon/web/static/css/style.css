@@ -10,6 +10,17 @@ html, body {
 	clear: both;
 }
 
+.spinner {
+	background: url('../images/ajax-loader.gif') no-repeat;
+	width: 16px;
+	height: 16px;
+	z-index: 101;
+	margin: auto;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	display: none;
+}
 
 /************** header styles *************/
 

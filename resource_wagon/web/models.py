@@ -17,7 +17,7 @@ CURRENCY = (
     ('US Dollars','US Dollars'),
     ('UK Pound','UK Pound'),
     ('Indian Rupees', 'Indian Rupees'),
-    ('UAE Dhirhams','UAE Dhirhams'),
+    ('UAE Dirham','UAE Dirham'),
     ('Dinar', 'Dinar'),       
     ('Riyal','Riyal'),
     ('Australian Dollars','Australian Dollars'),

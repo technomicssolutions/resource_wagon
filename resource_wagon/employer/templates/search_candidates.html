@@ -112,7 +112,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 				<td> [[candidate.exp_yrs]]y [[candidate.exp_mnths]]m</td>
 				<td> [[candidate.functional_area]]</td>
 				<td> [[candidate.industry]]</td>
-				<td><a href="/reports/applicant_resume/[[candidate.id]]/"><input type="submit" name="resume" value="Download Resume"></a></td>
+				<td><a href="/reports/applicant_resume/[[candidate.id]]/" target="blank"><input type="submit" name="resume" value="Download Resume"></a></td>
 
 			</tr>			
 	</table>

@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmployer, \
 	DeleteRequest, ForgotPassword, Aboutus, Dashboard, Companies, Company , PremiumEmployer, \
     MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, \
-	Contact, RecruitmentDivisions)
+	Contact, RecruitmentDivisions, DeleteEmployer, DeleteJobseeker)
+    MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, RecruitmentDivisions, )
 
 urlpatterns = patterns('',
     url(r'login/$', Login.as_view(), name="login"),
@@ -27,5 +28,7 @@ urlpatterns = patterns('',
 	url(r'^candidates/candiadte_preparation/$', CandidatePreparation.as_view(), name='candidate_preparation'),
     url(r'^company/(?P<company_id>\d+)/$', Company.as_view(), name='company'),
     url(r'^companies/$', Companies.as_view(), name='companies'),
+    url(r'^delete_employer/(?P<recruiter_id>\d+)/$', DeleteEmployer.as_view(), name='delete_employer'),
+    url(r'^delete_jobseeker/(?P<jobseeker_id>\d+)/$', DeleteJobseeker.as_view(), name='delete_jobseeker'),
     url(r'^save_premium_employer/$', PremiumEmployer.as_view(), name='save_premium_employer'),
 )
