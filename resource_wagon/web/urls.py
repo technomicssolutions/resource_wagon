@@ -6,7 +6,6 @@ from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmp
 	DeleteRequest, ForgotPassword, Aboutus, Dashboard, Companies, Company , PremiumEmployer, \
     MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, \
 	Contact, RecruitmentDivisions, DeleteEmployer, DeleteJobseeker)
-    MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, RecruitmentDivisions, )
 
 urlpatterns = patterns('',
     url(r'login/$', Login.as_view(), name="login"),
