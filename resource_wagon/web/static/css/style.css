@@ -86,6 +86,17 @@ header
 	color: #fa853f;
 	text-decoration: none;
 }
+/************** contat styles *************/
+.contact-outer
+{
+	clear:both;
+	float:left;
+	width:100%;
+	margin:0 0 20px 0;
+}
+
+/************** end contat styles *************/
+
 @media only screen and (max-width: 479px) { .create_account_link {margin: 10px 0 0 0;}}
 .banner_top {
 	width: 100%;
@@ -126,7 +137,7 @@ header
 }
 .menu {
 	width: 100%;
-	height: 80px;
+	height: 78px;
 	background-color: #E8691A;
 }
 .menu_border {
@@ -370,6 +381,8 @@ right: 0px !important;
 }
 .find_your_perfect_job ul li a { text-decoration:none;}
 .box-area{margin: 30px 0px 0px;}
+.box-area p{margin: 0px 0px 0px; font-size:14px; font-family:Verdana, Arial, Helvetica, sans-serif; font-weight: normal; color:#FFFFFF; font-style:italic;}
+p.lastbox{color:#fa853f;}
 .job_listing table th{
 	width: 25%;
 	font-weight: normal;

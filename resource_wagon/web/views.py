@@ -254,6 +254,11 @@ class WagonDrivers(View):
     def get(self, request, *args, **kwargs):
             return render(request, 'wagon_drivers.html', {})
 
+class Contact(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'contact.html', {})
+
 class Companies(View):
     def get(self, request, *args, **kwargs):
         companies = CompanyProfile.objects.all()
