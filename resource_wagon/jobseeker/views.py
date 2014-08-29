@@ -446,7 +446,7 @@ class JobSearch(View):
         keyword = request.GET.get('keyword', '')
         jobs = []
         q_list = []
-        print keyword, skills, industry
+        print keyword, skills, industry, exp
         if location:
             q_list.append(Q(job_location__icontains=location))
         if function:
