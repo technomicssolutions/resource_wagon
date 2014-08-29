@@ -203,7 +203,7 @@ a.meanmenu-reveal {
 	#employers .employers-menu.active{ background:url(../images/menu-hover-line.png);}
 	#candidate_preparation .candidates-menu.active{ background:url(../images/menu-hover-line.png);}
 	#contact .contact-menu.active{ background:url(../images/menu-hover-line.png);}
-	#main-menu > ul.menu > li > a { padding:9px 57px; text-transform:uppercase; font-weight:normal; color:#FFFFFF; text-decoration:none; }
+	#main-menu > ul.menu > li > a { /*padding:9px 57px; */text-transform:uppercase; font-weight:normal; color:#FFFFFF; text-decoration:none; }
 	
 	#menu-main-menu li.menu-item-simple-parent ul { position:absolute; left:0; display:none; width:220px; padding-left:0; margin-top:0; z-index:10001; border-bottom:5px solid #e2dede; }
 	#menu-main-menu li.menu-item-simple-parent ul, .megamenu-child-container { top:80px; }
