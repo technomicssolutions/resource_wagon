@@ -2520,7 +2520,7 @@ function get_currencies($scope){
     $scope.currencies = ['US Dollars',
         'UK Pound',
         'Indian Rupees', 
-        'UAE Dhirhams',
+        'UAE Dirham',
         'Dinar',        
         'Riyal',
         'Australian Dollars',
@@ -2772,10 +2772,7 @@ function current_employer_validation($scope) {
     } else if ($scope.current_employer.locations.length > 5){
         $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Locations';
         return false;
-    } else if ($scope.current_employer.companies == undefined || $scope.current_employer.companies.length == 0 || $scope.current_employer.companies == "" ){
-        $scope.current_employer_validation_msg = 'Please choose Prefered Company';
-        return false;
-    } else if ($scope.current_employer.companies.length > 5){
+    } else if ($scope.current_employer.companies != undefined && $scope.current_employer.companies.length > 5){
         $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Companies';
         return false;
     } return true;
@@ -2915,10 +2912,11 @@ function save_current_employer_details($scope, $http, type) {
     if (current_employer_validation($scope)) {
         show_loader();
         $scope.current_employer.selected_companies = [];
-        if(!angular.isUndefined($scope.current_employer.companies[0].id)){
-              for(var i = 0; i < $scope.current_employer.companies.length; i++){
-                $scope.current_employer.selected_companies.push($scope.current_employer.companies[i].id);
-              }
+        console.log($scope.current_employer.companies);
+        if($scope.current_employer.companies != undefined && $scope.current_employer.companies.length > 0 && !angular.isUndefined($scope.current_employer.companies[0].id)){
+            for(var i = 0; i < $scope.current_employer.companies.length; i++){
+              $scope.current_employer.selected_companies.push($scope.current_employer.companies[i].id);
+            }
         }
         else
            $scope.current_employer.selected_companies = $scope.current_employer.companies;

@@ -165,13 +165,15 @@ class SaveCurrentEmployerDetails(View):
                 location, created = Location.objects.get_or_create(location=prefered_location)
                 job_seeker.prefered_locations.add(location)                     
                 job_seeker.save()
-            prefered_companies = current_employer_details['selected_companies']
-            if job_seeker.prefered_companies:
-                job_seeker.prefered_companies.clear()
-            for prefered_company in prefered_companies:
-                job_seeker.prefered_companies.add(prefered_company)                     
-                job_seeker.save()           
-       
+            try:
+                prefered_companies = current_employer_details['selected_companies']
+                if job_seeker.prefered_companies:
+                    job_seeker.prefered_companies.clear()
+                for prefered_company in prefered_companies:
+                    job_seeker.prefered_companies.add(prefered_company)                     
+                    job_seeker.save()           
+            except:
+                pass
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,
@@ -435,7 +437,6 @@ class EditDetails(View):
 class JobSearch(View):
 
     def get(self, request, *args, **kwargs):
-
         searched_for = ''
         location = request.GET.get('location', '')
         function = request.GET.get('function', '')
@@ -445,6 +446,7 @@ class JobSearch(View):
         keyword = request.GET.get('keyword', '')
         jobs = []
         q_list = []
+        print keyword, skills, industry
         if location:
             q_list.append(Q(job_location__icontains=location))
         if function:
@@ -463,7 +465,7 @@ class JobSearch(View):
                             Q(job_location__icontains=keyword))
 
         if len(q_list) > 0:
-            jobs = Job.objects.filter(reduce(operator.or_, q_list), is_publish=True).order_by('-id').order_by('order')
+            jobs = Job.objects.filter(reduce(operator.and_, q_list), is_publish=True).order_by('-id').order_by('order')
         else:
             jobs = []
 
@@ -475,8 +477,10 @@ class JobSearch(View):
             job.save()
             applied = 'false'
             if not request.user.is_anonymous() and request.user.jobseeker_set.all().count() > 0:
-                if request.user.jobseeker_set.all()[0].applied_jobs.all().count() > 0:
-                    applied = 'true'
+                applied_jobs = request.user.jobseeker_set.all()[0].applied_jobs.all()
+                if applied_jobs.count() > 0:
+                    if job in applied_jobs:
+                        applied = 'true'
             job_list.append({
                 'job_title': job.job_title,
                 'id': job.id,

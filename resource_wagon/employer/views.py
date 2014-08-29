@@ -434,7 +434,7 @@ class SearchCandidatesView(View):
                 q_list.append(Q(employment__exp_yrs=int(years)))
             if basic_specialization:
                 q_list.append(Q(education__basic_edu_specialization__icontains = basic_specialization))
-            jobseekers = Jobseeker.objects.filter(reduce(operator.or_, q_list)).order_by('-id')
+            jobseekers = Jobseeker.objects.filter(reduce(operator.and_, q_list)).order_by('-id')
             for jobseeker in jobseekers:
                 jobseekers_list.append({
                     'id': jobseeker.id,
