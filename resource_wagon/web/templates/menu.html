@@ -8,17 +8,17 @@
                     <div id="primary-menu">                        
                         <nav id="main-menu">
                             <ul id="menu-main-menu" class="menu">
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                <li class=" menu-item-depth-1 menu-item-simple-parent active" style="border:none;">
                                     <a href="{% url 'home' %}"><span> </span>HOME</a>
                                 </li>
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                <!--<li class=" menu-item-depth-0 menu-item-simple-parent ">
                                     <a href="{% url 'companies' %}"><span> </span>COMPANIES</a>
-                                </li>
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                </li>-->
+                                <li class=" menu-item-depth-2 menu-item-simple-parent active">
                                     <a href="{% url 'job_search' %}"><span> </span>JOB SEARCH</a>
                                 </li>
                                 {% if user.is_authenticated %}
-                                    <li>
+                                    <li class=" menu-item-depth-3 menu-item-simple-parent active">
                                         <span></span>
                                         {% if user_type == 'admin' %}
                                             <a href="{% url 'admin_dashboard' %}"> Dashboard </a>
@@ -33,28 +33,31 @@
                                         {% endif %}
                                     </li>
                                 {% endif %}
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
-                                    <a href="#"><span class="menu-icon fa fa-gift"> </span>ABOUT US</a>                                
+                                <li class=" menu-item-depth-0 about-menu menu-item-simple-parent active">
+                                    <a href="{% url 'aboutus' %}"><span class="menu-icon fa fa-gift"> </span>ABOUT US</a>                                
                                     <ul class="sub-menu">
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'mission_statement' %}">Mission Statement</a></li>
-                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'resources_wagon' %}">Resources Wagons</a></li>
+                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'resources_wagon' %}">Resource Wagon</a></li>
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'wagon_drivers' %}">Wagon Drivers</a></li>
                                     </ul>
                                 </li>
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                <li class=" menu-item-depth-0 employers-menu menu-item-simple-parent active">
                                     <a href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>                                
                                     <ul class="sub-menu">
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'recruitment_divisions' %}">Recruitment Divisions</a></li>
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'competency_analysis' %}">Competency Analysis</a></li>
                                     </ul>
                                 </li>
-                                <li class=" menu-item-depth-0 menu-item-simple-parent ">
+                                <li class=" menu-item-depth-0 candidates-menu menu-item-simple-parent active">
                                     <a href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>                                
                                     <ul class="sub-menu">
-                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="#">Apply Online</a></li>
-                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="#">Job Alerts</a></li>
-                                    	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'candidate_preparation' %}">Candidate Preparation</a></li>
+                                    	<li class="menu-item-has-children candidates-menu menu-item-depth-1"><a href="#">Apply Online</a></li>
+                                    	<li class="menu-item-has-children candidates-menu menu-item-depth-1"><a href="#">Job Alerts</a></li>
+                                    	<li class="menu-item-has-children candidates-menu menu-item-depth-1"><a href="{% url 'candidate_preparation' %}">Candidate Preparation</a></li>
                                     </ul>
+                                </li>
+                                <li class=" menu-item-depth-0 contact-menu menu-item-simple-parent active">
+                                    <a href="{% url 'contact' %}"><span class="menu-icon fa fa-gift"> </span>Contact us</a>         
                                 </li>
                             </ul>                            
                         </nav>

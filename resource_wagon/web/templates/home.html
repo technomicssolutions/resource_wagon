@@ -10,7 +10,7 @@
    
 {% endblock extrahead %}
 {% block title %}Home{% endblock title%}
-
+{% block body_id %}home{% endblock %}
 {% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
 {% block header %} 
 	{% include 'home_header.html' %}
@@ -109,24 +109,28 @@
 <div class="col-sm-3">
 <div class="col-box box box-clr1">
 <h3>Lorem Ipsum</h3>
+<p>Email My Jobs</p>
 </div>
 </div>
 
 <div class="col-sm-3">
 <div class="col-box box box-clr2">
 <h3>Lorem Ipsum</h3>
+<p>Have ur CV Written</p>
 </div>
 </div>
 
 <div class="col-sm-3">
 <div class="col-box box box-clr3">
 <h3>Lorem Ipsum</h3>
+<p>Other Services</p>
 </div>
 </div>
 
 <div class="col-sm-3">
 <div class="col-box box box-clr4">
 <h3>Lorem Ipsum</h3>
+<p class="lastbox">Take a free Online Course</p>
 </div>
 </div>
 
