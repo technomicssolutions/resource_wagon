@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock title%}
 {% block body_id %}contact{% endblock %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
+
 {% block content %}
 
 
