@@ -108,7 +108,7 @@ header
 
 /************** end contat styles *************/
 @media (min-width: 1170px) {
-  #main-menu > ul.menu > li > a { padding:9px 57px; text-transform:uppercase; font-weight:normal; color:#FFFFFF; text-decoration:none; }
+  #main-menu > ul.menu > li > a { padding:9px 43px; text-transform:uppercase; font-weight:normal; color:#FFFFFF; text-decoration:none; }
   
 }
 
