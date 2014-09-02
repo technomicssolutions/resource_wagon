@@ -15,8 +15,48 @@
 {% block header %} 
 	{% include 'home_header.html' %}
 <div class="container">
+<div class="home-quick-search">
+<div class="">
+<h3> Quick search </h3>
+<div class="">
+<div class="home-search-controls"> 
+<input class="form-control" type="text" name="search" placeholder="skills" ng-model="skills">
+</div>
+<p ng-show="is_keyword"></p>
+<div class="home-search-controls"> 
+<select class="form-control" name="industry" ng-model="industry"> 
+<option value="">Industry</option>
+<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == industry">[[industry]]</option>               
+</select>
+</div>
+<p ng-show="get_industries()"></p> 
+<div class="home-search-controls"> 
+<select class="form-control" name="country" ng-model="job_location">
+<option value="">Country</option>
+<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== job_location">[[country]]</option>
+<option>Other</option>
+</select>
+</div>
+<p ng-show="get_countries()" ></p>
+                    
+<a href=""  ng-click="job_search()"><button class="search_button">Search</button></a>
+
+<div class="clear"></div>
+<div class="button_links">
+<a href="" class="login_link" ng-click="show_login_popup()"> User Login</a>
+<a href="" class="registration" ng-click="show_registration_popup()"> Create an account</a>
+<div class="clear"></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<div class="premium_employer-outer">
+
+</div>
 <div class="premium_employer">
-	<div class="premium_employer_content">
+<div class="premium_employer_content">
 		<div class="slide_content">
         	<div class="premium">
             	<div class="four columns"><img src="/static/images/premium-btn.png" /></div>
