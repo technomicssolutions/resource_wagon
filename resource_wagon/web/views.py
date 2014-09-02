@@ -54,7 +54,7 @@ class Login(View):
             except:
                 res = {
                     'result': 'error',
-                    'message': 'Username or password is incorrect',
+                    'message': 'Email or password is incorrect',
                 }
                 response = simplejson.dumps(res)
                 return HttpResponse(response, status=200, mimetype='application/json')
@@ -75,12 +75,12 @@ class Login(View):
             else:
                 res = {
                     'result': 'error',
-                    'message': 'Username or password is incorrect',
+                    'message': 'Email or password is incorrect',
                 }
         else:
             res = {
                 'result': 'error',
-                'message': 'Username or password is incorrect',
+                'message': 'Email or password is incorrect',
             }        
         if request.is_ajax():
             response = simplejson.dumps(res)

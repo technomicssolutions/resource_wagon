@@ -74,7 +74,7 @@
 						<td>{{job.posting_date}}</td>
 						<td><a href="{% url 'view_job_details' job.id %}">{{job.job_title}} </a></td>
 
-						<td><a href="{% url 'company' company_id=job.company.id %}">{{job.company.company_name}}</a></td>
+						<td><a href="{% url 'company' company_id=job.company.id %}">{{job.company.industry_type}}</a></td>
 
 						<td>{{job.education_req}}</td>
 					</tr>

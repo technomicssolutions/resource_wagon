@@ -25,7 +25,7 @@ function user_login ($scope,$http){
 
     $scope.login_validation = function (){
     if ($scope.username == '' || $scope.username == undefined) {
-          $scope.login_validation_message = 'Please enter username';
+          $scope.login_validation_message = 'Please enter email';
           return false;
       }else if ($scope.password == '' || $scope.password == undefined) {
           $scope.login_validation_message = 'Please enter password';
