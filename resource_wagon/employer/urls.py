@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from employer.views import EmployerRegistration, SaveEmployer, \
     EmployerView, EditEmployer, PostJobsView,PostedJobsView,DeleteJob,PublishJob,EditPostJobsView, \
     JobDetailsView,ViewApplicants, SearchCandidatesView, AdminRequest, Inbox, DeleteInbox, GetJobs, DashBoardEmployer, ActivityLog
+    
 
 
 urlpatterns = patterns('',

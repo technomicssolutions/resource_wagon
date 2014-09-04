@@ -74,6 +74,9 @@
 
 			
             <div class="job_list">
+                <div class="not_found" ng-hide="no_jobs"> 
+                    <p class="error_message">[[ count ]] job(s) found.</p>
+                </div>
                 <div class="job" ng-repeat="job in jobs">
                     {% if not user.recruiter_set.all %}
                         <h2><a href="/jobseeker/view_job_details/[[job.id]]/">[[job.job_title]] </a></h2>
@@ -108,8 +111,8 @@
                 <ul>
                     <li>Please check your spelling and try some different Keywords.</li>
                 </ul>               
-            </div>    
-            
+            </div>   
+         
 
             </div>
     </div>

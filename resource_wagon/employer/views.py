@@ -28,6 +28,7 @@ class EmployerRegistration(View):
         context = {}
         return render(request, 'employer_registration.html', context)
 
+
 class SaveEmployer(View):
     
     def post(self, request, *args, **kwargs):
@@ -496,19 +497,19 @@ class AdminRequest(View):
         jobseeker_id = kwargs['jobseeker_id']
         jobseeker = Jobseeker.objects.get(id=jobseeker_id)
         current_user =request.user
-        user = User.objects.get(is_superuser=True)
+        users = User.objects.filter(is_superuser=True)
         recruiter = Recruiter.objects.get(user=current_user)
 
         request_send  = RequestSend()
         request_send.jobseeker = jobseeker
         request_send.recruiter = recruiter
         request_send.save()
-        email_to = user.email
-        subject = "Requesting Contact details "
-        message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
-        from_email = settings.DEFAULT_FROM_EMAIL 
-        
-        send_mail(subject, message, from_email,[email_to])
+        for user in users:
+            email_to = user.email
+            subject = "Requesting Contact details "
+            message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
+            from_email = settings.DEFAULT_FROM_EMAIL 
+            send_mail(subject, message, from_email,[email_to])
         
         return HttpResponseRedirect(reverse('posted_jobs'))
 

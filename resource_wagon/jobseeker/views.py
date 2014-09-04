@@ -474,8 +474,10 @@ class JobSearch(View):
 
         if len(q_list) > 0:
             jobs = Job.objects.filter(reduce(operator.and_, q_list), is_publish=True).order_by('-id').order_by('order')
+            count = jobs.count()
         else:
             jobs = []
+            count = 0
 
         
         job_list = []
@@ -502,10 +504,12 @@ class JobSearch(View):
             })
         context = {
             'jobs': jobs,
+            'count': jobs.count,
         }
         if request.is_ajax():
             response = simplejson.dumps({
-                'jobs': job_list
+                'jobs': job_list,
+                'count': count,
             })    
             return HttpResponse(response, status=200, mimetype='application/json')
         else:
