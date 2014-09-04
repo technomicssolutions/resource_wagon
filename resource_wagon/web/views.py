@@ -31,6 +31,12 @@ class Home(View):
         }
         return render(request, 'home.html', context)
 
+
+class TermsAndConditions(View):
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, 'terms_conditions.html', context)
+
 class Dashboard(View):
     
     def get(self, request, *args, **kwargs):
@@ -265,26 +271,26 @@ class Contact(View):
     def post(self, request, *args, **kwargs):
 
         sender_details = ast.literal_eval(request.POST['sender_details'])
-        user = User.objects.get(is_superuser=True)
+        users = User.objects.filter(is_superuser=True)
         contact  = ContactUs()
         contact.name = sender_details['name']
         contact.mail = sender_details['mail']
         contact.message = sender_details['message']
         contact.source = sender_details['source']
         contact.save()
-
-        email_to = user.email
-        subject = "Enquiry"
-        text_content = 'This is Important'
-        from_email = settings.DEFAULT_FROM_EMAIL 
-        ctx = {
-            'contact': contact,
-            'user': user,
-        }
-        html_content = render_to_string('email/contact_us.html', ctx)
-        msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        for user in users:
+            email_to = user.email
+            subject = "Enquiry"
+            text_content = 'This is Important'
+            from_email = settings.DEFAULT_FROM_EMAIL 
+            ctx = {
+                'contact': contact,
+                'user': user,
+            }
+            html_content = render_to_string('email/contact_us.html', ctx)
+            msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
         res = {
             'result': 'ok',
             'message': 'Your message has been successfully sent. We will contact you very soon!',
@@ -301,24 +307,25 @@ class RequestCV(View):
     def post(self, request, *args, **kwargs):
 
         sender_details = ast.literal_eval(request.POST['sender_details'])
-        user = User.objects.get(is_superuser=True)
+        users = User.objects.filter(is_superuser=True)
         cvrequest  = CVRequest()
         cvrequest.name = sender_details['name']
         cvrequest.mail = sender_details['mail']
         cvrequest.mobile = sender_details['mobile']
         cvrequest.save()
-        email_to = user.email
-        subject = "Request For CV"
-        text_content = 'This is Important'
-        from_email = settings.DEFAULT_FROM_EMAIL 
-        ctx = {
-            'cvrequest': cvrequest,
-            'user': user,
-        }
-        html_content = render_to_string('email/cvrequest.html', ctx)
-        msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        for user in users:
+            email_to = user.email
+            subject = "Request For CV"
+            text_content = 'This is Important'
+            from_email = settings.DEFAULT_FROM_EMAIL 
+            ctx = {
+                'cvrequest': cvrequest,
+                'user': user,
+            }
+            html_content = render_to_string('email/cvrequest.html', ctx)
+            msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
 
         res = {
             'result': 'ok',

@@ -4204,6 +4204,7 @@ function SearchController($scope,$element,$http,$timeout){
         $http.get(url).success(function(data)
         {
             $scope.jobs = data.jobs; 
+            $scope.count = data.count;
             if(data.jobs.length <= 0){
               $scope.no_jobs = true;
             } else {

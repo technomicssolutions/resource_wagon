@@ -44,14 +44,22 @@
                                 </li>
 
                                 <li class=" menu-item-depth-0 employers-menu menu-item-simple-parent active">
-                                    <a ng-click="show_login_popup()" href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>                                
+                                {% if user.is_authenticated %}
+                                    <a href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>
+                                {% else %}
+                                    <a ng-click="show_login_popup()" href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>
+                                {% endif %}                                
                                     <ul class="sub-menu">
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'recruitment_divisions' %}">Recruitment Divisions</a></li>
                                     	<li class="menu-item-has-children menu-item-depth-1"><a href="{% url 'competency_analysis' %}">Competency Analysis</a></li>
                                     </ul>
                                 </li>
                                 <li class=" menu-item-depth-0 candidates-menu menu-item-simple-parent active">
-                                    <a ng-click="show_login_popup()" href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>                                
+                                {% if user.is_authenticated %}
+                                     <a href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>
+                                {% else %}
+                                    <a ng-click="show_login_popup()" href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>
+                                {% endif %}                                
                                     <ul class="sub-menu">
                                     	<li class="menu-item-has-children candidates-menu menu-item-depth-1"><a href="#">Apply Online</a></li>
                                     	<li class="menu-item-has-children candidates-menu menu-item-depth-1"><a href="#">Job Alerts</a></li>

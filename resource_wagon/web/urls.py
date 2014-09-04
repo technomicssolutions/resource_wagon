@@ -6,7 +6,8 @@ from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmp
 	DeleteRequest, ForgotPassword, Aboutus, Dashboard, Companies, Company , PremiumEmployer, \
     MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, \
 	Contact, RecruitmentDivisions, DeleteEmployer, DeleteJobseeker, \
-    MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, RecruitmentDivisions, RequestCV, )
+    MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, RecruitmentDivisions, RequestCV, 
+    TermsAndConditions, )
 
 
 urlpatterns = patterns('',
@@ -33,4 +34,5 @@ urlpatterns = patterns('',
     url(r'^delete_employer/(?P<recruiter_id>\d+)/$', DeleteEmployer.as_view(), name='delete_employer'),
     url(r'^delete_jobseeker/(?P<jobseeker_id>\d+)/$', DeleteJobseeker.as_view(), name='delete_jobseeker'),
     url(r'^save_premium_employer/$', PremiumEmployer.as_view(), name='save_premium_employer'),
+    url(r'^terms_conditions/$', TermsAndConditions.as_view(), name='terms_conditions'),
 )
