@@ -22,16 +22,37 @@
 <div class="col-xs-6 col-lg-4">    
 	<div class="find_your_perfect_job">
 		<div class="heading">
-			<h4> Find your perfect job </h4>
+			<h4>Quick search</h4>
 		</div>
-        <ul>
-        	<li><a href="#">Lorem Ipsum is simply dummy dsdsdsd </a></li>
-        	<li><a href="#">Lorem Ipsum is simply dummy </a></li>
-        	<li><a href="#">Lorem Ipsum is simply dummy </a></li>
-        	<li><a href="#">Lorem Ipsum is simply dummy </a></li>
-        </ul>
-	</div>
+        <div class="inner-search">  
+        <form>  
+<div class="home-search-controls"> 
+<input class="form-control" type="text" name="search" placeholder="skills" ng-model="skills">
 </div>
+<p ng-show="is_keyword"></p>
+<div class="home-search-controls"> 
+<select class="form-control" name="industry" ng-model="industry"> 
+<option value="">Industry</option>
+<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == industry">[[industry]]</option>               
+</select>
+</div>
+<p ng-show="get_industries()"></p> 
+<div class="home-search-controls"> 
+<select class="form-control" name="country" ng-model="job_location">
+<option value="">Country</option>
+<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== job_location">[[country]]</option>
+<option>Other</option>
+</select>
+</div>
+<p ng-show="get_countries()" ></p>
+                    
+<a href=""  ng-click="job_search()"><button class="search_button">Search</button></a>
+
+<div class="clear"></div>
+</form>
+</div>            
+        </div>
+     </div>
 
 	<div class="clear"></div>
 </div>
