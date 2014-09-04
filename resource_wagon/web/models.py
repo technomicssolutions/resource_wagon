@@ -2033,3 +2033,13 @@ class ContactUs(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class CVRequest(models.Model):
+
+    name = models.CharField('Name', max_length=200, null=True, blank=True)
+    mail = models.CharField('Email', max_length=200, null=True, blank=True)
+    mobile =  models.CharField('Phone', max_length=200,null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name

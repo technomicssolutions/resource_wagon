@@ -3055,6 +3055,11 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           'mail': '',
           'source': '',
         }
+        $scope.resume = {
+          'name': '',
+          'mobile': '',
+          'mail': '',
+        }
         get_industries($scope);
         get_countries($scope);
         if(is_login_popup == 'True'){
@@ -3079,10 +3084,11 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       } else if($scope.contact.message == '' || $scope.contact.message == undefined){
         $scope.validation_message = 'Please enter your Message';
         return false;
-      } else if($scope.contact.message == '' || $scope.contact.message == undefined){
-        $scope.validation_message = 'Please enter your Message';
+      }  else if($scope.contact.mail && !(validateEmail($scope.contact.mail))){
+        $scope.validation_message = 'Please enter a valid Email Address';
         return false;
       } else{
+        show_loader();
           params = {
             'sender_details': angular.toJson($scope.contact),
             'csrfmiddlewaretoken': $scope.csrf_token,
@@ -3095,7 +3101,50 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
                 'Content-Type' : 'application/x-www-form-urlencoded'
             }
           }).success(function(data, status) {
-
+            hide_loader();
+            $scope.contact.mail = "";
+            $scope.contact.name = "";
+            $scope.contact.message = "";
+            $scope.contact.source = "";
+            $scope.validation_message = data.message;
+         }); 
+      }
+    }
+    $scope.request_resume = function(){
+      if($scope.resume.name == '' || $scope.resume.name == undefined){
+        $scope.validation_message = 'Please enter your Name';
+        return false;
+      } else if($scope.resume.mail == '' || $scope.resume.mail == undefined){
+        $scope.validation_message = 'Please enter your Email Address';
+        return false;
+      } else if($scope.resume.mobile == '' || $scope.resume.mobile == undefined){
+        $scope.validation_message = 'Please enter your Mobile Number';
+        return false;
+      } else if($scope.resume.mail && !(validateEmail($scope.resume.mail))){
+        $scope.validation_message = 'Please enter a valid Email Address';
+        return false;
+      } else if (!Number($scope.resume.mobile) || $scope.resume.mobile.length > 15) {
+        $scope.validation_message = 'Please enter Valid Mobile Number';
+        return false;
+      } else{
+        show_loader();
+          params = {
+            'sender_details': angular.toJson($scope.resume),
+            'csrfmiddlewaretoken': $scope.csrf_token,
+          }
+          $http({
+            method : 'post',
+            url : "/cv_request/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+          }).success(function(data, status) {
+            hide_loader();
+            $scope.resume.mail = "";
+            $scope.resume.name = "";
+            $scope.resume.mobile = "";
+            $scope.validation_message = data.message;
          }); 
       }
     }

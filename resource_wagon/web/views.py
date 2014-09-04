@@ -13,10 +13,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.template.loader import render_to_string
 
 from models import RequestSend, Reply, Job
 from employer.models import CompanyProfile, Recruiter
 from jobseeker.models import Jobseeker
+from web.models import ContactUs, CVRequest
 
 class Home(View):
     
@@ -263,7 +265,6 @@ class Contact(View):
     def post(self, request, *args, **kwargs):
 
         sender_details = ast.literal_eval(request.POST['sender_details'])
-        print sender_details
         user = User.objects.get(is_superuser=True)
         contact  = ContactUs()
         contact.name = sender_details['name']
@@ -271,14 +272,61 @@ class Contact(View):
         contact.message = sender_details['message']
         contact.source = sender_details['source']
         contact.save()
+
         email_to = user.email
-        #subject = "Contact Us"
-        #message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
+        subject = "Enquiry"
+        text_content = 'This is Important'
         from_email = settings.DEFAULT_FROM_EMAIL 
-        
-        send_mail(subject, message, from_email,[email_to])
-        
-        return HttpResponseRedirect(reverse('posted_jobs'))
+        ctx = {
+            'contact': contact,
+            'user': user,
+        }
+        html_content = render_to_string('email/contact_us.html', ctx)
+        msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+        res = {
+            'result': 'ok',
+            'message': 'Your message has been successfully sent. We will contact you very soon!',
+        }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, status=200, mimetype='application/json')
+
+
+class RequestCV(View):
+
+    def get(self, request, *args, **kwargs):
+            return render(request, 'cv_request.html', {})
+
+    def post(self, request, *args, **kwargs):
+
+        sender_details = ast.literal_eval(request.POST['sender_details'])
+        user = User.objects.get(is_superuser=True)
+        cvrequest  = CVRequest()
+        cvrequest.name = sender_details['name']
+        cvrequest.mail = sender_details['mail']
+        cvrequest.mobile = sender_details['mobile']
+        cvrequest.save()
+        email_to = user.email
+        subject = "Request For CV"
+        text_content = 'This is Important'
+        from_email = settings.DEFAULT_FROM_EMAIL 
+        ctx = {
+            'cvrequest': cvrequest,
+            'user': user,
+        }
+        html_content = render_to_string('email/cvrequest.html', ctx)
+        msg = EmailMultiAlternatives(subject, html_content, from_email,[email_to])
+        msg.attach_alternative(html_content, "text/html")
+        msg.send()
+
+        res = {
+            'result': 'ok',
+            'message': 'Your message has been successfully sent. We will contact you very soon!',
+        }
+        response = simplejson.dumps(res)
+        return HttpResponse(response, status=200, mimetype='application/json')
+
 
 class Companies(View):
     def get(self, request, *args, **kwargs):

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title%}
+{% block body_id %}cv_request{% endblock %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
+
+{% block content %}
+
+
+<div class="gray_content">
+
+<div class="col-xs-12 col-sm-6 col-lg-8">
+	<div class="latest_job_posting">
+		<div class="heading">
+			<h3>Contact Resume Writing Services</h3>
+		</div>
+		<form action="">
+        	<div class="form-group-outer">
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="resume.name">
+                    </div>
+                </div>
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Email</label>
+                    <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="resume.mail">
+                    </div>
+                </div>
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Mobile</label>
+                    <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="resume.mobile">
+                    </div>
+                </div>
+                <div class="btn">
+                    <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Submit" ng-click="request_resume()"></p>
+            </div>
+            <p class="error_message ">[[validation_message]]</p>
+        </form>
+            </div>
+        
+	</div>
+</div>
+
+	<div class="clear"></div>
+</div>
+
+
+
+{% endblock content %}

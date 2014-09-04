@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock title%}
+{% block body_id %}cv_request{% endblock %}
+{% block controller %}ng-controller="HomeController" ng-init="init('{{csrf_token}}', '{{login}}')" {% endblock controller %}
+
+{% block content %}
+
+
+<div class="gray_content">
+
+<div class="col-xs-12 col-sm-6 col-lg-8">
+	<div class="latest_job_posting">
+		<div class="heading">
+			<h3>Request Your CV Written</h3>
+		</div>
+		<form action="">
+        	<div class="form-group-outer">
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Name</label>
+                    <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="contact.name">
+                    </div>
+                </div>
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Email</label>
+                    <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="contact.mail">
+                    </div>
+                </div>
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">Message</label>
+                    <div class="col-sm-8">      
+                    	<textarea class="form-control" name="" cols="" rows="" ng-model="contact.message">
+                        </textarea>
+                    </div>
+                </div>
+                <div class="contact-outer">
+                    <label class="col-sm-4 control-label">How did you know about us?</label>
+                                <div class="col-sm-8">      
+                    <input class="form-control" type="text" ng-model="contact.source">
+                    </div>
+                </div>
+                <div class="btn">
+                    <p class="btn"><input class="button btn btn-warning" type="submit" name="submit" value="Submit" ng-click="contact_us()"></p>
+            </div>
+            <p class="error_message ">[[validation_message]]</p>
+        </form>
+            </div>
+        
+	</div>
+</div>
+
+	<div class="clear"></div>
+</div>
+
+
+
+{% endblock content %}
