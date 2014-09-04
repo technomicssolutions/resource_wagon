@@ -2482,7 +2482,6 @@ function get_industries($scope){
         'Wood',
         'Travel/ Tourism',
         'Other',
-        
     ]
 }
 
@@ -2757,17 +2756,24 @@ function hide_jobseeker_details_block($scope) {
     $scope.view_photo_details  =false;
 }
 function current_employer_validation($scope) {
-    if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
+    console.log($scope.current_employer.years, $scope.current_employer.months);
+    if ($scope.current_employer.years == '' && $scope.current_employer.months == ''){
+        $scope.current_employer_validation_msg = 'Please enter total experience';
+        return false;
+    } else if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
         $scope.current_employer_validation_msg = 'Please enter a Valid Amount for Salary';
         return false;
     } else if ($scope.current_employer.salary != '' && ($scope.current_employer.currency == '' || $scope.current_employer.currency == undefined)) {
         $scope.current_employer_validation_msg = 'Please provide the Currency';
         return false;
+    } else if ($scope.current_employer.industry == '' || $scope.current_employer.industry == undefined){
+        $scope.current_employer_validation_msg = 'Please select Industry Type';
+        return false;
+    } else if ($scope.current_employer.functions == '' || $scope.current_employer.functions == undefined){
+        $scope.current_employer_validation_msg = 'Please select Functional Area';
+        return false;
     } else if ($scope.current_employer.skills == '' || $scope.current_employer.skills == undefined){
         $scope.current_employer_validation_msg = 'Please enter Key Skills';
-        return false;
-    } else if ($scope.current_employer.locations.length == 0 || $scope.current_employer.locations == ""){
-        $scope.current_employer_validation_msg = 'Please choose Prefered Location';
         return false;
     } else if ($scope.current_employer.locations.length > 5){
         $scope.current_employer_validation_msg = 'Please choose a maximum of 5 Locations';
@@ -3043,6 +3049,12 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         $scope.skills = '';
         $scope.job_location = '';
         $scope.industry = '';
+        $scope.contact = {
+          'name': '',
+          'message': '',
+          'mail': '',
+          'source': '',
+        }
         get_industries($scope);
         get_countries($scope);
         if(is_login_popup == 'True'){
@@ -3056,6 +3068,36 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         $scope.is_function = false;
         var url = '/jobseeker/job_search/?location='+$scope.job_location+'&skills='+$scope.skills+'&industry='+$scope.industry;
         document.location.href = url;
+    }
+    $scope.contact_us = function(){
+      if($scope.contact.name == '' || $scope.contact.name == undefined){
+        $scope.validation_message = 'Please enter your Name';
+        return false;
+      } else if($scope.contact.mail == '' || $scope.contact.mail == undefined){
+        $scope.validation_message = 'Please enter your Email Address';
+        return false;
+      } else if($scope.contact.message == '' || $scope.contact.message == undefined){
+        $scope.validation_message = 'Please enter your Message';
+        return false;
+      } else if($scope.contact.message == '' || $scope.contact.message == undefined){
+        $scope.validation_message = 'Please enter your Message';
+        return false;
+      } else{
+          params = {
+            'sender_details': angular.toJson($scope.contact),
+            'csrfmiddlewaretoken': $scope.csrf_token,
+          }
+          $http({
+            method : 'post',
+            url : "/contact/",
+            data : $.param(params),
+            headers : {
+                'Content-Type' : 'application/x-www-form-urlencoded'
+            }
+          }).success(function(data, status) {
+
+         }); 
+      }
     }
     $scope.show_login_popup = function() {
         show_login_popup($scope,'');
@@ -3536,9 +3578,9 @@ function RecruiterController($scope, $element, $http, $timeout) {
     }
 	$scope.init = function(csrf_token, user_id) {
 		$scope.csrf_token = csrf_token;
-        $scope.user_id = user_id;
-        get_industries($scope);
-    	   get_countries($scope);
+    $scope.user_id = user_id;
+    get_industries($scope);
+	  get_countries($scope);
        
         
         $scope.recruiter = {
@@ -3618,13 +3660,17 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Country';
             return false;
+        } else if ($scope.logo.src == '' || $scope.logo.src == undefined)  {
+            $scope.error_message = 'Please upload  your logo  ';
+            return false;
         } else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
             $scope.error_message = 'Please upload  your profile  ';
             return false;
-        }else if (!$scope.checkbox) {
+        } else if (!$scope.checkbox) {
             $scope.error_message = 'Please agree to the terms and conditions';
             return false;
-        }return true;
+        }
+        return true;
     }
 
     $scope.save_profile = function(){
@@ -3910,14 +3956,9 @@ function  JobPostingController($scope,$element,$http,$timeout){
     if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
       $scope.jobpost.company = $('#company_name').val();
     }
-    
     if ($scope.jobpost.title == ''|| $scope.jobpost.title == undefined){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide a Job Title';
-        return false;
-    } else if ($scope.jobpost.code == '' || $scope.jobpost.code == undefined) {
-        $scope.error_flag = true;
-        $scope.error_message = 'Please provide Reference Code';
         return false;
     } else if ($scope.jobpost.company == '' || $scope.jobpost.company == undefined) {
         $scope.error_flag = true;
@@ -3927,9 +3968,9 @@ function  JobPostingController($scope,$element,$http,$timeout){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide Job summary';
         return false;
-    } else if (($scope.jobpost.salary != null || $scope.jobpost.salary != '' || $scope.jobpost.salary != undefined) && $scope.jobpost.salary != Number($scope.jobpost.salary)){
+    } else if ($scope.jobpost.salary == null || $scope.jobpost.salary == '' || $scope.jobpost.salary == undefined){
         $scope.error_flag = true;
-        $scope.error_message = 'Please enter a Valid Amount for Salary';
+        $scope.error_message = 'Please enter Salary';
         return false;
     }  else if ($scope.jobpost.salary != '' && ($scope.jobpost.currency == '' || $scope.jobpost.currency == undefined)) {
         $scope.error_flag = true;
@@ -3983,7 +4024,22 @@ function  JobPostingController($scope,$element,$http,$timeout){
         $scope.error_flag = true;
         $scope.error_message = 'Please provide a Valid Email Id';
         return false;
-    } return true;
+    } 
+    if ($scope.jobpost.last_date != '' || $scope.jobpost.last_date != undefined) {
+        var start_date = new Date();
+        var date_value = $scope.jobpost.last_date.split('/');
+        var end_date = new Date(date_value[2],date_value[1]-1, date_value[0]);
+        if(start_date > end_date){
+          $scope.error_flag = true;
+          $scope.error_message = 'Please check the last date';
+          return false;
+        }
+    } 
+    return true;
+    }
+    $scope.show_posted_jobs = function() {
+        var url = '/employer/posted_jobs/';
+        document.location.href = url;
     }
     $scope.save_job = function(){
         $scope.jobpost.last_date = $('#last_dob').val();       
@@ -4028,7 +4084,17 @@ function  JobPostingController($scope,$element,$http,$timeout){
             }).success(function(data, status){
                 $scope.id = data.id;
                 $scope.edit = $scope.edit + 1;  
-                
+               /* $scope.popup = new DialogueModelWindow({
+                  'dialogue_popup_width': '20%',
+                  'message_padding': '0px',
+                  'left': '28%',
+                  'top': '182px',
+                  'height': 'auto',
+                  'content_div': '#show_ref_code'
+                });
+                var height = $(document).height();
+                $scope.popup.set_overlay_height(height);
+                $scope.popup.show_content();*/
                 var url = '/employer/posted_jobs/';
                 document.location.href = url;
                 hide_loader(); 

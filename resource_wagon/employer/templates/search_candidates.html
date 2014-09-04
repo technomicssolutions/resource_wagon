@@ -25,7 +25,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
         <div class="col-sm-8">  
 		<select class="form-control" name ="functions" ng-model="search_candidate.functions">
 			<option value="">---------------Select-------------</option>
-			<option ng-repeat="function in functions" value="[[function]]" >[[function]]</option>
+			<option ng-repeat="function in functions | orderBy:'toString()'" value="[[function]]" >[[function]]</option>
 		</select>
     </div>
     </div>
@@ -35,7 +35,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
         <div class="col-sm-8">  
 			<select class="form-control" name="basic_edu" ng-model="educational_details.basic_edu" ng-change="get_stream()">
 			<option value="">-----------Select---------</option>
-			<option ng-repeat="education in basic_education" value="[[education]]" ng-selected="education == educational_details.basic_edu" >[[education]]</option>
+			<option ng-repeat="education in basic_education | orderBy:'toString()'" value="[[education]]" ng-selected="education == educational_details.basic_edu" >[[education]]</option>
 		</select>
     </div>
     </div>
@@ -45,7 +45,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
         <div class="col-sm-8">  
 		<select class="form-control" name="basic_specialization" ng-model="educational_details.basic_specialization">
 			<option value="">-----------Select---------</option>
-			<option ng-repeat="specialization in basic_specializations" value="[[specialization]]"> [[specialization]]</option>
+			<option ng-repeat="specialization in basic_specializations | orderBy:'toString()'" value="[[specialization]]"> [[specialization]]</option>
 		</select>
      </div>
      </div>

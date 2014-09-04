@@ -214,7 +214,6 @@ class PostJobsView(View):
         
         company = CompanyProfile.objects.get(company_name = jobpost['company'])
         jobPosting.job_title = jobpost['title']
-        jobPosting.ref_code = jobpost['code']
         jobPosting.company = company
         jobPosting.summary = jobpost['summary']
         document = request.FILES.get('job_details_pdf', '')
@@ -241,6 +240,9 @@ class PostJobsView(View):
         jobPosting.exp_req_min = jobpost['min']
         jobPosting.exp_req_max = jobpost['max']
         jobPosting.save()
+        jobPosting.ref_code = jobPosting.company.company_name.replace(" ","")[:3]+jobPosting.job_title.replace(" ","")[:3]+str(jobPosting.id)
+        jobPosting.save()
+        print jobPosting.ref_code
 
         res = {
             'id' : jobPosting.id,

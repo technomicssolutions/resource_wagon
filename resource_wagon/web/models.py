@@ -1952,7 +1952,7 @@ class Job(models.Model):
     recruiter = models.ForeignKey(User)
     company = models.ForeignKey(CompanyProfile, null=True, blank=True)
     job_title = models.CharField('Job Title', max_length=200)
-    salary = models.IntegerField('Salary', null=True, blank=True)
+    salary = models.CharField('Salary', null=True, blank=True, max_length=200)
     ref_code = models.CharField('Ref Code', max_length=15, null=True, blank=True)
     summary = models.CharField('Summary', max_length=2000)
     document = models.FileField (upload_to = "uploads/doc/", null=True, blank=True)
@@ -2022,3 +2022,14 @@ class Reply(models.Model):
 
         verbose_name = 'Reply'
         verbose_name_plural = 'Reply'
+
+
+class ContactUs(models.Model):
+
+    name = models.CharField('Name', max_length=200, null=True, blank=True)
+    mail = models.CharField('Email', max_length=200, null=True, blank=True)
+    message = models.CharField('Message', max_length=300, null=True, blank=True)
+    source = models.CharField('Source', max_length=300, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name

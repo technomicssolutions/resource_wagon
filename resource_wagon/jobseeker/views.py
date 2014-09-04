@@ -31,7 +31,7 @@ class JobseekerRegistration(View):
 class Companies(View):
 
     def get(self, request, *args, **kwargs):
-        companies = CompanyProfile.objects.all();
+        companies = CompanyProfile.objects.all().order_by('company_name');
         companies_list = []
         for company in companies:
             companies_list.append({
@@ -128,10 +128,14 @@ class SaveCurrentEmployerDetails(View):
         print current_employer_details
         if current_employer_details['id']:
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
+            print job_seeker
             if job_seeker.employment:
+                print 'inside'
                 employment = job_seeker.employment
             else:
+                print 'outside'
                 employment = Employment()
+            print employment
             if current_employer_details['years'] != "":
                 employment.exp_yrs = current_employer_details['years']
             else :
@@ -158,22 +162,26 @@ class SaveCurrentEmployerDetails(View):
                     employment.previous_employer.add(employer_obj)
             employment.save()
             job_seeker.employment = employment
-            prefered_locations = current_employer_details['locations']
-            if job_seeker.prefered_locations:
-                job_seeker.prefered_locations.clear()
-            for prefered_location in prefered_locations:
-                location, created = Location.objects.get_or_create(location=prefered_location)
-                job_seeker.prefered_locations.add(location)                     
-                job_seeker.save()
+            try:
+                prefered_locations = current_employer_details['locations']
+                if job_seeker.prefered_locations:
+                    job_seeker.prefered_locations.clear()
+                for prefered_location in prefered_locations:
+                    location, created = Location.objects.get_or_create(location=prefered_location)
+                    job_seeker.prefered_locations.add(location)                     
+                    job_seeker.save()
+            except:
+                pass
             try:
                 prefered_companies = current_employer_details['selected_companies']
                 if job_seeker.prefered_companies:
                     job_seeker.prefered_companies.clear()
                 for prefered_company in prefered_companies:
                     job_seeker.prefered_companies.add(prefered_company)                     
-                    job_seeker.save()           
+                    job_seeker.save()  
             except:
                 pass
+            job_seeker.save() 
             res = {
                 'result': 'ok',
                 'job_seeker_id': job_seeker.id,

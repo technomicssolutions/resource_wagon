@@ -50,7 +50,7 @@
                     <div class="col-sm-8">   
                         <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
                             <option value="">------Select-----</option>
-                            <option ng-repeat="function in functions" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
+                            <option ng-repeat="function in functions | orderBy:'toString()'" value="[[function]]" ng-selected="function==search.function_name">[[function]]</option>
                         </select>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                 <div class="form-group-outer">
                     <label class="col-sm-4 control-label">Industry Type</label>
                     <div class="col-sm-8">   
-                        <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries">
+                        <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries | orderBy:'toString()'">
                         </select>
                     </div>
                 </div>

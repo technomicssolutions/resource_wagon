@@ -260,6 +260,26 @@ class Contact(View):
     def get(self, request, *args, **kwargs):
             return render(request, 'contact.html', {})
 
+    def post(self, request, *args, **kwargs):
+
+        sender_details = ast.literal_eval(request.POST['sender_details'])
+        print sender_details
+        user = User.objects.get(is_superuser=True)
+        contact  = ContactUs()
+        contact.name = sender_details['name']
+        contact.mail = sender_details['mail']
+        contact.message = sender_details['message']
+        contact.source = sender_details['source']
+        contact.save()
+        email_to = user.email
+        #subject = "Contact Us"
+        #message = "send contact details of " + str(jobseeker.user.email) + " to " + str(current_user)
+        from_email = settings.DEFAULT_FROM_EMAIL 
+        
+        send_mail(subject, message, from_email,[email_to])
+        
+        return HttpResponseRedirect(reverse('posted_jobs'))
+
 class Companies(View):
     def get(self, request, *args, **kwargs):
         companies = CompanyProfile.objects.all()
