@@ -700,6 +700,9 @@ top: 0px !important;
 right: 0px !important;
 }
 
+.margin_left{
+	margin-left: 31%;
+}
 .login_link {
 color: transparent;
 	background: url("../images/login.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
