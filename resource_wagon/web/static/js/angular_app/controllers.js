@@ -4132,17 +4132,6 @@ function  JobPostingController($scope,$element,$http,$timeout){
             }).success(function(data, status){
                 $scope.id = data.id;
                 $scope.edit = $scope.edit + 1;  
-               /* $scope.popup = new DialogueModelWindow({
-                  'dialogue_popup_width': '20%',
-                  'message_padding': '0px',
-                  'left': '28%',
-                  'top': '182px',
-                  'height': 'auto',
-                  'content_div': '#show_ref_code'
-                });
-                var height = $(document).height();
-                $scope.popup.set_overlay_height(height);
-                $scope.popup.show_content();*/
                 var url = '/employer/posted_jobs/';
                 document.location.href = url;
                 hide_loader(); 
@@ -4199,6 +4188,7 @@ function SearchController($scope,$element,$http,$timeout){
         $scope.job_search();   
     }
     $scope.job_search  = function() {    
+        console.log($scope.search.experience);
         var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword+'&experience='+$scope.search.experience;
         $http.get(url).success(function(data)
         {
