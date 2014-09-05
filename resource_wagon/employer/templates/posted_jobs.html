@@ -54,7 +54,7 @@
 			{% endif %}
 			{{message}}
 		{% endfor %}
-	{% else %}
+	{% elif not user.is_superuser %}
 		<p> You have no posted jobs. Please click <a href="{% url 'postjobs' %}"> Here </a> to post a job</p>
 	{% endif %}
 

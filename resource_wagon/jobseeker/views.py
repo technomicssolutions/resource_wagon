@@ -69,7 +69,6 @@ class SaveUserLoginDetails(View):
                 else:
                     username = user_login_details['email']
                 user = User.objects.create(email=user_login_details['email'], username=username)
-                print "user", user
                 user.set_password(user_login_details['password'])
                 user.save()
                 job_seeker = Jobseeker.objects.create(user=user)
@@ -125,17 +124,12 @@ class SaveCurrentEmployerDetails(View):
 
         current_employer_details = ast.literal_eval(request.POST['current_employer_details'])
         status = 200
-        print current_employer_details
         if current_employer_details['id']:
             job_seeker = Jobseeker.objects.get(id=current_employer_details['id'])
-            print job_seeker
             if job_seeker.employment:
-                print 'inside'
                 employment = job_seeker.employment
             else:
-                print 'outside'
                 employment = Employment()
-            print employment
             if current_employer_details['years'] != "":
                 employment.exp_yrs = current_employer_details['years']
             else :
@@ -194,7 +188,6 @@ class SaveEducationalDetails(View):
     def post(self, request, *args, **kwargs):
 
         educational_details = ast.literal_eval(request.POST['educational_details'])
-        print educational_details
         status = 200
         if educational_details['id']:
             job_seeker = Jobseeker.objects.get(id=educational_details['id'])
@@ -235,7 +228,6 @@ class SaveEducationalDetails(View):
 
 class SaveResumeDetails(View):
     def post(self, request, *args, **kwargs):
-        print request.POST['resume_details']
         resume_details = ast.literal_eval(request.POST['resume_details'])
         status = 200
         if resume_details['id']:
@@ -309,7 +301,6 @@ class JobSeekerView(View):
             }
             return render(request,'jobseeker_profile.html', context)     
         else:
-            print request.user
             if request.user.is_authenticated():
                 jobseeker_id =  request.user.jobseeker_set.all()[0].id
                 context={
@@ -454,7 +445,6 @@ class JobSearch(View):
         keyword = request.GET.get('keyword', '')
         jobs = []
         q_list = []
-        print keyword, skills, industry, exp
         if location:
             q_list.append(Q(job_location__icontains=location))
         if function:
@@ -550,7 +540,6 @@ class ApplyJobs(View):
                     'not_able_to_apply': True
                 }
                 return render(request, 'job_details.html', context)
-        print type(job),job
         jobseeker.applied_jobs.add(job)
         jobseeker.save()
         job.applicants_count = job.applicants_count + 1

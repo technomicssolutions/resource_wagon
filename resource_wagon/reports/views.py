@@ -124,7 +124,7 @@ class ApplicantReport(View):
             j = j - 20
         # y1 = y - 520
         if jobseeker.employment.previous_employer.all():
-            p.drawString(80, j - 20,"Previous Employers")
+            p.drawString(80, j - 20,"Current Employer")
             p.drawString(280, j - 20, ":")
             for employer in jobseeker.employment.previous_employer.all():
                 p.drawString(300, j - 20,str(employer.previous_employer_name))
@@ -132,6 +132,8 @@ class ApplicantReport(View):
         if jobseeker.prefered_locations:
             p.drawString(80, j - 20, "Preffered Location")
             p.drawString(280, j - 20, ":")
+            if jobseeker.prefered_locations.all().count() == 0:
+                j = j - 20
             for location in jobseeker.prefered_locations.all():
                 p.drawString(300, j - 20 ,str(location.location))
                 j = j -20
