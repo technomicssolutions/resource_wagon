@@ -218,7 +218,7 @@ header
 	height: 225px;
 	top: 50%;
 	left: 36%;
-	background-color: #121317;
+	background-color: #e8e6e2;
 	padding: 20px;
 	z-index: 999;
 }
@@ -239,9 +239,9 @@ header
 	background: url('../images/password-icon.png') no-repeat;
 }
 #dialogue_popup_container input[type="text"], #dialogue_popup_container input[type="password"] {
-	background-color: #1E1F24;
+	background-color: #bcbcbc;
 	border: none;
-	color: #999999;
+	color: #FFFFFF;
 	padding: 5px 5px 5px 25px;
 	margin: 10px 0px 0px 0px;
 	background-position: 6px 6px;
@@ -257,15 +257,15 @@ header
 }
 
 #dialogue_popup_container a {
-	color: #999999;
+	color: #a84101;
 	margin-left: 60px;
 }
 .close_pop {
 	float: right;
 	background: url('../images/close-btn.png');
 	display: block;
-    height: 20px;
-    width: 20px;
+    height: 23px;
+    width: 24px;
     clear: both;
 }
 .registration_link {
