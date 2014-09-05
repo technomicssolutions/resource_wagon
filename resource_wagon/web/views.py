@@ -198,11 +198,12 @@ class DeleteRequest(View):
     def get(self, request, *args, **kwargs):
 
         request_id = kwargs['request_id']
-        request = RequestSend.objects.get(id=request_id)
-        request.is_delete =True
-        request.save()
+        req = RequestSend.objects.get(id=request_id)
+        req.is_delete =True
+        req.save()
 
-        return render(request, 'requests.html', {})
+        return HttpResponseRedirect(reverse('request'))
+        
 
 class ReplyEmployer(View):
 

@@ -15,7 +15,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	<div class="form-group-outer">
 		<label class="col-sm-4 control-label">Industry</label>
         <div class="col-sm-8">  
-		<select class="form-control" name="industry" ng-model="search_candidate.industry" ng-options="industry as industry for industry in industries">
+		<select class="form-control" name="industry" ng-model="search_candidate.industry" ng-options="industry as industry for industry in industries | orderBy:'toString()'">
 		</select>
         </div>
     </div>

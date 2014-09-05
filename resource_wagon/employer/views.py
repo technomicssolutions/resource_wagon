@@ -544,7 +544,7 @@ class DeleteInbox(View):
         reply.is_delete = True
         reply.save()
 
-        return render(request, 'inbox.html', {})
+        return HttpResponseRedirect(reverse('admin_reply')) 
 
 class ActivityLog(View):
 

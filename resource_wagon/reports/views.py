@@ -18,7 +18,7 @@ from employer.models import CompanyProfile, Recruiter
 
 def header(canvas, y):
 
-    canvas.setFont("Helvetica", 30)  
+    canvas.setFont("Times-Roman", 30)  
     canvas.setFillColor(black)
 
     return canvas
@@ -198,7 +198,7 @@ class ReportsView(View):
             if report_type == '2':
                 employer = request.GET.get('employer')
                 company = CompanyProfile.objects.get(id=employer)
-                jobs = company.job_set.all()
+                jobs = company.job_set.filter(is_publish = True)
                 status_code = 200
                 response = HttpResponse(content_type='application/pdf')
                 p = canvas.Canvas(response, pagesize=(1000, 1250))
@@ -410,8 +410,8 @@ class ReportsView(View):
                 y = 1150
                 p.setFontSize(15)
                 p = header(p, y)
-                report_heading = ("Candidates applied for "+ job.job_title)
-                p.drawString(300, y , report_heading)
+                report_heading = ("Candidates applied for "+ job.job_title+ " in "+ job.company.company_name)
+                p.drawCentredString(500, y , report_heading)
                 p.setFontSize(15)
                 p = header(p, y)
                 p.drawString(60, y - 60, "Candidate Details")
