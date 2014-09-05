@@ -3,11 +3,6 @@
 {% block body_id %}jobpost{% endblock body_id %}
 
 {% block controller %}ng-controller="JobPostingController" ng-init="init('{{csrf_token}}','{{job_id}}')"{% endblock controller %}
-{% block dialogue_popup %}
-	
-	{% include 'show_ref_code.html' %}
-
-{% endblock %}
 
 {% block dashboard_content %}
 

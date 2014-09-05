@@ -2757,7 +2757,7 @@ function hide_jobseeker_details_block($scope) {
 }
 function current_employer_validation($scope) {
     console.log($scope.current_employer.years, $scope.current_employer.months);
-    if ($scope.current_employer.years == '' && $scope.current_employer.months == ''){
+    if ($scope.current_employer.years !== '' && $scope.current_employer.months !== ''){
         $scope.current_employer_validation_msg = 'Please enter total experience';
         return false;
     } else if (($scope.current_employer.salary != null || $scope.current_employer.salary != '' || $scope.current_employer.salary != undefined) && $scope.current_employer.salary != Number($scope.current_employer.salary)){
