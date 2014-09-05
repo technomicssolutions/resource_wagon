@@ -4226,6 +4226,7 @@ function CandidateSearchController($scope,$element,$http,$timeout){
     get_basic_education($scope);
     get_basic_education_specialization($scope);
     $scope.experience = [];
+    $scope.count = -1;
     $scope.no_candidate = false;
     $scope.candidates_data_table = false;
     $scope.search_candidate = {
@@ -4258,7 +4259,7 @@ function CandidateSearchController($scope,$element,$http,$timeout){
         var url = '/employer/search_candidates/?functions='+$scope.search_candidate.functions+'&industry='+$scope.search_candidate.industry+'&months='+$scope.search_candidate.months+'&years='+$scope.search_candidate.years+'&skills='+$scope.search_candidate.skills+'&basic_edu='+$scope.educational_details.basic_edu+'&basic_specialization='+$scope.educational_details.basic_specialization;
         $http.get(url).success(function(data) {
             $scope.candidates_data = data.candidates_data;
-
+            $scope.count = data.count;
             if($scope.candidates_data.length > 0){
 
               $scope.candidates_data_table = true;

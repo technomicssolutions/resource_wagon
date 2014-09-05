@@ -455,6 +455,7 @@ class SearchCandidatesView(View):
             res = {
                 'result': 'ok',
                 'candidates_data': jobseekers_list,
+                'count': str(jobseekers.count()),
             }
             status_code = 200
             response = simplejson.dumps(res)

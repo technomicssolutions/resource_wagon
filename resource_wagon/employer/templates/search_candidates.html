@@ -87,10 +87,12 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 	<div class="btn">
 		<input class="button btn btn-warning" type="submit" name="submit" value="Search Candidates" ng-click="search_candidates()">
 		<br>
-		<p>[[error_message]]</p>		
+		<p class="error_message">[[error_message]]</p>		
 	</div>
 	<div>
-
+	<div class="not_found" ng-hide="no_candidate || count < 0">
+			<p class="error_message">[[ count ]] candidate(s) found</p>
+	</div>
 
 	<table ng-show="candidates_data_table">
 			<tr >
@@ -117,7 +119,7 @@ ng-controller="CandidateSearchController" ng-init="init('{{csrf_token}}')"
 			</tr>			
 	</table>
 	<div class="not_found" ng-show="no_candidate">
-			<p>No Candidates matching your criteria</p>
+			<p class="error_message">No Candidates matching your criteria</p>
 	</div>
 
 
