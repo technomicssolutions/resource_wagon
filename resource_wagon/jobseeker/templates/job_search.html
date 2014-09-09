@@ -34,7 +34,7 @@
             <div class="formrow">
                 <div class="form-group-outer">
                     
-                    <label class="col-sm-4 control-label">Experience</label>
+                    <label class="col-sm-4 control-label">Experience<span class="red">*</span></label>
                 <div class="col-sm-8">   
                     <select class="form-control width_adjust" name="experience" ng-style="alert_style" style="width: 20%" ng-model="search.experience" id="experience">
                         <option value="">Years</option>
@@ -46,7 +46,7 @@
             
             <div class="formrow">
                 <div class="form-group-outer">
-                    <label class="col-sm-4 control-label">Functional Area</label>
+                    <label class="col-sm-4 control-label">Functional Area<span class="red">*</span></label>
                     <div class="col-sm-8">   
                         <select  class="form-control" name ="function" ng-style="alert_style" ng-model="search.function_name" id="function">
                             <option value="">------Select-----</option>
@@ -58,7 +58,7 @@
 
             <div class="formrow">
                 <div class="form-group-outer">
-                    <label class="col-sm-4 control-label">Industry Type</label>
+                    <label class="col-sm-4 control-label">Industry Type<span class="red">*</span></label>
                     <div class="col-sm-8">   
                         <select class="form-control" name="industry" ng-model="search.industry" ng-options="industry as industry for industry in industries | orderBy:'toString()'">
                         </select>
@@ -71,7 +71,7 @@
                 <p ng-show="error_flag" class="error_message">[[error_message]]</p>
                 
             </div>
-
+            <p class="error_message">[[ validate_msg ]]</p>
 			
             <div class="job_list">
                 <div class="not_found" ng-hide="no_jobs"> 

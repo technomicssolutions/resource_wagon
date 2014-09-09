@@ -2030,6 +2030,7 @@ class ContactUs(models.Model):
     mail = models.CharField('Email', max_length=200, null=True, blank=True)
     message = models.CharField('Message', max_length=300, null=True, blank=True)
     source = models.CharField('Source', max_length=300, null=True, blank=True)
+    other = models.CharField('Other', max_length=300, null=True, blank=True)
 
     def __unicode__(self):
         return self.name

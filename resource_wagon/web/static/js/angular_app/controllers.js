@@ -3054,6 +3054,9 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           'mail': '',
           'source': '',
         }
+        $scope.source = {
+          'other': '',
+        }
         $scope.resume = {
           'name': '',
           'mobile': '',
@@ -3080,16 +3083,20 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       } else if($scope.contact.mail == '' || $scope.contact.mail == undefined){
         $scope.validation_message = 'Please enter your Email Address';
         return false;
+      } else if($scope.contact.mail && !(validateEmail($scope.contact.mail))){
+        $scope.validation_message = 'Please enter a valid Email Address';
+        return false;
       } else if($scope.contact.message == '' || $scope.contact.message == undefined){
         $scope.validation_message = 'Please enter your Message';
         return false;
-      }  else if($scope.contact.mail && !(validateEmail($scope.contact.mail))){
-        $scope.validation_message = 'Please enter a valid Email Address';
+      } else if($scope.contact.source == 'Others' && $scope.source.other == ''){
+        $scope.validation_message = 'Please specify the source';
         return false;
       } else{
         show_loader();
           params = {
             'sender_details': angular.toJson($scope.contact),
+            'other_source': $scope.source.other,
             'csrfmiddlewaretoken': $scope.csrf_token,
           }
           $http({
@@ -4153,6 +4160,8 @@ function SearchController($scope,$element,$http,$timeout){
     $scope.experience = 'select';
     $scope.functional_area = 'select';
     $scope.experiences = [];
+    $scope.validate_msg = "";
+    $scope.error_message = "";
     $scope.alert_style = {};
     $scope.search = {
         'keyword' : '',
@@ -4185,10 +4194,42 @@ function SearchController($scope,$element,$http,$timeout){
 
         get_functions($scope);
         get_industries($scope);    
-        $scope.job_search();   
+        $scope.quick_search();   
     }
-    $scope.job_search  = function() {    
-        console.log($scope.search.experience);
+    $scope.validate_search = function(){
+      if($scope.search.experience == "" || $scope.search.experience == undefined){
+        $scope.validate_msg = "Please specify the experience";
+        return false;
+      } else if($scope.search.function_name == "" || $scope.search.function_name == undefined){
+        $scope.validate_msg = "Please select the functional area ";
+        return false;
+      } else if($scope.search.industry == "" || $scope.search.industry == undefined){
+        $scope.validate_msg = "Please select the industry type";
+        return false;
+      }
+      return true;
+    }
+    $scope.job_search  = function() {   
+      if($scope.validate_search()) {
+        $scope.validate_msg = "";
+        var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword+'&experience='+$scope.search.experience;
+        $http.get(url).success(function(data)
+        {
+            $scope.jobs = data.jobs; 
+            $scope.count = data.count;
+            if(data.jobs.length <= 0){
+              $scope.no_jobs = true;
+            } else {
+              $scope.no_jobs = false;
+            }
+        }).error(function(data, status)
+        {
+            console.log(data || "Request failed");
+        });
+      }
+    }
+    $scope.quick_search  = function() {   
+        $scope.validate_msg = "";
         var url = '/jobseeker/job_search/?location='+$scope.search.location+'&skills='+$scope.search.skills+'&industry='+$scope.search.industry+'&function='+$scope.search.function_name+'&keyword='+$scope.search.keyword+'&experience='+$scope.search.experience;
         $http.get(url).success(function(data)
         {

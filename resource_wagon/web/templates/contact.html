@@ -16,19 +16,19 @@
 		<form action="">
         	<div class="form-group-outer">
                 <div class="contact-outer">
-                    <label class="col-sm-4 control-label">Name</label>
+                    <label class="col-sm-4 control-label">Name<span class="red">*</span></label>
                     <div class="col-sm-8">      
                     <input class="form-control" type="text" ng-model="contact.name">
                     </div>
                 </div>
                 <div class="contact-outer">
-                    <label class="col-sm-4 control-label">Email</label>
+                    <label class="col-sm-4 control-label">Email<span class="red">*</span></label>
                     <div class="col-sm-8">      
                     <input class="form-control" type="text" ng-model="contact.mail">
                     </div>
                 </div>
                 <div class="contact-outer">
-                    <label class="col-sm-4 control-label">Message</label>
+                    <label class="col-sm-4 control-label">Message<span class="red">*</span></label>
                     <div class="col-sm-8">      
                     	<textarea class="form-control" name="" cols="" rows="" ng-model="contact.message">
                         </textarea>
@@ -36,8 +36,22 @@
                 </div>
                 <div class="contact-outer">
                     <label class="col-sm-4 control-label">How did you know about us?</label>
-                                <div class="col-sm-8">      
+<!--                                 <div class="col-sm-8">      
                     <input class="form-control" type="text" ng-model="contact.source">
+                    </div> -->
+                    <select ng-model="contact.source">
+                        <option value="">Select</option>
+                        <option value="Website">Website</option>
+                        <option value="News Paper">News Paper</option>
+                        <option value="Radio">Radio</option>
+                        <option value="Friends">Friends</option>
+                        <option value="Others">Others</option>
+                    </select>
+                    <div ng-show="contact.source == 'Others'">
+                        <label class="col-sm-4 control-label">Others(Please specify)<span class="red">*</span></label>
+                        <div class="col-sm-8">      
+                        <input class="form-control" type="text" ng-model="source.other">
+                        </div>
                     </div>
                 </div>
                 <div class="btn margin_left">
@@ -60,7 +74,7 @@
                 Sheikh Zayed Road,Dubai,UAE.<br />
                 
                 T   :+971 4 3277375<br />
-                M   :+971 55 8530900<br /><br />
+                <br />
                 
                 <a href="#">jobs@resourcewagon.com</a><br />
                 <a href="#" target="_blank">www.resourcewagon.com</a>

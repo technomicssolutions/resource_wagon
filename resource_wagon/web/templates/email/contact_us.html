@@ -10,7 +10,11 @@
 				Name : {{ contact.name }}<br>
 				Mail : {{ contact.mail }}<br>
 				Message : {{ contact.message }}<br>
+				{% if contact.source == 'Others' %}
+				Source : {{ contact.other }}<br>
+				{% else %}
 				Source : {{ contact.source}}<br>
+				{% endif %}
 				<br>
 				<br><br>
 
