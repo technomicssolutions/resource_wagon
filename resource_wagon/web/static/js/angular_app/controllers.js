@@ -3380,7 +3380,12 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         $scope.resume_detail = false;
         $scope.photo_detail = false;  
         get_companies($scope, $http);
+        get_country_code($scope);
      }
+    $scope.get_code = function(){
+      var contry_code = $scope.country_code[$scope.personal.country];
+      $scope.personal.code = "+"+contry_code[0];
+    }
     $scope.show_login_popup = function() {
      show_login_popup($scope,'');
     }
@@ -3595,13 +3600,16 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         $scope.educational_detail = false;
         $scope.resume_detail = false;
         $scope.photo_detail = false;      
-        // get_job_seeker_details($scope, $http);   
+        get_country_code($scope);  
         get_companies($scope, $http);   
     }   
     $scope.get_stream = function() {
         get_stream($scope);
     }
-    
+    $scope.get_code = function(){
+      var contry_code = $scope.country_code[$scope.personal.country];
+      $scope.personal.code = "+"+contry_code[0];
+    }
     $scope.get_master_stream = function() {
         get_master_stream($scope);
     } 
@@ -3869,7 +3877,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
     
     $scope.get_code = function(){
       var contry_code = $scope.country_code[$scope.recruiter.country];
-      $scope.code = "+"+contry_code[0];
+      $scope.recruiter.code = "+"+contry_code[0];
     }
     $scope.show_login_popup = function() {
         show_login_popup($scope,'');
@@ -3938,7 +3946,6 @@ function RecruiterController($scope, $element, $http, $timeout) {
             if ($scope.recruiter.description == null){
                 $scope.recruiter.description = '';
             }
-            $scope.recruiter.mobile = $scope.code+$scope.recruiter.mobile;
             var url = '/employer/save_recruiter_details/';
             show_loader();
             params = {
