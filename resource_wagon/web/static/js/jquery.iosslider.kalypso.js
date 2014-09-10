@@ -6,6 +6,19 @@
 
 function slideChange(args) {
 	jQuery('.selectors .item').removeClass('selected');
+	var sliderelement = args.currentSlideNumber;
+	if(sliderelement == 1){
+		jQuery('.quickh3').find('h3').css("color", "black" );
+	}else if(sliderelement == 2){
+		jQuery('.quickh3').find('h3').css("color", "#ffffff" );
+	}else if(sliderelement == 3){
+		jQuery('.quickh3').find('h3').css("color", "#ffffff" );
+	}else if(sliderelement == 4){
+		jQuery('.quickh3').find('h3').css("color", "#e8691a" );
+	}else{
+		jQuery('.quickh3').find('h3').css("color", "#a84101" );
+	}
+	
 	jQuery('.selectors .item:eq(' + (args.currentSlideNumber-1) + ')').addClass('selected');
 }
 
