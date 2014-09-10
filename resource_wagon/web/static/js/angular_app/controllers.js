@@ -3375,6 +3375,8 @@ function JobSeekerController($scope, $element, $http, $timeout) {
       'password': '',
     }
     job_seeker_initialization_details($scope);
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
     $scope.init = function(csrf_token) {
         $scope.csrf_token = csrf_token;
         $scope.user_login_detail = true
@@ -3567,9 +3569,21 @@ function JobSeekerController($scope, $element, $http, $timeout) {
     //     } return true;
     // }
     $scope.save_photo_details = function() {
-        // if ($scope.photo_validation()){
+      if($scope.photo_img.src){
+        var split_name = $scope.photo_img.src.name.split('.');
+        split_name = split_name[split_name.length - 1];
+        var extensions = ['tiff','TIFF', 'gif', 'GIF', 'TIF', 'tif', 'jpeg', 'JPEG', 'jpg', 'JPG', 'jif', 'JIF', 'jfif', 'JFIF', 'jp2', 'JP2', 'psd', 'PSD', 'bmp', 'BMP', 'pcd', 'PCD', 'png', 'PNG', ]
+        var index = extensions.indexOf(split_name);
+        if(index == -1){
+            $scope.photo_validation_message = "Please upload an image file";
+        }
+        else{
             save_photo_details($scope, $http);
-        // }
+        }
+      }
+      else{
+          save_photo_details($scope, $http);
+      }
     }
     $scope.show_login_popup = function() {
       show_popup();
@@ -3590,6 +3604,8 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
     $scope.view_employment_details = true;
     $scope.view_resume_details = true;
     $scope.view_photo_details = true;
+    $scope.photo_img = {};
+    $scope.photo_img.src = "";
     
     $scope.init = function(csrf_token, jobseeker_id) {
         $scope.csrf_token = csrf_token;
@@ -3808,16 +3824,28 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         $scope.photo_detail = true;
         
     }
-    $scope.edit_photo_validation = function() {
+/*    $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
             $scope.photo_validation_message = 'Please upload your photo  ';
             return false;
         } return true;
-    }
+    }*/
     $scope.edit_photo_details = function() {
-        if ($scope.edit_photo_validation()){
+      if($scope.photo_img.src){
+        var split_name = $scope.photo_img.src.name.split('.');
+        split_name = split_name[split_name.length - 1];
+        var extensions = ['tiff','TIFF', 'gif', 'GIF', 'TIF', 'tif', 'jpeg', 'JPEG', 'jpg', 'JPG', 'jif', 'JIF', 'jfif', 'JFIF', 'jp2', 'JP2', 'psd', 'PSD', 'bmp', 'BMP', 'pcd', 'PCD', 'png', 'PNG', ]
+        var index = extensions.indexOf(split_name);
+        if(index == -1){
+            $scope.photo_validation_message = "Please upload an image file";
+        }
+        else{
             save_photo_details($scope, $http,'edit');
         }
+      }
+      else{
+        save_photo_details($scope, $http,'edit');
+      }
     }
     $scope.remove_cv = function() {
         $scope.resume_details.resume = '';
@@ -3896,7 +3924,7 @@ function RecruiterController($scope, $element, $http, $timeout) {
         hide_popup($scope,'');
     }
     $scope.recruiter_validation = function(){
-        $scope.error_message = '';
+      $scope.error_message = '';
         if ($scope.recruiter.name == '' || $scope.recruiter.name == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please enter the Company Name';
@@ -3939,7 +3967,17 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_message = 'Please agree to the terms and conditions';
             return false;
         }
-        return true;
+        if($scope.logo.src){
+          var split_name = $scope.logo.src.name.split('.');
+          split_name = split_name[split_name.length - 1];
+          var extensions = ['tiff','TIFF', 'gif', 'GIF', 'TIF', 'tif', 'jpeg', 'JPEG', 'jpg', 'JPG', 'jif', 'JIF', 'jfif', 'JFIF', 'jp2', 'JP2', 'psd', 'PSD', 'bmp', 'BMP', 'pcd', 'PCD', 'png', 'PNG', ]
+          var index = extensions.indexOf(split_name);
+          if(index == -1){
+              $scope.error_message = "Please upload an image file for company logo";
+              return false;
+          }
+        }
+      return true;
     }
 
     $scope.save_profile = function(){
@@ -3999,6 +4037,8 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
     $scope.photo_img.src = "";
     $scope.employer_id = 0;
     $scope.view_employer_details = true;
+    $scope.logo = {};
+    $scope.logo.src = "";
     $scope.init = function(csrf_token, employer_id) {
         $scope.csrf_token = csrf_token;
         $scope.employer_id = employer_id;
@@ -4083,8 +4123,18 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
               return false;
         }
         }else if ($scope.profile_doc.src == '' || $scope.profile_doc.src == undefined)  {
-            $scope.employer_validation_message = 'Please upload  your profile  ';
+            $scope.error_message = 'Please upload  your profile  ';
             return false;
+        }
+        if($scope.logo.src){
+          var split_name = $scope.logo.src.name.split('.');
+          split_name = split_name[split_name.length - 1];
+          var extensions = ['tiff','TIFF', 'gif', 'GIF', 'TIF', 'tif', 'jpeg', 'JPEG', 'jpg', 'JPG', 'jif', 'JIF', 'jfif', 'JFIF', 'jp2', 'JP2', 'psd', 'PSD', 'bmp', 'BMP', 'pcd', 'PCD', 'png', 'PNG', ]
+          var index = extensions.indexOf(split_name);
+          if(index == -1){
+              $scope.error_message = "Please upload an image file for company logo";
+              return false;
+          }
         }
         return true;
     }
@@ -4108,7 +4158,6 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             }
             var fd = new FormData();
             fd.append('profile_doc', $scope.profile_doc.src);
-            console.log($scope.logo);
             if ($scope.logo != undefined)
               fd.append('logo', $scope.logo.src);
             

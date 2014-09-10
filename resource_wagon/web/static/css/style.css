@@ -726,7 +726,9 @@ color: transparent;
 	margin: 0px 0px 0px 6px;
 	
 }
-
+.font_size{
+	font-size: 12px;
+}
 h3{margin:0px !important;}
 .home-quick-search
 { 
