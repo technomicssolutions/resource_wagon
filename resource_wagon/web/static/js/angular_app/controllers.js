@@ -3250,6 +3250,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
           'message': '',
           'mail': '',
           'source': '',
+          'mobile': '',
         }
         $scope.source = {
           'other': '',
@@ -3277,6 +3278,9 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       if($scope.contact.name == '' || $scope.contact.name == undefined){
         $scope.validation_message = 'Please enter your Name';
         return false;
+      } else if($scope.contact.mobile != '' && (!Number($scope.contact.mobile) || $scope.contact.mobile.length > 15 || $scope.contact.mobile.length < 7)) {
+        $scope.validation_message = 'Please provide a Valid Contact Number';
+        return false;        
       } else if($scope.contact.mail == '' || $scope.contact.mail == undefined){
         $scope.validation_message = 'Please enter your Email Address';
         return false;

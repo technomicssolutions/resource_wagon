@@ -280,6 +280,8 @@ class Contact(View):
         contact.source = sender_details['source']
         if contact.source == 'Others':
             contact.other = request.POST['other_source']
+        if sender_details.get('mobile', ''):
+            contact.mobile = sender_details['mobile']
         contact.save()
         for user in users:
             email_to = user.email

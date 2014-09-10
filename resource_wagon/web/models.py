@@ -2236,6 +2236,7 @@ class ContactUs(models.Model):
     name = models.CharField('Name', max_length=200, null=True, blank=True)
     mail = models.CharField('Email', max_length=200, null=True, blank=True)
     message = models.CharField('Message', max_length=300, null=True, blank=True)
+    mobile =  models.CharField('Phone', max_length=200,null=True, blank=True)
     source = models.CharField('Source', max_length=300, null=True, blank=True)
     other = models.CharField('Other', max_length=300, null=True, blank=True)
 

@@ -8,6 +8,9 @@
 
 				A new message has been received.<br>
 				Name : {{ contact.name }}<br>
+				{% if contact.mobile %}
+				Contact No : {{ contact.mobile }}<br>
+				{% endif %}
 				Mail : {{ contact.mail }}<br>
 				Message : {{ contact.message }}<br>
 				{% if contact.source == 'Others' %}
