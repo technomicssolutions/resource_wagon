@@ -108,6 +108,7 @@ class SavePersonalDetails(View):
             job_seeker.alt_mail = personal_details['alt_email']
             job_seeker.country = personal_details['country']
             job_seeker.city = personal_details['city']
+            job_seeker.country_code = personal_details['code']
             job_seeker.mobile = personal_details['mobile']
             job_seeker.land_num = personal_details['phone']
             job_seeker.save()       
@@ -381,6 +382,7 @@ class EditDetails(View):
                 'country':jobseeker.country,
                 'city':jobseeker.city,
                 'mobile':jobseeker.mobile,
+                'code': jobseeker.country_code,
                 'phone': jobseeker.land_num,
                 'alt_email': jobseeker.alt_mail,
 

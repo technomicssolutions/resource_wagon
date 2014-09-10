@@ -29,6 +29,7 @@ class Recruiter(models.Model):
     country = models.CharField('Country', null=True, blank=True, max_length=200, choices=COUNTRY_CHOICES)
     city = models.CharField('City', null=True, blank=True, max_length=200)
     mobile = models.CharField ('Mobile', max_length=20)
+    country_code = models.CharField ('Country Code', max_length=20, null=True, blank=True)
     land_num = models.CharField('Land Phone', blank=True, max_length=20)
     company = models.ForeignKey(CompanyProfile, null=True, blank=True)
     is_request_sent = models.BooleanField("Show Request", default = True)

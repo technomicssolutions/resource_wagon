@@ -65,6 +65,7 @@ class SaveEmployer(View):
                 recruiter = Recruiter.objects.create(user=user)
         recruiter.country = recruiter_details['country']
         recruiter.city = recruiter_details['city']
+        recruiter.country_code = recruiter_details['code']
         recruiter.mobile = recruiter_details['mobile']
         if recruiter_details['phone']:
             recruiter.land_num = recruiter_details['phone']

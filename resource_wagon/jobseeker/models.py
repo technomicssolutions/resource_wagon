@@ -78,6 +78,7 @@ class Jobseeker(models.Model):
     user = models.ForeignKey(User)
     country = models.CharField('Country', null=True, blank=True, max_length=200, choices=COUNTRY_CHOICES)
     city = models.CharField('City', null=True, blank=True, max_length=200)
+    country_code = models.CharField ('Country Code', max_length=20, null=True, blank=True)
     mobile = models.CharField ('Mobile', max_length=20)
     land_num = models.CharField('Land Phone', blank=True, max_length=20)
     gender = models.CharField('Gender', max_length=7, choices=GENDER)
