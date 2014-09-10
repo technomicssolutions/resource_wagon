@@ -3555,7 +3555,18 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         } else if (($scope.resume_doc.src == '' || $scope.resume_doc.src == undefined) && ($scope.resume_details.resume_text == '' || $scope.resume_details.resume_text == undefined)) {
             $scope.resume_validation_message = 'Please upload the C V or copy paste your resume  ';
             return false;
-        } return true;
+        }
+        if($scope.resume_doc.src){
+          var split_name = $scope.resume_doc.src.name.split('.');
+          split_name = split_name[split_name.length - 1];
+          var extensions = ['doc','DOC', 'docx', 'DOCX', 'pdf', 'PDF', 'txt', 'TXT', 'odt', 'ODT', 'sxw', 'SXW',]
+          var index = extensions.indexOf(split_name);
+          if(index == -1){
+              $scope.resume_validation_message = "Please upload a valid document file";
+              return false;
+          }
+        } 
+        return true;
     }
     $scope.save_resume_details = function() {
         if ($scope.resume_validation()) {
@@ -3811,6 +3822,16 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         } else if ((($scope.resume_doc.src == '' || $scope.resume_doc.src == undefined) && ($scope.resume_details.resume == '' || $scope.resume_details.resume == undefined)) && ($scope.resume_details.resume_text == '' || $scope.resume_details.resume_text == undefined)) {
             $scope.resume_validation_message = 'Please upload the C V or copy paste your resume  ';
             return false;
+        } 
+        if($scope.resume_doc.src){
+          var split_name = $scope.resume_doc.src.name.split('.');
+          split_name = split_name[split_name.length - 1];
+          var extensions = ['doc','DOC', 'docx', 'DOCX', 'pdf', 'PDF', 'txt', 'TXT', 'odt', 'ODT', 'sxw', 'SXW',]
+          var index = extensions.indexOf(split_name);
+          if(index == -1){
+              $scope.resume_validation_message = "Please upload a valid document file";
+              return false;
+          }
         } return true;
     }
     $scope.edit_resume_details = function() {
