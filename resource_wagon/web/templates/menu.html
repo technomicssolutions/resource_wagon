@@ -45,7 +45,7 @@
 
                                 <li class=" menu-item-depth-0 employers-menu menu-item-simple-parent active">
                                 {% if user.is_authenticated %}
-                                    {% if user_type == 'recruiter' %}
+                                    {% if user_type == 'recruiter' or user_type == 'admin' %}
                                     <a href="#"><span class="menu-icon fa fa-gift"> </span>Employers</a>
                                     {% endif %} 
                                 {% else %}
@@ -58,7 +58,7 @@
                                 </li>
                                 <li class=" menu-item-depth-0 candidates-menu menu-item-simple-parent active">
                                 {% if user.is_authenticated %}
-                                    {% if user_type == 'jobseeker' %}
+                                    {% if user_type == 'jobseeker' or user_type == 'admin'%}
                                      <a href="#"><span class="menu-icon fa fa-gift"> </span>Candidates</a>
                                      {% endif %} 
                                 {% else %}
