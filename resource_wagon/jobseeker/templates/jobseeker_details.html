@@ -427,7 +427,7 @@
 						<label class="col-sm-4 control-label"> Prefered Location </label>
 			            <div class="col-sm-8"> 
 							<select class="form-control" name="locations" ng-model="current_employer.locations" multiple>
-								<option value="">Select location</option>
+								<!-- <option value="">Select location</option> -->
 								<option ng-repeat="country in countries" value="[[country]]" ng-click="get_prefered_locations(country)">[[country]]</option>
 							</select>
 			            </div>
@@ -436,7 +436,7 @@
 						<label class="col-sm-4 control-label"> Prefered Company </label>
 			            <div class="col-sm-8"> 
 							<select class="form-control" name="companies" ng-model="current_employer.companies" multiple>
-								<option value="">Select company</option>
+								<!-- <option value="">Select company</option> -->
 								<option ng-repeat="company in companies | orderBy:'toString()'" value="[[company.id]]" ng-selected="company.selected" ng-click="get_prefered_companies(company)">[[company.name]]</option>
 							</select>
 			            </div>

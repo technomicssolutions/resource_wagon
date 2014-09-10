@@ -3324,11 +3324,11 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       } else if($scope.resume.mail == '' || $scope.resume.mail == undefined){
         $scope.validation_message = 'Please enter your Email Address';
         return false;
-      } else if($scope.resume.mobile == '' || $scope.resume.mobile == undefined){
-        $scope.validation_message = 'Please enter your Mobile Number';
-        return false;
       } else if($scope.resume.mail && !(validateEmail($scope.resume.mail))){
         $scope.validation_message = 'Please enter a valid Email Address';
+        return false;
+      } else if($scope.resume.mobile == '' || $scope.resume.mobile == undefined){
+        $scope.validation_message = 'Please enter your Mobile Number';
         return false;
       } else if (!Number($scope.resume.mobile) || $scope.resume.mobile.length > 13 || $scope.resume.mobile.length < 7) {
         $scope.validation_message = 'Please enter Valid Mobile Number';
@@ -3843,7 +3843,6 @@ function EditJobSeekerController($scope, $element, $http,  $timeout) {
         get_job_seeker_details($scope, $http);
         hide_jobseeker_details_block($scope);
         $scope.photo_detail = true;
-        
     }
 /*    $scope.edit_photo_validation = function() {
         if (($scope.photo_details.profile_photo == '' || $scope.photo_details.profile_photo == undefined) && ($scope.photo_img.src == '' || $scope.photo_img.src == undefined)) {
