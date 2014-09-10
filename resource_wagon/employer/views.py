@@ -176,6 +176,7 @@ class EditEmployer(View):
                 'email': user.email if user.email else '',
                 'country':recruiter.country if recruiter else '',
                 'city': recruiter.city if recruiter else '',
+                'code': recruiter.country_code,
                 'mobile': recruiter.mobile if recruiter else '',
                 'phone':recruiter.land_num if recruiter else '',
                 'name': company.company_name if company else '',

@@ -4004,6 +4004,7 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
         $scope.employer_id = employer_id;
         get_industries($scope);
         get_countries($scope);
+        get_country_code($scope);
         $scope.premium_employer = {
             'premium': '',
             'id': '',
@@ -4022,6 +4023,10 @@ function EditRecruiterController($scope, $element, $http, $timeout) {
             'profile_photo': '',
 
         } 
+    }
+    $scope.get_code = function(){
+      var contry_code = $scope.country_code[$scope.recruiter.country];
+      $scope.recruiter.code = "+"+contry_code[0];
     }
     $scope.save_premium_employer = function(recruiter_id, premium_flag){
         $scope.premium_employer.id = recruiter_id;

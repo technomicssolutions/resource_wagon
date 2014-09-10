@@ -32,7 +32,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recru
 	            </p>
 	            <p class="outer">
 	            	<span class="col-xs-6 col-md-4">Mobile :</span>
-	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.mobile}}</span>
+	            	<span class="col-xs-12 col-md-8">{{user.recruiter_set.all.0.country_code}}{{user.recruiter_set.all.0.mobile}}</span>
 	            </p>
 	            <p class="outer">
 	            	<span class="col-xs-6 col-md-4">Land Number :</span>
@@ -74,7 +74,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recru
             <div class="form-group-outer">	
 				<label class="col-sm-4 control-label">Country<span class="red">*</span></label> 
 		        <div class="col-sm-8">
-					<select class="form-control" name="country" ng-model="recruiter.country">
+					<select class="form-control" name="country" ng-model="recruiter.country" ng-change="get_code()">
 						<option value="">------------------Select------------------</option>
 						<option ng-repeat="country in countries" value="[[country]]" ng-selected="country== recruiter.country">[[country]]</option>
 						<option>Other</option>
@@ -84,8 +84,8 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recru
 	        <div class="form-group-outer">	
 				<label class="col-sm-4 control-label">Mobile Number<span class="red">*</span></label>
 		        <div class="col-sm-8">
-					<input readonly="readonly" class="form-control" type="text" name="mobile" ng-model="code" value="{{ recruiter.mobile }}" style="width:30%; float:left; margin:0 20px 0 0px;">
-			<input class="form-control" type="text" name="mobile" ng-model="recruiter.mobile" style="width:64%; float:left;">
+					<input readonly="readonly" class="form-control" type="text" name="mobile" ng-model="recruiter.code" value="{{ recruiter.country_code }}" style="width:30%; float:left; margin:0 20px 0 0px;">
+			<input class="form-control" type="text" name="mobile" ng-model="recruiter.mobile" value="{{recruiter.mobile}}" style="width:64%; float:left;">
 		        </div>
 	        </div>
 	        
