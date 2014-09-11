@@ -3278,6 +3278,9 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       if($scope.contact.name == '' || $scope.contact.name == undefined){
         $scope.validation_message = 'Please enter your Name';
         return false;
+      } else if($scope.contact.mobile == '' || $scope.contact.mobile == undefined){
+        $scope.validation_message = 'Please enter your Contact Number';
+        return false;
       } else if($scope.contact.mobile != '' && (!Number($scope.contact.mobile) || $scope.contact.mobile.length > 15 || $scope.contact.mobile.length < 7)) {
         $scope.validation_message = 'Please provide a Valid Contact Number';
         return false;        
@@ -3286,9 +3289,6 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         return false;
       } else if($scope.contact.mail && !(validateEmail($scope.contact.mail))){
         $scope.validation_message = 'Please enter a valid Email Address';
-        return false;
-      } else if($scope.contact.message == '' || $scope.contact.message == undefined){
-        $scope.validation_message = 'Please enter your Message';
         return false;
       } else if($scope.contact.source == 'Others' && $scope.source.other == ''){
         $scope.validation_message = 'Please specify the source';
@@ -3309,6 +3309,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
             }
           }).success(function(data, status) {
             hide_loader();
+            $scope.contact.mobile = "";
             $scope.contact.mail = "";
             $scope.contact.name = "";
             $scope.contact.message = "";

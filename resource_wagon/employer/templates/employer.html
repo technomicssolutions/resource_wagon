@@ -131,7 +131,7 @@ ng-controller="EditRecruiterController" ng-init="init('{{csrf_token}}', '{{recru
 			</div>
 			<a href="/site_media/[[recruiter.company_profile]]" ng-show="recruiter.company_profile" target="_blank">Company Profile</a>		
 
-			<p class="btn"><input class="button" type="submit" name="submit" value="Save & Edit" ng-click="save_edit_profile()"></p>
+			<p class="btn"><input class="button" type="submit" name="submit" value="Save" ng-click="save_edit_profile()"></p>
 			<p class="error_message ">[[error_message]]</p>
 		</div>
 	{% endif %}
