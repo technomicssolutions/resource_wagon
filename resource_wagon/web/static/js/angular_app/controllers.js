@@ -3330,7 +3330,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
       } else if($scope.resume.mobile == '' || $scope.resume.mobile == undefined){
         $scope.validation_message = 'Please enter your Mobile Number';
         return false;
-      } else if (!Number($scope.resume.mobile) || $scope.resume.mobile.length > 13 || $scope.resume.mobile.length < 7) {
+      } else if (!Number($scope.resume.mobile) || $scope.resume.mobile.length > 15 || $scope.resume.mobile.length < 7) {
         $scope.validation_message = 'Please enter Valid Mobile Number';
         return false;
       } else{
