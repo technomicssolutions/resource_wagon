@@ -3503,20 +3503,23 @@ function JobSeekerController($scope, $element, $http, $timeout) {
         } else if ($scope.user_login_details.password == '' || $scope.user_login_details.password == undefined) {
             $scope.user_login_validation = 'Please enter Password';
             return false;
+        } else if ($scope.user_login_details.password.length < 8) {
+            $scope.user_login_validation = 'Password must contain atleast 8 characters';
+            return false;
         } else if ($scope.user_login_details.password1 == '' || $scope.user_login_details.password1 == undefined) {
             $scope.user_login_validation = 'Please enter Confirm Password';
             return false;
         } else if ($scope.user_login_details.password != $scope.user_login_details.password1) {
             $scope.user_login_validation = 'Please correctly enter the Password and Confirm Password';
             return false;
-        } else if (!$scope.checkbox) {
-            $scope.user_login_validation = 'Please agree to the terms and conditions';
-            return false;
-        }else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
+        } else if ($scope.user_login_details.first_name == '' || $scope.user_login_details.first_name == undefined) {
             $scope.user_login_validation = 'Please enter First Name';
             return false;
         } else if ($scope.user_login_details.last_name == '' || $scope.user_login_details.last_name == undefined) {
             $scope.user_login_validation = 'Please enter Last Name';
+            return false;
+        } else if (!$scope.checkbox) {
+            $scope.user_login_validation = 'Please agree to the terms and conditions';
             return false;
         } return true;
     }
@@ -3962,11 +3965,15 @@ function RecruiterController($scope, $element, $http, $timeout) {
             $scope.error_flag = true;
             $scope.error_message = 'Please provide a Password';
             return false;
+        } else if ($scope.recruiter.password.length < 8) {
+            $scope.error_flag = true;
+            $scope.error_message = 'Password must contain atleast 8 characters';
+            return false;
         } else if ($scope.recruiter.password != $scope.recruiter.confirm_password ) {
             $scope.error_flag = true;
             $scope.error_message = 'Password Mismatch';
             return false;
-        }  else if ($scope.recruiter.country == '' || $scope.recruiter.country == undefined) {
+        } else if ($scope.recruiter.country == '' || $scope.recruiter.country == undefined) {
             $scope.error_flag = true;
             $scope.error_message = 'Please choose the Country';
             return false;
