@@ -26,7 +26,7 @@
 <div class="home-search-controls"> 
 <select class="form-control" name="industry" ng-model="industry"> 
 <option value="">Industry</option>
-<option ng-repeat="industry in industries" value="[[industry]]" ng-selected="industry == industry">[[industry]]</option>               
+<option ng-repeat="industry in industries | orderBy:'toString()'" value="[[industry]]" ng-selected="industry == industry">[[industry]]</option>               
 </select>
 </div>
 <p ng-show="get_industries()"></p> 
