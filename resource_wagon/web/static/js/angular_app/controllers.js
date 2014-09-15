@@ -614,6 +614,10 @@ function get_basic_education_specialization($scope){
 
           'Medicine',
       ],
+      'Other': [
+
+          'Other',
+      ],
   }
 }
 
@@ -1049,7 +1053,9 @@ function get_masters_education_specialization($scope){
         'Master of Computer Application': [
             'Computers',
         ],
-
+        'Other': [
+            'Other',
+        ],
         'MBA/PG Diploma in Business Mgmt ': [
             'Advertising/Mass Communication',
             'Finance',

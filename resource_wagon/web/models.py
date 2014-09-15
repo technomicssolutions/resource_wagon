@@ -846,6 +846,7 @@ BASIC_SPEC = (
     ('Production/Industrial','Production/Industrial'),
     ('Textile','Textile'),
     ('Other Engineering','Other Engineering'),
+    ('Other', 'Other')
 
     )
 

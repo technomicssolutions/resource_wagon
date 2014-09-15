@@ -50,10 +50,6 @@ class Education(models.Model):
     masters_specialization = models.CharField('Masters Specialization', null=True, blank=True, max_length=200, choices=MASTERS_SPEC)
     pass_year_masters = models.IntegerField('Masters pass Year', null=True, blank=True)
     doctrate = models.ManyToManyField(Doctorate, null=True, blank=True)
-    resume_title = models.CharField('Resume Title', max_length=200)
-    resume = models.FileField(upload_to = "uploads/resumes/", null=True, blank=True)
-    resume_text = models.TextField('Resume Text', null=True, blank=True)
-    is_resume_show = models.BooleanField("Show Resume", default = True)
     
 
     def __unicode__(self):
@@ -94,6 +90,10 @@ class Jobseeker(models.Model):
     applied_jobs  = models.ManyToManyField(Job, null=True, blank=True)
     prefered_locations = models.ManyToManyField(Location, null=True, blank=True)
     prefered_companies = models.ManyToManyField(CompanyProfile, null=True, blank=True)
+    resume_title = models.CharField('Resume Title', max_length=200)
+    resume = models.FileField(upload_to = "uploads/resumes/", null=True, blank=True)
+    resume_text = models.TextField('Resume Text', null=True, blank=True)
+    is_resume_show = models.BooleanField("Show Resume", default = True)
 
     def __unicode__(self):
         return self.user.username

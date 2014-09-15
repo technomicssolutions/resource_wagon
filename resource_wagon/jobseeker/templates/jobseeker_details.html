@@ -187,20 +187,20 @@
 					<h3>Resume Details</h3>
 					<p class="outer">
 		            	<span class="col-xs-6 col-md-4">Resume Title :</span>
-		            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.education.resume_title}}</span>
+		            	<span class="col-xs-12 col-md-8">{{user.jobseeker_set.all.0.resume_title}}</span>
 		            </p>
 					<p class="outer">
 		            	<span class="col-xs-6 col-md-4">Resume visible to recruiters:</span>
 						<span class="col-xs-12 col-md-8">
-							{% if user.jobseeker_set.all.0.education.is_resume_show %}
+							{% if user.jobseeker_set.all.0.is_resume_show %}
 								Yes
 							{% else %}
 								No
 							{% endif %}
 						</span>
 					</p>
-					{% if user.jobseeker_set.all.0.education.resume %}
-						<a href="/site_media/{{user.jobseeker_set.all.0.education.resume.name}}" target="_blank">View Attached Resume</a>
+					{% if user.jobseeker_set.all.0.resume %}
+						<a href="/site_media/{{user.jobseeker_set.all.0.resume.name}}" target="_blank">View Attached Resume</a>
 					{% endif %}
 					<p class="btn"><input class="button btn btn-primary" type="submit" name="submit" value="Update" ng-click="show_resume_details()"></p>
 				</div>
@@ -596,9 +596,9 @@
 						<td>{{jobseeker.nationality}}</td>
 						<td>{{jobseeker.mobile}}</td>
 						<td>{{jobseeker.employment.function}}</td>
-						<td>{{jobseeker.education.resume_title}}</td>
-						{% if jobseeker.education.resume %}
-							<td><a href="/site_media/{{jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+						<td>{{jobseeker.resume_title}}</td>
+						{% if jobseeker.resume %}
+							<td><a href="/site_media/{{jobseeker.resume.name}}" target="_blank">View Attached Resume</a></td>
 						{% endif %}
 					</tr>
 				{% endfor %}

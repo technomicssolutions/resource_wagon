@@ -27,9 +27,9 @@
 						<td>{{reply.request.jobseeker.user.email}}</td>
 						<td>{{reply.request.jobseeker.mobile}}</td>
 						<td>{{reply.request.jobseeker.land_num}}</td>
-						{% if reply.request.jobseeker.education.is_resume_show %}
-							{% if reply.request.jobseeker.education.resume %}
-								<td><a href="/site_media/{{reply.request.jobseeker.education.resume.name}}" target="_blank">View Attached Resume</a></td>
+						{% if reply.request.jobseeker.is_resume_show %}
+							{% if reply.request.jobseeker.resume %}
+								<td><a href="/site_media/{{reply.request.jobseeker.resume.name}}" target="_blank">View Attached Resume</a></td>
 							{% endif %}
 						{% else %}
 							<td>Can't see Resume</td>

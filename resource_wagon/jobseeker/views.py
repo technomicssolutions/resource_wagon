@@ -233,24 +233,18 @@ class SaveResumeDetails(View):
         status = 200
         if resume_details['id']:
             job_seeker = Jobseeker.objects.get(id=resume_details['id'])
-            if job_seeker.education:
-                education = job_seeker.education
-            else:
-                education = Education()
-            education.resume_title = resume_details['resume_title']
+            job_seeker.resume_title = resume_details['resume_title']
             
             if resume_details['remove_resume'] == 'true':
-                education.resume = ''
+                job_seeker.resume = ''
             else:
                 if request.FILES.get('resume_doc', ''):
-                    education.resume = request.FILES['resume_doc']
+                    job_seeker.resume = request.FILES['resume_doc']
             if resume_details['is_resume_show'] == 'true':
-                education.is_resume_show = True 
+                job_seeker.is_resume_show = True 
             else:
-                education.is_resume_show = False 
-            education.resume_text = resume_details['resume_text']
-            education.save()
-            job_seeker.education = education
+                job_seeker.is_resume_show = False 
+            job_seeker.resume_text = resume_details['resume_text']
             job_seeker.save()
             res = {
                 'result': 'ok',
@@ -413,11 +407,11 @@ class EditDetails(View):
             })
             ctx_resume.append({
                 'id': jobseeker_id if jobseeker else '',
-                'resume_title': education.resume_title if education else '' ,
-                'resume_text': education.resume_text if education else '' ,
-                'resume': education.resume.name if education else '' ,
+                'resume_title': jobseeker.resume_title if education else '' ,
+                'resume_text': jobseeker.resume_text if education else '' ,
+                'resume': jobseeker.resume.name if education else '' ,
                 'remove_resume': 'false',
-                'is_resume_show': education.is_resume_show if education else False,  
+                'is_resume_show': jobseeker.is_resume_show if education else False,  
             })
             ctx_photo.append({
                 'id': jobseeker_id if jobseeker else '',

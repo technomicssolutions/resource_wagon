@@ -25,7 +25,7 @@
 					<td>{{jobseeker.education.basic_edu}}</td>
 					<td>{{jobseeker.employment.function}}</td>
 					<td>{{jobseeker.employment.curr_industry}}</td>
-					{% if jobseeker.education.is_resume_show %}
+					{% if jobseeker.is_resume_show %}
 						<td><a href="{% url 'applicant_resume' jobseeker_id=jobseeker.id %}">Download Resume</a></td>
 					{% else %}
 						<p>Cannot View the Resume </p>
