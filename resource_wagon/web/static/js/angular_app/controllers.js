@@ -3241,7 +3241,6 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
 {
     $scope.is_keyword = false;
     $scope.location = 'select';
-    $scope.industry = 'select';
     $scope.login_details = {
       'username': '',
       'password': '',
@@ -3250,7 +3249,6 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         $scope.csrf_token = csrf_token;        
         $scope.skills = '';
         $scope.job_location = '';
-        $scope.industry = '';
         $scope.contact = {
           'name': '',
           'message': '',
@@ -3271,6 +3269,7 @@ function HomeController($scope, $element, $http, $timeout, share, $location)
         if(is_login_popup == 'True'){
           $scope.show_login_popup();
         }
+        $scope.industry = '';
     }
     $scope.job_search  = function() {      
         $scope.is_keyword = false;
