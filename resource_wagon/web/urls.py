@@ -7,7 +7,7 @@ from web.views import (Login, Logout, Home, ResetPassword, RequestView, ReplyEmp
     MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, \
 	Contact, RecruitmentDivisions, DeleteEmployer, DeleteJobseeker, \
     MissionStatement, ResourcesWagon, WagonDrivers, CandidatePreparation, CompetencyAnalysis, RecruitmentDivisions, RequestCV, 
-    TermsAndConditions, )
+    TermsAndConditions, ViewTestmonials)
 
 
 urlpatterns = patterns('',
@@ -35,4 +35,5 @@ urlpatterns = patterns('',
     url(r'^delete_jobseeker/(?P<jobseeker_id>\d+)/$', DeleteJobseeker.as_view(), name='delete_jobseeker'),
     url(r'^save_premium_employer/$', PremiumEmployer.as_view(), name='save_premium_employer'),
     url(r'^terms_conditions/$', TermsAndConditions.as_view(), name='terms_conditions'),
+    url(r'^testmonials/$', ViewTestmonials.as_view(), name='testmonials')
 )

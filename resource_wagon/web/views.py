@@ -18,16 +18,21 @@ from django.template.loader import render_to_string
 from models import RequestSend, Reply, Job
 from employer.models import CompanyProfile, Recruiter
 from jobseeker.models import Jobseeker
-from web.models import ContactUs, CVRequest
+from web.models import ContactUs, CVRequest, Testmonials
 
 class Home(View):
     
     def get(self, request, *args, **kwargs):
         jobs = Job.objects.filter(is_publish=True).order_by('-posting_date')[:10]
         recruiters = Recruiter.objects.filter(company__is_premium_company=True)
+        try:
+            testmonial = Testmonials.objects.latest('created_date')
+        except:
+            testmonial = ''
         context = {
             'jobs': jobs,
             'recruiters': recruiters,
+            'testmonial': testmonial,
         }
         return render(request, 'home.html', context)
 
@@ -403,3 +408,20 @@ class DeleteJobseeker(View):
         jobseeker.delete()
         return HttpResponseRedirect(reverse('jobseeker_details'))
 
+class ViewTestmonials(View):
+
+    def get(self,request,*args,**kwargs):
+
+        testmonials = Testmonials.objects.all()
+        paginator = Paginator(testmonials, 20) # Show 25 contacts per page
+
+        page = request.GET.get('page')
+        try:
+            testmonials = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            testmonials = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            testmonials = paginator.page(paginator.num_pages)
+        return render(request, 'testmonials.html', {'testmonials':testmonials})
