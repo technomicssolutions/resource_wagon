@@ -131,12 +131,14 @@
 	<div class="find_your_perfect_job">
 		<div class="heading">
 			<h4> Testmonials </h4>
-		</div>
-    	{% if testmonial %}
-    	<p>"{{testmonial.text}}"</p>
-    	<p>-{{testmonial.client_name}}<p>
-    	<p><a href="{% url 'testmonials' %}">Read More</a></p>
-    	{% endif %}
+		</div >
+		<div class="testmonial">
+	    	{% if testmonial %}
+	    	<p>"{{testmonial.text}}"</p>
+	    	<p class="testmonial_client">-{{testmonial.client_name}}<p>
+	    	<p><a href="{% url 'testmonials' %}">Read More</a></p>
+	    	{% endif %}
+    	</div>
 	</div>
 </div>
 

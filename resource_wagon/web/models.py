@@ -2259,3 +2259,6 @@ class Testmonials(models.Model):
     text = models.TextField('Text',null=True, blank=True)
     client_name = models.CharField('Client Name', max_length=200, null=True, blank=True)
     created_date = models.DateField('Created Date', null=True, blank=True)
+
+    def __unicode__(self):
+        return self.client_name

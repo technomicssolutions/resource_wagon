@@ -2,21 +2,30 @@
 {% block content %}
 {% if testmonials %}
 			
-	<table class="jobseeker-profil">
-		<tr style="border:1px solid #d4d4d4;">
-			<th class="col-md-2">Client Name</th>
-			<th class="col-md-2">Testimonial</th>
-		</tr>
 	{% for testmonial in testmonials %}
-		<tr style="border:1px solid #d4d4d4;">
-			<td class="col-md-2">{{testmonial.client_name}}</td>
-			<td class="col-md-2">{{testmonial.text}}</td>
-		</tr>
-        
+		<div class="col-md-4">
+			<div class="testmonials">
+				<p class="testmonial_text">"{{testmonial.text}}"</p>
+				<p class="testmonial_client">-{{testmonial.client_name}}</p>
+			</div>
+		</div>
 	{% endfor %}
-    </table>
-	<div style="margin:10px 0 0 0;" >
-   		<span>
+	
+	<div class="pagination" style="margin:10px 0 0 0;" >
+		<ul class="pagination">
+			  <li>
+			  	{% if testmonials.has_previous %}
+			  	<a href="?page={{ testmonials.previous_page_number }}">&laquo;</a>
+			  	{% endif %}
+			  </li>
+			  <li><a href="#"> Page {{ testmonials.number }} of {{ testmonials.paginator.num_pages }}.</a></li>
+			  <li>
+			  	{% if testmonials.has_next %}
+			  	<a href="?page={{ testmonials.next_page_number }}">&raquo;</a>
+			  	{% endif %}
+			  </li>
+		</ul>
+   		<!-- <span>
 	        {% if testmonials.has_previous %}
 	            <a href="?page={{ testmonials.previous_page_number }}">previous</a>
 	        {% endif %}
@@ -28,7 +37,7 @@
 	        {% if testmonials.has_next %}
 	            <a href="?page={{ testmonials.next_page_number }}">next</a>
 	        {% endif %}
-    	</span>
+    	</span> -->
 	</div>
 {% endif %}
 {% endblock content %}

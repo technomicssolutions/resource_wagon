@@ -382,6 +382,55 @@ p.lastbox{color:#fa853f;}
 	width: 25%;
 	font-weight: normal;
 }
+.testmonial_client  {
+	float: right; 
+	height: auto;
+	color: rgb(111, 111, 111);
+	font-style: italic;
+	margin: -10px 0 20px 0;
+	
+}
+.testmonials-outer{
+	border: 1px solid;
+	clear: both;
+	float: left;
+}
+.testmonial{
+	border: 1px solid rgb(221, 218, 218);
+	float: left;
+	width: 100%;
+	margin: 10px 0 10px 0;
+	background: rgb(235, 234, 233);
+	border-radius: 5px;
+	padding: 10px;
+	color: rgb(107, 107, 107);
+}
+.testmonial p a{
+	font-size: 12px;
+	color: rgb(255, 153, 0);
+	text-decoration: none;
+}
+.testmonial p a:hover{
+	color: rgb(189, 54, 1);
+}
+.testmonials{
+	border: 1px solid rgb(207, 207, 207);
+	margin: 0 20px 0 0;
+	border-radius: 5px;
+	padding: 15px;
+	background: #fff;
+	color: rgb(155, 150, 150);
+}
+.pagination{
+	float: left;
+	clear: both;
+}
+/*.testmonial_text  {
+	width: 100%;
+	margin: auto;
+	height: auto;
+}*/
+
 
 /***************** Inner Search styles  *************/
 .inner-search

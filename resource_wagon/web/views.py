@@ -412,8 +412,8 @@ class ViewTestmonials(View):
 
     def get(self,request,*args,**kwargs):
 
-        testmonials = Testmonials.objects.all()
-        paginator = Paginator(testmonials, 20) # Show 25 contacts per page
+        testmonials = Testmonials.objects.all().order_by('-created_date')
+        paginator = Paginator(testmonials, 4) # Show 25 contacts per page
 
         page = request.GET.get('page')
         try:
