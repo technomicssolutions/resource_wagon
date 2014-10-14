@@ -132,14 +132,11 @@
 		<div class="heading">
 			<h4> Testmonials </h4>
 		</div>
-        <ul>
-        	{% if testmonial %}
-        	<li>"{{testmonial.text}}"</li>
-        	<ul>-{{testmonial.client_name}}<ul>
-        	<li><a href="{% url 'testmonials' %}">Read More</a></li>
-        	{% endif %}
-        	
-        </ul>
+    	{% if testmonial %}
+    	<p>"{{testmonial.text}}"</p>
+    	<p>-{{testmonial.client_name}}<p>
+    	<p><a href="{% url 'testmonials' %}">Read More</a></p>
+    	{% endif %}
 	</div>
 </div>
 
