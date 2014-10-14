@@ -2262,3 +2262,8 @@ class Testmonials(models.Model):
 
     def __unicode__(self):
         return self.client_name
+
+    class Meta:
+
+        verbose_name = 'Testmonials'
+        verbose_name_plural = 'Testmonials'

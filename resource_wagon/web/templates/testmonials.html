@@ -3,7 +3,7 @@
 {% if testmonials %}
 			
 	{% for testmonial in testmonials %}
-		<div class="col-md-4">
+		<div class="col-xs-12">
 			<div class="testmonials">
 				<p class="testmonial_text">"{{testmonial.text}}"</p>
 				<p class="testmonial_client">-{{testmonial.client_name}}</p>
@@ -12,6 +12,7 @@
 	{% endfor %}
 	
 	<div class="pagination" style="margin:10px 0 0 0;" >
+		{% if testmonials.paginator.num_pages > 1 %}
 		<ul class="pagination">
 			  <li>
 			  	{% if testmonials.has_previous %}
@@ -25,6 +26,7 @@
 			  	{% endif %}
 			  </li>
 		</ul>
+		{% endif %}
    		<!-- <span>
 	        {% if testmonials.has_previous %}
 	            <a href="?page={{ testmonials.previous_page_number }}">previous</a>
